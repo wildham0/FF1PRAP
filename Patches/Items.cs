@@ -30,7 +30,9 @@ namespace FF1PRAP
 				{
 					if (targetData.Id == (int)Items.Ship && FF1PR.UserData.OwnedTransportationList[i].flagNumber == 517)
 					{
-						FF1PR.UserData.OwnedTransportationList[i].Position = new UnityEngine.Vector3(145, 162, 149);
+						// Coneria dock is 145, 162
+						// Pravoka dock is 203, 146
+						FF1PR.UserData.OwnedTransportationList[i].Position = new UnityEngine.Vector3(203, 146, 149);
 						FF1PR.UserData.OwnedTransportationList[i].MapId = 1;
 						FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
 						FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
