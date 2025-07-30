@@ -57,6 +57,8 @@ namespace FF1PRAP
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_TRIAL_CAS_03"] = "Only those of royalty, bearing a crown, are worthy of undergoing the trials. Go away, peasant!";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_LUTESLAB"] = "There is a stone plate on the floor... You sense something... Evil?";
 
+			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_01"] = $"This heirloom has been entrusted to the princesses of Cornelia for many generations. I want you to have it. It may aid you on your journey.";
+
 			// ordeal man script
 			var ordealsmanscript = new Script();
 			ordealsmanscript.Id = 1000;
@@ -91,7 +93,6 @@ namespace FF1PRAP
 
 			InternalLogger.LogInfo($"Initialization GetItem.");
 
-			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_01"] = $"This heirloom has been entrusted to the princesses of Cornelia for many generations. I want you to have it. It may aid you on your journey.";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_02"] = $"You obtain {saraitem}.";
 
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_SHIP_04"] = $"You obtain {bikkeitem}.";
