@@ -73,7 +73,7 @@ namespace FF1PRAP
 				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 				{
 
-					Archipelago.instance.SetItemIndex(FF1PR.SessionManager.GetValue<int>("itemindex"));
+					Archipelago.instance.RestoreState();
 					//Archipelago.instance.Disconnect();
 					//Archipelago.instance.Connect();
 				}

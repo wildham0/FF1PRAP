@@ -14,13 +14,19 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"Creating objects.");
 
-			GameObject monitorObject = new GameObject("gameMonitor");
-			Monitor.instance = monitorObject.AddComponent<Monitor>();
-			GameObject.DontDestroyOnLoad(monitorObject);
+			if (Monitor.instance == null)
+			{
+				GameObject monitorObject = new GameObject("gameMonitor");
+				Monitor.instance = monitorObject.AddComponent<Monitor>();
+				GameObject.DontDestroyOnLoad(monitorObject);
+			}
 
-			GameObject ArchipelagoObject = new GameObject("archipelago");
-			Archipelago.instance = ArchipelagoObject.AddComponent<Archipelago>();
-			GameObject.DontDestroyOnLoad(ArchipelagoObject);
+			if (Archipelago.instance == null)
+			{
+				GameObject ArchipelagoObject = new GameObject("archipelago");
+				Archipelago.instance = ArchipelagoObject.AddComponent<Archipelago>();
+				GameObject.DontDestroyOnLoad(ArchipelagoObject);
+			}
 		}
 	}
 }

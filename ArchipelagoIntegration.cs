@@ -33,7 +33,7 @@ namespace FF1PRAP {
         public bool sentRelease = false;
         public bool sentCollect = false;
         public int ItemIndex = 0;
-        public List<long> locationsToSend = new List<long>();
+        public List<string> locationsToSend = new List<string>();
         public float locationsToSendTimer = 0.0f;
         public float locationsToSendDelay = 5.0f;
         private Version archipelagoVersion = new Version("0.6.2");
@@ -94,7 +94,7 @@ namespace FF1PRAP {
 			incomingItemHandler = IncomingItemHandler();
             checkItemsReceived = CheckItemsReceived();
             incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int index)>();
-            locationsToSend = new List<long>();
+            locationsToSend = new List<string>();
 
 			try {
                 LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.GetGlobal<string>("player"), ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.GetGlobal<string>("password"));
@@ -209,8 +209,9 @@ namespace FF1PRAP {
                 checkItemsReceived = null;
                 disableSpoilerLog = false;
                 incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int ItemIndex)>();
-                locationsToSend = new List<long>();
-                slotData = null;
+				//locationsToSend = new List<long>();
+				locationsToSend = new List<string>();
+				slotData = null;
                 ItemIndex = 0;
                 //Locations.CheckedLocations.Clear();
                 //ItemLookup.ItemList.Clear();
@@ -311,12 +312,20 @@ namespace FF1PRAP {
         public void ActivateCheck(string LocationName) {
             if (LocationName != null) {
 				InternalLogger.LogInfo("Checked location " + LocationName);
-                //string GameObjectId = Randomizer.LocationDescriptionToId[LocationName];
-                //var location = ItemLookup.ItemList[GameObjectId].LocationId;
+				//string GameObjectId = Randomizer.LocationDescriptionToId[LocationName];
+				//var location = ItemLookup.ItemList[GameObjectId].LocationId;
 
-				var itemdid = session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", LocationName);
-
-				session.Locations.CompleteLocationChecks(itemdid);
+				if (connected)
+				{
+					// Send the location right away
+					var itemdid = session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", LocationName);
+					session.Locations.CompleteLocationChecks(itemdid);
+				}
+				else
+				{
+					// queue location
+					locationsToSend.Add(LocationName);
+				}
 
                 //SaveFile.SetInt(ItemCollectedKey + GameObjectId, 1);
 				/*
@@ -339,8 +348,16 @@ namespace FF1PRAP {
 
         public void SendQueuedLocations() {
             if (locationsToSend.Count > 0) {
-                InternalLogger.LogInfo("Sending queued grass checks: " + string.Join(", ", locationsToSend));
-                session.Locations.CompleteLocationChecks(locationsToSend.ToArray());
+                InternalLogger.LogInfo("Sending queued checks: " + string.Join(", ", locationsToSend));
+				var locationIds = new List<long>();
+
+				foreach (var location in locationsToSend)
+				{
+					var itemdid = session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", location);
+					locationIds.Add(itemdid);
+				}
+
+				session.Locations.CompleteLocationChecks(locationIds.ToArray());
                 locationsToSend.Clear();
             }
         }

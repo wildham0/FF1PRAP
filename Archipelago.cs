@@ -1,4 +1,5 @@
 ﻿using Archipelago.MultiClient.Net.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -101,11 +102,21 @@ namespace FF1PRAP {
             return integration.session.Locations.GetLocationIdFromName(game, name);
         }
 
-		public void SetItemIndex(int index)
+		public void RestoreState()
 		{
-			InternalLogger.LogInfo($"Set item index at: {index}");
+			
+			
 			integration.ClearQueue();
+			integration.ItemIndex = FF1PR.SessionManager.GetValue<int>("itemindex");
+			InternalLogger.LogInfo($"Set item index at: {integration.ItemIndex}");
+			integration.locationsToSend = FF1PR.SessionManager.LoadLocationsToSend();
+			/*
 			integration.ItemIndex = index;
+			integration.locationsToSend = locationsToSend;*/
+		}
+		public void GetLocationsToSend()
+		{
+			FF1PR.SessionManager.SaveLocationsToSend(integration.locationsToSend);
 		}
         public bool IsConnected() {
             return integration != null ? integration.connected : false;

@@ -28,7 +28,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster";
-	public const string VERSION = "0.1.2";
+	public const string VERSION = "0.1.3";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -61,7 +61,7 @@ public class FF1PR : BasePlugin
 	{
 		// Plugin startup logic
 		InternalLogger.SetLogger(base.Log);
-		InternalLogger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+		InternalLogger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} - {MyPluginInfo.PLUGIN_VERSION} is loaded!");
 
 		SessionManager = new SessionManager();
 

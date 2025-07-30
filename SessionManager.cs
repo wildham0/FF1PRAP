@@ -99,10 +99,27 @@ namespace FF1PRAP
 				return (T)Convert.ChangeType(value, typeof(T));
 			}
 			else
-			{ 
-				return (T)Convert.ChangeType("", typeof(T));
+			{
+				return default;
+				//return (T)Convert.ChangeType("null", typeof(T));
 			}
 		}
+
+		public bool TryGetValue<T>(string key, out T result)
+		{
+			if (Slot.TryGetValue(key, out string value))
+			{
+
+				result = (T)Convert.ChangeType(value, typeof(T));
+				return true;
+			}
+			else
+			{
+				result = default;
+				return false;
+			}
+		}
+
 		public void SetSlot(int slot)
 		{
 			currentSlot = slot;
@@ -225,6 +242,33 @@ namespace FF1PRAP
 			}
 
 			return placedItems;
+		}
+
+		public void SaveLocationsToSend(List<string> locationsToSend)
+		{
+			SetValue("locationsToSendCount", locationsToSend.Count);
+			for (int i = 0; i < locationsToSend.Count; i++)
+			{
+				SetValue("locationsToSend_" + i, locationsToSend[i]);
+			}
+		}
+
+		public List<string> LoadLocationsToSend()
+		{
+			int locationCount = 0;
+			List<string> locationsToSend = new();
+			if (TryGetValue<int>("locationsToSendCount", out locationCount))
+			{
+				for (int i = 0; i < locationCount; i++)
+				{
+					if (TryGetValue<string>("locationsToSend_" + i, out var location))
+					{
+						locationsToSend.Add(location);
+					}
+				}
+			}
+
+			return locationsToSend;
 		}
 
 		private GameModes GetGameMode()

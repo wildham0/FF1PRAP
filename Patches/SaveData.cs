@@ -43,6 +43,11 @@ namespace FF1PRAP
 		public static void SaveGame(int slotid)
 		{
 			FF1PR.SessionManager.SetSlot(slotid);
+			if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+			{
+				Archipelago.instance.GetLocationsToSend();
+			}
+
 			FF1PR.SessionManager.WriteSlotData();
 		}
 
