@@ -1,0 +1,32 @@
+[
+  {
+    "name": "collision_type",
+    "type": "int",
+    "value": 7
+  },
+  {
+    "name": "confirm_landing",
+    "type": "bool",
+    "value": false
+  },
+  {
+    "name": "entity_id",
+    "type": "int",
+    "value": 205
+  },
+  {
+    "name": "object_type",
+    "type": "int",
+    "value": 19
+  },
+  {
+    "name": "target_transportation_ids",
+    "type": "string",
+    "value": "1,4"
+  },
+  {
+    "name": "through_condition_type",
+    "type": "int",
+    "value": 0
+  }
+]
