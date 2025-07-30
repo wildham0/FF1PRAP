@@ -103,6 +103,8 @@ namespace FF1PRAP {
 
 		public void SetItemIndex(int index)
 		{
+			InternalLogger.LogInfo($"Set item index at: {index}");
+			integration.ClearQueue();
 			integration.ItemIndex = index;
 		}
         public bool IsConnected() {

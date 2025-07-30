@@ -15,11 +15,19 @@
     <RootNamespace>FF1PRAP</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Assembly-CSharp.dll" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Update="BepInEx\*.*">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<Content Update="Assembly-CSharp.dll">
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
     <EmbeddedResource Include="Entities\en_earth_slab.json" />
     <EmbeddedResource Include="Entities\en_elfdoc_script.json" />
     <EmbeddedResource Include="Entities\en_elfdoc_prejolt.json" />

@@ -87,7 +87,8 @@ namespace FF1PRAP {
                     session = ArchipelagoSessionFactory.CreateSession(FF1PR.SessionManager.GetGlobal<string>("server"), int.Parse(FF1PR.SessionManager.GetGlobal<string>("port")));
                 } catch (Exception e) {
 					InternalLogger.LogInfo("Failed to create archipelago session!");
-                }
+					InternalLogger.LogInfo(e.GetBaseException().Message);
+				}
             }
 
 			incomingItemHandler = IncomingItemHandler();
