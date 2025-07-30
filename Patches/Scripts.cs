@@ -31,7 +31,6 @@ namespace FF1PRAP
 							var location = Randomizer.ApLocations[locationflag];
 
 							FF1PR.MessageManager.GetMessageDictionary()[dialogue] = $"You obtained {location.Content}.";
-							Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[locationflag]);
 
 							script = script.Replace("RANDOITEM", $"{43}");
 							script = script.Replace("RANDOQTY", $"{0}");

@@ -18,12 +18,9 @@ namespace FF1PRAP
 			Monitor.instance = monitorObject.AddComponent<Monitor>();
 			GameObject.DontDestroyOnLoad(monitorObject);
 
-			if (FF1PR.Settings.IsArchipelago)
-			{
-				GameObject ArchipelagoObject = new GameObject("archipelago");
-				Archipelago.instance = ArchipelagoObject.AddComponent<Archipelago>();
-				GameObject.DontDestroyOnLoad(ArchipelagoObject);
-			}
+			GameObject ArchipelagoObject = new GameObject("archipelago");
+			Archipelago.instance = ArchipelagoObject.AddComponent<Archipelago>();
+			GameObject.DontDestroyOnLoad(ArchipelagoObject);
 		}
 	}
 }

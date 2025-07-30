@@ -28,7 +28,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster";
-	public const string VERSION = "0.1.0";
+	public const string VERSION = "0.1.2";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -54,7 +54,6 @@ public class FF1PR : BasePlugin
 	public static int CurrentSlot;
 
 	// Settings
-	public static RandoSettings Settings = new RandoSettings();
 	public static SessionManager SessionManager;
 	public static string CurrentMap => FF1PR.MapManager.CurrentMapModel.AssetData.MapName;
 	public static Dictionary<int, ItemData> PlacedItems;
@@ -84,6 +83,9 @@ public class FF1PR : BasePlugin
 
 		// Item Patch
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.OwnedItemClient), "AddOwnedItem", [typeof(Content), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "Items_Postfix")));
+
+		// Gameflag Patch
+		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.DataStorage), "Set", [typeof(string), typeof(int), typeof(int)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "Gameflags_Postfix")));
 
 		// Script Patch
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.MapAssetData), "GetScript"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetScript_Postfix")));

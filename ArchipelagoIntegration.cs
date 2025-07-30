@@ -166,7 +166,7 @@ namespace FF1PRAP {
 			foreach (var item in content)
 			{
 				string itemstring;
-				if (item.Value.Player.Name == FF1PR.Settings.PlayerName)
+				if (item.Value.Player.Name == FF1PR.SessionManager.GetGlobal<string>("player"))
 				{
 					itemstring = item.Value.ItemDisplayName;
 				}
