@@ -105,9 +105,4 @@ namespace FF1PRAP
 
 
 	}
-
-    class GameFlag
-    {
-
-    }
 }

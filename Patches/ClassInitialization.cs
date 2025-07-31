@@ -1,4 +1,5 @@
 ﻿using Last.Entity.Field;
+using Last.Message;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"Creating objects.");
 
+			//
+
 			if (Monitor.instance == null)
 			{
 				GameObject monitorObject = new GameObject("gameMonitor");
@@ -26,6 +29,17 @@ namespace FF1PRAP
 				GameObject ArchipelagoObject = new GameObject("archipelago");
 				Archipelago.instance = ArchipelagoObject.AddComponent<Archipelago>();
 				GameObject.DontDestroyOnLoad(ArchipelagoObject);
+			}
+
+			if (ApItemWindow.instance == null)
+			{
+				GameObject apItemWindowObject = new GameObject("apItemWindow");
+				ApItemWindow.instance = apItemWindowObject.AddComponent<ApItemWindow>();
+				GameObject.DontDestroyOnLoad(apItemWindowObject);
+				/*
+				GameObject windowManager = new GameObject("apWindowManager");
+				ApItemWindow.windowManager = windowManager.AddComponent<MessageWindowManager>();
+				GameObject.DontDestroyOnLoad(windowManager);*/
 			}
 		}
 	}

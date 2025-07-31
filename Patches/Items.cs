@@ -1,11 +1,16 @@
-﻿using Last.Data.Master;
+﻿using Il2CppSystem.Common;
+using Last.Data.Master;
 using Last.Entity.Field;
 using Last.Interpreter;
+using Last.Message;
+using Last.Systems.EndRoll;
+using Last.Systems.Message;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace FF1PRAP
 {
@@ -52,7 +57,7 @@ namespace FF1PRAP
 			//InternalLogger.LogInfo($"Add Owned Content: {targetData.Id} - {targetData.MesIdName}, {count}");
 		}
 
-		public static ItemResults GiveItem(string itemName)
+		public static ItemResults GiveItem(string itemName, bool showMessage)
 		{
 			bool validItem = Randomizer.ItemNameToData.TryGetValue(itemName, out var itemdata);
 
@@ -62,9 +67,42 @@ namespace FF1PRAP
 			}
 
 			// check if in state to give item
-			if (FF1PR.OwnedItemsClient != null && FF1PR.SessionManager.GameState == GameStates.InGame)
+			if (FF1PR.OwnedItemsClient != null && FF1PR.GameState == GameStates.InGame)
 			{
 				FF1PR.OwnedItemsClient.AddOwnedItem(itemdata.Id, itemdata.Qty);
+
+				if (showMessage)
+				{
+					string itemMessage = $"You received {itemName}.";
+					ApItemWindow.instance.QueueMessage(itemMessage);
+				}
+
+
+				//var test = new Il2CppSystem.Collections.Generic.List<Last.Systems.Message.BaseContent>();
+
+				/*
+				if (MessageWindowManager.instance != null)
+				{
+					Il2CppSystem.Collections.Generic.List<Last.Systems.Message.BaseContent> test = Last.Systems.Message.MessageParser.Parse($"Hello, hello! {itemdata.Id}");
+					//MessageWindowManager.instance.EndWaitExit();
+					MessageWindowManager.instance.Close();
+					//MessageWindowManager.instance.SetNextState(MessageWindowManager.State.None);
+					if (itemdata.Id == 4)
+					{
+						//MessageWindowManager.instance.SetWindowType(Last.Management.WindowType.Field);
+						MessageWindowManager.instance.SetContent(test);
+						MessageWindowManager.instance.SetAnchor(Last.Management.WindowType.Battle, Last.Management.WindowAnchor.Under);
+						MessageWindowManager.instance.ShowWindow(true);
+						MessageWindowManager.instance.Play();
+					}
+
+
+
+				}
+				*/
+
+				//var test = new Last.Interpreter.Instructions.Message.MessageWindowParams(1, 2);
+				//Message.PlayMessageCommon("MSG_WND_DAN_04", test, true);
 				return ItemResults.Success;
 			}
 			else

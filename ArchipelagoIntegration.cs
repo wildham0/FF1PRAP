@@ -52,7 +52,7 @@ namespace FF1PRAP {
             }
 
 			/*  if (SceneManager.GetActiveScene().name != "TitleScreen" && SceneManager.GetActiveScene().name != "Loading" && PlayerCharacter.instance != null && SpeedrunData.gameComplete == 0) {*/
-			if (FF1PR.StateTracker.CurrentState == Last.Management.GameStates.InGame)
+			if (FF1PR.GameState == GameStates.InGame)
 			{
 				if (incomingItemHandler != null) {
                     incomingItemHandler.MoveNext();
@@ -266,7 +266,7 @@ namespace FF1PRAP {
                     yield return true;
                 }*/
 
-                var handleResult = Patches.GiveItem(itemName);
+                var handleResult = Patches.GiveItem(itemName, FF1PR.SessionManager.GetGlobal<string>("player") != itemInfo.Player.Name);
                 switch (handleResult) {
                     case Patches.ItemResults.Success:
 						InternalLogger.LogInfo("Received " + itemDisplayName + " from " + itemInfo.Player.Name + " at " + itemInfo.LocationDisplayName);

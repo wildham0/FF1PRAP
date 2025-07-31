@@ -46,6 +46,7 @@ public class FF1PR : BasePlugin
 	public static MapManager MapManager;
 	public static FieldController FieldController;
 	public static OwnedItemClient OwnedItemsClient;
+	public static MainGame MainGame;
 
 	// save stuff at save load 
 	public static SaveSlotManager SaveManager;
@@ -57,6 +58,8 @@ public class FF1PR : BasePlugin
 	public static SessionManager SessionManager;
 	public static string CurrentMap => FF1PR.MapManager.CurrentMapModel.AssetData.MapName;
 	public static Dictionary<int, ItemData> PlacedItems;
+
+	public static GameStates GameState => Monitor.instance.GetGameState();
 	public override void Load()
 	{
 		// Plugin startup logic
@@ -67,9 +70,11 @@ public class FF1PR : BasePlugin
 
 		ClassInjector.RegisterTypeInIl2Cpp<Archipelago>();
 		ClassInjector.RegisterTypeInIl2Cpp<Monitor>();
+		ClassInjector.RegisterTypeInIl2Cpp<ApItemWindow>();
 		//ClassInjector.RegisterTypeInIl2Cpp<QuickSettings>();
-
+		
 		RegisterTypeAndCreateObject(typeof(QuickSettings), "quick settings gui");
+		//RegisterTypeAndCreateObject(typeof(ApItemWindow), "ap item window");
 
 		//Application.runInBackground = Settings.RunInBackground;
 
@@ -116,6 +121,12 @@ public class FF1PR : BasePlugin
 		// New game
 		harmony.Patch(AccessTools.Method(typeof(Serial.FF1.UI.KeyInput.NewGameWindowController), "UpdateStartWait"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "NewGame_Postfix")));
 		harmony.Patch(AccessTools.Method(typeof(Serial.FF1.UI.Touch.NewGameWindowController), "UpdateStartWait"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "NewGame_Postfix")));
+		
+		//
+		harmony.Patch(AccessTools.Method(typeof(Last.Systems.Indicator.SystemIndicator), "Activate"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetLoadingState_Post")));
+
+
+		//harmony.Patch(AccessTools.Method(typeof(Last.Message.MessageWindowController), "SetMessage"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetMessagePost")));
 	}
 
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)

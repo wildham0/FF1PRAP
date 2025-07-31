@@ -28,10 +28,10 @@ using static Last.Map.LoadData;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using JetBrains.Annotations;
 using Steamworks;
+using Last.Systems.Indicator;
 
 namespace FF1PRAP
-{
-	//[HarmonyPatch("GetExp")]
+{//[HarmonyPatch("GetExp")]
 	//[HarmonyPostfix]
 	class MyPatches
 	{
@@ -504,6 +504,18 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"Dash from Flags: {__result}");
 			//Last.Entity.Field.FieldPlayer
 			//__result *= 2;
+		}
+
+		public static void Parse_Text_Pre(SystemIndicator.Mode mode)
+		{
+			InternalLogger.LogInfo($"SystIndicator {mode}");
+
+		}
+
+		public static void SetMessagePost(Last.Message.MessageWindowController __instance, string message)
+		{
+			InternalLogger.LogInfo($"WindowController: {message} - {__instance.displayIndex}");
+
 		}
 
 
