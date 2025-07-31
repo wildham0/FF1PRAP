@@ -188,7 +188,7 @@ namespace FF1PRAP
 			//{ "sc_e_0037", new ScriptBuilder("sc_empty") }, // Tiamat
 			//{ "sc_e_0037_2", new ScriptBuilder("sc_empty") }, // Tiamat Post-fight
 			//{ "sc_e_0038", new ScriptBuilder("sc_empty") }, // Black Orb
-			{ "sc_e_0039", ScriptBuilder.FromScript(Scripts.LuteSlab, "sc_luteslab") }, // Lute Slab
+			{ "sc_luteslab", ScriptBuilder.FromScript(Scripts.LuteSlab, "sc_luteslab") }, // Lute Slab
 			//{ "sc_e_0044", new ScriptBuilder("sc_empty") }, // Chaos
 			//{ "sc_e_0044_1", new ScriptBuilder("sc_empty") }, // Chaos Post fight
 		};
