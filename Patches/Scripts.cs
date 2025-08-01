@@ -189,7 +189,8 @@ namespace FF1PRAP
 			//{ "sc_e_0037_2", new ScriptBuilder("sc_empty") }, // Tiamat Post-fight
 			//{ "sc_e_0038", new ScriptBuilder("sc_empty") }, // Black Orb
 			{ "sc_e_0039", ScriptBuilder.FromScript(Scripts.LuteSlab, "sc_luteslab") }, // Lute Slab
-			//{ "sc_e_0044", new ScriptBuilder("sc_empty") }, // Chaos
+			{ "sc_e_0044", ScriptBuilder.FromJson("sc_chaos_fight") }, // Chaos
+			{ "sc_chaosdefeated", ScriptBuilder.FromScript(Scripts.ChaosDefeated, "sc_chaosdefeated") }, // Chaos Post fight
 			//{ "sc_e_0044_1", new ScriptBuilder("sc_empty") }, // Chaos Post fight
 		};
 	}
@@ -533,6 +534,14 @@ namespace FF1PRAP
 			"HasLute:",
 			"Nop",
 			"ChangeScript sc_e_0039",
+			"Exit",
+		};
+		public static List<string> ChaosDefeated = new()
+		{
+			"Sub Main:",
+			"Nop",
+			$"SetFlag ScenarioFlag1 {(int)ScenarioFlags.ChaosDefeated}",
+			"ChangeScript sc_e_0044_1",
 			"Exit",
 		};
 

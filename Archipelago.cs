@@ -43,13 +43,14 @@ namespace FF1PRAP {
             integration.CompleteLocationCheck(LocationName);
         }
 
+		/*
         public void UpdateDataStorage(string Key, object Value) {
-			/* if (SaveFlags.IsArchipelago()) {
+			 if (SaveFlags.IsArchipelago()) {
 				 integration.UpdateDataStorage(Key, Value);
-			 }*/
+			 }
 			integration.UpdateDataStorage(Key, Value);
 		}
-
+		*/
         public void Release() {
             integration.Release();
         }
@@ -70,10 +71,11 @@ namespace FF1PRAP {
             return slotdatadict;
         }*/
 
+		/*
 		public Dictionary<string, object> GetPlayerSlotData()
 		{
 			return integration.slotData;
-		}
+		}*/
 		public int GetPlayerSlot() {
             return integration.session.ConnectionInfo.Slot;
         }

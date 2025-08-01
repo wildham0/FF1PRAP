@@ -22,21 +22,20 @@ using System.Xml;
 using Last.Scene;
 using Last.Data.User;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Last.Message;
 
 namespace FF1PRAP;
 
 public class PluginInfo
 {
-	public const string NAME = "FF1 Pixel Remaster";
+	public const string NAME = "FF1 Pixel Remaster AP";
 	public const string VERSION = "0.1.3";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
-[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInPlugin(PluginInfo.GUID, PluginInfo.NAME, PluginInfo.VERSION)]
 public class FF1PR : BasePlugin
 {
-	internal static new ManualLogSource Log;
-
 	// Instances
 	public static UserDataManager UserData;
 	public static GameStateTracker StateTracker;
@@ -58,27 +57,25 @@ public class FF1PR : BasePlugin
 	public static SessionManager SessionManager;
 	public static string CurrentMap => FF1PR.MapManager.CurrentMapModel.AssetData.MapName;
 	public static Dictionary<int, ItemData> PlacedItems;
-
-	public static GameStates GameState => Monitor.instance.GetGameState();
+	public static GameStates GameState => Monitor.instance != null ? (GameStates)Monitor.instance.GetGameState() : GameStates.Title;
+	//public static GameStates GameState => GameStates.Title;
 	public override void Load()
 	{
 		// Plugin startup logic
 		InternalLogger.SetLogger(base.Log);
-		InternalLogger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} - {MyPluginInfo.PLUGIN_VERSION} is loaded!");
+		InternalLogger.LogInfo($"Plugin {PluginInfo.NAME} v{PluginInfo.VERSION} is loaded! ({PluginInfo.GUID})");
 
 		SessionManager = new SessionManager();
 
 		ClassInjector.RegisterTypeInIl2Cpp<Archipelago>();
 		ClassInjector.RegisterTypeInIl2Cpp<Monitor>();
 		ClassInjector.RegisterTypeInIl2Cpp<ApItemWindow>();
-		//ClassInjector.RegisterTypeInIl2Cpp<QuickSettings>();
 		
 		RegisterTypeAndCreateObject(typeof(QuickSettings), "quick settings gui");
-		//RegisterTypeAndCreateObject(typeof(ApItemWindow), "ap item window");
 
 		//Application.runInBackground = Settings.RunInBackground;
 
-		Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
+		Harmony harmony = new Harmony(PluginInfo.GUID);
 
 		// Xp patch
 		//harmony.Patch(AccessTools.Method(typeof(Last.Data.Master.Monster), "get_Exp"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "get_Exp")));
@@ -122,13 +119,9 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Serial.FF1.UI.KeyInput.NewGameWindowController), "UpdateStartWait"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "NewGame_Postfix")));
 		harmony.Patch(AccessTools.Method(typeof(Serial.FF1.UI.Touch.NewGameWindowController), "UpdateStartWait"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "NewGame_Postfix")));
 		
-		//
+		// Loading State
 		harmony.Patch(AccessTools.Method(typeof(Last.Systems.Indicator.SystemIndicator), "Activate"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetLoadingState_Post")));
-
-
-		//harmony.Patch(AccessTools.Method(typeof(Last.Message.MessageWindowController), "SetMessage"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetMessagePost")));
 	}
-
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
 	{
 		ClassInjector.RegisterTypeInIl2Cpp(type);

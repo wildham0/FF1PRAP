@@ -36,10 +36,6 @@ namespace FF1PRAP
 				GameObject apItemWindowObject = new GameObject("apItemWindow");
 				ApItemWindow.instance = apItemWindowObject.AddComponent<ApItemWindow>();
 				GameObject.DontDestroyOnLoad(apItemWindowObject);
-				/*
-				GameObject windowManager = new GameObject("apWindowManager");
-				ApItemWindow.windowManager = windowManager.AddComponent<MessageWindowManager>();
-				GameObject.DontDestroyOnLoad(windowManager);*/
 			}
 		}
 	}

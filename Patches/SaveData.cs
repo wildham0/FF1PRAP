@@ -37,7 +37,7 @@ namespace FF1PRAP
 		{
 			FF1PR.SessionManager.SetSlot(slotid);
 			FF1PR.SessionManager.LoadSlotData();
-			Monitor.instance.SetProcess(ProcessStates.LoadGame);
+			Monitor.instance.SetProcess((int)ProcessStates.LoadGame);
 		}
 
 		public static void SaveGame(int slotid)
@@ -53,7 +53,7 @@ namespace FF1PRAP
 
 		public static void NewGame_Postfix()
 		{
-			Monitor.instance.SetProcess(ProcessStates.NewGame);
+			Monitor.instance.SetProcess((int)ProcessStates.NewGame);
 		}
 	}
 }

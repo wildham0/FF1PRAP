@@ -44,6 +44,7 @@
     <EmbeddedResource Include="Scripts\sc_elflandcastle.json" />
     <EmbeddedResource Include="Scripts\sc_coneriacastle.json" />
     <EmbeddedResource Include="Scripts\sc_overworld.json" />
+    <EmbeddedResource Include="Scripts\sc_chaos_fight.json" />
     <EmbeddedResource Include="Scripts\sc_smitt.json" />
     <EmbeddedResource Include="Scripts\sc_sky_chest.json" />
     <EmbeddedResource Include="Scripts\sc_eye_chest.json" />

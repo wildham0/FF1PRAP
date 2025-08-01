@@ -70,6 +70,12 @@ namespace FF1PRAP
 			luteslabscript.Id = 1001;
 			luteslabscript.ScriptName = "sc_luteslab";
 			FF1PR.MasterManager.GetList<Script>().Add(1001, luteslabscript);
+
+			// chaos defeated script
+			var chaosdefeated = new Script();
+			chaosdefeated.Id = 1002;
+			chaosdefeated.ScriptName = "sc_chaosdefeated";
+			FF1PR.MasterManager.GetList<Script>().Add(1002, chaosdefeated);
 		}
 
 		public static void InitializeRandoItems()

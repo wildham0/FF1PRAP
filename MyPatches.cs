@@ -518,6 +518,18 @@ namespace FF1PRAP
 
 		}
 
+		public static void OnCreate_Pre(Last.Message.MessageWindowManager __instance)
+		{
+
+			InternalLogger.LogInfo($"MessageWindowManager: {__instance.GetInstanceID()} - {__instance.gameObject.name}");
+			InternalLogger.LogInfo($"2: Auto: {__instance.isAuto} - Field: {__instance.isFieldWindow} ");
+			InternalLogger.LogInfo($"3: NextWait: {__instance.isNextMessageWait} - Playing: {__instance.isPlaying} ");
+			InternalLogger.LogInfo($"4: Speed: {__instance.messageSpeed} - Name: {__instance.name} ");
+			InternalLogger.LogInfo($"5: Newline: {__instance.NewLineTag} - NextState: {__instance.nextState} ");
+			InternalLogger.LogInfo($"6: PrevIndex: {__instance.prevMessageIndex} - Tag: {__instance.tag} ");
+			InternalLogger.LogInfo($"7: waitlist: {__instance.timeWaitList.Count} - WaitTag: {__instance.WaitTag} ");
+		}
+
 
 	}
 
