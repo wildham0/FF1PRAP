@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 using LibCpp2IL.NintendoSwitch;
 using static FF1PRAP.Patches;
 using System.Text.Json;
+using Last.Systems.Indicator;
 
 namespace FF1PRAP
 {
@@ -20,15 +21,6 @@ namespace FF1PRAP
 		Randomizer,
 		Archipelago
 	}
-	public enum GameStates
-	{
-		Title,
-		LoadGame,
-		NewGame,
-		WaitingForStart,
-		InGame
-	}
-
 	public class SessionManager
     {
 		public static Dictionary<string, string> Slot = new();
@@ -38,7 +30,8 @@ namespace FF1PRAP
 		public string folderPath;
 		public bool RandomizerInitialized = false;
 		public GameModes GameMode { get => GetGameMode(); set => SetGameMode(value); }
-		public GameStates GameState = GameStates.Title;
+		//public GameStates GameState = GameStates.Title;
+		//public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
 		public SessionManager()
 		{
 			if (!Directory.Exists(Application.persistentDataPath + "/Randomizer/"))
@@ -309,12 +302,5 @@ namespace FF1PRAP
 		}
 
 
-
-		public string PlayerName = "testplayer";
-		public string Port = "51186";
-		public string Server = "archipelago.gg";
-		public string Password = "";
-		public string GameName = "FF1 Pixel Remaster";
-		public bool IsArchipelago = true;
 	}
 }

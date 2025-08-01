@@ -14,139 +14,137 @@ using Archipelago.MultiClient.Net.Packets;
 using Newtonsoft.Json.Linq;
 using Archipelago.MultiClient.Net.Converters;
 using FF1PRAP;
+using Last.Interpreter;
 
 namespace FF1PRAP {
-    public class ArchipelagoIntegration {
-        
-        public bool connected {
-            get { return session != null ? session.Socket.Connected : false; }
-        }
+	public class ArchipelagoIntegration {
+		
+		public bool connected {
+			get { return session != null ? session.Socket.Connected : false; }
+		}
 
-        public ArchipelagoSession session;
-        private IEnumerator<bool> incomingItemHandler;
-        private IEnumerator<bool> checkItemsReceived;
-        private ConcurrentQueue<(ItemInfo ItemInfo, int index)> incomingItems;
-        //private DeathLinkService deathLinkService;
-        public Dictionary<string, object> slotData;
-        public bool disableSpoilerLog = false;
-        public bool sentCompletion = false;
-        public bool sentRelease = false;
-        public bool sentCollect = false;
-        public int ItemIndex = 0;
-        public List<string> locationsToSend = new List<string>();
-        public float locationsToSendTimer = 0.0f;
-        public float locationsToSendDelay = 5.0f;
-        private Version archipelagoVersion = new Version("0.6.2");
+		public ArchipelagoSession session;
+		private IEnumerator<bool> incomingItemHandler;
+		private IEnumerator<bool> checkItemsReceived;
+		private ConcurrentQueue<(ItemInfo ItemInfo, int index)> incomingItems;
+		//private DeathLinkService deathLinkService;
+		public Dictionary<string, object> slotData;
+		public bool disableSpoilerLog = false;
+		public bool sentCompletion = false;
+		public bool sentRelease = false;
+		public bool sentCollect = false;
+		public int ItemIndex = 0;
+		public List<string> locationsToSend = new List<string>();
+		public float locationsToSendTimer = 0.0f;
+		public float locationsToSendDelay = 5.0f;
+		private Version archipelagoVersion = new Version("0.6.2");
 
-        public void Update() {
-			/*if ((SceneManager.GetActiveScene().name == "TitleScreen" && TunicRandomizer.Settings.Mode != RandomizerSettings.RandomizerType.ARCHIPELAGO) || SaveFile.GetInt("archipelago") == 0) {
-                return;
-            }*/
+		public void Update()
+		{
+			if (FF1PR.SessionManager.GameMode != GameModes.Archipelago || !connected)
+			{
+				return;
+			}
 
-			if (!connected) {
-                return;
-            }
+			if (checkItemsReceived != null)
+			{
+				checkItemsReceived.MoveNext();
+			}
 
-            if (checkItemsReceived != null) {
-                checkItemsReceived.MoveNext();
-            }
-
-			/*  if (SceneManager.GetActiveScene().name != "TitleScreen" && SceneManager.GetActiveScene().name != "Loading" && PlayerCharacter.instance != null && SpeedrunData.gameComplete == 0) {*/
-			if (FF1PR.StateTracker.CurrentState == Last.Management.GameStates.InGame)
+			if (FF1PR.GameState == GameStates.InGame)
 			{
 				if (incomingItemHandler != null) {
-                    incomingItemHandler.MoveNext();
-                }
-                if ((locationsToSendTimer > locationsToSendDelay && locationsToSend.Count > 0) || locationsToSend.Count >= 10) {
-                    SendQueuedLocations();
-                    locationsToSendTimer = 0.0f;
-                }
-                locationsToSendTimer += Time.fixedUnscaledDeltaTime;
-            }
+					incomingItemHandler.MoveNext();
+				}
+				if ((locationsToSendTimer > locationsToSendDelay && locationsToSend.Count > 0) || locationsToSend.Count >= 10) {
+					SendQueuedLocations();
+					locationsToSendTimer = 0.0f;
+				}
+				locationsToSendTimer += Time.fixedUnscaledDeltaTime;
+			}
+						
+			if (FF1PR.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.ChaosDefeated) != 0 && !sentCompletion)
+			{
+				sentCompletion = true;
+				SendCompletion();
+			}
+		}
 
-			/*
-            if (SpeedrunData.gameComplete != 0 && !sentCompletion) {
-                sentCompletion = true;
-                SendCompletion();
-            }*/
+		public string TryConnect() {
+			
+			if (connected && FF1PR.SessionManager.GetGlobal<string>("player") == session.Players.GetPlayerName(session.ConnectionInfo.Slot)) {
+				return "";
+			}
 
-        }
+			TryDisconnect();
 
-        public string TryConnect() {
-            
-            if (connected && FF1PR.SessionManager.GetGlobal<string>("player") == session.Players.GetPlayerName(session.ConnectionInfo.Slot)) {
-                return "";
-            }
-
-            TryDisconnect();
-
-            LoginResult LoginResult;
+			LoginResult LoginResult;
 
 			if (session == null) {
-                try {
-                    session = ArchipelagoSessionFactory.CreateSession(FF1PR.SessionManager.GetGlobal<string>("server"), int.Parse(FF1PR.SessionManager.GetGlobal<string>("port")));
-                } catch (Exception e) {
+				try {
+					session = ArchipelagoSessionFactory.CreateSession(FF1PR.SessionManager.GetGlobal<string>("server"), int.Parse(FF1PR.SessionManager.GetGlobal<string>("port")));
+				} catch (Exception e) {
 					InternalLogger.LogInfo("Failed to create archipelago session!");
 					InternalLogger.LogInfo(e.GetBaseException().Message);
 				}
-            }
+			}
 
 			incomingItemHandler = IncomingItemHandler();
-            checkItemsReceived = CheckItemsReceived();
-            incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int index)>();
-            locationsToSend = new List<string>();
+			checkItemsReceived = CheckItemsReceived();
+			incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int index)>();
+			locationsToSend = new List<string>();
 
 			try {
-                LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.GetGlobal<string>("player"), ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.GetGlobal<string>("password"));
-            } catch (Exception e) {
-                LoginResult = new LoginFailure(e.GetBaseException().Message);
-            }
+				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.GetGlobal<string>("player"), ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.GetGlobal<string>("password"));
+			} catch (Exception e) {
+				LoginResult = new LoginFailure(e.GetBaseException().Message);
+			}
 
 			if (LoginResult is LoginSuccessful LoginSuccess) {
 
-                slotData = LoginSuccess.SlotData;
+				slotData = LoginSuccess.SlotData;
 				ItemIndex = 0;
 
 				InternalLogger.LogInfo("Successfully connected to Archipelago Multiworld server!");
 
-                if (slotData.ContainsKey("disable_local_spoiler") && slotData["disable_local_spoiler"].ToString() == "1") {
-                    disableSpoilerLog = true;
+				if (slotData.ContainsKey("disable_local_spoiler") && slotData["disable_local_spoiler"].ToString() == "1") {
+					disableSpoilerLog = true;
 					// Spoiler log setting
-                } else {
-                    disableSpoilerLog = false;
-                }
+				} else {
+					disableSpoilerLog = false;
+				}
 
 
 				//Archipelago.instance.integration.session.Locations.S
 				/*
-                if (Locations.LocationIdToArchipelagoId.Count == 0) {
-                    foreach (string Key in Locations.LocationDescriptionToId.Keys) {
-                        Locations.LocationIdToArchipelagoId.Add(Locations.LocationDescriptionToId[Key], Archipelago.instance.integration.session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", Key));
+				if (Locations.LocationIdToArchipelagoId.Count == 0) {
+					foreach (string Key in Locations.LocationDescriptionToId.Keys) {
+						Locations.LocationIdToArchipelagoId.Add(Locations.LocationDescriptionToId[Key], Archipelago.instance.integration.session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", Key));
 						Archipelago.instance.integration.session.Locations.
 
 					}
-                }*/
+				}*/
 				ScoutLocations();
 				SetupDataStorage();
 
-            } else {
-                LoginFailure loginFailure = (LoginFailure)LoginResult;
+			} else {
+				LoginFailure loginFailure = (LoginFailure)LoginResult;
 				InternalLogger.LogInfo("Error connecting to Archipelago:");
-                string TopLine = $"\"Failed to connect to Archipelago!\"";
-                string BottomLine = $"\"Check your settings and/or log output.\"";
-                foreach (string Error in loginFailure.Errors) {
-                    BottomLine = $"\"{Error}\"";
-                }
-               // Notifications.Show(TopLine, BottomLine);
-                foreach (ConnectionRefusedError Error in loginFailure.ErrorCodes) {
+				string TopLine = $"\"Failed to connect to Archipelago!\"";
+				string BottomLine = $"\"Check your settings and/or log output.\"";
+				foreach (string Error in loginFailure.Errors) {
+					BottomLine = $"\"{Error}\"";
+				}
+			   // Notifications.Show(TopLine, BottomLine);
+				foreach (ConnectionRefusedError Error in loginFailure.ErrorCodes) {
 					InternalLogger.LogInfo(Error.ToString());
-                }
-                TryDisconnect();
-                return BottomLine;
-            }
+				}
+				TryDisconnect();
+				return BottomLine;
+			}
 
 			return "";
-        }
+		}
 
 		private async void ScoutLocations()
 		{
@@ -185,132 +183,132 @@ namespace FF1PRAP {
 			// we need the long id to get this
 			// we get long ids by sending each location name
 		}
-        public void TrySilentReconnect() {
-            LoginResult LoginResult;
-            try {
-                LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.GetGlobal<string>("player"), ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.GetGlobal<string>("password"));
-            } catch (Exception e) {
-                LoginResult = new LoginFailure(e.GetBaseException().Message);
-            }
-        }
+		public void TrySilentReconnect() {
+			LoginResult LoginResult;
+			try {
+				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.GetGlobal<string>("player"), ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.GetGlobal<string>("password"));
+			} catch (Exception e) {
+				LoginResult = new LoginFailure(e.GetBaseException().Message);
+			}
+		}
 
-        public void TryDisconnect() {
+		public void TryDisconnect() {
 
-            try {
-                if (connected) {
+			try {
+				if (connected) {
 					InternalLogger.LogInfo("Disconnected from Archipelago");
-                }
-                if (session != null) {
-                    session.Socket.DisconnectAsync();
-                    session = null;
-                }
+				}
+				if (session != null) {
+					session.Socket.DisconnectAsync();
+					session = null;
+				}
 
-                incomingItemHandler = null;
-                checkItemsReceived = null;
-                disableSpoilerLog = false;
-                incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int ItemIndex)>();
+				incomingItemHandler = null;
+				checkItemsReceived = null;
+				disableSpoilerLog = false;
+				incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int ItemIndex)>();
 				//locationsToSend = new List<long>();
 				locationsToSend = new List<string>();
 				slotData = null;
-                ItemIndex = 0;
-                //Locations.CheckedLocations.Clear();
-                //ItemLookup.ItemList.Clear();
+				ItemIndex = 0;
+				//Locations.CheckedLocations.Clear();
+				//ItemLookup.ItemList.Clear();
 
-            } catch (Exception e) {
+			} catch (Exception e) {
 				InternalLogger.LogInfo("Encountered an error disconnecting from Archipelago!");
-            }
-        }
+			}
+		}
 
-        public void ClearQueue() {
-            if (incomingItems != null) {
-                incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int ItemIndex)>();
-            }
-        }
+		public void ClearQueue() {
+			if (incomingItems != null) {
+				incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int ItemIndex)>();
+			}
+		}
 
-        private IEnumerator<bool> CheckItemsReceived() {
-            while (connected) {
-                while (session.Items.AllItemsReceived.Count > ItemIndex) {
-                    ItemInfo ItemInfo = session.Items.AllItemsReceived[ItemIndex];
+		private IEnumerator<bool> CheckItemsReceived() {
+			while (connected) {
+				while (session.Items.AllItemsReceived.Count > ItemIndex) {
+					ItemInfo ItemInfo = session.Items.AllItemsReceived[ItemIndex];
 					InternalLogger.LogInfo("Placing item " + ItemInfo.ItemDisplayName + " with index " + ItemIndex + " in queue.");
-                    incomingItems.Enqueue((ItemInfo, ItemIndex));
-                    ItemIndex++;
+					incomingItems.Enqueue((ItemInfo, ItemIndex));
+					ItemIndex++;
 					FF1PR.SessionManager.SetValue("itemindex", ItemIndex);
 				}
-                yield return true;
-            }
-        }
+				yield return true;
+			}
+		}
 
-        private IEnumerator<bool> IncomingItemHandler() {
+		private IEnumerator<bool> IncomingItemHandler() {
 
 			while (connected) {
 			
 				if (!incomingItems.TryPeek(out var pendingItem)) {
-                    yield return true;
-                    continue;
-                }
+					yield return true;
+					continue;
+				}
 
 				InternalLogger.LogInfo($"Item incoming: {pendingItem.ItemInfo.ItemDisplayName}");
 				var itemInfo = pendingItem.ItemInfo;
-                var itemName = itemInfo.ItemDisplayName;
-                var itemDisplayName = itemName + " (" + itemInfo.ItemId + ") at index " + pendingItem.index;
+				var itemName = itemInfo.ItemDisplayName;
+				var itemDisplayName = itemName + " (" + itemInfo.ItemId + ") at index " + pendingItem.index;
 
 				/*
-                if (SaveFile.GetInt($"randomizer processed item index {pendingItem.index}") == 1) {
-                    incomingItems.TryDequeue(out _);
+				if (SaveFile.GetInt($"randomizer processed item index {pendingItem.index}") == 1) {
+					incomingItems.TryDequeue(out _);
 					InternalLogger.LogInfo("Skipping item " + itemName + " at index " + pendingItem.index + " as it has already been processed.");
-                    continue;
-                }*/
+					continue;
+				}*/
 
-                // Delay until a few seconds after connecting/screen transition
-               /* while (SaveFile.GetFloat("playtime") < SceneLoaderPatches.TimeOfLastSceneTransition + 3.0f) {
-                    yield return true;
-                }*/
+				// Delay until a few seconds after connecting/screen transition
+			   /* while (SaveFile.GetFloat("playtime") < SceneLoaderPatches.TimeOfLastSceneTransition + 3.0f) {
+					yield return true;
+				}*/
 
-                var handleResult = Patches.GiveItem(itemName);
-                switch (handleResult) {
-                    case Patches.ItemResults.Success:
+				var handleResult = Patches.GiveItem(itemName, FF1PR.SessionManager.GetGlobal<string>("player") != itemInfo.Player.Name);
+				switch (handleResult) {
+					case Patches.ItemResults.Success:
 						InternalLogger.LogInfo("Received " + itemDisplayName + " from " + itemInfo.Player.Name + " at " + itemInfo.LocationDisplayName);
 
-                        incomingItems.TryDequeue(out _);
-                        //SaveFile.SetInt($"randomizer processed item index {pendingItem.index}", 1);
+						incomingItems.TryDequeue(out _);
+						//SaveFile.SetInt($"randomizer processed item index {pendingItem.index}", 1);
 
-                        // Wait for all interactions to finish
+						// Wait for all interactions to finish
 						/*
-                        while (
-                            GenericMessage.instance.isActiveAndEnabled ||
-                            GenericPrompt.instance.isActiveAndEnabled ||
-                            ItemPresentation.instance.isActiveAndEnabled ||
-                            PageDisplay.instance.isActiveAndEnabled ||
-                            NPCDialogue.instance.isActiveAndEnabled || 
-                            PlayerCharacter.InstanceIsDead) {
-                            yield return true;
-                        }
+						while (
+							GenericMessage.instance.isActiveAndEnabled ||
+							GenericPrompt.instance.isActiveAndEnabled ||
+							ItemPresentation.instance.isActiveAndEnabled ||
+							PageDisplay.instance.isActiveAndEnabled ||
+							NPCDialogue.instance.isActiveAndEnabled || 
+							PlayerCharacter.InstanceIsDead) {
+							yield return true;
+						}
 						*/
-                        // Pause before processing next item
-                        DateTime postInteractionStart = DateTime.Now;
-                        while (DateTime.Now < postInteractionStart + TimeSpan.FromSeconds(incomingItems.Count > 10 ? 1f : 2f))
+						// Pause before processing next item
+						DateTime postInteractionStart = DateTime.Now;
+						while (DateTime.Now < postInteractionStart + TimeSpan.FromSeconds(incomingItems.Count > 10 ? 1f : 2f))
 						{
 							yield return true;
 						}
-                        break;
+						break;
 
-                    case Patches.ItemResults.Busy:
+					case Patches.ItemResults.Busy:
 						InternalLogger.LogDebug("Player is busy, will retry processing item: " + itemDisplayName);
-                        break;
+						break;
 
-                    case Patches.ItemResults.Invalid:
+					case Patches.ItemResults.Invalid:
 						InternalLogger.LogWarning("Failed to process item " + itemDisplayName);
-                        incomingItems.TryDequeue(out _);
-                        //SaveFile.SetInt($"randomizer processed item index {pendingItem.index}", 1);
-                        break;
-                }
+						incomingItems.TryDequeue(out _);
+						//SaveFile.SetInt($"randomizer processed item index {pendingItem.index}", 1);
+						break;
+				}
 
-                yield return true;
-            }
-        }
+				yield return true;
+			}
+		}
 
-        public void ActivateCheck(string LocationName) {
-            if (LocationName != null) {
+		public void ActivateCheck(string LocationName) {
+			if (LocationName != null) {
 				InternalLogger.LogInfo("Checked location " + LocationName);
 				//string GameObjectId = Randomizer.LocationDescriptionToId[LocationName];
 				//var location = ItemLookup.ItemList[GameObjectId].LocationId;
@@ -327,28 +325,28 @@ namespace FF1PRAP {
 					locationsToSend.Add(LocationName);
 				}
 
-                //SaveFile.SetInt(ItemCollectedKey + GameObjectId, 1);
+				//SaveFile.SetInt(ItemCollectedKey + GameObjectId, 1);
 				/*
-                Locations.CheckedLocations[GameObjectId] = true;
+				Locations.CheckedLocations[GameObjectId] = true;
 
-                ItemInfo itemInfo = ItemLookup.ItemList[GameObjectId];
-                string receiver = itemInfo.Player.Name;
-                string itemName = itemInfo.ItemDisplayName;
+				ItemInfo itemInfo = ItemLookup.ItemList[GameObjectId];
+				string receiver = itemInfo.Player.Name;
+				string itemName = itemInfo.ItemDisplayName;
 				InternalLogger.LogInfo("Sent " + itemName + " at " + location + " to " + receiver);
-                if (itemInfo.Player != session.ConnectionInfo.Slot) {
-                    SaveFile.SetInt("archipelago items sent to other players", SaveFile.GetInt("archipelago items sent to other players") + 1);
-                    Notifications.Show($"yoo sehnt  {(TextBuilderPatches.ItemNameToAbbreviation.ContainsKey(itemName) && Archipelago.instance.IsTunicPlayer(itemInfo.Player) ? TextBuilderPatches.ItemNameToAbbreviation[itemName] : "[archipelago]")}  \"{itemName.Replace("_", " ")}\" too \"{receiver}!\"", $"hOp #A lIk it!");
-                    RecentItemsDisplay.instance.EnqueueItem(itemInfo, false);
-                }*/
+				if (itemInfo.Player != session.ConnectionInfo.Slot) {
+					SaveFile.SetInt("archipelago items sent to other players", SaveFile.GetInt("archipelago items sent to other players") + 1);
+					Notifications.Show($"yoo sehnt  {(TextBuilderPatches.ItemNameToAbbreviation.ContainsKey(itemName) && Archipelago.instance.IsTunicPlayer(itemInfo.Player) ? TextBuilderPatches.ItemNameToAbbreviation[itemName] : "[archipelago]")}  \"{itemName.Replace("_", " ")}\" too \"{receiver}!\"", $"hOp #A lIk it!");
+					RecentItemsDisplay.instance.EnqueueItem(itemInfo, false);
+				}*/
 
-            } else {
+			} else {
 				InternalLogger.LogWarning("Failed to get unique name for check " + LocationName);
-            }
-        }
+			}
+		}
 
-        public void SendQueuedLocations() {
-            if (locationsToSend.Count > 0) {
-                InternalLogger.LogInfo("Sending queued checks: " + string.Join(", ", locationsToSend));
+		public void SendQueuedLocations() {
+			if (locationsToSend.Count > 0) {
+				InternalLogger.LogInfo("Sending queued checks: " + string.Join(", ", locationsToSend));
 				var locationIds = new List<long>();
 
 				foreach (var location in locationsToSend)
@@ -358,87 +356,87 @@ namespace FF1PRAP {
 				}
 
 				session.Locations.CompleteLocationChecks(locationIds.ToArray());
-                locationsToSend.Clear();
-            }
-        }
+				locationsToSend.Clear();
+			}
+		}
 
-        public void CompleteLocationCheck(string LocationName) {
-            if (LocationName != null) {
-                var location = session.Locations.GetLocationIdFromName(session.ConnectionInfo.Game, LocationName);
-                session.Locations.CompleteLocationChecks(location);
+		public void CompleteLocationCheck(string LocationName) {
+			if (LocationName != null) {
+				var location = session.Locations.GetLocationIdFromName(session.ConnectionInfo.Game, LocationName);
+				session.Locations.CompleteLocationChecks(location);
 
-            }
-        }
+			}
+		}
 
-        public void SendCompletion() {
-            session.SetGoalAchieved();
-            UpdateDataStorage("Reached an Ending", true);
-        }
+		public void SendCompletion() {
+			session.SetGoalAchieved();
+			UpdateDataStorage("Chaos defeated", true);
+		}
 
-        public void Release() {
-            if (connected && sentCompletion && !sentRelease) {
-                session.Say("!release");
-                sentRelease = true;
-                InternalLogger.LogInfo("Released remaining checks.");
-            }
-        }
+		public void Release() {
+			if (connected && sentCompletion && !sentRelease) {
+				session.Say("!release");
+				sentRelease = true;
+				InternalLogger.LogInfo("Released remaining checks.");
+			}
+		}
 
-        public void Collect() {
-            if (connected && sentCompletion && !sentCollect) {
-                session.Say("!collect");
-                sentCollect = true;
-                InternalLogger.LogInfo("Collected remaining items.");
-            }
-        }
-        private void SetupDataStorage() {
-            if (session != null) {
+		public void Collect() {
+			if (connected && sentCompletion && !sentCollect) {
+				session.Say("!collect");
+				sentCollect = true;
+				InternalLogger.LogInfo("Collected remaining items.");
+			}
+		}
+		private void SetupDataStorage() {
+			if (session != null) {
 				InternalLogger.LogInfo("Initializing DataStorage values");
-                // Map to Display
-                session.DataStorage[Scope.Slot, "Current Map"].Initialize("Overworld");
-                session.DataStorage[Scope.Slot, "Entrance Tracker Map"].Initialize("overworld");
-            }
-        }
+				// Map to Display
+				session.DataStorage[Scope.Slot, "Current Map"].Initialize("Overworld");
+				session.DataStorage[Scope.Slot, "Entrance Tracker Map"].Initialize("overworld");
+			}
+		}
 
-        public void UpdateDataStorage(string Key, object Value, bool Log = true) {
+		public void UpdateDataStorage(string Key, object Value, bool Log = true) {
 
-            if (Value is bool) {
-                session.DataStorage[Scope.Slot, Key] = (bool)Value;
-            }
-            if (Value is int) {
-                session.DataStorage[Scope.Slot, Key] = (int)Value;
-            }
-            if (Value is string) {
-                session.DataStorage[Scope.Slot, Key] = (string)Value;
-            }
-            if (Log) {
+			if (Value is bool) {
+				session.DataStorage[Scope.Slot, Key] = (bool)Value;
+			}
+			if (Value is int) {
+				session.DataStorage[Scope.Slot, Key] = (int)Value;
+			}
+			if (Value is string) {
+				session.DataStorage[Scope.Slot, Key] = (string)Value;
+			}
+			if (Log) {
 				InternalLogger.LogInfo("Setting DataStorage value \"" + Key + "\" to " + Value);
-            }
-        }
+			}
+		}
 
-        public void UpdateDataStorageOnLoad() {
+		public void UpdateDataStorageOnLoad() {
 
-        }
+		}
 
-        public Dictionary<string, int> GetStartInventory() {
+		public Dictionary<string, int> GetStartInventory() {
 
-            Dictionary<string, int> startInventory = new Dictionary<string, int>();
-            /*
+			Dictionary<string, int> startInventory = new Dictionary<string, int>();
+			/*
 			if (connected && session != null) {
-                // start inventory items have a location ID of -2, add them to a dict so we can use them for first steps
-                foreach (ItemInfo item in session.Items.AllItemsReceived) {
-                    if (item.LocationId == -2) {
-                        string itemName = item.ItemDisplayName;
-                        if (ItemLookup.Items.ContainsKey(itemName)) {
-                            TunicUtils.AddStringToDict(startInventory, ItemLookup.Items[itemName].ItemNameForInventory);
-                        }
-                    }
-                }
-            }*/
-            return startInventory;
-        }
+				// start inventory items have a location ID of -2, add them to a dict so we can use them for first steps
+				foreach (ItemInfo item in session.Items.AllItemsReceived) {
+					if (item.LocationId == -2) {
+						string itemName = item.ItemDisplayName;
+						if (ItemLookup.Items.ContainsKey(itemName)) {
+							TunicUtils.AddStringToDict(startInventory, ItemLookup.Items[itemName].ItemNameForInventory);
+						}
+					}
+				}
+			}*/
+			return startInventory;
+		}
 
-        public void ShowNotConnectedError() {
+		public void ShowNotConnectedError() {
 			InternalLogger.LogWarning($"[archipelago] \"ERROR: Lost connection to Archipelago! Unable to send or receive items. Re-connect and try again.\"");
-        }
-    }
+		}
+	}
 }

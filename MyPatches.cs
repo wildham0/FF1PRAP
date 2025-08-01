@@ -28,10 +28,10 @@ using static Last.Map.LoadData;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using JetBrains.Annotations;
 using Steamworks;
+using Last.Systems.Indicator;
 
 namespace FF1PRAP
-{
-	//[HarmonyPatch("GetExp")]
+{//[HarmonyPatch("GetExp")]
 	//[HarmonyPostfix]
 	class MyPatches
 	{
@@ -504,6 +504,30 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"Dash from Flags: {__result}");
 			//Last.Entity.Field.FieldPlayer
 			//__result *= 2;
+		}
+
+		public static void Parse_Text_Pre(SystemIndicator.Mode mode)
+		{
+			InternalLogger.LogInfo($"SystIndicator {mode}");
+
+		}
+
+		public static void SetMessagePost(Last.Message.MessageWindowController __instance, string message)
+		{
+			InternalLogger.LogInfo($"WindowController: {message} - {__instance.displayIndex}");
+
+		}
+
+		public static void OnCreate_Pre(Last.Message.MessageWindowManager __instance)
+		{
+
+			InternalLogger.LogInfo($"MessageWindowManager: {__instance.GetInstanceID()} - {__instance.gameObject.name}");
+			InternalLogger.LogInfo($"2: Auto: {__instance.isAuto} - Field: {__instance.isFieldWindow} ");
+			InternalLogger.LogInfo($"3: NextWait: {__instance.isNextMessageWait} - Playing: {__instance.isPlaying} ");
+			InternalLogger.LogInfo($"4: Speed: {__instance.messageSpeed} - Name: {__instance.name} ");
+			InternalLogger.LogInfo($"5: Newline: {__instance.NewLineTag} - NextState: {__instance.nextState} ");
+			InternalLogger.LogInfo($"6: PrevIndex: {__instance.prevMessageIndex} - Tag: {__instance.tag} ");
+			InternalLogger.LogInfo($"7: waitlist: {__instance.timeWaitList.Count} - WaitTag: {__instance.WaitTag} ");
 		}
 
 

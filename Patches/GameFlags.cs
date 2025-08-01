@@ -63,6 +63,12 @@ namespace FF1PRAP
 		TiamatDefeated,
 		BlackOrbRemoved,
 		LuteSlabRemoved,
+		LichRefightDefeated,
+		KaryRefightDefeated,
+		KrakenRefightDefeated,
+		TiamatRefightDefeated,
+		ChaosDefeated,
+		CreditsRolled,
 		OrdealManTalkedTo = 44,
 		RatTail,
 		BahamutPromoted,
@@ -105,9 +111,4 @@ namespace FF1PRAP
 
 
 	}
-
-    class GameFlag
-    {
-
-    }
 }

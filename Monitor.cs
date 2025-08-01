@@ -1,81 +1,86 @@
 ﻿using Archipelago.MultiClient.Net.Helpers;
 using Last.Interpreter;
+using Last.Systems.Indicator;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
+using Last.Message;
+using static UnityEngine.GridBrushBase;
+using Il2CppSystem;
 
 namespace FF1PRAP
 {
-
+	public enum GameStates
+	{
+		Title,
+		Loading,
+		InGame
+	}
+	public enum ProcessStates
+	{ 
+		Reset,
+		InitGame,
+		LoadGame,
+		NewGame,
+		None
+	}
 	public class MonitorTool
 	{
+
+		public GameStates GameState = GameStates.Title;
+		public ProcessStates ProcessState = ProcessStates.InitGame;
+		public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
+		private bool newGameProcessed = false;
 		public MonitorTool()
 		{
-			counter = 0;
 			FF1PR.SessionManager.GameMode = GameModes.Archipelago;
 		}
 
-		private int counter;
-		
 		public void Update()
 		{
+			ProcessGameState();
 
-			//InternalLogger.LogInfo($"State: {FF1PR.StateTracker.CurrentState} - {FF1PR.StateTracker.CurrentSubState}");
 			if (FF1PR.SessionManager.GameMode == GameModes.Vanilla)
 			{
 				return;
 			}
 
-			if (FF1PR.StateTracker.CurrentState == Last.Management.GameStates.Title && FF1PR.SessionManager.GameState == GameStates.InGame)
+			if (ProcessState == ProcessStates.Reset)
 			{
-				FF1PR.SessionManager.GameState = GameStates.Title;
+				ProcessState = ProcessStates.None;
 				FF1PR.OwnedItemsClient = null;
-				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
-				{
-					//Archipelago.instance.Disconnect();
-				}
+				newGameProcessed = false;
 			}
-
-			if (FF1PR.SessionManager.GameState == GameStates.Title)
+			else if (GameState == GameStates.Title && ProcessState == ProcessStates.InitGame)
 			{
 				Initialization.InitializeRando();
+				ProcessState = ProcessStates.None;
 			}
-			else if (FF1PR.SessionManager.GameState == GameStates.NewGame)
+			else if (ProcessState == ProcessStates.NewGame)
 			{
-				FF1PR.SessionManager.GameState = GameStates.WaitingForStart;
-				Initialization.InitializeNewGame();
-				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+				ProcessState = ProcessStates.None;
+				if (!newGameProcessed)
 				{
-					// connection data was set with menu or host file???
-					/*
-					FF1PR.SessionManager.SetValue("archipelago", true);
-					FF1PR.SessionManager.SetValue("player", "testplayer");
-					FF1PR.SessionManager.SetValue("port", "51186");
-					FF1PR.SessionManager.SetValue("server", "archipelago.gg");
-					FF1PR.SessionManager.SetValue("password", "");
-					FF1PR.SessionManager.SetValue("itemindex", 0);
-					Archipelago.instance.Connect();*/
-				}
-				else
-				{
-					var seed = (uint)System.DateTime.Now.Ticks;
-					FF1PR.SessionManager.SetValue("seed", seed.ToString());
-					FF1PR.PlacedItems = Randomizer.DoItemPlacement(seed);
-					FF1PR.SessionManager.SetPlacedItems(FF1PR.PlacedItems);
-					Initialization.InitializeRandoItems();
+					newGameProcessed = true;
+					Initialization.InitializeNewGame();
+					if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
+					{
+						var seed = (uint)System.DateTime.Now.Ticks;
+						FF1PR.SessionManager.SetValue("seed", seed.ToString());
+						FF1PR.PlacedItems = Randomizer.DoItemPlacement(seed);
+						FF1PR.SessionManager.SetPlacedItems(FF1PR.PlacedItems);
+						Initialization.InitializeRandoItems();
+					}
 				}
 			}
-			else if (FF1PR.SessionManager.GameState == GameStates.LoadGame)
+			else if (ProcessState == ProcessStates.LoadGame)
 			{
-				FF1PR.SessionManager.GameState = GameStates.WaitingForStart;
-
+				ProcessState = ProcessStates.None;
 				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 				{
-
 					Archipelago.instance.RestoreState();
-					//Archipelago.instance.Disconnect();
-					//Archipelago.instance.Connect();
 				}
 				else
 				{
@@ -83,11 +88,35 @@ namespace FF1PRAP
 					Initialization.InitializeRandoItems();
 				}
 			}
-			else if (FF1PR.StateTracker.CurrentState == Last.Management.GameStates.InGame && FF1PR.SessionManager.GameState == GameStates.WaitingForStart)
+		}
+		private void ProcessGameState()
+		{
+			var stateTrackerState = Last.Management.GameStates.Boot;
+
+			if (FF1PR.StateTracker != null)
 			{
-				FF1PR.SessionManager.GameState = GameStates.InGame;
+				stateTrackerState = FF1PR.StateTracker.CurrentState;
+			}
+
+			if (FF1PR.StateTracker.CurrentState == Last.Management.GameStates.Title && GameState == GameStates.InGame)
+			{
+				ProcessState = ProcessStates.Reset;
+				GameState = GameStates.Title;
+			}
+			else if (LoadingState != SystemIndicator.Mode.kNone)
+			{
+				GameState = GameStates.Loading;
+			}
+			else if(LoadingState == SystemIndicator.Mode.kNone && stateTrackerState == Last.Management.GameStates.Title)
+			{
+				GameState = GameStates.Title;
+			}
+			else if (LoadingState == SystemIndicator.Mode.kNone && stateTrackerState == Last.Management.GameStates.InGame)
+			{
+				GameState = GameStates.InGame;
 			}
 		}
+
 	}
 
 	public class Monitor : MonoBehaviour
@@ -97,16 +126,27 @@ namespace FF1PRAP
 		public MonitorTool tool;
 
         public void Start() {
-			InternalLogger.LogInfo($"Monitor tool started.");
 			tool = new MonitorTool();
-        }
-
+			InternalLogger.LogInfo($"Monitor tool started.");
+		}
         public void Update() {
             tool.Update();
         }
-
         public void OnDestroy() {
 
         }
+		public void SetProcess(int process)
+		{
+			tool.ProcessState = (ProcessStates)process;
+		}
+		public void SetLoadingState(SystemIndicator.Mode mode)
+		{
+			tool.LoadingState = mode;
+		}
+		public int GetGameState()
+		{
+			return (int)tool.GameState;
+		}
     }
+
 }
