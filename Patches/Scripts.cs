@@ -128,6 +128,7 @@ namespace FF1PRAP
 			{ "sc_e_0011", ScriptBuilder.FromJson("sc_astos_01") }, // Astos
 			{ "sc_e_0011_2", ScriptBuilder.FromJson("sc_astos_02") }, // Astos post fight
 			//{ "sc_e_0007", ScriptBuilder.FromJson("sc_empty") }, // Matoya Intro
+			{ "sc_map_20031_1", ScriptBuilder.FromScript(Scripts.MatoyasCave, "sc_matoyascave") }, // Matoya
 			{ "sc_e_0012", ScriptBuilder.FromScript(Scripts.Matoya, "sc_matoya_01") }, // Matoya
 			{ "sc_map_20071_1", ScriptBuilder.FromJson("sc_elflandcastle") }, // Elfland Castle
 			{ "sc_e_0013", ScriptBuilder.FromJson("sc_elfprince") }, // Elf Doctor
@@ -352,6 +353,25 @@ namespace FF1PRAP
 			"TreasureGiven:",
 			"Nop",
 			"Msg MSG_MAT_02",
+			"Exit"
+		};
+		public static List<string> MatoyasCave = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"SetFlag ScenarioFlag4 155",
+			"SysCall MapEntryRoofControl",
+			$"Branch TreasureFlag1 {(int)TreasureFlags.Matoya} [TreasureGiven]",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.CrystalEye} [EyeFound]",
+			"SetEntities ev_e_0008",
+			"Exit",
+			"EyeFound:",
+			"Nop",
+			"SetEntities ev_e_0012",
+			"Exit",
+			"TreasureGiven:",
+			"Nop",
+			"SetEntities ev_e_0013",
 			"Exit"
 		};
 		public static List<string> ConeriaChest = new()
