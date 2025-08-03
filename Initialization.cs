@@ -65,6 +65,12 @@ namespace FF1PRAP
 			ordealsmanscript.ScriptName = "sc_ordealsman";
 			FF1PR.MasterManager.GetList<Script>().Add(1000, ordealsmanscript);
 
+			// sub engineer
+			var subengscript = new Script();
+			subengscript.Id = 1003;
+			subengscript.ScriptName = "sc_subeng";
+			FF1PR.MasterManager.GetList<Script>().Add(1003, subengscript);
+
 			// lute slab script
 			var luteslabscript = new Script();
 			luteslabscript.Id = 1001;
@@ -76,6 +82,29 @@ namespace FF1PRAP
 			chaosdefeated.Id = 1002;
 			chaosdefeated.ScriptName = "sc_chaosdefeated";
 			FF1PR.MasterManager.GetList<Script>().Add(1002, chaosdefeated);
+
+			FF1PR.MasterManager.GetList<Map>()[1].MovingAvailability = 1;
+
+			var mapobjects = FF1PR.MasterManager.GetList<Mapobject>();
+
+			foreach (var mapobject in mapobjects)
+			{
+				InternalLogger.LogInfo($"Map: {mapobject.key} - {mapobject.value.Id} - {mapobject.value.ShadowName}");
+			}
+			/*
+			var maplist = FF1PR.MasterManager.GetList<Map>();
+			foreach (var map in maplist)
+			{
+				InternalLogger.LogInfo($"Map: {map.key} - {map.value.Id} - {map.value.}");
+
+			}*/
+			/*
+			var landings = FF1PR.MasterManager.GetList<LandingGroup>();
+			foreach (var land in landings)
+			{
+				InternalLogger.LogInfo($"Map: {land.value.Id} - {land.value.Type1}");
+
+			}*/
 		}
 
 		public static void InitializeRandoItems()

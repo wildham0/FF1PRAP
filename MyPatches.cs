@@ -529,8 +529,39 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"6: PrevIndex: {__instance.prevMessageIndex} - Tag: {__instance.tag} ");
 			InternalLogger.LogInfo($"7: waitlist: {__instance.timeWaitList.Count} - WaitTag: {__instance.WaitTag} ");
 		}
+		
 
 
+
+
+		public static void IntegratorExit_Post(Integrator __instance)
+		{
+			FF1PR.ScriptIntegrator = __instance;
+			//InternalLogger.LogInfo($"Exiting script {__instance.scriptName}.");
+		}
+
+		public static void IntegratorPurge_Post(Integrator __instance)
+		{
+			InternalLogger.LogInfo($"Integrator: Purging {__instance.scriptName}.");
+		}
+		public static void IntegratorReset_Post(Integrator __instance)
+		{
+			InternalLogger.LogInfo($"Integrator: Reset {__instance.scriptName}.");
+		}
+
+		public static void SetEntitiesEnable_Post(bool enable)
+		{
+			InternalLogger.LogInfo($"MapModel: Event Entites Enable {enable}.");
+		}
+		public static void SetActive_Post(bool active)
+		{
+			InternalLogger.LogInfo($"MapModel: Sec active {active}.");
+		}
+
+		public static void InitPlayerStatePlay_Post()
+		{
+			InternalLogger.LogInfo($"FieldController: Player State Init.");
+		}
 	}
 
 	public class RandoDataStorage

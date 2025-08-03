@@ -8,7 +8,15 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 using Last.Interpreter;
-using System.Text.Json.Serialization;
+//using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using static Disarm.Disassembler;
+using Newtonsoft.Json.Linq;
+using System.Security.Claims;
+using UnityEngine;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using static FF1PRAP.Patches;
+//using Il2CppSystem.Collections.Generic;
 
 namespace FF1PRAP
 {
@@ -19,7 +27,9 @@ namespace FF1PRAP
 			Replace,
 			Remove,
 			Titan,
-			ElfPrince
+			ElfPrince,
+			Show,
+			Hide,
 		}
 		public enum EntityCondition
 		{ 
@@ -32,54 +42,23 @@ namespace FF1PRAP
 			public int Layer;
 			public int ObjectId;
 			public string EntitiesFile;
+			public int EntityId;
 			//Dictionary<string>
 			public string PropFile;
 			public EntityAction Action;
 			public EntityCondition Condition;
+			public List<Condition> Conditions;
+			public DataStorage.Category FlagCategory;
+			public int Flag;
+		}
+		public struct Condition
+		{
+			public EntityCondition Value;
 			public DataStorage.Category FlagCategory;
 			public int Flag;
 		}
 
-		public class CustomMapObjecData
-		{
-			public int gid { get; set; }
-			public int height { get; set; }
-			public int width { get; set; }
-			public int id { get; set; }
-			public string name { get; set; }
-			public int rotation { get; set; }
-			public string type { get; set; }
-			public bool visible { get; set; }
-
-			public int x { get; set; }
-			public int y { get; set; }
-			public List<TileMapCustomPropertyData> properties { get; set; }
-			public CustomMapObjecData()	{ properties = new(); }
-			public TileMapObjectData ToMapObjectData()
-			{
-				TileMapObjectData newobject = new();
-				newobject.id = id;
-				newobject.name = name;
-				newobject.height = height;
-				newobject.width = width;
-				// gid, rotation?? type, visi
-				newobject.x = x;
-				newobject.y = y;
-				newobject.properties = properties.ToArray();
-				return newobject;
-			}
-			public void CopyTo(ref TileMapObjectData newobject)
-			{
-				newobject.id = id;
-				newobject.name = name;
-				newobject.height = height;
-				newobject.width = width;
-				// gid, rotation?? type, visi
-				newobject.x = x;
-				newobject.y = y;
-				newobject.properties = properties.ToArray();
-			}
-		}
+		/*
 		public class ValueToStringConverter : JsonConverter<object>
 		{
 			public override bool CanConvert(Type typeToConvert)
@@ -120,7 +99,7 @@ namespace FF1PRAP
 				writer.WriteStringValue(value.ToString());
 			}
 		}
-
+		*/
 		private static TileMapCustomPropertyData[] GetMapObjecData(string name)
 		{
 			string scriptfile = "";
@@ -134,71 +113,205 @@ namespace FF1PRAP
 				}
 			}
 
-			
+			/*
 			var options = new JsonSerializerOptions();
 			options.Converters.Add(new ValueToStringConverter());
+			
 
-			return JsonSerializer.Deserialize<List<TileMapCustomPropertyData>>(scriptfile, options).ToArray();
+			return JsonSerializer.Deserialize<List<TileMapCustomPropertyData>>(scriptfile, options).ToArray();*/
+
+			return JsonConvert.DeserializeObject<System.Collections.Generic.List<TileMapCustomPropertyData>>(scriptfile).ToArray();
 		}
-		public static void ParseMapObjectGroupData_Prefix(ref TileMapLayerGroupData tileMapLayerGroupData)
+
+		private static string GetFile(string name)
 		{
-			InternalLogger.LogInfo($"Maplayer: {tileMapLayerGroupData.id}, {tileMapLayerGroupData.name}");
-
-			if (EntititesToUpdate.TryGetValue((tileMapLayerGroupData.id, tileMapLayerGroupData.name), out var entitydata))
+			string scriptfile = "";
+			var assembly = Assembly.GetExecutingAssembly();
+			string filepath = assembly.GetManifestResourceNames().Single(str => str.EndsWith(name + ".json"));
+			using (Stream logicfile = assembly.GetManifestResourceStream(filepath))
 			{
-				foreach (var entity in entitydata)
+				using (StreamReader reader = new StreamReader(logicfile))
 				{
-					if (tileMapLayerGroupData.layers.TryFind(l => l.id == entity.Layer, out var layer))
+					scriptfile = reader.ReadToEnd();
+				}
+			}
+
+			return scriptfile;
+		}
+		public static void SetupEntities_Post(bool __result)
+		{
+			UpdateEntities();
+			//InternalLogger.LogInfo($"Entites setup 2 done. Result: {__result}");
+		}
+
+		public static void UpdateEntities()
+		{
+			if (entititesToUpdate.TryGetValue(FF1PR.CurrentMap, out var entitiesSet))
+			{
+				InternalLogger.LogInfo($"Updating entities on {FF1PR.CurrentMap}");
+
+				foreach (var entity in entitiesSet)
+				{
+					var fieldentity = FF1PR.FieldController.GetFieldEntity(entity.EntityId);
+
+
+					if (fieldentity != null)
 					{
-						if (layer.objects.TryFind(o => o.id == entity.ObjectId, out var oldEntity))
+						bool met = true;
+
+						foreach (var condition in entity.Conditions)
 						{
-							if (entity.Action == EntityAction.Replace)
+							//InternalLogger.LogInfo($"Evaluation condition: {condition.Flag} - {condition.Value}.");
+							var flag = FF1PR.DataStorage.Get(condition.FlagCategory, condition.Flag);
+							if ((condition.Value == EntityCondition.On && flag == 0) ||
+								(condition.Value == EntityCondition.Off && flag != 0))
 							{
-								var flag = FF1PR.DataStorage.Get(entity.FlagCategory, entity.Flag);
-
-								if ((entity.Condition == EntityCondition.On && flag != 0) ||
-									(entity.Condition == EntityCondition.Off && flag == 0) ||
-									(entity.Condition == EntityCondition.Always))
-								{
-									var newEntityProp = GetMapObjecData(entity.PropFile);
-									oldEntity.properties = newEntityProp;
-								}
+								//InternalLogger.LogInfo($"Condition not met.");
+								met = false;
+								break;
 							}
-							else if (entity.Action == EntityAction.Remove)
+							else
 							{
-								var flag = FF1PR.DataStorage.Get(entity.FlagCategory, entity.Flag);
-
-								if ((entity.Condition == EntityCondition.On && flag != 0) ||
-									(entity.Condition == EntityCondition.Off && flag == 0) ||
-									(entity.Condition == EntityCondition.Always))
-								{
-									layer.objects = layer.objects.Where(o => o.id != entity.ObjectId).ToArray();
-								}
-							}
-							else if (entity.Action == EntityAction.ElfPrince)
-							{
-								var flag = FF1PR.DataStorage.Get(entity.FlagCategory, entity.Flag);
-
-								if ((entity.Condition == EntityCondition.On && flag != 0) ||
-									(entity.Condition == EntityCondition.Off && flag == 0) ||
-									(entity.Condition == EntityCondition.Always))
-								{
-									var newEntityProp = GetMapObjecData(entity.PropFile);
-									oldEntity.x += 16;
-								}
+								//InternalLogger.LogInfo($"Condition met.");
 							}
 						}
-						else if (entity.Action == EntityAction.Titan)
+
+						if (met)
 						{
-							layer.data[34 * 15 + 11] = 203;
+							InternalLogger.LogInfo($"Updating entity {entity.EntityId}: Show.");
+							FF1PR.FieldController.GetFieldEntity(entity.EntityId).Show();
+						}
+						else
+						{
+							InternalLogger.LogInfo($"Updating entity {entity.EntityId}: Hide.");
+							FF1PR.FieldController.GetFieldEntity(entity.EntityId).Hide();
 						}
 					}
+					else
+					{
+						InternalLogger.LogInfo($"Entity {entity.EntityId} was null.");
+					}
 				}
-				//InternalLogger.LogInfo($"garland transfered?");
 			}
 		}
 
-		public static Dictionary<(int, string), List<EntityData>> EntititesToUpdate = new()
+		public static Dictionary<string, List<EntityData>> entititesToUpdate = new()
+		{
+			// Coneria Castle
+			{ "Map_20011_1", new() {
+				new EntityData() { EntityId = 88, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 89, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 72, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 75, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// Coneria Castle Second Floor
+			{ "Map_20011_2", new() {
+				new EntityData() { EntityId = 42, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.IntroDone, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// Temple of Fiend
+			{ "Map_30011_1", new() {
+				new EntityData() { EntityId = 85, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.PrincessSaved, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 33, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.PrincessSaved, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 88, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 89, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 80, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 83, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 70, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 73, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 111, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 112, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// North West Castle
+			{ "Map_20081_1", new() {
+				new EntityData() { EntityId = 141, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Crown, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 105, Conditions = new() {
+					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Crown, FlagCategory = DataStorage.Category.kScenarioFlag1 },
+					new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.Astos, FlagCategory = DataStorage.Category.kTreasureFlag1 },} },
+				new EntityData() { EntityId = 134, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 132, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// Marsh Cave B3
+			{ "Map_30021_3", new() {
+				new EntityData() { EntityId = 126, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 129, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 132, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 135, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 138, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 140, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 141, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 142, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 143, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 144, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// Matoya's Cave
+			{ "Map_20031_1", new() {
+				new EntityData() { EntityId = 16, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.CrystalEye, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 15, Conditions = new() {
+					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.CrystalEye, FlagCategory = DataStorage.Category.kScenarioFlag1 },
+					new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.Matoya, FlagCategory = DataStorage.Category.kTreasureFlag1 },} },
+				new EntityData() { EntityId = 14, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)TreasureFlags.Matoya, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+			} },
+			// Elfland Castle
+			{ "Map_20071_1", new() {
+				new EntityData() { EntityId = 118, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.JoltTonic, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 116, Conditions = new() {
+					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.JoltTonic, FlagCategory = DataStorage.Category.kScenarioFlag1 },
+					new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 },} },
+				new EntityData() { EntityId = 115, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+				new EntityData() { EntityId = 235, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+				new EntityData() { EntityId = 114, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+				new EntityData() { EntityId = 140, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 258, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// Dwarf Cave
+			{ "Map_20051_1", new() {
+				new EntityData() { EntityId = 127, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Adamant, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 40, Conditions = new() {
+					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Adamant, FlagCategory = DataStorage.Category.kScenarioFlag1 },
+					new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.Smitt, FlagCategory = DataStorage.Category.kTreasureFlag1 },} },
+				new EntityData() { EntityId = 39, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)TreasureFlags.Smitt, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+				new EntityData() { EntityId = 52, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.NitroPowder, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 45, Conditions = new() {
+					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.NitroPowder, FlagCategory = DataStorage.Category.kScenarioFlag1 },
+					new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 },} },
+				new EntityData() { EntityId = 90, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 114, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// Melmond
+			{ "Map_20090", new() {
+				new EntityData() { EntityId = 127, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.RosettaStone, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 126, Conditions = new() {
+					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.RosettaStone, FlagCategory = DataStorage.Category.kScenarioFlag1 },
+					new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.StoneTranslated, FlagCategory = DataStorage.Category.kScenarioFlag1 },} },
+				new EntityData() { EntityId = 125, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.StoneTranslated, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// Earth B3
+			{ "Map_30031_3", new() {
+				new EntityData() { EntityId = 54, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.VampireDefeated, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 55, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.EarthRod, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 52, Conditions = new() {
+					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.EarthRod, FlagCategory = DataStorage.Category.kScenarioFlag1 },
+					new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.SlabLifted, FlagCategory = DataStorage.Category.kScenarioFlag1 },} },
+			} },
+			// Cube Warp
+			{ "Map_30101_3", new() {
+				new EntityData() { EntityId = 14, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.WarpCube, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 21, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.WarpCube, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+			// Overworld
+			{ "Map_10010", new() {
+				new EntityData() { EntityId = 82, Conditions = new() {
+					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Levistone, FlagCategory = DataStorage.Category.kScenarioFlag1 },
+					new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Airship, FlagCategory = DataStorage.Category.kScenarioFlag1 },} },
+				new EntityData() { EntityId = 145, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Chime, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 105, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 101, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+			} },
+
+		};
+
+
+		public static Dictionary<(int, string), List<EntityData>> EntititesToUpdateOld = new()
 		{
 			 // Overworld
 			{ (10, "ev_e_0025"), new() {

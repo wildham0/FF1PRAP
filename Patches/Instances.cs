@@ -56,5 +56,11 @@ namespace FF1PRAP
 				FF1PR.OwnedItemsClient = __instance;
 			}
 		}
+		// Resource Manager
+		public static void GetResourceManager_Post(ResourceManager __instance)
+		{
+			FF1PR.ResourceManager = __instance;
+		}
+
 	}
 }

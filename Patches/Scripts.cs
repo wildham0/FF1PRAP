@@ -10,6 +10,9 @@ using UnityEngine;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
+using static Last.Map.Custom.MapCustomProperties;
+using Last.Data.Master;
+using UnityEngine.Assertions;
 
 namespace FF1PRAP
 {
@@ -19,7 +22,76 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"Running {scriptName} on {FF1PR.CurrentMap}");
 
-			if (scriptReplacements.TryGetValue(scriptName, out var script))
+
+			if (scriptName.Split('_')[0] == "ms")
+			{
+				//var script = ScriptBuilder.FromScript(Scripts.testscript, "testscript");
+				var script = ScriptBuilder.FromScript(Scripts.DwarfMap, "sc_dwarf");
+				//script = script.Replace("MAP_ENTITIES", "sc_map_20051_1");
+				//script = script.Replace("MAP_ENTITIES", "Map_20051_1");
+
+				InternalLogger.LogInfo($"Map Name: {FF1PR.MapManager.currentMapModel.GetMapName()}");
+				/*
+				foreach (var group in FF1PR.MapManager.currentMapModel.allEntityGroupList)
+				{
+					InternalLogger.LogInfo($"Entity Group: {group.key}");
+				}*/
+
+				//FF1PR.FieldController.ChangeViewBird();
+				/*
+				for (int i = 0; i < 200; i++)
+				{
+					var entity = FF1PR.FieldController.GetFieldEntity(i);
+
+					if (entity != null)
+					{
+						if (entity.Property != null)
+						{
+							InternalLogger.LogInfo($"Entity: {i} - {entity.Property.Name} - {entity.Property.EntityId}");
+						}
+						else
+						{
+							InternalLogger.LogInfo($"Entity: {i} - No prop");
+						}
+						
+					}
+				}*/
+
+				foreach (var resource in FF1PR.ResourceManager.completeAssetDic)
+				{
+
+					InternalLogger.LogInfo($"Resources: {resource.key}");
+				}
+
+				
+
+				//FF1PR.FieldController.ResetMap();
+				/*
+				foreach (var entity in FF1PR.FieldController.entityList)
+				{
+					InternalLogger.LogInfo($"Entity: {entity.Property.EntityId} - {entity.Property.Name}");
+				}
+				*/
+
+
+				//var test = 
+
+
+
+
+				/*
+				foreach (var layer in __instance.GetEventEntityList())
+				{
+					InternalLogger.LogInfo($"Layer Group: {layer.key}");
+					
+				}
+
+				__instance.GetTileMapData().layers = __instance.GetTileMapData().layers.Where(l => l.id != 31 && l.id != 32).ToArray();
+				*/
+				TextAsset scriptAsset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, script);
+				__result = scriptAsset;
+			}
+			else if (scriptReplacements.TryGetValue(scriptName, out var script))
 			{
 				if (Randomizer.ScriptToItemFlag.TryGetValue(scriptName, out var locationflag))
 				{
@@ -108,7 +180,7 @@ namespace FF1PRAP
 			{ "sc_e_0001", ScriptBuilder.FromScript(Scripts.Intro, "sc_e_0001") }, // Intro script
 			{ "sc_map_10010", ScriptBuilder.FromJson("sc_overworld") }, // Intro script
 			// { "sc_map_20020", new ScriptBuilder("sc_empty") }, // Coneria Town
-			 { "sc_map_20011_1", ScriptBuilder.FromJson("sc_coneriacastle") }, // Coneria Castle
+			 { "sc_map_20011_1", ScriptBuilder.FromScript(Scripts.ConeriaCastle, "sc_map_20011_1") }, // Coneria Castle
 			// { "sc_e_0002_2", new ScriptBuilder("sc_empty") }, // Go see the king
 			// { "sc_e_0002_1", new ScriptBuilder("sc_empty") }, // Talk King
 			{ "sc_map_30011_1", ScriptBuilder.FromScript(Scripts.TempleOfFiends, "sc_templeoffiends") }, // ToF Map
@@ -123,6 +195,7 @@ namespace FF1PRAP
 			{ "sc_e_0009", ScriptBuilder.FromJson("sc_bikke_01") }, // Bikke
 			{ "sc_e_0009_2", ScriptBuilder.FromJson("sc_bikke_02") }, // Bikke post fight
 			// { "sc_e_0010", ScriptBuilder.FromScript(Scripts.CrownScript, "sc_crownchest_01") }, // Crown Chest, Crown map checks correctly for key
+			{ "sc_map_30021_3", ScriptBuilder.FromJson("sc_marsh_bottom") }, // Marsh Bottom
 			{ "sc_e_0010_1", ScriptBuilder.FromScript(Scripts.MarshChest, "sc_crownchest_01") }, // Crown post fight
 			{ "sc_map_20081_1", ScriptBuilder.FromScript(Scripts.NWCastle, "sc_nwcastle_01") }, // NW Castle
 			{ "sc_e_0011", ScriptBuilder.FromJson("sc_astos_01") }, // Astos
@@ -143,7 +216,8 @@ namespace FF1PRAP
 			{ "sc_e_0015", ScriptBuilder.FromJson("sc_nerrick_01") }, // Nerrick
 			{ "sc_e_0015_2", ScriptBuilder.FromJson("sc_nerrick_02") }, // Nerrick post canal
 			{ "sc_e_0052", ScriptBuilder.FromJson("sc_smitt") }, // Smitt
-			{ "sc_map_30031_3", ScriptBuilder.FromScript(Scripts.EarthB3, "sc_earthb3fmap_01") }, // Earth B3
+			{ "sc_map_20090", ScriptBuilder.FromScript(Scripts.Melmond, "sc_melmond_01") }, // Melmond
+			{ "sc_map_30031_3", ScriptBuilder.FromJson("sc_earth_b3") }, // Earth B3
 			//{ "sc_e_0016", new ScriptBuilder("sc_empty") }, // Vampire
 			//{ "sc_e_0016_2", new ScriptBuilder("sc_empty") }, // Vampire Post fight
 			{ "sc_e_0017", ScriptBuilder.FromScript(Scripts.VampireChest, "sc_vampirechest_01") }, // Ruby Chest
@@ -172,9 +246,10 @@ namespace FF1PRAP
 			//{ "sc_map_20150", new ScriptBuilder("sc_empty") }, // Gaia
 			//{ "sc_e_0028", new ScriptBuilder("sc_empty") }, // Fairy release
 			{ "sc_e_0029", ScriptBuilder.FromJson("sc_fairy") }, // Fairy
-			{ "sc_map_30091", ScriptBuilder.FromScript(Scripts.Waterfall, "sc_waterfall") }, // Waterfall
+			{ "sc_map_30091_1", ScriptBuilder.FromScript(Scripts.Waterfall, "sc_waterfall") }, // Waterfall
 			{ "sc_e_0026", ScriptBuilder.FromJson("sc_cubebot") }, // CubeBot
-			//{ "sc_e_0030", new ScriptBuilder("sc_empty") }, // SubEngineer
+			{ "sc_map_20130", ScriptBuilder.FromJson("sc_onrac") }, // Onrac
+			{ "sc_subeng", ScriptBuilder.FromScript(Scripts.SubEngineer, "sc_subeng") }, // SubEngineer
 			//{ "sc_e_0031", new ScriptBuilder("sc_empty") }, // SubStuff
 			//{ "sc_e_0031_1", new ScriptBuilder("sc_empty") }, // SubStuff
 			{ "sc_e_0033", ScriptBuilder.FromScript(Scripts.MermaidsChest, "sc_mermaidschest") }, // Slab Chest
@@ -183,7 +258,7 @@ namespace FF1PRAP
 			//{ "sc_e_0034", new ScriptBuilder("sc_empty") }, // Dr.Unne
 			{ "sc_map_20160", ScriptBuilder.FromScript(Scripts.Lefein, "sc_lefeinmap") }, // Lefeinman
 			{ "sc_e_0035", ScriptBuilder.FromJson("sc_lefeinman") }, // Lefeinman
-			//{ "sc_war_30101_1", new ScriptBuilder("sc_empty") }, // Cube Warp
+			{ "sc_map_30101_3", ScriptBuilder.FromJson("sc_cubewarp") }, // Cube Warp
 			{ "sc_map_30111_2", ScriptBuilder.FromScript(Scripts.Sky2F, "sc_sky2fmap") }, // Sky 2F
 			{ "sc_e_0051", ScriptBuilder.FromJson("sc_sky_chest") }, // SkyChest
 			//{ "sc_e_0037", new ScriptBuilder("sc_empty") }, // Tiamat
@@ -193,6 +268,9 @@ namespace FF1PRAP
 			{ "sc_e_0044", ScriptBuilder.FromJson("sc_chaos_fight") }, // Chaos
 			{ "sc_chaosdefeated", ScriptBuilder.FromScript(Scripts.ChaosDefeated, "sc_chaosdefeated") }, // Chaos Post fight
 			//{ "sc_e_0044_1", new ScriptBuilder("sc_empty") }, // Chaos Post fight
+			{ "ms_test", ScriptBuilder.FromScript(Scripts.testscript, "ms_test") }, // Lute Slab
+			{ "sc_empty", ScriptBuilder.FromJson("sc_empty") }, // Chaos Post fight
+			{ "sc_comeback", ScriptBuilder.FromScript(Scripts.comeback, "sc_combeack") }, // Chaos Post fight
 		};
 	}
 
@@ -214,6 +292,15 @@ namespace FF1PRAP
 			"ChangeScript sc_map_10010",
 			"Exit",
 		};
+		public static List<string> ConeriaCastle = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"SetFlag ScenarioFlag4 143",
+			"SysCall MapEntryRoofControl",
+			"SetEntities ev_e_0014",
+			"Exit"
+		};
 		public static List<string> Garland = new()
 		{
 			"Sub Main:",
@@ -230,17 +317,7 @@ namespace FF1PRAP
 			"Nop",
 			"SetFlag ScenarioFlag4 138",
 			"SysCall MapEntryRoofControl",
-			$"Branch ScenarioFlag1 {(int)ScenarioFlags.PrincessSaved} [PrincessSaved]",
-			"SetEntities ev_e_0003",
-			$"Branch ScenarioFlag1 {(int)ScenarioFlags.MysticKey} [HasMysticKey]",
-			"Exit",
-			"HasMysticKey:",
-			"Nop",
-			"SetEntities ev_e_0014",
-			"Exit",
 			// Will probably need to change has new conditions are added?
-			"PrincessSaved:",
-			"Nop",
 			$"Branch ScenarioFlag1 {(int)ScenarioFlags.LichDefeated} [LichDefeated]",
 			"SetEntities ev_e_0014",
 			"Exit",
@@ -313,24 +390,7 @@ namespace FF1PRAP
 			"Nop",
 			"SetFlag ScenarioFlag4 152",
 			"SysCall MapEntryRoofControl",
-			$"Branch TreasureFlag1 {(int)TreasureFlags.Astos} [AstosDefeated]",
-			$"Branch ScenarioFlag1 {(int)ScenarioFlags.Crown} [HasCrown]",
 			"SetEntities ev_e_0010",
-			"Jump [CheckKey]",
-			"HasCrown:",
-			"Nop",
-			"SetEntities ev_e_0011",
-			"Jump [CheckKey]",
-			"AstosDefeated:",
-			"Nop",
-			"SetEntities ev_e_0012",
-			"CheckKey:",
-			"Nop",
-			$"Branch ScenarioFlag1 {(int)ScenarioFlags.MysticKey} [HasKey]",
-			"Exit",
-			"HasKey:",
-			"Nop",
-			"SetEntities ev_e_0014",
 			"Exit"
 		};
 
@@ -361,17 +421,7 @@ namespace FF1PRAP
 			"Nop",
 			"SetFlag ScenarioFlag4 155",
 			"SysCall MapEntryRoofControl",
-			$"Branch TreasureFlag1 {(int)TreasureFlags.Matoya} [TreasureGiven]",
-			$"Branch ScenarioFlag1 {(int)ScenarioFlags.CrystalEye} [EyeFound]",
-			"SetEntities ev_e_0008",
-			"Exit",
-			"EyeFound:",
-			"Nop",
 			"SetEntities ev_e_0012",
-			"Exit",
-			"TreasureGiven:",
-			"Nop",
-			"SetEntities ev_e_0013",
 			"Exit"
 		};
 		public static List<string> ConeriaChest = new()
@@ -386,6 +436,14 @@ namespace FF1PRAP
 			"Sub Main:",
 			"Nop",
 			"SetEntities ev_e_0014",
+			"Exit"
+		};
+		public static List<string> Melmond = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"SetFlag ScenarioFlag4 157",
+			"SetEntities ev_e_0034",
 			"Exit"
 		};
 		public static List<string> EarthB3 = new()
@@ -417,6 +475,11 @@ namespace FF1PRAP
 			"Sub Main:",
 			"Nop",
 			$"Branch TreasureFlag1 {(int)TreasureFlags.Sarda} [TreasureGiven]",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.VampireDefeated} [VampireDefeated]",
+			"Msg MSG_SAG_CAV_02",
+			"Exit",
+			"VampireDefeated:",
+			"Nop",
 			"Msg MSG_GET_STICK_01",
 			"MsgFunfare MSG_GET_STICK_02",
 			"GetItem RANDOITEM RANDOQTY",
@@ -483,6 +546,18 @@ namespace FF1PRAP
 			"HasCrown:",
 			"Nop",
 			"ChangeScript sc_e_0046",
+			"Exit",
+		};
+		public static List<string> SubEngineer = new()
+		{
+			"Sub Main:",
+			"Nop",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.Oxyale} [HasOxyale]",
+			"Msg MSG_ORK_CTY_14",
+			"Exit",
+			"HasOxyale:",
+			"Nop",
+			"ChangeScript sc_e_0030",
 			"Exit",
 		};
 		public static List<string> OrdealsChest = new()
@@ -563,6 +638,24 @@ namespace FF1PRAP
 			$"SetFlag ScenarioFlag1 {(int)ScenarioFlags.ChaosDefeated}",
 			"ChangeScript sc_e_0044_1",
 			"Exit",
+		};
+		public static List<string> testscript = new()
+		{
+			"MainSub:",
+			"Nop",
+			//"AddTelepoCache 72 2 21 1",
+			"ChangeScript sc_map_20051_1",
+			//"ChangeMap 21 1 sc_comeback",
+			"Exit"
+		};
+
+		public static List<string> comeback = new()
+		{
+			"MainSub:",
+			"Nop",
+			"FadeIn 0.7 255",
+			"ChangeScript sc_map_20051_1",
+			"Exit"
 		};
 
 	};

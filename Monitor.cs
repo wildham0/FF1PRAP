@@ -9,6 +9,7 @@ using System;
 using Last.Message;
 using static UnityEngine.GridBrushBase;
 using Il2CppSystem;
+using Last.Data.Master;
 
 namespace FF1PRAP
 {
@@ -26,6 +27,23 @@ namespace FF1PRAP
 		NewGame,
 		None
 	}
+	public class AssetTask
+	{
+		public string Name;
+		public bool Ready;
+		public bool Done;
+		public Last.Management.ResourceLoadTask Task;
+		public TextAsset Asset;
+
+		public AssetTask(string name, Last.Management.ResourceLoadTask task, TextAsset asset)
+		{
+			Name = name;
+			Ready = false;
+			Task = task;
+			Asset = asset;
+			Done = false;
+		}
+	}
 	public class MonitorTool
 	{
 
@@ -33,14 +51,30 @@ namespace FF1PRAP
 		public ProcessStates ProcessState = ProcessStates.InitGame;
 		public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
 		private bool newGameProcessed = false;
+
+		public List<AssetTask> tasksToMonitor;
 		public MonitorTool()
 		{
 			FF1PR.SessionManager.GameMode = GameModes.Archipelago;
+			tasksToMonitor = new();
 		}
 
 		public void Update()
 		{
 			ProcessGameState();
+			ProcessAssets();
+
+			/*
+			if(FF1PR.MapManager != null && FF1PR.MapManager.currentMapModel != null)
+			{
+				InternalLogger.LogInfo($"Map: {FF1PR.MapManager.currentMapModel.GetMapName()} - {FF1PR.MapManager.IsAllCompleted()}");
+			}
+
+			if (FF1PR.ScriptIntegrator != null)
+			{
+				InternalLogger.LogInfo($"Map: {FF1PR.ScriptIntegrator.scriptName} - {FF1PR.ScriptIntegrator.working}");
+			}*/
+
 
 			if (FF1PR.SessionManager.GameMode == GameModes.Vanilla)
 			{
@@ -117,6 +151,28 @@ namespace FF1PRAP
 			}
 		}
 
+		private void ProcessAssets()
+		{
+
+			tasksToMonitor = tasksToMonitor.Where(t => !t.Done).ToList();
+
+			foreach (var task in tasksToMonitor)
+			{
+				task.Ready = task.Task.CheckComplete();
+				
+				if (task.Ready)
+				{
+					var asset = FF1PR.ResourceManager.GetAsset<TextAsset>(task.Name);
+					if (asset != null)
+					{
+						FF1PR.ResourceManager.completeAssetDic[task.Name] = task.Asset;
+						task.Done = true;
+						InternalLogger.LogInfo($"Asset {task.Name} modified.");
+					}
+				}
+				//InternalLogger.LogInfo($"AssetTask: {task.Ready}");
+			}
+		}
 	}
 
 	public class Monitor : MonoBehaviour
@@ -142,6 +198,11 @@ namespace FF1PRAP
 		public void SetLoadingState(SystemIndicator.Mode mode)
 		{
 			tool.LoadingState = mode;
+		}
+
+		public void SetAssetTask(string name, TextAsset asset, Last.Management.ResourceLoadTask task)
+		{
+			tool.tasksToMonitor.Add(new AssetTask(name, task, asset));
 		}
 		public int GetGameState()
 		{

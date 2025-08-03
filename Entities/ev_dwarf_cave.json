@@ -1,0 +1,2587 @@
+{
+  "id": 30,
+  "layers": [
+    {
+      "draworder": "topdown",
+      "id": 32,
+      "name": "BottomObject",
+      "objects": [
+        {
+          "gid": 2048,
+          "height": 16,
+          "id": 53,
+          "name": "\u30c9\u30ef\u30fc\u30d5(\u30b9\u30df\u30b9)(\u8d64\u306e\u7fbd\u6839\u3064\u304d\u5e3d\u5b50)",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 2
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "all_layers",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 63
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 40
+            },
+            {
+              "name": "eye_contact",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "first_interval",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "idling",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "move_interval_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_speed_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_step",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_type",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "move_while_display_message",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "pushed",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 71
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_character_status_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "turn_around",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 288,
+          "y": 112
+        },
+        {
+          "gid": 2027,
+          "height": 16,
+          "id": 66,
+          "name": "\u30d3\u30c3\u30af\u30ea\u30de\u30fc\u30af1",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 156
+            },
+            {
+              "name": "background",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "blend_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "building",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "collision",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 41
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "front",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_h_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 10
+            },
+            {
+              "name": "play_on_awake",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "split",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "zoffset",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -32,
+          "y": 64
+        },
+        {
+          "gid": 2048,
+          "height": 16,
+          "id": 70,
+          "name": "\u30a2\u30c0\u30de\u30f3\u30bf\u30a4\u30c8",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "all_layers",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 119
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 42
+            },
+            {
+              "name": "eye_contact",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "first_interval",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "idling",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "move_interval_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_speed_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_step",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_while_display_message",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "pushed",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_character_status_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "turn_around",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -64,
+          "y": 64
+        },
+        {
+          "gid": 2048,
+          "height": 16,
+          "id": 71,
+          "name": "\u30c8\u30f3\u30ab\u30c1",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "all_layers",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 116
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 43
+            },
+            {
+              "name": "eye_contact",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "first_interval",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "idling",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "move_interval_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_speed_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_step",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_while_display_message",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "pushed",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_character_status_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "turn_around",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -96,
+          "y": 64
+        },
+        {
+          "gid": 2048,
+          "height": 16,
+          "id": 72,
+          "name": "\u30a8\u30af\u30b9\u30ab\u30ea\u30d0\u30fc",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "all_layers",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 120
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 44
+            },
+            {
+              "name": "eye_contact",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "first_interval",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "idling",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "move_interval_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_speed_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_step",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_while_display_message",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "pushed",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_character_status_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "turn_around",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -96,
+          "y": 96
+        },
+        {
+          "gid": 2017,
+          "height": 16,
+          "id": 116,
+          "name": "ToUpper",
+          "properties": [
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 80
+            },
+            {
+              "name": "layer",
+              "type": "int",
+              "value": 2
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 224,
+          "y": 880
+        },
+        {
+          "gid": 2023,
+          "height": 16,
+          "id": 117,
+          "name": "OpenTrigger",
+          "properties": [
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 5
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 81
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "se_id",
+              "type": "int",
+              "value": 9
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 224,
+          "y": 864
+        },
+        {
+          "gid": 2048,
+          "height": 16,
+          "id": 147,
+          "name": "smitt",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "all_layers",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 63
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 127
+            },
+            {
+              "name": "eye_contact",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "first_interval",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "idling",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": "MSG_DWF_CAV_01"
+            },
+            {
+              "name": "move_interval_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_speed_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_step",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_type",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "move_while_display_message",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "pushed",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_character_status_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "turn_around",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 288,
+          "y": 112
+        },
+        {
+          "gid": 2048,
+          "height": 16,
+          "id": 2,
+          "name": "\u30c9\u30ef\u30fc\u30d5(\u30b9\u30df\u30b9)(\u8d64\u306e\u7fbd\u6839\u3064\u304d\u5e3d\u5b50)",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "all_layers",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 63
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 39
+            },
+            {
+              "name": "eye_contact",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "first_interval",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "idling",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": "MSG_DWF_CAV_02"
+            },
+            {
+              "name": "move_interval_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_speed_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_step",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_type",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "move_while_display_message",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "pushed",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_character_status_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "turn_around",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 288,
+          "y": 112
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "draworder": "topdown",
+      "id": 31,
+      "name": "UpperObject",
+      "objects": [
+        {
+          "gid": 2023,
+          "height": 16,
+          "id": 114,
+          "name": "OpenTrigger",
+          "properties": [
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 5
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 82
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "se_id",
+              "type": "int",
+              "value": 9
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 224,
+          "y": 864
+        },
+        {
+          "gid": 2019,
+          "height": 16,
+          "id": 115,
+          "name": "ToBottom",
+          "properties": [
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 84
+            },
+            {
+              "name": "layer",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 224,
+          "y": 864
+        },
+        {
+          "gid": 2048,
+          "height": 16,
+          "id": 119,
+          "name": "\u30c9\u30ef\u30fc\u30d5(\u30cd\u30ea\u30af)(\u7dd1\u306e\u5e3d\u5b50)",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "all_layers",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 62
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 52
+            },
+            {
+              "name": "eye_contact",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "first_interval",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "idling",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": "MSG_DWF_CAV_16"
+            },
+            {
+              "name": "move_interval_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_speed_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_step",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_type",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "move_while_display_message",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "pushed",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_character_status_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "turn_around",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 416,
+          "y": 848
+        },
+        {
+          "gid": 2025,
+          "height": 16,
+          "id": 113,
+          "name": "\u30ab\u30ae\u306e\u304b\u304b\u3063\u305f\u6249",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "background",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "collision",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "confirm_landing",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 90
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "front",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "gimmick",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "interactive_icon_h_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_type",
+              "type": "int",
+              "value": 5
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": "MSG_WST_CAS_03"
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 5
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "se_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 224,
+          "y": 864
+        },
+        {
+          "gid": 2048,
+          "height": 16,
+          "id": 54,
+          "name": "\u30c9\u30ef\u30fc\u30d5(\u30cd\u30ea\u30af)(\u7dd1\u306e\u5e3d\u5b50)",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 2
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "all_layers",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 62
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 45
+            },
+            {
+              "name": "eye_contact",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "first_interval",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "idling",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 12
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "message_key",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "move_interval_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_speed_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_step",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "move_type",
+              "type": "int",
+              "value": 1
+            },
+            {
+              "name": "move_while_display_message",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "pushed",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 30
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "target_character_status_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "turn_around",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 416,
+          "y": 848
+        },
+        {
+          "gid": 2027,
+          "height": 16,
+          "id": 59,
+          "name": "\u30d3\u30c3\u30af\u30ea\u30de\u30fc\u30af1",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 156
+            },
+            {
+              "name": "background",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "blend_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "building",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "collision",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 46
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "front",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_h_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 10
+            },
+            {
+              "name": "play_on_awake",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "split",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "zoffset",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -32,
+          "y": 832
+        },
+        {
+          "gid": 2027,
+          "height": 16,
+          "id": 60,
+          "name": "\u30d3\u30c3\u30af\u30ea\u30de\u30fc\u30af2",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 156
+            },
+            {
+              "name": "background",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "blend_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "building",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "collision",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 47
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "front",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_h_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 10
+            },
+            {
+              "name": "play_on_awake",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "split",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "zoffset",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -64,
+          "y": 832
+        },
+        {
+          "gid": 2027,
+          "height": 16,
+          "id": 61,
+          "name": "\u30d3\u30c3\u30af\u30ea\u30de\u30fc\u30af3",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 156
+            },
+            {
+              "name": "background",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "blend_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "building",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "collision",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "front",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_h_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 10
+            },
+            {
+              "name": "play_on_awake",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "split",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "zoffset",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -64,
+          "y": 848
+        },
+        {
+          "gid": 2027,
+          "height": 16,
+          "id": 62,
+          "name": "\u30d3\u30c3\u30af\u30ea\u30de\u30fc\u30af4",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 156
+            },
+            {
+              "name": "background",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "blend_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "building",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "collision",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 49
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "front",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_h_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 10
+            },
+            {
+              "name": "play_on_awake",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "split",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "zoffset",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -64,
+          "y": 864
+        },
+        {
+          "gid": 2027,
+          "height": 16,
+          "id": 63,
+          "name": "\u30d3\u30c3\u30af\u30ea\u30de\u30fc\u30af5",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 156
+            },
+            {
+              "name": "background",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "blend_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "building",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "collision",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 50
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "front",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_h_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 10
+            },
+            {
+              "name": "play_on_awake",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "split",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "zoffset",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -64,
+          "y": 880
+        },
+        {
+          "gid": 2027,
+          "height": 16,
+          "id": 64,
+          "name": "\u30d3\u30c3\u30af\u30ea\u30de\u30fc\u30af6",
+          "properties": [
+            {
+              "name": "accept_action_direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "action_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "affected",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "asset_id",
+              "type": "int",
+              "value": 156
+            },
+            {
+              "name": "background",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "birdview_puppet",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "blend_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "building",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "collision",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 15
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 51
+            },
+            {
+              "name": "flight_altitude_ratio",
+              "type": "float",
+              "value": 1
+            },
+            {
+              "name": "front",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "interactive_icon_h_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "interactive_icon_v_offset",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 10
+            },
+            {
+              "name": "play_on_awake",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "script_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "split",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "talk_target_transportation_ids",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "visible_minimap",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "zoffset",
+              "type": "int",
+              "value": -1
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": -96,
+          "y": 832
+        }
+      ],
+      "opacity": 1,
+      "type": "objectgroup",
+      "visible": true,
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "name": "ev_e_0014",
+  "opacity": 1,
+  "type": "group",
+  "visible": true,
+  "x": 0,
+  "y": 0,
+  "width": 46,
+  "height": 67
+}

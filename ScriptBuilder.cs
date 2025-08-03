@@ -87,7 +87,10 @@ namespace FF1PRAP
 			{ "Nop2", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Nop\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 2,\"comment\": \"\"}," },
 			{ "Exit2", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Exit\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 2,\"comment\": \"\"}," },
 			{ "ChangeScript", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ChangeScript\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
+			{ "ChangeMap", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ChangeMap\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_2\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
+			{ "AddTelepoCache", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"AddTelepoCache\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,ARG_3,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
 		};
+
 
 		private List<ScriptSegment> addedSegments;
 		private List<Label> segmentLabels;

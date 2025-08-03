@@ -24,11 +24,14 @@ namespace FF1PRAP
 		}
 		public static void Items_Postfix(Content targetData, int count)
 		{
+
 			if (Randomizer.ItemIdToFlag.TryGetValue(targetData.Id, out var flag))
 			{
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, flag, 1);
 
 				InternalLogger.LogInfo($"Flag {flag} set by item");
+				
+				UpdateEntities();
 
 				// Update transport
 				for (int i = 0; i < FF1PR.UserData.OwnedTransportationList.Count; i++)
@@ -77,38 +80,10 @@ namespace FF1PRAP
 					ApItemWindow.instance.QueueMessage(itemMessage);
 				}
 
-
-				//var test = new Il2CppSystem.Collections.Generic.List<Last.Systems.Message.BaseContent>();
-
-				/*
-				if (MessageWindowManager.instance != null)
-				{
-					Il2CppSystem.Collections.Generic.List<Last.Systems.Message.BaseContent> test = Last.Systems.Message.MessageParser.Parse($"Hello, hello! {itemdata.Id}");
-					//MessageWindowManager.instance.EndWaitExit();
-					MessageWindowManager.instance.Close();
-					//MessageWindowManager.instance.SetNextState(MessageWindowManager.State.None);
-					if (itemdata.Id == 4)
-					{
-						//MessageWindowManager.instance.SetWindowType(Last.Management.WindowType.Field);
-						MessageWindowManager.instance.SetContent(test);
-						MessageWindowManager.instance.SetAnchor(Last.Management.WindowType.Battle, Last.Management.WindowAnchor.Under);
-						MessageWindowManager.instance.ShowWindow(true);
-						MessageWindowManager.instance.Play();
-					}
-
-
-
-				}
-				*/
-
-				//var test = new Last.Interpreter.Instructions.Message.MessageWindowParams(1, 2);
-				//Message.PlayMessageCommon("MSG_WND_DAN_04", test, true);
 				return ItemResults.Success;
 			}
 			else
 			{
-				//var test = FF1PR.UserData.
-				
 				return ItemResults.Busy;
 			}
 		}

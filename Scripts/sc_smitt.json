@@ -183,7 +183,7 @@
       "mnemonic": "Branch",
       "operands": {
         "iValues": [
-          48,
+          405,
           1,
           32,
           0,
@@ -203,7 +203,7 @@
           0
         ],
         "sValues": [
-          "ScenarioFlag1",
+          "TreasureFlag1",
           "＝",
           "imm",
           "",

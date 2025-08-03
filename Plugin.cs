@@ -29,7 +29,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.1.6";
+	public const string VERSION = "0.1.8";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -46,6 +46,8 @@ public class FF1PR : BasePlugin
 	public static FieldController FieldController;
 	public static OwnedItemClient OwnedItemsClient;
 	public static MainGame MainGame;
+	public static ResourceManager ResourceManager;
+	public static Integrator ScriptIntegrator;
 
 	// save stuff at save load 
 	public static SaveSlotManager SaveManager;
@@ -55,7 +57,7 @@ public class FF1PR : BasePlugin
 
 	// Settings
 	public static SessionManager SessionManager;
-	public static string CurrentMap => FF1PR.MapManager.CurrentMapModel.AssetData.MapName;
+	public static string CurrentMap => FF1PR.MapManager != null ? FF1PR.MapManager.CurrentMapModel.AssetData.MapName : "None";
 	public static Dictionary<int, ItemData> PlacedItems;
 	public static GameStates GameState => Monitor.instance != null ? (GameStates)Monitor.instance.GetGameState() : GameStates.Title;
 	//public static GameStates GameState => GameStates.Title;
@@ -93,7 +95,8 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.MapAssetData), "GetScript"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetScript_Postfix")));
 
 		// Entities Patch
-		harmony.Patch(AccessTools.Method(typeof(MapUtility), "ParseMapObjectGroupData"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "ParseMapObjectGroupData_Prefix")));
+		//harmony.Patch(AccessTools.Method(typeof(MapUtility), "ParseMapObjectGroupData"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "ParseMapObjectGroupData_Prefix")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "SetupEntities"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "SetupEntities_Post")));
 
 		// Instances
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.MessageManager), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "MessageManagerInit_Postfix")));
@@ -121,6 +124,15 @@ public class FF1PR : BasePlugin
 		
 		// Loading State
 		harmony.Patch(AccessTools.Method(typeof(Last.Systems.Indicator.SystemIndicator), "Activate"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetLoadingState_Post")));
+
+		// Resource Manager
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetResourceManager_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "AddLoadingTask"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "AddLoadingTask_Pre")));
+
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "GetAsset"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetAsset_Pre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "EntitiesSetup"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "EntitiesSetup_Post")));
+		
+		//harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "InitPlayerStatePlay"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "InitPlayerStatePlay_Post")));
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
 	{
