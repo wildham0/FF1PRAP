@@ -154,7 +154,6 @@ namespace FF1PRAP
 				{
 					var fieldentity = FF1PR.FieldController.GetFieldEntity(entity.EntityId);
 
-
 					if (fieldentity != null)
 					{
 						bool met = true;
@@ -210,7 +209,7 @@ namespace FF1PRAP
 			} },
 			// Temple of Fiend
 			{ "Map_30011_1", new() {
-				new EntityData() { EntityId = 85, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.PrincessSaved, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 32, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.PrincessSaved, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
 				new EntityData() { EntityId = 33, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.PrincessSaved, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
 				new EntityData() { EntityId = 88, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
 				new EntityData() { EntityId = 89, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },

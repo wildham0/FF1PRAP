@@ -22,76 +22,7 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"Running {scriptName} on {FF1PR.CurrentMap}");
 
-
-			if (scriptName.Split('_')[0] == "ms")
-			{
-				//var script = ScriptBuilder.FromScript(Scripts.testscript, "testscript");
-				var script = ScriptBuilder.FromScript(Scripts.DwarfMap, "sc_dwarf");
-				//script = script.Replace("MAP_ENTITIES", "sc_map_20051_1");
-				//script = script.Replace("MAP_ENTITIES", "Map_20051_1");
-
-				InternalLogger.LogInfo($"Map Name: {FF1PR.MapManager.currentMapModel.GetMapName()}");
-				/*
-				foreach (var group in FF1PR.MapManager.currentMapModel.allEntityGroupList)
-				{
-					InternalLogger.LogInfo($"Entity Group: {group.key}");
-				}*/
-
-				//FF1PR.FieldController.ChangeViewBird();
-				/*
-				for (int i = 0; i < 200; i++)
-				{
-					var entity = FF1PR.FieldController.GetFieldEntity(i);
-
-					if (entity != null)
-					{
-						if (entity.Property != null)
-						{
-							InternalLogger.LogInfo($"Entity: {i} - {entity.Property.Name} - {entity.Property.EntityId}");
-						}
-						else
-						{
-							InternalLogger.LogInfo($"Entity: {i} - No prop");
-						}
-						
-					}
-				}*/
-
-				foreach (var resource in FF1PR.ResourceManager.completeAssetDic)
-				{
-
-					InternalLogger.LogInfo($"Resources: {resource.key}");
-				}
-
-				
-
-				//FF1PR.FieldController.ResetMap();
-				/*
-				foreach (var entity in FF1PR.FieldController.entityList)
-				{
-					InternalLogger.LogInfo($"Entity: {entity.Property.EntityId} - {entity.Property.Name}");
-				}
-				*/
-
-
-				//var test = 
-
-
-
-
-				/*
-				foreach (var layer in __instance.GetEventEntityList())
-				{
-					InternalLogger.LogInfo($"Layer Group: {layer.key}");
-					
-				}
-
-				__instance.GetTileMapData().layers = __instance.GetTileMapData().layers.Where(l => l.id != 31 && l.id != 32).ToArray();
-				*/
-				TextAsset scriptAsset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, script);
-				__result = scriptAsset;
-			}
-			else if (scriptReplacements.TryGetValue(scriptName, out var script))
+			if (scriptReplacements.TryGetValue(scriptName, out var script))
 			{
 				if (Randomizer.ScriptToItemFlag.TryGetValue(scriptName, out var locationflag))
 				{

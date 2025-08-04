@@ -154,9 +154,9 @@ namespace FF1PRAP
 		private void ProcessAssets()
 		{
 
-			tasksToMonitor = tasksToMonitor.Where(t => !t.Done).ToList();
+			//tasksToMonitor = tasksToMonitor.Where(t => !t.Done).ToList();
 
-			foreach (var task in tasksToMonitor)
+			foreach (var task in tasksToMonitor.Where(t => !t.Done).ToList())
 			{
 				task.Ready = task.Task.CheckComplete();
 				
@@ -170,7 +170,18 @@ namespace FF1PRAP
 						InternalLogger.LogInfo($"Asset {task.Name} modified.");
 					}
 				}
-				//InternalLogger.LogInfo($"AssetTask: {task.Ready}");
+				InternalLogger.LogInfo($"AssetTask: {task.Ready}");
+			}
+		}
+		public bool IsTaskDone(string assetName)
+		{
+			if (tasksToMonitor.TryFind(t => t.Name == assetName, out var task))
+			{
+				return task.Done;
+			}
+			else
+			{
+				return true;
 			}
 		}
 	}
@@ -208,6 +219,12 @@ namespace FF1PRAP
 		{
 			return (int)tool.GameState;
 		}
-    }
+
+		public bool IsTaskDone(string assetName)
+		{
+			return tool.IsTaskDone(assetName);
+		}
+
+	}
 
 }

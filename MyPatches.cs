@@ -29,6 +29,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using JetBrains.Annotations;
 using Steamworks;
 using Last.Systems.Indicator;
+using Il2CppSystem.Threading.Tasks;
 
 namespace FF1PRAP
 {//[HarmonyPatch("GetExp")]
@@ -561,6 +562,29 @@ namespace FF1PRAP
 		public static void InitPlayerStatePlay_Post()
 		{
 			InternalLogger.LogInfo($"FieldController: Player State Init.");
+		}
+
+		public static void TaskCheckComplete_Post(ref bool __result, ResourceLoadTask __instance)
+		{
+			/*
+			if (__result)
+			{
+				var name = __instance.GetAssetName();
+
+
+
+			}*/
+
+
+			InternalLogger.LogInfo($"TaskLoad Check: {__instance.GetAssetName()} - {__result}");
+		}
+
+
+
+		public static void CheckGroupLoadAssetCompleted2_Post(bool __result, string groupName, string assetName)
+		{
+			InternalLogger.LogInfo($"RessourceManager check: {assetName} - {__result}.");
+
 		}
 	}
 

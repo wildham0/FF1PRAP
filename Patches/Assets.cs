@@ -1,4 +1,5 @@
-﻿using Last.Data.Master;
+﻿using Il2CppSystem.Threading.Tasks;
+using Last.Data.Master;
 using Last.Entity.Field;
 using Last.Management;
 using Last.Message;
@@ -14,6 +15,8 @@ namespace FF1PRAP
 {
 	partial class Patches
 	{
+
+
 		public static void AddLoadingTask_Pre(string addressName, ref ResourceLoadTask task)
 		{
 			if (assetsToReplace.TryGetValue(addressName, out var assetfilename))
@@ -25,6 +28,38 @@ namespace FF1PRAP
 				Monitor.instance.SetAssetTask(addressName, textasset, task);
 				InternalLogger.LogInfo($"Asset loading task added for {assetname} > {assetfilename}");
 			}
+		}
+
+
+		public static void CheckGroupLoadAssetCompleted_Post(ref bool __result, string addressName)
+		{
+			//InternalLogger.LogInfo($"RessourceManager check: {addressName} - {__result}.");
+			/*
+			if (__result)
+			{
+				if (Monitor.instance != null)
+				{
+					__result = Monitor.instance.IsTaskDone(addressName);
+				}
+			}*/
+
+			
+
+			if (assetsToReplace.TryGetValue(addressName, out var assetfilename))
+			{
+				var assetfile = GetFile(assetfilename);
+				var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assetfile);
+				var assetname = addressName.Split('/').Last();
+				textasset.name = assetname;
+
+				FF1PR.ResourceManager.completeAssetDic[addressName] = textasset;
+				//Monitor.instance.SetAssetTask(addressName, textasset, task);
+				InternalLogger.LogInfo($"Asset loading task added for {assetname} > {assetfilename}");
+				__result = true;
+			};
+
+			
+
 		}
 
 		public static Dictionary<string, string> assetsToReplace = new()

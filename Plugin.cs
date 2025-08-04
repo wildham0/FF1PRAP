@@ -29,7 +29,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.1.8";
+	public const string VERSION = "0.1.9";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -127,11 +127,14 @@ public class FF1PR : BasePlugin
 
 		// Resource Manager
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetResourceManager_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "AddLoadingTask"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "AddLoadingTask_Pre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "AddLoadingTask"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "AddLoadingTask_Pre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceLoadTask), "CheckComplete"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TaskCheckComplete_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckCompleteAsset", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckGroupLoadAssetCompleted_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckLoadAssetCompleted", [typeof(string), typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckGroupLoadAssetCompleted2_Post")));
 
 		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "GetAsset"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetAsset_Pre")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "EntitiesSetup"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "EntitiesSetup_Post")));
-		
+
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "InitPlayerStatePlay"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "InitPlayerStatePlay_Post")));
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
