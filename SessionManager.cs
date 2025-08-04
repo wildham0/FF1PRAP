@@ -71,6 +71,21 @@ namespace FF1PRAP
 			}
 		}
 
+		public bool TryGetGlobal<T>(string key, out T result)
+		{
+			if (Global.TryGetValue(key, out string value))
+			{
+
+				result = (T)Convert.ChangeType(value, typeof(T));
+				return true;
+			}
+			else
+			{
+				result = default;
+				return false;
+			}
+		}
+
 		public void SetValue(string key, string value)
 		{
 			Slot[key] = value;
