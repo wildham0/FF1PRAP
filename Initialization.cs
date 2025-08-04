@@ -85,12 +85,13 @@ namespace FF1PRAP
 
 			FF1PR.MasterManager.GetList<Map>()[1].MovingAvailability = 1;
 
+			/*
 			var mapobjects = FF1PR.MasterManager.GetList<Mapobject>();
-
+			
 			foreach (var mapobject in mapobjects)
 			{
 				InternalLogger.LogInfo($"Map: {mapobject.key} - {mapobject.value.Id} - {mapobject.value.ShadowName}");
-			}
+			}*/
 			/*
 			var maplist = FF1PR.MasterManager.GetList<Map>();
 			foreach (var map in maplist)

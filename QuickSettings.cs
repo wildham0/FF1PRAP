@@ -1,7 +1,11 @@
-﻿using Last.UI.KeyInput;
+﻿//using Il2CppSystem;
+using BepInEx.Core.Logging.Interpolation;
+using Last.UI.KeyInput;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +13,7 @@ namespace FF1PRAP {
     public class QuickSettings : MonoBehaviour {
 
         public static string CustomSeed = "";
-        public static Font OdinRounded;
+        public static Font PixelRemasterFont;
         public static List<string> FoolChoices = new List<string>() { "Off", "Normal", "Double", "Onslaught" };
         public static List<string> FoolColors = new List<string>() { "white", "#4FF5D4", "#E3D457", "#FF3333" };
         private static bool ShowAdvancedSinglePlayerOptions = false;
@@ -24,6 +28,8 @@ namespace FF1PRAP {
         private static float apHeight = 0f;
         private static float advHeight = 0f;
         private static float mystHeight = 0f;
+		private static Texture2D windowTexture;
+		private static GUISkin windowSkin;
         private static Dictionary<string, bool> editingFlags = new Dictionary<string, bool>() {
             {"Player", false},
             {"Hostname", false},
@@ -160,7 +166,179 @@ namespace FF1PRAP {
 			FF1PR.SessionManager.WriteGlobalData();
 		}
 
-        private void OnGUI() {
+		private static void DrawBorders(ref int[] colorArray, int width, int height, int borderwidth, int setindent, int offset, int color)
+		{
+			//int borderwidth = 6;
+			//int setindent = 4;
+
+			var indent = setindent + 1;
+			for (int y = 0 + offset; y < borderwidth + offset; y++)
+			{
+				if (indent > 0) indent--;
+				for (int x = indent + offset; x < width - indent - offset; x++)
+				{
+					colorArray[x + (y * width)] = color;
+				}
+			}
+
+			indent = setindent + 1;
+			for (int y = height - offset - 1; y > height - offset - borderwidth; y--)
+			{
+				if (indent > 0) indent--;
+				for (int x = indent + offset; x < width - indent - offset; x++)
+				{
+					colorArray[x + (y * width)] = color;
+				}
+			}
+
+			indent = setindent + 1;
+			for (int x = 0 + offset; x < borderwidth + offset; x++)
+			{
+				if (indent > 0) indent--;
+				for (int y = indent + offset; y < height - indent - offset; y++)
+				{
+					colorArray[x + (y * width)] = color;
+				}
+			}
+
+			indent = setindent + 1;
+			for (int x = width - offset - 1; x > width - borderwidth - offset; x--)
+			{
+				if (indent > 0) indent--;
+				for (int y = indent + offset; y < height - indent - offset; y++)
+				{
+					colorArray[x + (y * width)] = color;
+				}
+			}
+
+
+		}
+		private void GenerateSkin()
+		{
+			InternalLogger.LogInfo("Generating Skin.");
+			
+			var dirtyRect = new Rect(20f, (float)Screen.height * 0.12f, 430f * guiScale, 400f);
+			//var skin = ScriptableObject.CreateInstance<GUISkin>();
+			var skin = GUI.skin;
+			
+
+			//GUISkin test = new();
+			var width = (int)dirtyRect.width;
+			var height = (int)dirtyRect.height;
+
+			var texture = new Texture2D((int)dirtyRect.width, (int)dirtyRect.height);
+
+			var colorArray = new Color[width * height];
+			var intArray = new int[width * height];
+			var selectColors = new Color[]
+			{
+					new Color(0.05f, 0.05f, 0.55f, 1.0f),
+					new Color(0.09f, 0.09f, 0.60f, 1.0f),
+					new Color(0.14f, 0.14f, 0.66f, 1.0f),
+					new Color(0.18f, 0.18f, 0.72f, 1.0f),
+					new Color(0.23f, 0.23f, 0.78f, 1.0f),
+					new Color(0.25f, 0.25f, 0.80f, 1.0f),
+			};
+
+			float maxrg = 0.25f;
+			float minrg = 0.05f;
+			float maxb = 0.80f;
+			float minb = 0.55f;
+
+
+			Color currentColor;
+			Color whiteColor = new Color(0.96f, 0.96f, 0.96f, 1.0f);
+			Color blackColor = new Color(0.04f, 0.04f, 0.04f, 1.0f);
+			int borderwidth = 7;
+			int setindent = 4;
+
+			DrawBorders(ref intArray, width, height, borderwidth, 4, 0, 1);
+			DrawBorders(ref intArray, width, height, borderwidth - 1, 4, 1, 2);
+
+			for (int y = 0; y < height; y++)
+			{
+				for (int x = 0; x < width; x++)
+				{
+					if (intArray[x + (y * width)] == 1)
+					{
+						colorArray[x + (y * width)] = blackColor;
+					}
+					else if(intArray[x + (y * width)] == 2)
+					{
+						colorArray[x + (y * width)] = whiteColor;
+					}
+				}
+			}
+
+			/*
+			for (int y = 0; y < height; y++)
+			{
+				for (int x = 0; x < width; x++)
+				{
+
+					colorArray[x + (y * width)] = blackColor;
+				}
+			}
+
+			for (int y = 1; y < height - 1; y++)
+			{
+				for (int x = 1; x < width -1; x++)
+				{
+
+					colorArray[x + (y * width)] = whiteColor;
+				}
+			}
+
+			for (int y = 4; y < height - 4; y++)
+			{
+				for (int x = 4; x < width - 4; x++)
+				{
+
+					colorArray[x + (y * width)] = blackColor;
+				}
+			}
+			*/
+
+			for (int y = borderwidth; y < height - borderwidth + 1; y++)
+			{
+
+				float currentrg = ((maxrg - minrg) * ((float)y / (float)height)) + minrg;
+				float currentb = ((maxb - minb) * ((float)y / (float)height)) + minb;
+				//InternalLogger.LogInfo($"Blue pixel: {currentb}");
+				currentColor = new Color(currentrg, currentrg, currentb, 1.0f);
+				for (int x = borderwidth; x < width - borderwidth + 1; x++)
+				{
+					colorArray[x + (y * width)] = currentColor;
+				}
+			}
+
+
+
+			//texture.SetPixel(0, 0, new Color(0.25f, 0.25f, 0.80f, 1.0f));
+			texture.SetPixels(colorArray);
+			texture.Apply();
+
+			//texture.draw
+			//skin.window = new GUIStyle();
+			windowTexture = texture;
+			skin.window.normal.background = windowTexture;
+			skin.window.normal.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+			skin.window.active = new GUIStyleState();
+			skin.window.active.background = windowTexture;
+			skin.window.active.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+			skin.window.hover.background = windowTexture;
+			skin.window.hover.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+			skin.window.border = new RectOffset(8, 8, 8, 8);
+			skin.window.alignment = TextAnchor.UpperCenter;
+			skin.window.fontStyle = FontStyle.Normal;
+			skin.window.margin = new RectOffset(8, 8, 8, 8);
+
+			skin.window.stretchHeight = true;
+			skin.window.stretchWidth = true;
+
+			windowSkin = skin;
+		}
+		private void OnGUI() {
 			//InternalLogger.LogInfo($"GUI called: {SceneManager.GetActiveScene().name} > controller null? {GameObject.FindObjectOfType<Last.UI.KeyInput.TitleWindowController>() == null}");
             if (SceneManager.GetActiveScene().name == "Title" && GameObject.FindObjectOfType<Last.UI.KeyInput.TitleWindowController>() != null && FF1PR.StateTracker.CurrentSubState == Last.Management.GameSubStates.Title_Main) {
                 if (Screen.width == 3840 && Screen.height == 2160) {
@@ -170,8 +348,35 @@ namespace FF1PRAP {
                 } else {
                     guiScale = 1f;
                 }
-                GUI.skin.font = GUI.skin.font;
-                Cursor.visible = true;
+
+				//var stylestate = new GUIStyleState();
+
+				//stylestate.
+				
+				if (windowSkin == null)
+				{
+					windowSkin = GUI.skin;
+					GenerateSkin();
+
+					PixelRemasterFont = Resources.FindObjectsOfTypeAll<Font>().Where(f => f.name == "FOT-NewCezannePro-B").ToList()[0];
+
+				}
+
+				InternalLogger.LogInfo($"Focused Window: {GUI.skin.window.active.textColor.g}");
+
+				GUI.skin = windowSkin;
+				
+				GUI.skin.font = PixelRemasterFont;
+				GUI.backgroundColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+				//skin.window.
+				//GUI.skin = windowSkin;
+
+				//GUI.color = new Color(0, 0, 128, 255);
+				//GUI.
+				//GUIStyle test = new();
+
+
+				Cursor.visible = true;
                 switch (FF1PR.SessionManager.GameMode) {
                     /*case GameModes.Randomizer:
                         windowRects["singlePlayer"] = new Rect(20f, (float)Screen.height * 0.12f, 430f * guiScale, 630f * guiScale);
@@ -317,12 +522,16 @@ namespace FF1PRAP {
         }
 
         private static void ArchipelagoQuickSettingsWindow(int windowID) {
-            GUI.skin.label.fontSize = (int)(25 * guiScale);
+			GUI.skin = windowSkin;
+			
+			GUI.skin.label.fontSize = (int)(25 * guiScale);
             GUI.skin.button.fontSize = (int)(20 * guiScale);
             GUI.skin.toggle.fontSize = (int)(20 * guiScale);
             GUI.skin.label.alignment = TextAnchor.UpperLeft;
             GUI.skin.label.clipping = TextClipping.Overflow;
-            GUI.color = Color.white;
+            GUI.color = new Color(0.96f, 0.96f, 0.96f, 1.0f);
+			
+			GUI.contentColor = new Color(0.96f, 0.96f, 0.96f, 1.0f);
             GUI.DragWindow(new Rect(500f * guiScale, 50f * guiScale, 500f * guiScale, 30f * guiScale));
 
             apHeight = 20f * guiScale;
@@ -354,8 +563,10 @@ namespace FF1PRAP {
             GUI.skin.label.fontSize = (int)(25 * guiScale);
             GUI.skin.toggle.fontSize = (int)(20 * guiScale);
             GUI.skin.button.fontSize = (int)(20 * guiScale);
+			//GUI.skin
 
-            GUI.Label(new Rect(10f * guiScale, 20f * guiScale, 300f * guiScale, 30f * guiScale), "Randomizer Mode");
+
+			GUI.Label(new Rect(10f * guiScale, 20f * guiScale, 300f * guiScale, 30f * guiScale), "Randomizer Mode");
             apHeight += 40f * guiScale;
 			/*
             bool ToggleSinglePlayer = GUI.Toggle(new Rect(10f * guiScale, apHeight, 130f * guiScale, 30f * guiScale), TunicRandomizer.Settings.Mode == RandomizerSettings.RandomizerType.SINGLEPLAYER, "Single Player");
