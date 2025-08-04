@@ -7,50 +7,6 @@
       "name": "UpperObject",
       "objects": [
         {
-          "gid": 1006,
-          "height": 16,
-          "id": 117,
-          "name": "\u6a4b\u304c\u901a\u308c\u306a\u3044",
-          "properties": [
-            {
-              "name": "collision_type",
-              "type": "int",
-              "value": 1
-            },
-            {
-              "name": "confirm_landing",
-              "type": "bool",
-              "value": false
-            },
-            {
-              "name": "entity_id",
-              "type": "int",
-              "value": 105
-            },
-            {
-              "name": "object_type",
-              "type": "int",
-              "value": 19
-            },
-            {
-              "name": "target_transportation_ids",
-              "type": "string",
-              "value": ""
-            },
-            {
-              "name": "through_condition_type",
-              "type": "int",
-              "value": 0
-            }
-          ],
-          "rotation": 0,
-          "type": "",
-          "visible": true,
-          "width": 16,
-          "x": 2320,
-          "y": 2336
-        },
-        {
           "gid": 998,
           "height": 16,
           "id": 49,
