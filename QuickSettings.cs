@@ -323,15 +323,28 @@ namespace FF1PRAP {
 			windowTexture = texture;
 			skin.window.normal.background = windowTexture;
 			skin.window.normal.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-			skin.window.active = new GUIStyleState();
 			skin.window.active.background = windowTexture;
 			skin.window.active.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
 			skin.window.hover.background = windowTexture;
 			skin.window.hover.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+			skin.window.focused.background = windowTexture;
+			skin.window.focused.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+
+			skin.window.onNormal.background = windowTexture;
+			skin.window.onNormal.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+			skin.window.onActive.background = windowTexture;
+			skin.window.onActive.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+			skin.window.onHover.background = windowTexture;
+			skin.window.onHover.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+			skin.window.onFocused.background = windowTexture;
+			skin.window.onFocused.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
+
+
 			skin.window.border = new RectOffset(8, 8, 8, 8);
 			skin.window.alignment = TextAnchor.UpperCenter;
 			skin.window.fontStyle = FontStyle.Normal;
 			skin.window.margin = new RectOffset(8, 8, 8, 8);
+			skin.window.padding = new RectOffset(8, 8, 8, 8);
 
 			skin.window.stretchHeight = true;
 			skin.window.stretchWidth = true;
@@ -362,8 +375,7 @@ namespace FF1PRAP {
 
 				}
 
-				InternalLogger.LogInfo($"Focused Window: {GUI.skin.window.active.textColor.g}");
-
+				
 				GUI.skin = windowSkin;
 				
 				GUI.skin.font = PixelRemasterFont;
@@ -386,7 +398,7 @@ namespace FF1PRAP {
                         break;*/
                     case GameModes.Archipelago:
                         windowRects["archipelago"] = new Rect(20f, (float)Screen.height * 0.12f, 430f * guiScale, apHeight);
-                        GUI.Window(101, windowRects["archipelago"], new Action<int>(ArchipelagoQuickSettingsWindow), "Archipelago Settings");
+                        GUI.Window(101, windowRects["archipelago"], new Action<int>(ArchipelagoQuickSettingsWindow), "Archipelago Settings", GUI.skin.window);
                         break;
                 }
 
@@ -524,21 +536,22 @@ namespace FF1PRAP {
         private static void ArchipelagoQuickSettingsWindow(int windowID) {
 			GUI.skin = windowSkin;
 			
-			GUI.skin.label.fontSize = (int)(25 * guiScale);
-            GUI.skin.button.fontSize = (int)(20 * guiScale);
-            GUI.skin.toggle.fontSize = (int)(20 * guiScale);
+			GUI.skin.label.fontSize = (int)(20 * guiScale);
+            GUI.skin.button.fontSize = (int)(15 * guiScale);
+            GUI.skin.toggle.fontSize = (int)(15 * guiScale);
             GUI.skin.label.alignment = TextAnchor.UpperLeft;
             GUI.skin.label.clipping = TextClipping.Overflow;
             GUI.color = new Color(0.96f, 0.96f, 0.96f, 1.0f);
 			
 			GUI.contentColor = new Color(0.96f, 0.96f, 0.96f, 1.0f);
-            GUI.DragWindow(new Rect(500f * guiScale, 50f * guiScale, 500f * guiScale, 30f * guiScale));
+			InternalLogger.LogInfo($"Focused Window: {GUI.skin.window.active.textColor.g}");
+			GUI.DragWindow(new Rect(500f * guiScale, 50f * guiScale, 500f * guiScale, 30f * guiScale));
 
             apHeight = 20f * guiScale;
 
-            GUI.skin.toggle.fontSize = (int)(15 * guiScale); 
-            GUI.skin.button.fontSize = (int)(15 * guiScale); 
-            GUI.skin.label.fontSize = (int)(15 * guiScale);
+            GUI.skin.toggle.fontSize = (int)(12 * guiScale); 
+            GUI.skin.button.fontSize = (int)(12 * guiScale); 
+            GUI.skin.label.fontSize = (int)(12 * guiScale);
 			/*
             if (TunicRandomizer.Settings.RaceMode) {
                 TunicRandomizer.Settings.RaceMode = GUI.Toggle(new Rect(330f * guiScale, apHeight, 90f * guiScale, 30f * guiScale), TunicRandomizer.Settings.RaceMode, "Race Mode");
@@ -560,9 +573,9 @@ namespace FF1PRAP {
                 }
             }*/
 
-            GUI.skin.label.fontSize = (int)(25 * guiScale);
-            GUI.skin.toggle.fontSize = (int)(20 * guiScale);
-            GUI.skin.button.fontSize = (int)(20 * guiScale);
+            GUI.skin.label.fontSize = (int)(20 * guiScale);
+            GUI.skin.toggle.fontSize = (int)(15 * guiScale);
+            GUI.skin.button.fontSize = (int)(15 * guiScale);
 			//GUI.skin
 
 
@@ -610,7 +623,8 @@ namespace FF1PRAP {
                 }
             }
 
-            bool OpenAPSettings = GUI.Button(new Rect(180f * guiScale, apHeight, 240f * guiScale, 30f * guiScale), ShowAPSettingsWindow ? "Close Connection Info" : "Edit Connection Info");
+			InternalLogger.LogInfo($"Focused Window: {GUI.skin.window.active.textColor.g}");
+			bool OpenAPSettings = GUI.Button(new Rect(180f * guiScale, apHeight, 240f * guiScale, 30f * guiScale), ShowAPSettingsWindow ? "Close Connection Info" : "Edit Connection Info");
             if (OpenAPSettings) {
                 if (ShowAPSettingsWindow) {
                     CloseAPSettingsWindow();
@@ -630,6 +644,7 @@ namespace FF1PRAP {
             GUI.Label(new Rect(10f * guiScale, apHeight, 200f * guiScale, 30f * guiScale), $"World Settings");
 
             GUI.skin.button.fontSize = (int)(15 * guiScale);
+			InternalLogger.LogInfo($"Focused Window: {GUI.skin.window.active.textColor.g}");
 			/*
             bool ToggleSettings = GUI.Button(new Rect(180f * guiScale, apHeight + 7.5f, 50f * guiScale, 25f * guiScale), TunicRandomizer.Settings.ShowSlotSettings ? "Hide" : "Show");
             if (ToggleSettings) {
@@ -722,7 +737,7 @@ namespace FF1PRAP {
             TunicRandomizer.Settings.MusicShuffle = GUI.Toggle(ShowTooltip(new Rect(220f * guiScale, apHeight, 130f * guiScale, 30f * guiScale), "archipelago", "Music Shuffle"), TunicRandomizer.Settings.MusicShuffle, "Music Shuffle");
             apHeight += 40f * guiScale;
             GUI.skin.label.fontSize = (int)(20 * guiScale);*/
-        }
+		}
 
         private static void ArchipelagoConfigEditorWindow(int windowID) {
             GUI.skin.label.fontSize = (int)(25 * guiScale);
