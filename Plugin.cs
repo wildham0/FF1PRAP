@@ -73,7 +73,7 @@ public class FF1PR : BasePlugin
 		ClassInjector.RegisterTypeInIl2Cpp<Monitor>();
 		ClassInjector.RegisterTypeInIl2Cpp<ApItemWindow>();
 		
-		RegisterTypeAndCreateObject(typeof(QuickSettings), "quick settings gui");
+		RegisterTypeAndCreateObject(typeof(SettingsWindow), "settings gui");
 
 		//Application.runInBackground = Settings.RunInBackground;
 
