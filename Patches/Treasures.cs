@@ -49,8 +49,6 @@ namespace FF1PRAP
 				prop.ContentId = item.Id;
 				prop.ContentNum = item.Qty;
 
-
-
 				if (item.Id == (int)Items.Gil)
 				{
 					prop.MessageKey = "MSG_OTHER_12";

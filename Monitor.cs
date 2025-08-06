@@ -55,7 +55,7 @@ namespace FF1PRAP
 		public List<AssetTask> tasksToMonitor;
 		public MonitorTool()
 		{
-			FF1PR.SessionManager.GameMode = GameModes.Archipelago;
+			//FF1PR.SessionManager.GameMode = GameModes.Archipelago;
 			tasksToMonitor = new();
 		}
 
@@ -101,10 +101,10 @@ namespace FF1PRAP
 					Initialization.InitializeNewGame();
 					if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
 					{
-						var seed = (uint)System.DateTime.Now.Ticks;
-						FF1PR.SessionManager.SetValue("seed", seed.ToString());
-						FF1PR.PlacedItems = Randomizer.DoItemPlacement(seed);
-						FF1PR.SessionManager.SetPlacedItems(FF1PR.PlacedItems);
+						//var seed = (uint)System.DateTime.Now.Ticks;
+						//FF1PR.SessionManager.SetValue("seed", seed.ToString());
+						//FF1PR.PlacedItems = Randomizer.DoItemPlacement(seed);
+						FF1PR.SessionManager.SetRandomizedGame(FF1PR.PlacedItems);
 						Initialization.InitializeRandoItems();
 					}
 				}
@@ -112,6 +112,9 @@ namespace FF1PRAP
 			else if (ProcessState == ProcessStates.LoadGame)
 			{
 				ProcessState = ProcessStates.None;
+				//var test = GameObject.Find("save info");
+				//test.enabled = false;
+
 				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 				{
 					Archipelago.instance.RestoreState();

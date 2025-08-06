@@ -247,10 +247,16 @@ namespace FF1PRAP
 			//items.Shuffle(rng);
 			//PlacedItems = items.Select((x, i) => (flags[i], x)).ToDictionary(y => y.Item1, y => y.x);
 		}
-		public static Dictionary<int, ItemData> DoItemPlacement(uint seed)
+		public static Dictionary<int, ItemData> DoItemPlacement(uint hash)
 		{
 			//MT19337 rng = new((uint)System.DateTime.Now.Ticks);
-			MT19337 rng = new(seed);
+			MT19337 rng = new(hash);
+
+			
+			foreach(var loc in FixedLocations.Where(l => l.Flag == 0).ToList())
+			{
+				InternalLogger.LogInfo($"Item 0: {loc.Name} - {loc.Region} - {loc.Type}");
+			}
 			return ItemPlacement(rng);
 		}
 

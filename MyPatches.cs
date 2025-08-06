@@ -29,6 +29,8 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using JetBrains.Annotations;
 using Steamworks;
 using Last.Systems.Indicator;
+using Last.UI.KeyInput;
+using System.Xml.Linq;
 using Il2CppSystem.Threading.Tasks;
 
 namespace FF1PRAP
@@ -564,6 +566,66 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"FieldController: Player State Init.");
 		}
 
+		public static void CreateSlotListData_Post(SaveSlotData __instance)
+		{
+			InternalLogger.LogInfo($"Saveslot {__instance.id}: {__instance.configData} - {__instance.CurrentArea}");
+			InternalLogger.LogInfo($"Saveslot {__instance.id} - 2: {__instance.CurrentLocation} - {__instance.dataStorage}");
+			InternalLogger.LogInfo($"Saveslot {__instance.id} - 3: {__instance.clearFlag} - {__instance.timeStamp}");
+			InternalLogger.LogInfo($"Saveslot {__instance.id} - 4: {__instance.mapData} ");
+			InternalLogger.LogInfo($"Saveslot {__instance.id} - 5: {__instance.playTime} - {__instance.timeStamp}");
+			InternalLogger.LogInfo($"Saveslot {__instance.id} - 6: {__instance.userData}");
+
+		}
+
+		private static void SetSlotNumText_Post(ref Last.UI.KeyInput.SaveContentController __instance)
+		{
+			InternalLogger.LogInfo($"Saveslot Num: {__instance.slotName} - {__instance.slotNum}");
+
+			__instance.slotNum = "weeeeee";
+		}
+
+		private static void SetSlotNumText_Pre(ref string name)
+		{
+			InternalLogger.LogInfo($"Saveslot Num: {name}");
+			name = "weee";
+		}
+
+		private static void InitSaveView_Post(ref SaveContentController __result)
+		{
+			InternalLogger.LogInfo($"SaveContentCreate: {__result.slotName} - {__result.slotNum}");
+			__result.slotName = "riiiiiight";
+			//__instance.slotNumText.text = "yooo";
+		}
+
+		private static void SetData_Post(ref SaveSlotManager __instance)
+		{
+			if (__instance.SaveSlotDataList != null)
+			{
+				foreach (var save in __instance.SaveSlotDataList)
+				{
+
+					InternalLogger.LogInfo($"SlotManagerSlot: {save.timeStamp} - {save.IsSuccess}");
+				}
+
+			}
+
+			
+
+			//__instance.slotName = "riiiiiight";
+			//__instance.slotNumText.text = "yooo";
+		}
+
+		private static void SetDSlotName_Post(ref SaveContentView __instance)
+		{
+			InternalLogger.LogInfo($"ContentView: {__instance.slotNumText.text} - {__instance.slotNameText.text}");
+			//__instance.slotName = "riiiiiight";
+			//__instance.slotNumText.text = "yooo";
+		}
+
+		private static void SetActive_Post(SaveListController.Mode mode)
+		{
+			InternalLogger.LogInfo($"SaveListView: {mode}");
+
 		public static void TaskCheckComplete_Post(ref bool __result, ResourceLoadTask __instance)
 		{
 			/*
@@ -584,7 +646,6 @@ namespace FF1PRAP
 		public static void CheckGroupLoadAssetCompleted2_Post(bool __result, string groupName, string assetName)
 		{
 			InternalLogger.LogInfo($"RessourceManager check: {assetName} - {__result}.");
-
 		}
 	}
 

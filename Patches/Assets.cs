@@ -19,6 +19,8 @@ namespace FF1PRAP
 
 		public static void AddLoadingTask_Pre(string addressName, ref ResourceLoadTask task)
 		{
+			InternalLogger.LogInfo($"Loading asset: {addressName}");
+
 			if (assetsToReplace.TryGetValue(addressName, out var assetfilename))
 			{
 				var assetfile = GetFile(assetfilename);

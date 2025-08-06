@@ -1,6 +1,7 @@
 ﻿using Last.Entity.Field;
 using Last.Interpreter;
 using Last.Management;
+using Last.UI.KeyInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,40 @@ namespace FF1PRAP
 		{
 			FF1PR.ResourceManager = __instance;
 		}
+
+		// All that to check the state of saving/loading screen ;_;
+		private static void MainMenuControllerInitialize_Post(MainMenuController __instance)
+		{
+			InternalLogger.LogInfo($"MainMenuController initialized.");
+			FF1PR.MainMenuController = __instance;
+		}
+		private static void TitleWindowControllerInitialize_Post(TitleWindowController __instance)
+		{
+			InternalLogger.LogInfo($"TitleWindowController initialized.");
+			FF1PR.TitleWindowController = __instance;
+		}
+		private static void LoadGameWindowControllerInitialize_Post(LoadGameWindowController __instance)
+		{
+			InternalLogger.LogInfo($"LoadGameWindowController initialized.");
+			FF1PR.LoadGameWindowController = __instance;
+		}
+		private static void SaveListControllerCreateContentList_Post(SaveListController __instance)
+		{
+			InternalLogger.LogInfo($"SaveListController initialized.");
+			FF1PR.SaveListController = __instance;
+		}
+
+		private static void LoadWindowControllerInitialize_Post(LoadWindowController __instance)
+		{
+			InternalLogger.LogInfo($"LoadWindowController initialized.");
+			FF1PR.LoadWindowController = __instance;
+		}
+		private static void SaveWindowControllerInitialize_Post(SaveWindowController __instance)
+		{
+			InternalLogger.LogInfo($"SaveWindowController initialized.");
+			FF1PR.SaveWindowController = __instance;
+		}
+
 
 	}
 }
