@@ -358,7 +358,7 @@ namespace FF1PRAP
 			using (SHA256 hasher = SHA256.Create())
 			{
 				Blob hash = hasher.ComputeHash(encodedsettings);
-				hashString = EncodeTo32(hash);
+				hashString = EncodeTo32(hash).Substring(0,8);
 				finalhash = (uint)hash.ToUInts().Sum(x => x);
 			}
 

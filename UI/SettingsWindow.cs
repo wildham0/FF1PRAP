@@ -400,11 +400,12 @@ namespace FF1PRAP
 
 					GUI.skin = windowSkin;
 					GUI.skin.font = PixelRemasterFont;
-					GUI.backgroundColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
 				}
 
 				Cursor.visible = true;
 				GUI.color = new Color(1.0f, 1.0f, 1.0f, 0.98f);
+				GUI.backgroundColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 				// Show Main window
 				switch (FF1PR.SessionManager.GameMode)
@@ -430,13 +431,28 @@ namespace FF1PRAP
 						FF1PR.TitleWindowController.SetEnableMenu(false);
 					}
 				}
+
+				var versionStyle = new GUIStyle();
+				GUI.backgroundColor = new Color(1f, 1f, 1f, 0f);
+
+				versionStyle.alignment = TextAnchor.MiddleLeft;
+				versionStyle.font = PixelRemasterFont;
+				var blackColor = new Color(0f, 0f, 0f, 1.0f);
+				versionStyle.normal.textColor = blackColor;
+				versionStyle.active.textColor = blackColor;
+				versionStyle.hover.textColor = blackColor;
+				versionStyle.focused.textColor = blackColor;
+				versionStyle.onActive.textColor = blackColor;
+				versionStyle.onNormal.textColor = blackColor;
+				versionStyle.onHover.textColor = blackColor;
+				versionStyle.onFocused.textColor = blackColor;
+				
+				GUI.Window(105, new Rect(standardWindowRect.x + apMargin, standardWindowRect.y + standardWindowRect.height, 100f, 30f), new Action<int>(VersionWindow), "", versionStyle);
 			}
 		}
 
 		private void Update()
 		{
-
-
 
 			if (editingFlags.Where(f => f.Value).Any() && SceneManager.GetActiveScene().name == "Title")
 			{
@@ -761,19 +777,26 @@ namespace FF1PRAP
 			bool RollSeed = GUI.Button(ScaledRect(apMargin + 180f, GetApHeight(40f), 75f, 30f), "Roll");
 			if (RollSeed) handleRollButton("Seed");
 
-			string genlabel = generationReady ? "Randomization done. You can start a new game to play with these settings." : "Click Generate to randomize a new game or load a save file to continue a previously randomize game.";
-			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
-			GUI.Label(ScaledRect(0, GetApHeight(80f), 400f, 30f), genlabel);
+			bool generate = GUI.Button(ScaledRect(apMargin, GetApHeight(40f), 150f, 30f), "Generate");
 
-			bool generate = GUI.Button(ScaledRect(apMargin, GetApHeight(30f), 150f, 30f), "Generate");
-
-			if(generate)
+			if (generate)
 			{
 				var hash = FF1PR.SessionManager.CreateHash();
 				FF1PR.PlacedItems = Randomizer.DoItemPlacement(hash);
 				FF1PR.SessionManager.WriteGlobalData();
 				generationReady = true;
 			}
+
+			if (generationReady)
+			{
+				GUI.skin.label.fontSize = (int)(standardFontSize * 1 * guiScale);
+				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 200f, 30f), $"Hash: {FF1PR.SessionManager.GetGlobal<string>("hashstring")}");
+			}
+
+			string genlabel = generationReady ? "Randomization done. You can start a new game to play with these settings." : "Click Generate to randomize a new game or load a save file to continue a previously randomize game.";
+			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
+			GUI.Label(ScaledRect(apMargin, GetApHeight(80f), 360f, 30f), genlabel);
+
 
 			GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
 
@@ -948,6 +971,15 @@ namespace FF1PRAP
 
 			lastApHeight = apHeight + 40f * guiScale;
 		}
+
+		public static void VersionWindow(int windowID)
+		{
+			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
+			GUI.color = new Color(0f, 0f, 0f, 1f);
+			GUI.contentColor = new Color(0f, 0f, 0f, 1f);
+			GUI.Label(ScaledRect(0, 0, 100f, 30f), $"v{PluginInfo.VERSION} Alpha");
+		}
+		
 		/*
 		public static bool FileManagement_LoadFileAndStart_PrefixPatch(FileManagementGUI __instance, string filename) {
 			CloseAPSettingsWindow();
