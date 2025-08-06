@@ -152,7 +152,7 @@ namespace FF1PRAP
 
 			// Start with airship
 			// So 517 is ship 100%, 516 is canoe, what's 519 for???
-			/*
+			
 			for (int i = 0; i < FF1PR.UserData.OwnedTransportationList.Count; i++)
 			{
 				if (FF1PR.UserData.OwnedTransportationList[i].flagNumber == 518)
@@ -162,9 +162,9 @@ namespace FF1PRAP
 					FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
 					FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
 				}
-			}*/
+			}
 
-			//FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
 			
 			// Set Flags
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria

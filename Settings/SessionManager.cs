@@ -12,6 +12,11 @@ using LibCpp2IL.NintendoSwitch;
 using static FF1PRAP.Patches;
 using System.Text.Json;
 using Last.Systems.Indicator;
+using LibCpp2IL.Wasm;
+using RomUtilities;
+using static UnityEngine.ParticleSystem.PlaybackState;
+using System.Security.Cryptography;
+using Last.Data.Master;
 
 namespace FF1PRAP
 {
@@ -25,6 +30,7 @@ namespace FF1PRAP
     {
 		public static Dictionary<string, string> Slot = new();
 		public static Dictionary<string, string> Global = new();
+		public static Dictionary<int, string> SlotInfo = new();
 
 		public int currentSlot;
 		public string folderPath;
@@ -42,6 +48,7 @@ namespace FF1PRAP
 			folderPath = Application.persistentDataPath + "/Randomizer/";
 
 			LoadGlobalData();
+			LoadSaveSlotInfoData();
 		}
 
 		public void SetGlobal(string key, string value)
@@ -133,6 +140,71 @@ namespace FF1PRAP
 			currentSlot = slot;
 		}
 
+		public string GetSlotInfo(int slot)
+		{
+			if (SlotInfo.TryGetValue(slot, out var info))
+			{
+				return info;
+			}
+			else
+			{
+				return "";
+			}
+		}
+		public void LoadSaveSlotInfoData()
+		{
+
+			for (int i = 1; i <= 22; i++)
+			{
+				string filepath = folderPath + "ff1pr_rando_data_" + i + ".dat";
+				bool fileexist = true;
+				Dictionary<string, string> slotdata = new();
+				try
+				{
+					using (Stream configfile = new FileStream(filepath, FileMode.Open))
+					{
+						using (StreamReader reader = new StreamReader(configfile))
+						{
+							string configdata = reader.ReadToEnd();
+
+							//var options = new JsonSerializerOptions();
+							//options.Converters.Add(new ValueToStringConverter());
+
+							slotdata = JsonSerializer.Deserialize<Dictionary<string, string>>(configdata);
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					fileexist = false;
+				}
+
+				string content = "";
+				if (fileexist)
+				{
+					string mode = slotdata.TryGetValue("mode", out var mode_result) ? mode_result : "";
+					switch (mode)
+					{
+						case "archipelago":
+							string player = slotdata.TryGetValue("player", out var player_result) ? player_result : "";
+							string port = slotdata.TryGetValue("port", out var port_result) ? port_result : "";
+							string itemindex = slotdata.TryGetValue("itemindex", out var itemindex_result) ? itemindex_result : "";
+							content = $"Archipelago\n{player} / {port}";
+							break;
+						case "randomizer":
+							string hashstring = slotdata.TryGetValue("hashstring", out var hashstring_result) ? hashstring_result : "";
+							string seed = slotdata.TryGetValue("seed", out var seed_result) ? seed_result : "";
+							content = $"Solo Randomizer\n{hashstring} / {seed}";
+							break;
+						default:
+							break;
+					}
+				}
+
+				SlotInfo[i] = content;
+			}
+		}
+
 		public bool LoadGlobalData()
 		{
 			string filepath = folderPath + "ff1pr_rando_data_global.dat";
@@ -158,12 +230,20 @@ namespace FF1PRAP
 				fileexist = false;
 			}
 
+			if (!Global.ContainsKey("mode"))
+			{
+				SetGlobal("mode", "randomizer");
+			}
+
+			SetValue("mode", GetGlobal<string>("mode"));
+
 			return fileexist;
 		}
 
 		public void WriteGlobalData()
 		{
 			string filepath = folderPath + "ff1pr_rando_data_global.dat";
+			SetGlobal("mode", GetValue<string>("mode"));
 
 			try
 			{
@@ -204,6 +284,7 @@ namespace FF1PRAP
 				fileexist = false;
 			}
 
+			//SetGlobal("mode", GetValue<string>("mode"));
 			return fileexist;
 		}
 		public void WriteSlotData()
@@ -222,29 +303,99 @@ namespace FF1PRAP
 				}
 			}
 			catch (Exception e) { }
+
+			//SetGlobal("mode", GetValue<string>("mode"));
 		}
 
 		public void SetPlacedItems(Dictionary<int, ItemData> placedItems)
 		{
 			foreach (var item in placedItems)
 			{
+				InternalLogger.LogInfo("flag_" + item.Key + "_id");
 				SetValue("flag_" + item.Key + "_id", item.Value.Id);
 				SetValue("flag_" + item.Key + "_qty", item.Value.Qty);
 			}
 		}
 
+		public void SetRandomizedGame(Dictionary<int, ItemData> placedItems)
+		{
+			SetPlacedItems(placedItems);
+			foreach (var option in Options.Dict.Values)
+			{
+				if (TryGetGlobal<string>(option.Key, out var setting))
+				{
+					SetValue(option.Key, setting);
+				}
+				else
+				{
+					SetValue(option.Key, option.Default);
+				}
+			}
+			SetValue("seed", GetGlobal<string>("seed"));
+			SetValue("hash", GetGlobal<string>("hash"));
+			SetValue("hashstring", GetGlobal<string>("hashstring"));
+			//SetValue("mode", GetGlobal<string>("mode"));
+		}
+		public uint CreateHash()
+		{
+			string settings = "";
+			foreach (var option in Options.Dict.Values)
+			{
+				if (TryGetGlobal<string>(option.Key, out var setting))
+				{
+					settings += setting;
+				}
+				else
+				{
+					settings += option.Default;
+				}
+			}
+
+			settings += GetGlobal<string>("seed");
+			var encodedsettings = Encoding.UTF8.GetBytes(settings);
+			uint finalhash;
+			string hashString;
+			using (SHA256 hasher = SHA256.Create())
+			{
+				Blob hash = hasher.ComputeHash(encodedsettings);
+				hashString = EncodeTo32(hash);
+				finalhash = (uint)hash.ToUInts().Sum(x => x);
+			}
+
+			SetGlobal("hash", finalhash.ToString());
+			SetGlobal("hashstring", hashString);
+
+			return finalhash;
+		}
+		public static string EncodeTo32(byte[] bytesToEncode)
+		{
+			string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
+			string encodedString = "";
+
+			foreach (var byteValue in bytesToEncode)
+			{
+				encodedString += characters[(byteValue / 16)];
+				encodedString += characters[(byteValue % 16)];
+			}
+
+			return encodedString;
+		}
 		public Dictionary<int, ItemData> GetPlacedItems()
 		{
 
 			Dictionary<int, ItemData> placedItems = new();
+			InternalLogger.LogInfo($"GetPlacedItems: mode: {GetValue<string>("mode")}");
+
 			if (GetValue<string>("mode") == "randomizer")
 			{
-				foreach (var location in Randomizer.FixedLocations)
+				foreach (var location in Randomizer.FixedLocations.Where(l => l.Type != LocationType.Event).ToList())
 				{
 					int flag = location.Flag;
 					int item = GetValue<int>("flag_" + flag + "_id");
 					int qty = GetValue<int>("flag_" + flag + "_qty");
 
+					InternalLogger.LogInfo($"GetPlacedItems: item: {flag} - {item}");
 					placedItems.Add(flag, new ItemData() { Id = item, Qty = qty });
 				}
 			}
@@ -295,7 +446,7 @@ namespace FF1PRAP
 				return GameModes.Archipelago;
 			}
 
-			return GameModes.Vanilla;
+			return GameModes.Randomizer;
 		}
 		private void SetGameMode(GameModes newmode)
 		{

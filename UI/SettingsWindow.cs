@@ -2,14 +2,17 @@
 using BepInEx.Core.Logging.Interpolation;
 using Last.Battle;
 using Last.UI.KeyInput;
+using MonoMod.Utils;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.ParticleSystem.PlaybackState;
+
 
 namespace FF1PRAP
 {
@@ -43,6 +46,8 @@ namespace FF1PRAP
 		private static float gameOptionHeight = 0f;
 		private static string currentOptionShowing = "";
 		private static Option currentToolTip;
+		private static bool generationReady = false;
+		private static byte[] seed = new byte[4];
 		public static Vector2 scrollPosition = Vector2.zero;
 		private static Dictionary<GameModes, string> gameModeOption = new()
 		{
@@ -58,6 +63,7 @@ namespace FF1PRAP
 			{"Hostname", false},
 			{"Port", false},
 			{"Password", false},
+			{"Seed", false},
 		};
 
 		//Get a conenction setting value by fieldname
@@ -73,6 +79,8 @@ namespace FF1PRAP
 					return FF1PR.SessionManager.GetGlobal<string>("port");
 				case "Password":
 					return FF1PR.SessionManager.GetGlobal<string>("password");
+				case "Seed":
+					return FF1PR.SessionManager.GetGlobal<string>("seed");
 				default:
 					return "";
 			}
@@ -94,6 +102,15 @@ namespace FF1PRAP
 					return;
 				case "Password":
 					FF1PR.SessionManager.SetGlobal("password", value);
+					return;
+				case "Seed":
+					FF1PR.SessionManager.SetGlobal("seed", value);
+					try
+					{
+						seed = Convert.FromHexString(value);
+					}
+					catch { }
+					
 					return;
 				default:
 					return;
@@ -175,6 +192,21 @@ namespace FF1PRAP
 		private static void handleClearButton(string fieldName)
 		{
 			setConnectionSetting(fieldName, "");
+			if (editingFlags[fieldName]) stringToEdit = "";
+			FF1PR.SessionManager.WriteGlobalData();
+		}
+
+		private static void handleRollButton(string fieldName)
+		{
+			var rng = new System.Random();
+			rng.NextBytes(seed);
+			var seedString = seed.ToHexadecimalString().PadLeft(8, '0');
+			if (seedString == "00000000")
+			{
+				rng.NextBytes(seed);
+				seedString = seed.ToHexadecimalString().PadLeft(8, '0');
+			}
+			setConnectionSetting(fieldName, seedString);
 			if (editingFlags[fieldName]) stringToEdit = "";
 			FF1PR.SessionManager.WriteGlobalData();
 		}
@@ -330,10 +362,16 @@ namespace FF1PRAP
 		}
 		private void OnGUI()
 		{
-			if (SceneManager.GetActiveScene().name == "Title" && GameObject.FindObjectOfType<Last.UI.KeyInput.TitleWindowController>() != null && FF1PR.StateTracker.CurrentSubState == Last.Management.GameSubStates.Title_Main)
+			bool showSettings = SceneManager.GetActiveScene().name == "Title" &&
+				FF1PR.TitleWindowController != null &&
+				(FF1PR.TitleWindowController.stateMachine.Current == TitleWindowController.State.None ||
+				FF1PR.TitleWindowController.stateMachine.Current == TitleWindowController.State.Select);
+
+			if (showSettings)
 			{
+				//InternalLogger.LogInfo($"Title Window is here.");
 				// initial draw or screen was resized, redraw texture
-				if (screenWidth != Screen.width || screenHeight != Screen.height)
+				if (screenWidth != Screen.width || screenHeight != Screen.height || windowTexture == null)
 				{
 					screenWidth = Screen.width;
 					screenHeight = Screen.height;
@@ -372,7 +410,7 @@ namespace FF1PRAP
 				switch (FF1PR.SessionManager.GameMode)
 				{
 					case GameModes.Randomizer:
-						GUI.Window(101, standardWindowRect, new Action<int>(RandomizerSettingsWindow), "Single Player Settings", GUI.skin.window);
+						GUI.Window(101, standardWindowRect, new Action<int>(RandomizerSettingsWindow), "Single Player Randomizer Settings", GUI.skin.window);
 						ShowAPSettingsWindow = false;
 						break;
 					case GameModes.Archipelago:
@@ -387,18 +425,9 @@ namespace FF1PRAP
 					Rect sideSettingsWindow = new Rect(460f * guiScale, standardWindowRect.y, standardWindowRect.width, standardWindowRect.height);
 					GUI.Window(104, sideSettingsWindow, new Action<int>(ToolTipWindow), currentToolTip.Display);
 
-					Last.UI.KeyInput.TitleWindowController titleScreen = GameObject.FindObjectOfType<Last.UI.KeyInput.TitleWindowController>();
-					if (titleScreen != null)
+					if (FF1PR.TitleWindowController != null)
 					{
-						titleScreen.SetEnableMenu(false);
-					}
-				}
-				else
-				{
-					Last.UI.KeyInput.TitleWindowController titleScreen = GameObject.FindObjectOfType<Last.UI.KeyInput.TitleWindowController>();
-					if (titleScreen != null)
-					{
-						titleScreen.SetEnableMenu(false);
+						FF1PR.TitleWindowController.SetEnableMenu(false);
 					}
 				}
 			}
@@ -406,18 +435,26 @@ namespace FF1PRAP
 
 		private void Update()
 		{
-			if ((FF1PR.SessionManager.GameMode == GameModes.Archipelago && ShowAPSettingsWindow) && SceneManager.GetActiveScene().name == "Title")
+
+
+
+			if (editingFlags.Where(f => f.Value).Any() && SceneManager.GetActiveScene().name == "Title")
 			{
+
+
+				//if ((FF1PR.SessionManager.GameMode == GameModes.Archipelago && ShowAPSettingsWindow) && SceneManager.GetActiveScene().name == "Title")
+				//if ((FF1PR.SessionManager.GameMode == GameModes.Archipelago && ShowAPSettingsWindow) && SceneManager.GetActiveScene().name == "Title")
+				//{
 				bool submitKeyPressed = false;
-				
+
 				//handle text input
-				if (Input.anyKeyDown 
-					&& !Input.GetKeyDown(KeyCode.Return) 
-					&& !Input.GetKeyDown(KeyCode.Escape) 
-					&& !Input.GetKeyDown(KeyCode.Tab) 
-					&& !Input.GetKeyDown(KeyCode.Backspace) 
-					&& !Input.GetKeyDown(KeyCode.Delete) 
-					&& !Input.GetKeyDown(KeyCode.LeftArrow) 
+				if (Input.anyKeyDown
+					&& !Input.GetKeyDown(KeyCode.Return)
+					&& !Input.GetKeyDown(KeyCode.Escape)
+					&& !Input.GetKeyDown(KeyCode.Tab)
+					&& !Input.GetKeyDown(KeyCode.Backspace)
+					&& !Input.GetKeyDown(KeyCode.Delete)
+					&& !Input.GetKeyDown(KeyCode.LeftArrow)
 					&& !Input.GetKeyDown(KeyCode.RightArrow)
 					&& Input.inputString != ""
 					)
@@ -427,8 +464,10 @@ namespace FF1PRAP
 
 					//validation for any fields that require it
 					if (editingFlags["Port"] && !int.TryParse(Input.inputString, out int num)) inputValid = false;
+					if (editingFlags["Seed"] && !Input.inputString.All("0123456789abcdefABCDEF".Contains)) inputValid = false;
+					if (editingFlags["Seed"] && (stringToEdit.Length + Input.inputString.Length) > 8) inputValid = false;
 
-					if(inputValid)
+					if (inputValid)
 					{
 						stringToEdit = stringToEdit.Insert(stringCursorPosition, Input.inputString);
 						stringCursorPosition++;
@@ -444,7 +483,7 @@ namespace FF1PRAP
 						stringCursorPosition--;
 					}
 				}
-				
+
 				//handle delete
 				if (Input.GetKeyDown(KeyCode.Delete))
 				{
@@ -453,7 +492,7 @@ namespace FF1PRAP
 						stringToEdit = stringToEdit.Remove(stringCursorPosition, 1);
 					}
 				}
-				
+
 				//handle cursor navigation
 				if (Input.GetKeyDown(KeyCode.LeftArrow) && stringCursorPosition > 0)
 				{
@@ -467,9 +506,13 @@ namespace FF1PRAP
 				//handle Enter/Esc
 				if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Escape))
 				{
-					if (!editingFlags["Player"] && !editingFlags["Hostname"] && !editingFlags["Port"] && !editingFlags["Password"])
+					if (!editingFlags["Player"] && !editingFlags["Hostname"] && !editingFlags["Port"] && !editingFlags["Password"] && !editingFlags["Seed"])
 					{
 						currentToolTip = null;
+						if (FF1PR.TitleWindowController != null)
+						{
+							FF1PR.TitleWindowController.SetEnableMenu(true);
+						}
 					}
 
 					submitKeyPressed = true;
@@ -477,11 +520,19 @@ namespace FF1PRAP
 
 				//update the relevant connection setting field
 				Dictionary<string, bool> originalEditingFlags = new Dictionary<string, bool>(editingFlags);
-				foreach(KeyValuePair<string,bool> editingFlag in originalEditingFlags)
+				foreach (KeyValuePair<string, bool> editingFlag in originalEditingFlags)
 				{
 					if (!editingFlag.Value) continue;
 					setConnectionSetting(editingFlag.Key, stringToEdit);
 					if (submitKeyPressed) finishEditingTextField(editingFlag.Key);
+				}
+			}
+			else if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name == "Title")
+			{
+				currentToolTip = null;
+				if (FF1PR.TitleWindowController != null)
+				{
+					FF1PR.TitleWindowController.SetEnableMenu(true);
 				}
 			}
 		}
@@ -502,16 +553,23 @@ namespace FF1PRAP
 			if (GUI.Button(ScaledRect(330f, apHeight, 30f, 30f), "?"))
 			{
 				currentToolTip = currentToolTip == option ? null : option;
+				if (currentToolTip == null)
+				{
+					if (FF1PR.TitleWindowController != null)
+					{
+						FF1PR.TitleWindowController.SetEnableMenu(true);
+					}
+				}
 			}
 
 			bool showOptions = currentOptionShowing == label;
 
-			string currentSelection = option.Choices[option.Default].display;
+			string currentSelection = option.Choices[option.Default];
 			if (FF1PR.SessionManager.TryGetGlobal<string>(option.Key, out var select))
 			{
-				if (option.Choices.TryFind(o => o.key == select, out var foundchoice))
+				if (option.Choices.TryGetValue(select, out var foundchoice))
 				{
-					currentSelection = foundchoice.display;
+					currentSelection = foundchoice;
 				}
 			}
 
@@ -535,9 +593,9 @@ namespace FF1PRAP
 			{
 				foreach (var choice in option.Choices)
 				{
-					if (GUI.Button(new Rect((apMargin + 20f), GetApHeight(30f), 280f, 30f), choice.display))
+					if (GUI.Button(new Rect((apMargin + 20f), GetApHeight(30f), 280f, 30f), choice.Value))
 					{
-						FF1PR.SessionManager.SetGlobal(option.Key, choice.key);
+						FF1PR.SessionManager.SetGlobal(option.Key, choice.Key);
 						currentOptionShowing = "";
 					}
 				}
@@ -668,6 +726,10 @@ namespace FF1PRAP
 			if (GUI.Button(ScaledRect(apMargin, standardWindowRect.height - 60f, 100f, 30f), "Close"))
 			{
 				currentToolTip = null;
+				if (FF1PR.TitleWindowController != null)
+				{
+					FF1PR.TitleWindowController.SetEnableMenu(true);
+				}
 			}
 		}
 
@@ -688,11 +750,38 @@ namespace FF1PRAP
 			CreateGameModeDropdown("Game Mode");
 			apHeight += 20f * guiScale;
 
-			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Key Items Placement");
-			foreach (var option in Options.Dict)
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Generation");
+			GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
+			GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 340f, 30f), $"Seed: {textWithCursor(getConnectionSetting("Seed"), editingFlags["Seed"], true)}");
+
+			bool EditSeed = GUI.Button(ScaledRect(apMargin, apHeight, 75f, 30f), editingFlags["Seed"] ? "Save" : "Edit");
+			if (EditSeed) handleEditButton("Seed");
+			bool PasteSeed = GUI.Button(ScaledRect(apMargin + 90f, apHeight, 75f, 30f), "Paste");
+			if (PasteSeed) handlePasteButton("Seed");
+			bool RollSeed = GUI.Button(ScaledRect(apMargin + 180f, GetApHeight(40f), 75f, 30f), "Roll");
+			if (RollSeed) handleRollButton("Seed");
+
+			string genlabel = generationReady ? "Randomization done. You can start a new game to play with these settings." : "Click Generate to randomize a new game or load a save file to continue a previously randomize game.";
+			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
+			GUI.Label(ScaledRect(0, GetApHeight(80f), 400f, 30f), genlabel);
+
+			bool generate = GUI.Button(ScaledRect(apMargin, GetApHeight(30f), 150f, 30f), "Generate");
+
+			if(generate)
 			{
-				CreateDropdown(option.Value.Display, option.Value);
+				var hash = FF1PR.SessionManager.CreateHash();
+				FF1PR.PlacedItems = Randomizer.DoItemPlacement(hash);
+				FF1PR.SessionManager.WriteGlobalData();
+				generationReady = true;
 			}
+
+			GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
+
+			apHeight += 20f * guiScale;
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Key Items Placement");
+			CreateDropdown(Options.Dict["npcs_priority"].Display, Options.Dict["npcs_priority"]);
+			CreateDropdown(Options.Dict["keychests_priority"].Display, Options.Dict["keychests_priority"]);
+			CreateDropdown(Options.Dict["trapped_priority"].Display, Options.Dict["trapped_priority"]);
 			apHeight += 20f * guiScale;
 
 			GUI.EndScrollView();
@@ -730,7 +819,7 @@ namespace FF1PRAP
 						playerCount++;
 					}
 				}
-				GUI.Label(ScaledRect(apMargin + 250f, apHeight, 300f, 30f), $"(world {Archipelago.instance.integration.session.ConnectionInfo.Slot} of {playerCount})");
+				GUI.Label(ScaledRect(apMargin + 200f, apHeight, 300f, 30f), $"(world {Archipelago.instance.integration.session.ConnectionInfo.Slot} of {playerCount})");
 			} else {
 				GUI.color = Color.red;
 				GUI.Label(ScaledRect(apMargin + 85f, apHeight, 230f, 30f), $"Disconnected");
@@ -761,6 +850,10 @@ namespace FF1PRAP
 			if (GUI.Button(new Rect(apMargin, GetApHeight(50f), 340f, 30f), pointer))
 			{
 				ShowAPSettingsWindow = !ShowAPSettingsWindow;
+				if (ShowAPSettingsWindow)
+				{
+					Archipelago.instance.Disconnect();
+				}
 			}
 			
 			GUI.backgroundColor = backcolor;
@@ -768,8 +861,6 @@ namespace FF1PRAP
 
 			if (ShowAPSettingsWindow)
 			{
-				Archipelago.instance.Disconnect();
-
 				//Player name
 				GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
 				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 340f, 30f), $"Player: {textWithCursor(getConnectionSetting("Player"), editingFlags["Player"], true)}");
@@ -856,16 +947,6 @@ namespace FF1PRAP
 			GUI.EndScrollView();
 
 			lastApHeight = apHeight + 40f * guiScale;
-		}
-		public static bool TitleScreen___NewGame_PrefixPatch(Last.UI.KeyInput.TitleWindowController __instance) {
-			//CloseAPSettingsWindow();
-			/*
-			RecentItemsDisplay.instance.ResetQueue();
-			if (SaveFlags.IsArchipelago()) {
-				Archipelago.instance.integration.ItemIndex = 0;
-				Archipelago.instance.integration.ClearQueue();
-			}*/
-			return true;
 		}
 		/*
 		public static bool FileManagement_LoadFileAndStart_PrefixPatch(FileManagementGUI __instance, string filename) {

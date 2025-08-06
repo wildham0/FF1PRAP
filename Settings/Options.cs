@@ -20,11 +20,10 @@ namespace FF1PRAP
 	{
 		public string Key;
 		public string Display;
-		public List<(string key, string display)> Choices;
-		public int Default;
+		public Dictionary<string, string> Choices;
+		public string Default;
 		public string Description;
-
-		public Option(string key, string display, List<(string key, string display)> choices, int defaultchoice, string description)
+		public Option(string key, string display, Dictionary<string, string> choices, string defaultchoice, string description)
 		{
 			Key = key;
 			Display = display;
@@ -32,19 +31,20 @@ namespace FF1PRAP
 			Default = defaultchoice;
 			Description = description;
 		}
+
 	}
 
 	public static class Options
 	{
 		private static List<Option> optionlist = new()
 		{
-			new("npcs_priority", "NPCs", new() { ("prioritize", "Prioritize"), ("include", "Include"), ("exclude", "Exclude") }, 0,
+			new("npcs_priority", "NPCs", new() { { "prioritize", "Prioritize" }, {"include", "Include"}, {"exclude", "Exclude"} }, "prioritize",
 				"When placing Key Items, set if NPCs are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."
 				),
-			new("keychests_priority", "Key Chests", new() { ("prioritize", "Prioritize"), ("include", "Include"), ("exclude", "Exclude") }, 0,
+			new("keychests_priority", "Key Chests", new() {  { "prioritize", "Prioritize" }, {"include", "Include"}, {"exclude", "Exclude"} }, "prioritize",
 				"When placing Key Items, set if Chests containing Key Items in the Vanilla Game are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."),
-			new("trapped_priority", "Trapped Chests", new() { ("prioritize", "Prioritize"), ("include", "Include"), ("exclude", "Exclude") }, 1,
-				"hen placing Key Items, set if Trapped Chests are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."),
+			new("trapped_priority", "Trapped Chests", new() {  { "prioritize", "Prioritize" }, {"include", "Include"}, {"exclude", "Exclude"} }, "include",
+				"When placing Key Items, set if Trapped Chests are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."),
 		};
 
 		public static Dictionary<string, Option> Dict = optionlist.ToDictionary(o => o.Key, o => o);
