@@ -625,6 +625,7 @@ namespace FF1PRAP
 		private static void SetActive_Post(SaveListController.Mode mode)
 		{
 			InternalLogger.LogInfo($"SaveListView: {mode}");
+		}
 
 		public static void TaskCheckComplete_Post(ref bool __result, ResourceLoadTask __instance)
 		{

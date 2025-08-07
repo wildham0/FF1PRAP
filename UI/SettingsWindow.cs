@@ -805,6 +805,7 @@ namespace FF1PRAP
 			CreateDropdown(Options.Dict["npcs_priority"].Display, Options.Dict["npcs_priority"]);
 			CreateDropdown(Options.Dict["keychests_priority"].Display, Options.Dict["keychests_priority"]);
 			CreateDropdown(Options.Dict["trapped_priority"].Display, Options.Dict["trapped_priority"]);
+			CreateDropdown(Options.Dict["adamantite_craft"].Display, Options.Dict["adamantite_craft"]);
 			apHeight += 20f * guiScale;
 
 			GUI.EndScrollView();
@@ -977,7 +978,7 @@ namespace FF1PRAP
 			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
 			GUI.color = new Color(0f, 0f, 0f, 1f);
 			GUI.contentColor = new Color(0f, 0f, 0f, 1f);
-			GUI.Label(ScaledRect(0, 0, 100f, 30f), $"v{PluginInfo.VERSION} Alpha");
+			GUI.Label(ScaledRect(0, 0, 300f, 30f), $"v{PluginInfo.VERSION} Alpha");
 		}
 		
 		/*

@@ -49,6 +49,7 @@ namespace FF1PRAP
 			}
 
 			FF1PR.SessionManager.WriteSlotData();
+			FF1PR.SessionManager.LoadSaveSlotInfoData();
 		}
 
 		public static void NewGame_Postfix()

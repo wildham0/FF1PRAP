@@ -45,6 +45,8 @@ namespace FF1PRAP
 				"When placing Key Items, set if Chests containing Key Items in the Vanilla Game are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."),
 			new("trapped_priority", "Trapped Chests", new() {  { "prioritize", "Prioritize" }, {"include", "Include"}, {"exclude", "Exclude"} }, "include",
 				"When placing Key Items, set if Trapped Chests are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."),
+			new("adamantite_craft", "Adamantite Craft", new() {  { "92", "Excalibur" }, {"103", "Masamune"}, {"183", "Ribbon"}, {"121", "Mage's Staff"}, {"160", "Diamond Armlet"}, { "-1", "Random (Good Gear)" }, { "-2", "Random (Anything)" } }, "92",
+				"When using Prioritized Locations, select what will replace the Excalibur as a potential Prioritized Item."),
 		};
 
 		public static Dictionary<string, Option> Dict = optionlist.ToDictionary(o => o.Key, o => o);
