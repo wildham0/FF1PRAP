@@ -72,15 +72,15 @@ namespace FF1PRAP
 			switch(fieldName)
 			{
 				case "Player":
-					return FF1PR.SessionManager.GetGlobal<string>("player");
+					return FF1PR.SessionManager.Data.Player;
 				case "Hostname":
-					return FF1PR.SessionManager.GetGlobal<string>("server");
+					return FF1PR.SessionManager.Data.Host;
 				case "Port":
-					return FF1PR.SessionManager.GetGlobal<string>("port");
+					return FF1PR.SessionManager.Data.Port;
 				case "Password":
-					return FF1PR.SessionManager.GetGlobal<string>("password");
+					return FF1PR.SessionManager.Data.Password;
 				case "Seed":
-					return FF1PR.SessionManager.GetGlobal<string>("seed");
+					return FF1PR.SessionManager.Data.Seed;
 				default:
 					return "";
 			}
@@ -92,19 +92,19 @@ namespace FF1PRAP
 			switch (fieldName)
 			{
 				case "Player":
-					FF1PR.SessionManager.SetGlobal("player", value);
+					FF1PR.SessionManager.Data.Player = value;
 					return;
 				case "Hostname":
-					FF1PR.SessionManager.SetGlobal("server", value);
+					FF1PR.SessionManager.Data.Host = value;
 					return;
 				case "Port":
-					FF1PR.SessionManager.SetGlobal("port", value);
+					FF1PR.SessionManager.Data.Port = value;
 					return;
 				case "Password":
-					FF1PR.SessionManager.SetGlobal("password", value);
+					FF1PR.SessionManager.Data.Password = value;
 					return;
 				case "Seed":
-					FF1PR.SessionManager.SetGlobal("seed", value);
+					FF1PR.SessionManager.Data.Seed = value;
 					try
 					{
 						seed = Convert.FromHexString(value);
@@ -161,7 +161,7 @@ namespace FF1PRAP
 
 			stringToEdit = "";
 			stringCursorPosition = 0;
-			FF1PR.SessionManager.WriteGlobalData();
+			FF1PR.SessionManager.WriteSessionInfo();
 			editingFlags[fieldName] = false;
 		}
 
@@ -186,14 +186,14 @@ namespace FF1PRAP
 				stringToEdit = GUIUtility.systemCopyBuffer;
 				finishEditingTextField(fieldName);
 			}
-			FF1PR.SessionManager.WriteGlobalData();
+			FF1PR.SessionManager.WriteSessionInfo();
 		}
 
 		private static void handleClearButton(string fieldName)
 		{
 			setConnectionSetting(fieldName, "");
 			if (editingFlags[fieldName]) stringToEdit = "";
-			FF1PR.SessionManager.WriteGlobalData();
+			FF1PR.SessionManager.WriteSessionInfo();
 		}
 
 		private static void handleRollButton(string fieldName)
@@ -208,7 +208,7 @@ namespace FF1PRAP
 			}
 			setConnectionSetting(fieldName, seedString);
 			if (editingFlags[fieldName]) stringToEdit = "";
-			FF1PR.SessionManager.WriteGlobalData();
+			FF1PR.SessionManager.WriteSessionInfo();
 		}
 
 		private static void DrawBorders(ref int[] colorArray, int width, int height, int borderwidth, int setindent, int offset, int color)
@@ -369,6 +369,8 @@ namespace FF1PRAP
 
 			if (showSettings)
 			{
+				FF1PR.SessionManager.CurrentSlot = 0;
+
 				//InternalLogger.LogInfo($"Title Window is here.");
 				// initial draw or screen was resized, redraw texture
 				if (screenWidth != Screen.width || screenHeight != Screen.height || windowTexture == null)
@@ -581,7 +583,7 @@ namespace FF1PRAP
 			bool showOptions = currentOptionShowing == label;
 
 			string currentSelection = option.Choices[option.Default];
-			if (FF1PR.SessionManager.TryGetGlobal<string>(option.Key, out var select))
+			if (FF1PR.SessionManager.Data.Options.TryGetValue(option.Key, out var select))
 			{
 				if (option.Choices.TryGetValue(select, out var foundchoice))
 				{
@@ -611,7 +613,7 @@ namespace FF1PRAP
 				{
 					if (GUI.Button(new Rect((apMargin + 20f), GetApHeight(30f), 280f, 30f), choice.Value))
 					{
-						FF1PR.SessionManager.SetGlobal(option.Key, choice.Key);
+						FF1PR.SessionManager.Options[option.Key] = choice.Key;
 						currentOptionShowing = "";
 					}
 				}
@@ -782,15 +784,15 @@ namespace FF1PRAP
 			if (generate)
 			{
 				var hash = FF1PR.SessionManager.CreateHash();
-				FF1PR.PlacedItems = Randomizer.DoItemPlacement(hash);
-				FF1PR.SessionManager.WriteGlobalData();
+				Randomizer.Randomize(hash);
+				FF1PR.SessionManager.WriteSessionInfo();
 				generationReady = true;
 			}
 
 			if (generationReady)
 			{
 				GUI.skin.label.fontSize = (int)(standardFontSize * 1 * guiScale);
-				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 200f, 30f), $"Hash: {FF1PR.SessionManager.GetGlobal<string>("hashstring")}");
+				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 200f, 30f), $"Hash: {FF1PR.SessionManager.Data.Hashstring}");
 			}
 
 			string genlabel = generationReady ? "Randomization done. You can start a new game to play with these settings." : "Click Generate to randomize a new game or load a save file to continue a previously randomize game.";
@@ -830,7 +832,7 @@ namespace FF1PRAP
 			CreateGameModeDropdown("Game Mode");
 			apHeight += 20f * guiScale;
 
-			GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 500f, 30f), $"Player: {(FF1PR.SessionManager.GetGlobal<string>("player"))}");
+			GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 500f, 30f), $"Player: {FF1PR.SessionManager.Data.Player}");
 			GUI.Label(ScaledRect(apMargin, apHeight, 70f, 30f), $"Status:");
 			if (Archipelago.instance.integration != null && Archipelago.instance.integration.connected)
 			{
@@ -904,12 +906,12 @@ namespace FF1PRAP
 				GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
 				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 340f, 30f), $"Host: {textWithCursor(getConnectionSetting("Hostname"), editingFlags["Hostname"], true)}");
 
-				string setHost = CreateGenericDropdown("Hostname", new List<string>() { "localhost", "archipelago.gg" }, FF1PR.SessionManager.GetGlobal<string>("server"));
+				string setHost = CreateGenericDropdown("Hostname", new List<string>() { "localhost", "archipelago.gg" }, FF1PR.SessionManager.Data.Host);
 
-				if (setHost != "" && FF1PR.SessionManager.GetGlobal<string>("server") != setHost)
+				if (setHost != "" && FF1PR.SessionManager.Data.Host != setHost)
 				{
 					setConnectionSetting("Hostname", setHost);
-					FF1PR.SessionManager.WriteGlobalData();
+					FF1PR.SessionManager.WriteSessionInfo();
 				}
 
 				bool EditHostname = GUI.Button(ScaledRect(apMargin, apHeight, 75f, 30f), editingFlags["Hostname"] ? "Save" : "Edit");

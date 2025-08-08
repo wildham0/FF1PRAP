@@ -32,23 +32,25 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo("Saving at Slot: " + __instance.CurrentSlotId);
 			SaveGame(__instance.CurrentSlotId);
+
+			//__instance.SaveSlotDataList[__instance.CurrentSlotId].timeStamp = "weeeeee";
 		}
 		public static void LoadGame(int slotid)
 		{
-			FF1PR.SessionManager.SetSlot(slotid);
-			FF1PR.SessionManager.LoadSlotData();
+			FF1PR.SessionManager.CurrentSlot = slotid;
+			FF1PR.SessionManager.LoadSessionInfo(slotid);
 			Monitor.instance.SetProcess((int)ProcessStates.LoadGame);
 		}
 
 		public static void SaveGame(int slotid)
 		{
-			FF1PR.SessionManager.SetSlot(slotid);
+			FF1PR.SessionManager.CurrentSlot = slotid;
 			if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 			{
 				Archipelago.instance.GetLocationsToSend();
 			}
 
-			FF1PR.SessionManager.WriteSlotData();
+			FF1PR.SessionManager.WriteSessionInfo();
 			FF1PR.SessionManager.LoadSaveSlotInfoData();
 		}
 

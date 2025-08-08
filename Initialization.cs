@@ -40,6 +40,10 @@ namespace FF1PRAP
 			FF1PR.MasterManager.GetList<Item>().Add(42, new Item("42,42,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"));
 			FF1PR.MasterManager.GetList<Content>().Add(43, new Content("43,MSG_KEY_NAME_19,None,MSG_KEY_INF_19,0,1,42"));
 
+			FF1PR.MessageManager.GetMessageDictionary()["MSG_ITEM_NAME_01"] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Potion";
+			
+
+
 			// Update dialogues
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_GARLAND"] = "You really think you have what it takes to cross swords with ME? Very well... I, Garland, will knock you all down!!!";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARASAVE"] = "I am Sarah, princess of Cornelia. You must allow me to show my gratitude. Please, accompany me to Castle Cornelia.";
@@ -85,13 +89,46 @@ namespace FF1PRAP
 
 			FF1PR.MasterManager.GetList<Map>()[1].MovingAvailability = 1;
 
-      /*
-			var mapobjects = FF1PR.MasterManager.GetList<Mapobject>();
-			
-			foreach (var mapobject in mapobjects)
+			/*
+			for (int i = 44; i < 61; i++)
 			{
-				InternalLogger.LogInfo($"Map: {mapobject.key} - {mapobject.value.Id} - {mapobject.value.ShadowName}");
+				FF1PR.MasterManager.GetData<Item>(i).Buy = 5;
+			}
+
+
+			FF1PR.MasterManager.GetData<Product>(1).ContentId = 213;
+			FF1PR.MasterManager.GetData<Product>(3).ContentId = 50;
+			FF1PR.MasterManager.GetData<Product>(2).GroupId = 2;
+			*/
+			/*
+			var product1 = FF1PR.MasterManager.GetData<Product>(1);
+			var productDict = FF1PR.MasterManager.GetList<Product>()[1];
+			var test = FF1PR.MasterManager.GetMaster<Product>();
+
+			
+			FF1PR.MasterManager.GetList<Product>()[1].ContentId = 213;
+			FF1PR.MasterManager.GetList<Product>()[3].ContentId = 50;
+			FF1PR.MasterManager.GetList<Product>()[2].GroupId = 2;
+
+			InternalLogger.LogInfo($"Test Product: {product1.ContentId} - {productDict.ContentId} - {test.DataList[1].ContentId}");
+
+			foreach (var product in test.DataList)
+			{
+				InternalLogger.LogInfo($"Product: {product.key} - {product.value.Id} - {product.value.Coefficient} - {product.value.ContentId}  - {product.value.GroupId}");
+			}
+
+			foreach (var productgroup in FF1PR.MasterManager.GetList<ProductGroup>())
+			{
+				InternalLogger.LogInfo($"Product Group: {productgroup.key} - {productgroup.value.Id} - {productgroup.value.MesIdName}");
 			}*/
+
+			/*
+				  var mapobjects = FF1PR.MasterManager.GetList<Mapobject>();
+
+				  foreach (var mapobject in mapobjects)
+				  {
+					  InternalLogger.LogInfo($"Map: {mapobject.key} - {mapobject.value.Id} - {mapobject.value.ShadowName}");
+				  }*/
 			/*
 			var maplist = FF1PR.MasterManager.GetList<Map>();
 			foreach (var map in maplist)
@@ -108,7 +145,7 @@ namespace FF1PRAP
 			}*/
 		}
 
-		public static void InitializeRandoItems()
+		public static void InitializeRandoItems(RandomizerData randoData)
 		{
 			InternalLogger.LogInfo($"Initialization Message.");
 
@@ -144,6 +181,14 @@ namespace FF1PRAP
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_GET_CHIME_02"] = $"You obtain {lefeinitem}.";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_WND_DAN_04"] = $"You obtain {skyitem}.";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_GET_EXCALIBAR_05"] = $"You obtain {smittitem}.";
+
+			// Update Shops
+
+			
+			foreach (var product in randoData.GearShops)
+			{
+				FF1PR.MasterManager.GetList<Product>()[product.Id] = product;
+			}
 		}
 
 		public static void InitializeNewGame()
@@ -172,6 +217,7 @@ namespace FF1PRAP
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 7, 1); // Bridge Intro
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 8, 1); // Matoya Cutscene
+
 		}
 
 		public static string GetPlacedItemName(int flag)

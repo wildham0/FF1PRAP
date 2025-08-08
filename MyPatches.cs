@@ -597,8 +597,24 @@ namespace FF1PRAP
 			//__instance.slotNumText.text = "yooo";
 		}
 
-		private static void SetData_Post(ref SaveSlotManager __instance)
+		private static void SetData_Pre()
 		{
+
+			InternalLogger.LogInfo($"SaveSlot data create!!!!");
+
+			/*
+			if (__result.SaveSlotDataList != null)
+			{
+				__result.SaveSlotDataList[3].timeStamp = "wawawoooo";
+
+
+			}*/
+
+			//___TimeStamp = "George";
+
+			/*
+
+			SaveSlotData data = new();
 			if (__instance.SaveSlotDataList != null)
 			{
 				foreach (var save in __instance.SaveSlotDataList)
@@ -607,9 +623,9 @@ namespace FF1PRAP
 					InternalLogger.LogInfo($"SlotManagerSlot: {save.timeStamp} - {save.IsSuccess}");
 				}
 
-			}
+			}*/
 
-			
+
 
 			//__instance.slotName = "riiiiiight";
 			//__instance.slotNumText.text = "yooo";
@@ -648,6 +664,48 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"RessourceManager check: {assetName} - {__result}.");
 		}
+
+
+
+		public static void ReplaceKey_Post(ref string __result, string message, Dictionary<string, string> dictionary)
+		{
+			if (FF1PR.SaveInfoState.CurrentSlot != FF1PR.SaveInfoState.PreviousSlot)
+			{
+				if (message.Contains("File") && FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot) != "")
+				{
+					__result = $"{FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot)}   File";
+					FF1PR.SaveInfoState.PreviousSlot = FF1PR.SaveInfoState.CurrentSlot;
+				}
+				else if (message.Contains("Autosave") && FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot) != "")
+				{
+					__result = $"{FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot)}   Autosave";
+					FF1PR.SaveInfoState.PreviousSlot = FF1PR.SaveInfoState.CurrentSlot;
+				}
+				else if (message.Contains("Quick Save") && FF1PR.SaveInfoState.CurrentSlot == 22 && FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot) != "")
+				{
+					__result = $"{FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot)}   Quick Save";
+					FF1PR.SaveInfoState.PreviousSlot = FF1PR.SaveInfoState.CurrentSlot;
+				}
+				
+			}
+		}
+
+		public static void SetContentData_Pre(ref SaveSlotData data, int index, SaveListController.Mode mode)
+		{
+			//InternalLogger.LogInfo($"SaveSloData: {index} - {data.id}");
+			FF1PR.SaveInfoState.CurrentSlot = data.id;
+		}
+	}
+	public enum SaveInfoModes
+	{ 
+		MainMenu,
+		LoadMenu,
+		SaveMenu,
+	}
+	public class SaveInfoState
+	{
+		public int CurrentSlot = 0;
+		public int PreviousSlot = 255;
 	}
 
 	public class RandoDataStorage

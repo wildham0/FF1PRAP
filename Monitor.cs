@@ -10,6 +10,7 @@ using Last.Message;
 using static UnityEngine.GridBrushBase;
 using Il2CppSystem;
 using Last.Data.Master;
+using Last.UI.KeyInput;
 
 namespace FF1PRAP
 {
@@ -50,6 +51,8 @@ namespace FF1PRAP
 		public GameStates GameState = GameStates.Title;
 		public ProcessStates ProcessState = ProcessStates.InitGame;
 		public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
+		public Last.Defaine.MenuCommandId MainMenuState = Last.Defaine.MenuCommandId.Non;
+		public SaveWindowController.State SaveMenuState = SaveWindowController.State.None;
 		private bool newGameProcessed = false;
 
 		public List<AssetTask> tasksToMonitor;
@@ -104,8 +107,8 @@ namespace FF1PRAP
 						//var seed = (uint)System.DateTime.Now.Ticks;
 						//FF1PR.SessionManager.SetValue("seed", seed.ToString());
 						//FF1PR.PlacedItems = Randomizer.DoItemPlacement(seed);
-						FF1PR.SessionManager.SetRandomizedGame(FF1PR.PlacedItems);
-						Initialization.InitializeRandoItems();
+						//FF1PR.SessionManager.SetRandomizedGame(FF1PR.PlacedItems);
+						Initialization.InitializeRandoItems(Randomizer.RandomizerData);
 					}
 				}
 			}
@@ -118,11 +121,17 @@ namespace FF1PRAP
 				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 				{
 					Archipelago.instance.RestoreState();
+					RandomizerData randoData = new();
+					randoData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed);
 				}
 				else
 				{
-					FF1PR.PlacedItems = FF1PR.SessionManager.GetPlacedItems();
-					Initialization.InitializeRandoItems();
+					RandomizerData randoData = new();
+					randoData.Load(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring);
+
+					//FF1PR.PlacedItems = FF1PR.SessionManager.GetPlacedItems();
+					FF1PR.PlacedItems = randoData.PlacedItems;
+					Initialization.InitializeRandoItems(randoData);
 				}
 			}
 		}
@@ -228,6 +237,17 @@ namespace FF1PRAP
 			return tool.IsTaskDone(assetName);
 		}
 
+		public void SetMainMenuState(Last.Defaine.MenuCommandId state)
+		{
+			tool.MainMenuState = state;
+			InternalLogger.LogInfo($"MainMenu: {state}");
+		}
+
+		public void SetSaveMenuState(SaveWindowController.State state)
+		{
+			tool.SaveMenuState = state;
+			InternalLogger.LogInfo($"SaveMenu: {state}");
+		}
 	}
 
 }

@@ -26,16 +26,47 @@ namespace FF1PRAP
 		Randomizer,
 		Archipelago
 	}
+
+	public class SessionInfo
+	{
+		public GameModes Mode { get; set; }
+		public string Seed { get; set; }
+		public byte[] Hash { get; set; }
+		public string Hashstring { get; set; }
+		public string Player { get; set; }
+		public string Host { get; set; }
+		public string Port { get; set; }
+		[JsonIgnore]
+		public string Password { get; set; }
+		public string StoredPassword { get; set; }
+		public bool RememberPassword { get; set; }
+		public string WorldSeed { get; set; }
+		public int LocationCount { get; set; }
+		public List<string> LocationsToSend { get; set; }
+		public int ItemIndex { get; set; }
+		public int Slot { get; set; }
+		public Dictionary<string, string> Options { get; set; }
+		public SessionInfo()
+		{
+			LocationsToSend = new();
+			Hash = new byte[4];
+			Options = new();
+		}
+	}
 	public class SessionManager
     {
 		public static Dictionary<string, string> Slot = new();
 		public static Dictionary<string, string> Global = new();
 		public static Dictionary<int, string> SlotInfo = new();
 
-		public int currentSlot;
+		private static SessionInfo Info { get; set; } = new();
+		public int CurrentSlot { get => Info.Slot; set => Info.Slot = value; }
+		public GameModes GameMode { get => Info.Mode; set => Info.Mode = value; }
+		public SessionInfo Data { get => Info; }
+		public Dictionary<string, string> Options { get => Info.Options; }
+
 		public string folderPath;
 		public bool RandomizerInitialized = false;
-		public GameModes GameMode { get => GetGameMode(); set => SetGameMode(value); }
 		//public GameStates GameState = GameStates.Title;
 		//public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
 		public SessionManager()
@@ -47,9 +78,122 @@ namespace FF1PRAP
 
 			folderPath = Application.persistentDataPath + "/Randomizer/";
 
-			LoadGlobalData();
+			if (!LoadSessionInfo(0))
+			{
+				Info = new();
+				Info.Mode = GameModes.Archipelago;
+				Info.Slot = 0;
+				Info.Port = "";
+				Info.WorldSeed = "";
+				Info.Seed = "";
+				Info.RememberPassword = false;
+			}
+
+			//LoadGlobalData();
 			LoadSaveSlotInfoData();
 		}
+
+		public bool LoadSessionInfo(int slot)
+		{
+			string filepath = folderPath + "ff1pr_rando_data_" + slot + ".dat";
+			bool fileexist = true;
+
+			try
+			{
+				using (Stream configfile = new FileStream(filepath, FileMode.Open))
+				{
+					using (StreamReader reader = new StreamReader(configfile))
+					{
+						string configdata = reader.ReadToEnd();
+						Info = JsonSerializer.Deserialize<SessionInfo>(configdata);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				fileexist = false;
+				InternalLogger.LogInfo($"Unsucessful attempt at loading data at Slot {slot}: " + e);
+				return false;
+			}
+			
+			Info.Password = Info.RememberPassword ? Info.StoredPassword : "";
+
+			InternalLogger.LogInfo($"Successfully loaded Session Info for Slot {slot}");
+			//InternalLogger.LogInfo($"Info: {Info.Mode} - {Info.Seed} - {Info.Hashstring} - {Info.Player}");
+
+			return fileexist;
+		}
+		public void WriteSessionInfo()
+		{
+			string filepath = folderPath + "ff1pr_rando_data_" + CurrentSlot + ".dat";
+
+			Info.StoredPassword = Info.RememberPassword ? Info.Password : "";
+
+			try
+			{
+				using (Stream configfile = new FileStream(filepath, FileMode.Create))
+				{
+					using (StreamWriter writer = new StreamWriter(configfile))
+					{
+						var configdata = JsonSerializer.Serialize<SessionInfo>(Info);
+						writer.Write(configdata);
+					}
+				}
+			}
+			catch (Exception e) { }
+		}
+		public void LoadSaveSlotInfoData()
+		{
+
+			for (int i = 1; i <= 22; i++)
+			{
+				string filepath = folderPath + "ff1pr_rando_data_" + i + ".dat";
+				bool fileexist = true;
+				SessionInfo slotdata = new();
+				try
+				{
+					using (Stream configfile = new FileStream(filepath, FileMode.Open))
+					{
+						using (StreamReader reader = new StreamReader(configfile))
+						{
+							string configdata = reader.ReadToEnd();
+
+							//var options = new JsonSerializerOptions();
+							//options.Converters.Add(new ValueToStringConverter());
+
+							slotdata = JsonSerializer.Deserialize<SessionInfo>(configdata);
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					fileexist = false;
+				}
+
+				string content = "";
+				if (fileexist)
+				{
+					GameModes mode = slotdata.Mode;
+					switch (mode)
+					{
+						case GameModes.Archipelago:
+							content = $"Archipelago ({slotdata.Player})";
+							break;
+						case GameModes.Randomizer:
+							content = $"Solo Randomizer ({slotdata.Hashstring})";
+							break;
+						default:
+							break;
+					}
+				}
+
+				SlotInfo[i] = content;
+			}
+		}
+
+
+
+
 
 		public void SetGlobal(string key, string value)
 		{
@@ -134,11 +278,11 @@ namespace FF1PRAP
 				return false;
 			}
 		}
-
+		/*
 		public void SetSlot(int slot)
 		{
-			currentSlot = slot;
-		}
+			CurrentSlot = slot;
+		}*/
 
 		public string GetSlotInfo(int slot)
 		{
@@ -151,6 +295,7 @@ namespace FF1PRAP
 				return "";
 			}
 		}
+		/*
 		public void LoadSaveSlotInfoData()
 		{
 
@@ -189,7 +334,8 @@ namespace FF1PRAP
 							string player = slotdata.TryGetValue("player", out var player_result) ? player_result : "";
 							string port = slotdata.TryGetValue("port", out var port_result) ? port_result : "";
 							string itemindex = slotdata.TryGetValue("itemindex", out var itemindex_result) ? itemindex_result : "";
-							content = $"Archipelago\n{player} / {port}";
+							string worldseed = slotdata.TryGetValue("itemindex", out var worldseed_result) ? worldseed_result : "";
+							content = $"Archipelago\n{player} / {worldseed}";
 							break;
 						case "randomizer":
 							string hashstring = slotdata.TryGetValue("hashstring", out var hashstring_result) ? hashstring_result : "";
@@ -203,8 +349,8 @@ namespace FF1PRAP
 
 				SlotInfo[i] = content;
 			}
-		}
-
+		}*/
+		/*
 		public bool LoadGlobalData()
 		{
 			string filepath = folderPath + "ff1pr_rando_data_global.dat";
@@ -238,8 +384,8 @@ namespace FF1PRAP
 			SetValue("mode", GetGlobal<string>("mode"));
 
 			return fileexist;
-		}
-
+		}*/
+		/*
 		public void WriteGlobalData()
 		{
 			string filepath = folderPath + "ff1pr_rando_data_global.dat";
@@ -257,11 +403,11 @@ namespace FF1PRAP
 				}
 			}
 			catch (Exception e) { }
-		}
-
+		}*/
+		/*
 		public bool LoadSlotData()
 		{
-			string filepath = folderPath + "ff1pr_rando_data_" + currentSlot + ".dat";
+			string filepath = folderPath + "ff1pr_rando_data_" + CurrentSlot + ".dat";
 			bool fileexist = true;
 
 			try
@@ -286,10 +432,11 @@ namespace FF1PRAP
 
 			//SetGlobal("mode", GetValue<string>("mode"));
 			return fileexist;
-		}
+		}*/
+		/*
 		public void WriteSlotData()
 		{
-			string filepath = folderPath + "ff1pr_rando_data_" + currentSlot + ".dat";
+			string filepath = folderPath + "ff1pr_rando_data_" + CurrentSlot + ".dat";
 
 			try
 			{
@@ -305,8 +452,8 @@ namespace FF1PRAP
 			catch (Exception e) { }
 
 			//SetGlobal("mode", GetValue<string>("mode"));
-		}
-
+		}*/
+		/*
 		public void SetPlacedItems(Dictionary<int, ItemData> placedItems)
 		{
 			foreach (var item in placedItems)
@@ -316,7 +463,8 @@ namespace FF1PRAP
 				SetValue("flag_" + item.Key + "_qty", item.Value.Qty);
 			}
 		}
-
+		*/
+		/*
 		public void SetRandomizedGame(Dictionary<int, ItemData> placedItems)
 		{
 			SetPlacedItems(placedItems);
@@ -335,14 +483,14 @@ namespace FF1PRAP
 			SetValue("hash", GetGlobal<string>("hash"));
 			SetValue("hashstring", GetGlobal<string>("hashstring"));
 			//SetValue("mode", GetGlobal<string>("mode"));
-		}
+		}*/
 		public uint CreateHash()
 		{
 			string settings = "";
-			foreach (var option in Options.Dict.Values)
+			foreach (var option in FF1PRAP.Options.Dict.Values)
 			{
-				if (TryGetGlobal<string>(option.Key, out var setting))
-				{
+				if (Info.Options.TryGetValue(option.Key, out var setting))
+				{ 
 					settings += setting;
 				}
 				else
@@ -351,7 +499,7 @@ namespace FF1PRAP
 				}
 			}
 
-			settings += GetGlobal<string>("seed");
+			settings += Info.Seed;
 			var encodedsettings = Encoding.UTF8.GetBytes(settings);
 			uint finalhash;
 			string hashString;
@@ -360,10 +508,9 @@ namespace FF1PRAP
 				Blob hash = hasher.ComputeHash(encodedsettings);
 				hashString = EncodeTo32(hash).Substring(0,8);
 				finalhash = (uint)hash.ToUInts().Sum(x => x);
+				Info.Hash = hash;
+				Info.Hashstring = hashString;
 			}
-
-			SetGlobal("hash", finalhash.ToString());
-			SetGlobal("hashstring", hashString);
 
 			return finalhash;
 		}
@@ -381,55 +528,17 @@ namespace FF1PRAP
 
 			return encodedString;
 		}
-		public Dictionary<int, ItemData> GetPlacedItems()
-		{
-
-			Dictionary<int, ItemData> placedItems = new();
-			InternalLogger.LogInfo($"GetPlacedItems: mode: {GetValue<string>("mode")}");
-
-			if (GetValue<string>("mode") == "randomizer")
-			{
-				foreach (var location in Randomizer.FixedLocations.Where(l => l.Type != LocationType.Event).ToList())
-				{
-					int flag = location.Flag;
-					int item = GetValue<int>("flag_" + flag + "_id");
-					int qty = GetValue<int>("flag_" + flag + "_qty");
-
-					InternalLogger.LogInfo($"GetPlacedItems: item: {flag} - {item}");
-					placedItems.Add(flag, new ItemData() { Id = item, Qty = qty });
-				}
-			}
-
-			return placedItems;
-		}
-
 		public void SaveLocationsToSend(List<string> locationsToSend)
 		{
-			SetValue("locationsToSendCount", locationsToSend.Count);
-			for (int i = 0; i < locationsToSend.Count; i++)
-			{
-				SetValue("locationsToSend_" + i, locationsToSend[i]);
-			}
+			Info.LocationsToSend = new(locationsToSend);
+			Info.LocationCount = Info.LocationsToSend.Count;
 		}
 
 		public List<string> LoadLocationsToSend()
 		{
-			int locationCount = 0;
-			List<string> locationsToSend = new();
-			if (TryGetValue<int>("locationsToSendCount", out locationCount))
-			{
-				for (int i = 0; i < locationCount; i++)
-				{
-					if (TryGetValue<string>("locationsToSend_" + i, out var location))
-					{
-						locationsToSend.Add(location);
-					}
-				}
-			}
-
-			return locationsToSend;
+			return Info.LocationsToSend;
 		}
-
+		/*
 		private GameModes GetGameMode()
 		{
 			var newmode = FF1PR.SessionManager.GetValue<string>("mode");
@@ -465,8 +574,6 @@ namespace FF1PRAP
 				modetype = "archipelago";
 			}
 			FF1PR.SessionManager.SetValue("mode", modetype);
-		}
-
-
+		}*/
 	}
 }

@@ -109,7 +109,7 @@ namespace FF1PRAP {
 			
 			
 			integration.ClearQueue();
-			integration.ItemIndex = FF1PR.SessionManager.GetValue<int>("itemindex");
+			integration.ItemIndex = FF1PR.SessionManager.Data.ItemIndex;
 			InternalLogger.LogInfo($"Set item index at: {integration.ItemIndex}");
 			integration.locationsToSend = FF1PR.SessionManager.LoadLocationsToSend();
 			/*

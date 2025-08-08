@@ -41,6 +41,7 @@
     <EmbeddedResource Include="Entities\en_smitt_script.json" />
     <EmbeddedResource Include="Entities\en_nerrick_script.json" />
     <EmbeddedResource Include="Entities\en_lockeddoor.json" />
+    <EmbeddedResource Include="Entities\ev_coneriacastle_from_teleport.json" />
     <EmbeddedResource Include="Entities\ev_overworld.json" />
     <EmbeddedResource Include="Entities\ev_cubewarp.json" />
     <EmbeddedResource Include="Entities\ev_melmond.json" />

@@ -1,7 +1,10 @@
-﻿using Last.Entity.Field;
+﻿using Last.Defaine;
+using Last.Entity.Field;
 using Last.Interpreter;
 using Last.Management;
+using Last.UI;
 using Last.UI.KeyInput;
+using Last.UI.Save;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,10 +67,11 @@ namespace FF1PRAP
 		}
 
 		// All that to check the state of saving/loading screen ;_;
-		private static void MainMenuControllerInitialize_Post(MainMenuController __instance)
+		private static void MainMenuControllerInitialize_Post(MainMenuController __instance, MenuCommandId state)
 		{
 			InternalLogger.LogInfo($"MainMenuController initialized.");
-			FF1PR.MainMenuController = __instance;
+			//FF1PR.MainMenuController = __instance;
+			Monitor.instance.SetMainMenuState(state);
 		}
 		private static void TitleWindowControllerInitialize_Post(TitleWindowController __instance)
 		{
@@ -90,10 +94,11 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"LoadWindowController initialized.");
 			FF1PR.LoadWindowController = __instance;
 		}
-		private static void SaveWindowControllerInitialize_Post(SaveWindowController __instance)
+		private static void SaveWindowControllerInitialize_Post(SaveWindowManager.State value)
 		{
-			InternalLogger.LogInfo($"SaveWindowController initialized.");
-			FF1PR.SaveWindowController = __instance;
+			InternalLogger.LogInfo($"SaveWindowMaanger {value}.");
+			//FF1PR.SaveWindowController = __instance;
+			//Monitor.instance.SetSaveMenuState(state);
 		}
 
 

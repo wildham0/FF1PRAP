@@ -72,7 +72,7 @@ namespace FF1PRAP {
 
 		public string TryConnect() {
 			
-			if (connected && FF1PR.SessionManager.GetGlobal<string>("player") == session.Players.GetPlayerName(session.ConnectionInfo.Slot)) {
+			if (connected && FF1PR.SessionManager.Data.Player == session.Players.GetPlayerName(session.ConnectionInfo.Slot)) {
 				return "";
 			}
 
@@ -82,26 +82,30 @@ namespace FF1PRAP {
 
 			if (session == null) {
 				try {
-					session = ArchipelagoSessionFactory.CreateSession(FF1PR.SessionManager.GetGlobal<string>("server"), int.Parse(FF1PR.SessionManager.GetGlobal<string>("port")));
+					session = ArchipelagoSessionFactory.CreateSession(FF1PR.SessionManager.Data.Host, int.Parse(FF1PR.SessionManager.Data.Port));
 				} catch (Exception e) {
 					InternalLogger.LogInfo("Failed to create archipelago session!");
 					InternalLogger.LogInfo(e.GetBaseException().Message);
 				}
 			}
 
+			
 			incomingItemHandler = IncomingItemHandler();
 			checkItemsReceived = CheckItemsReceived();
 			incomingItems = new ConcurrentQueue<(ItemInfo ItemInfo, int index)>();
 			locationsToSend = new List<string>();
 
 			try {
-				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.GetGlobal<string>("player"), ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.GetGlobal<string>("password"));
+				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.Data.Player, ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.Data.Password);
 			} catch (Exception e) {
 				LoginResult = new LoginFailure(e.GetBaseException().Message);
 			}
 
-			if (LoginResult is LoginSuccessful LoginSuccess) {
+			if (LoginResult is LoginSuccessful LoginSuccess)
+			{
 
+
+				
 				slotData = LoginSuccess.SlotData;
 				ItemIndex = 0;
 
@@ -114,6 +118,7 @@ namespace FF1PRAP {
 					disableSpoilerLog = false;
 				}
 
+				FF1PR.SessionManager.Data.WorldSeed = Archipelago.instance.integration.session.RoomState.Seed;
 
 				//Archipelago.instance.integration.session.Locations.S
 				/*
@@ -164,7 +169,7 @@ namespace FF1PRAP {
 			foreach (var item in content)
 			{
 				string itemstring;
-				if (item.Value.Player.Name == FF1PR.SessionManager.GetGlobal<string>("player"))
+				if (item.Value.Player.Name == FF1PR.SessionManager.Data.Player)
 				{
 					itemstring = item.Value.ItemDisplayName;
 				}
@@ -186,7 +191,7 @@ namespace FF1PRAP {
 		public void TrySilentReconnect() {
 			LoginResult LoginResult;
 			try {
-				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.GetGlobal<string>("player"), ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.GetGlobal<string>("password"));
+				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.Data.Player, ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.Data.Password);
 			} catch (Exception e) {
 				LoginResult = new LoginFailure(e.GetBaseException().Message);
 			}
@@ -232,7 +237,7 @@ namespace FF1PRAP {
 					InternalLogger.LogInfo("Placing item " + ItemInfo.ItemDisplayName + " with index " + ItemIndex + " in queue.");
 					incomingItems.Enqueue((ItemInfo, ItemIndex));
 					ItemIndex++;
-					FF1PR.SessionManager.SetValue("itemindex", ItemIndex);
+					FF1PR.SessionManager.Data.ItemIndex = ItemIndex;
 				}
 				yield return true;
 			}
@@ -264,7 +269,7 @@ namespace FF1PRAP {
 					yield return true;
 				}*/
 
-				var handleResult = Patches.GiveItem(itemName, FF1PR.SessionManager.GetGlobal<string>("player") != itemInfo.Player.Name);
+				var handleResult = Patches.GiveItem(itemName, FF1PR.SessionManager.Data.Player != itemInfo.Player.Name);
 				switch (handleResult) {
 					case Patches.ItemResults.Success:
 						InternalLogger.LogInfo("Received " + itemDisplayName + " from " + itemInfo.Player.Name + " at " + itemInfo.LocationDisplayName);

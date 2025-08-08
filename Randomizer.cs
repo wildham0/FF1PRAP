@@ -142,7 +142,7 @@ namespace FF1PRAP
 		Knife = 63, // shop onlu
 		Dagger = 64,
 		MythrilKnife = 65,
-		CatClaws = 66, // shop only
+		CatClaws = 67, // shop only
 		//
 		Rapier = 71,
 		Saber = 72,
@@ -244,13 +244,80 @@ namespace FF1PRAP
 		DiamonGloves = 198,
 		//
 		ProtectRing = 202,
+	}
+
+	public enum Shops
+	{ 
+		ConeriaWeaponShop = 1,
+		ConeriaArmorShop = 2,
+		ConeriaItemShop = 3,
+		ConeriaWhiteMagicShop = 4,
+		ConeriaBlackMagicShop = 5,
+		PravokaWeaponShop = 6,
+		PravokaArmorShop,
+		PravokaItemShop,
+		PravokaWhiteMagicShop,
+		PravokaBlackMagicShop,
+		ElflandWeaponShop = 11,
+		ElflandArmorShop,
+		ElflandItemShop,
+		ElflandWhiteMagicShop1,
+		ElflandBlackMagicShop1,
+		ElflandWhiteMagicShop2,
+		ElflandBlackMagicShop2,
+		MelmondWeaponShop = 18,
+		MelmondArmorShop,
+		MelmondWhiteMagicShop,
+		MelmondBlackMagicShop,
+		CrescentWeaponShop = 22,
+		CrescentArmorShop,
+		CrescentItemShop,
+		CrescentWhiteMagicShop,
+		CrescentBlackMagicShop,
+		OnracItemShop = 27,
+		OnracWhiteMagicShop,
+		OnracBlackMagicShop,
+		GaiaWeaponShop = 30,
+		GaiaArmorShop,
+		GaiaItemShop,
+		GaiaWhiteMagicShop1,
+		GaiaBlackMagicShop1,
+		LufeniaWhiteMagicShop = 35,
+		LufeniaBlackMagicShop = 36,
+		CaravanBottleShop = 37,
+		CaravanDrinkShop = 38,
+		GaiaWhiteMagicShop2 = 39,
+		GaiaBlackMagicShop2 = 40,
+
+		ConeriaInn = 101,
+		PravokaInn,
+		ElflandInn,
+		MelmondInn,
+		CrescentInn,
+		OnracInn,
+		GaiaInn,
+
+		ConeriaClinic = 201,
+		PravokaClinic,
+		ElflandClinic,
+		CrescentClinic,
+		OnracClinic,
+		GaiaClinic
 
 	}
-	public struct ItemData
+
+
+
+	public class ItemData
 	{
-		public int Id;
-		public int Qty;
-		//public int Flag;
+		public int Id { get; set; }
+		public int Qty { get; set; }
+		public ItemData() { }
+		public ItemData(int id, int qty)
+		{
+			Id = id;
+			Qty = qty;
+		}
 	}
 
 	public struct LocationData
@@ -306,6 +373,9 @@ namespace FF1PRAP
 		public static Dictionary<string, long> LocationIdToArchipelagoId = new Dictionary<string, long>();
 		public static Dictionary<string, bool> CheckedLocations = new Dictionary<string, bool>();
 		public static Dictionary<int, ApLocationData> ApLocations = new Dictionary<int, ApLocationData>();
+
+		public static RandomizerData RandomizerData;
+
 		public Randomizer()
 		{
 			Locations = new();
@@ -343,10 +413,39 @@ namespace FF1PRAP
 			//items.Shuffle(rng);
 			//PlacedItems = items.Select((x, i) => (flags[i], x)).ToDictionary(y => y.Item1, y => y.x);
 		}
+		public static void Randomize(uint hash)
+		{
+			RandomizerData randoData = new();
+			MT19337 rng = new(hash);
+
+			foreach (var option in Options.Dict)
+			{
+				if (!FF1PR.SessionManager.Options.ContainsKey(option.Key))
+				{
+					FF1PR.SessionManager.Options[option.Key] = option.Value.Default;
+				}
+			}
+
+
+			
+			randoData.PlacedItems = DoItemPlacement(rng.Next());
+			randoData.GearShops = ShuffleGearShop(true, rng.Next());
+
+			RandomizerData = randoData;
+			FF1PR.PlacedItems = randoData.PlacedItems;
+			randoData.Serialize(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring);
+		}
+		public static void ArchipelagoRandomize()
+		{
+			//MT19337 rng = new(hash);
+			//FF1PR.PlacedItems = DoItemPlacement(rng.Next());
+			//ShuffleGearShop(true, rng.Next());
+		}
 		public static Dictionary<int, ItemData> DoItemPlacement(uint hash)
 		{
 			//MT19337 rng = new((uint)System.DateTime.Now.Ticks);
 			MT19337 rng = new(hash);
+			
 
 			
 			foreach(var loc in FixedLocations.Where(l => l.Flag == 0).ToList())

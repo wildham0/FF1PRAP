@@ -115,7 +115,7 @@ namespace FF1PRAP
 
 			
 			var standardItems = items.Where(i => !keyItems.Contains((Items)i.Id)).ToList();
-			var adamantitecraft = FF1PR.SessionManager.GetGlobal<int>("adamantite_craft");
+			var adamantitecraft = int.Parse(FF1PR.SessionManager.Options["adamantite_craft"]);
 			List<Items> extraItems = new();
 
 			if (adamantitecraft == -1)
@@ -136,9 +136,9 @@ namespace FF1PRAP
 			// priority locations
 			List<(string setting, List<int> locations)> prioritySetitngs = new()
 			{
-				(FF1PR.SessionManager.GetGlobal<string>("npcs_priority"), PriorityNPCs),
-				(FF1PR.SessionManager.GetGlobal<string>("keychests_priority"), PriorityChests),
-				(FF1PR.SessionManager.GetGlobal<string>("trapped_priority"), TrappedChests),
+				(FF1PR.SessionManager.Options["npcs_priority"], PriorityNPCs),
+				(FF1PR.SessionManager.Options["keychests_priority"], PriorityChests),
+				(FF1PR.SessionManager.Options["trapped_priority"], TrappedChests),
 			};
 
 			List<int> priorizedLocations = new();

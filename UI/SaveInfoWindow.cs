@@ -1,4 +1,5 @@
-﻿using Last.UI.KeyInput;
+﻿using Last.Management;
+using Last.UI.KeyInput;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace FF1PRAP
 		private static GUISkin windowSkin;
 		private void OnGUI()
 		{
-			bool titleLoadScreen = SceneManager.GetActiveScene().name == "Title" &&
+			bool titleLoadScreen = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Title" &&
 				FF1PR.TitleWindowController != null &&
 				FF1PR.LoadGameWindowController != null &&
 				FF1PR.SaveListController != null &&
