@@ -60,8 +60,6 @@ namespace FF1PRAP
 			ShuffleShop(ref weaponShops, weapons, rng);
 			ShuffleShop(ref armorShops, armors, rng);
 
-			int keyBase = 300;
-
 			List<Product> newShops = new();
 			foreach (var shop in weaponShops)
 			{

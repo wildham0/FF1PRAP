@@ -52,7 +52,7 @@ namespace FF1PRAP
 		public ProcessStates ProcessState = ProcessStates.InitGame;
 		public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
 		public Last.Defaine.MenuCommandId MainMenuState = Last.Defaine.MenuCommandId.Non;
-		public SaveWindowController.State SaveMenuState = SaveWindowController.State.None;
+		//public SaveWindowController.State SaveMenuState = SaveWindowController.State.None;
 		private bool newGameProcessed = false;
 
 		public List<AssetTask> tasksToMonitor;
@@ -110,6 +110,16 @@ namespace FF1PRAP
 						//FF1PR.SessionManager.SetRandomizedGame(FF1PR.PlacedItems);
 						Initialization.InitializeRandoItems(Randomizer.RandomizerData);
 					}
+					else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+					{
+						RandomizerData randoData = new();
+						InternalLogger.LogInfo($"Loading saved randomization data.");
+						if (!randoData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
+						{
+							InternalLogger.LogInfo($"File not found, generating randomization data.");
+							Randomizer.ArchipelagoRandomize(FF1PR.SessionManager.Data.Player + FF1PR.SessionManager.Data.WorldSeed);
+						}
+					}
 				}
 			}
 			else if (ProcessState == ProcessStates.LoadGame)
@@ -122,7 +132,12 @@ namespace FF1PRAP
 				{
 					Archipelago.instance.RestoreState();
 					RandomizerData randoData = new();
-					randoData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed);
+					InternalLogger.LogInfo($"Loading saved randomization data.");
+					if (!randoData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
+					{
+						InternalLogger.LogInfo($"File not found, generating randomization data.");
+						Randomizer.ArchipelagoRandomize(FF1PR.SessionManager.Data.Player + FF1PR.SessionManager.Data.WorldSeed);
+					}
 				}
 				else
 				{
@@ -241,12 +256,6 @@ namespace FF1PRAP
 		{
 			tool.MainMenuState = state;
 			InternalLogger.LogInfo($"MainMenu: {state}");
-		}
-
-		public void SetSaveMenuState(SaveWindowController.State state)
-		{
-			tool.SaveMenuState = state;
-			InternalLogger.LogInfo($"SaveMenu: {state}");
 		}
 	}
 

@@ -36,6 +36,12 @@ namespace FF1PRAP
 
 	public static class Options
 	{
+		public static string Enable = "1";
+		public static string Disable = "0";
+		public static string Include = "include";
+		public static string Exclude = "exclude";
+		public static string Prioritize = "proprotoze";
+
 		private static List<Option> optionlist = new()
 		{
 			new("npcs_priority", "NPCs", new() { { "prioritize", "Prioritize" }, {"include", "Include"}, {"exclude", "Exclude"} }, "prioritize",
@@ -47,6 +53,9 @@ namespace FF1PRAP
 				"When placing Key Items, set if Trapped Chests are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."),
 			new("adamantite_craft", "Adamantite Craft", new() {  { "92", "Excalibur" }, {"103", "Masamune"}, {"183", "Ribbon"}, {"121", "Mage's Staff"}, {"160", "Diamond Armlet"}, { "-1", "Random (Good Gear)" }, { "-2", "Random (Anything)" } }, "92",
 				"When using Prioritized Locations, select what will replace the Excalibur as a potential Prioritized Item."),
+
+			new("shuffle_gear_shops", "Shuffle Gear Shops", new() {  { "1", "Enable" }, {"0", "Disable"} }, "0",
+				"Shuffle the content of all Weapon Shops together, and do the same for Armor Shops."),
 		};
 
 		public static Dictionary<string, Option> Dict = optionlist.ToDictionary(o => o.Key, o => o);

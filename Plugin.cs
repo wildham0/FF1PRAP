@@ -29,7 +29,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.1.12";
+	public const string VERSION = "0.2.0";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -55,23 +55,17 @@ public class FF1PR : BasePlugin
 
 	// Loading/Saving Menu Stuff
 	public static Last.UI.KeyInput.TitleWindowController TitleWindowController;
-	public static Last.UI.KeyInput.LoadGameWindowController LoadGameWindowController;
-	public static Last.UI.KeyInput.MainMenuController MainMenuController;
-	public static Last.UI.KeyInput.SaveListController SaveListController;
-	public static Last.UI.KeyInput.LoadWindowController LoadWindowController;
-	public static Last.UI.KeyInput.SaveWindowController SaveWindowController;
+	//public static Last.UI.KeyInput.LoadGameWindowController LoadGameWindowController;
+	//public static Last.UI.KeyInput.MainMenuController MainMenuController;
+	//public static Last.UI.KeyInput.SaveListController SaveListController;
+	//public static Last.UI.KeyInput.LoadWindowController LoadWindowController;
+	//public static Last.UI.KeyInput.SaveWindowController SaveWindowController;
 
 
 
 	public static int CurrentSlot;
 
-	public static int SaveCount = 0;
 	public static SaveInfoState SaveInfoState = new();
-	public static bool AutoSaveOne = false;
-	public static bool AutoSaveTwo = false;
-	public static bool StartCount = false;
-	public static bool BlindCount = false;
-	public static bool SkipDoubleCount = false;
 
 	// Settings
 	public static SessionManager SessionManager;
@@ -152,15 +146,15 @@ public class FF1PR : BasePlugin
 		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckLoadAssetCompleted", [typeof(string), typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckGroupLoadAssetCompleted2_Post")));
 
 		// Loadsing/Saving Screen State
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveListController), "CreateDataList"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "SaveListControllerCreateContentList_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveListController), "CreateDataList"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "SaveListControllerCreateContentList_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.TitleWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TitleWindowControllerInitialize_Post")));
 		
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.LoadGameWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "LoadGameWindowControllerInitialize_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.LoadWindowController), "SetActive"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "LoadWindowControllerInitialize_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.LoadGameWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "LoadGameWindowControllerInitialize_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.LoadWindowController), "SetActive"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "LoadWindowControllerInitialize_Post")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveWindowController), "SetActive"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "SaveWindowControllerInitialize_Post")));
 
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.SaveWindowManager), "SetNextState"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "SaveWindowControllerInitialize_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.MainMenuController), "SetNextState"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "MainMenuControllerInitialize_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.UI.SaveWindowManager), "SetNextState"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "SaveWindowControllerInitialize_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.MainMenuController), "SetNextState"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "MainMenuControllerInitialize_Post")));
 
 		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "GetAsset"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetAsset_Pre")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "EntitiesSetup"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "EntitiesSetup_Post")));

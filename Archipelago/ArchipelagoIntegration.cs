@@ -103,9 +103,6 @@ namespace FF1PRAP {
 
 			if (LoginResult is LoginSuccessful LoginSuccess)
 			{
-
-
-				
 				slotData = LoginSuccess.SlotData;
 				ItemIndex = 0;
 
@@ -119,6 +116,21 @@ namespace FF1PRAP {
 				}
 
 				FF1PR.SessionManager.Data.WorldSeed = Archipelago.instance.integration.session.RoomState.Seed;
+				foreach (var option in Options.Dict)
+				{
+					if (slotData.ContainsKey(option.Key))
+					{
+						//InternalLogger.LogInfo($"{option.Key}: {slotData[option.Key].ToString()}");
+						FF1PR.SessionManager.Options[option.Key] = slotData[option.Key].ToString();
+					}
+					else
+					{
+						//InternalLogger.LogInfo($"{option.Key} not found.");
+						FF1PR.SessionManager.Options[option.Key] = option.Value.Default;
+					}
+				}
+
+				
 
 				//Archipelago.instance.integration.session.Locations.S
 				/*
@@ -220,7 +232,7 @@ namespace FF1PRAP {
 				//ItemLookup.ItemList.Clear();
 
 			} catch (Exception e) {
-				InternalLogger.LogInfo("Encountered an error disconnecting from Archipelago!");
+				InternalLogger.LogInfo("Encountered an error disconnecting from Archipelago! " + e);
 			}
 		}
 

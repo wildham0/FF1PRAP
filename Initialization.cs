@@ -40,10 +40,6 @@ namespace FF1PRAP
 			FF1PR.MasterManager.GetList<Item>().Add(42, new Item("42,42,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"));
 			FF1PR.MasterManager.GetList<Content>().Add(43, new Content("43,MSG_KEY_NAME_19,None,MSG_KEY_INF_19,0,1,42"));
 
-			FF1PR.MessageManager.GetMessageDictionary()["MSG_ITEM_NAME_01"] = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Potion";
-			
-
-
 			// Update dialogues
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_GARLAND"] = "You really think you have what it takes to cross swords with ME? Very well... I, Garland, will knock you all down!!!";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARASAVE"] = "I am Sarah, princess of Cornelia. You must allow me to show my gratitude. Please, accompany me to Castle Cornelia.";

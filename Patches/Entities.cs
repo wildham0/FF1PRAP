@@ -303,8 +303,9 @@ namespace FF1PRAP
 					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Levistone, FlagCategory = DataStorage.Category.kScenarioFlag1 },
 					new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Airship, FlagCategory = DataStorage.Category.kScenarioFlag1 },} },
 				new EntityData() { EntityId = 145, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Chime, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
-				new EntityData() { EntityId = 105, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
-				new EntityData() { EntityId = 101, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				/*
+				new EntityData() { EntityId = 205, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				new EntityData() { EntityId = 101, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },*/
 			} },
 
 		};

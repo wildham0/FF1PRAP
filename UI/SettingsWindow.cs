@@ -714,6 +714,7 @@ namespace FF1PRAP
 					{
 						FF1PR.SessionManager.GameMode = choice.Key;
 						currentOptionShowing = "";
+						FF1PR.SessionManager.WriteSessionInfo();
 					}
 				}
 			}
@@ -808,6 +809,9 @@ namespace FF1PRAP
 			CreateDropdown(Options.Dict["keychests_priority"].Display, Options.Dict["keychests_priority"]);
 			CreateDropdown(Options.Dict["trapped_priority"].Display, Options.Dict["trapped_priority"]);
 			CreateDropdown(Options.Dict["adamantite_craft"].Display, Options.Dict["adamantite_craft"]);
+			apHeight += 20f * guiScale;
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Shops");
+			CreateDropdown(Options.Dict["shuffle_gear_shops"].Display, Options.Dict["shuffle_gear_shops"]);
 			apHeight += 20f * guiScale;
 
 			GUI.EndScrollView();

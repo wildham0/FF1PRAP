@@ -106,8 +106,6 @@ namespace FF1PRAP {
 
 		public void RestoreState()
 		{
-			
-			
 			integration.ClearQueue();
 			integration.ItemIndex = FF1PR.SessionManager.Data.ItemIndex;
 			InternalLogger.LogInfo($"Set item index at: {integration.ItemIndex}");

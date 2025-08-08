@@ -110,6 +110,7 @@ namespace FF1PRAP
 		{
 			{ "sc_e_0001", ScriptBuilder.FromScript(Scripts.Intro, "sc_e_0001") }, // Intro script
 			{ "sc_map_10010", ScriptBuilder.FromJson("sc_overworld") }, // Intro script
+			//{ "sc_map_10010", ScriptBuilder.FromScript(Scripts.Overworld, "sc_overworld_01") }, // Intro script
 			// { "sc_map_20020", new ScriptBuilder("sc_empty") }, // Coneria Town
 			 { "sc_map_20011_1", ScriptBuilder.FromScript(Scripts.ConeriaCastle, "sc_map_20011_1") }, // Coneria Castle
 			// { "sc_e_0002_2", new ScriptBuilder("sc_empty") }, // Go see the king
@@ -221,6 +222,15 @@ namespace FF1PRAP
 			"PlayBGM 70 1",
 			"Wait 3.5",
 			"ChangeScript sc_map_10010",
+			"Exit",
+		};
+		public static List<string> Overworld = new()
+		{
+			"Sub Main:",
+			"Nop",
+			//"Call [PlaceBridge]",
+			"SysCall MapEntryRoofControl",
+			"SetEntities ev_e_0025",
 			"Exit",
 		};
 		public static List<string> ConeriaCastle = new()

@@ -425,21 +425,31 @@ namespace FF1PRAP
 					FF1PR.SessionManager.Options[option.Key] = option.Value.Default;
 				}
 			}
-
-
 			
 			randoData.PlacedItems = DoItemPlacement(rng.Next());
-			randoData.GearShops = ShuffleGearShop(true, rng.Next());
+			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng.Next());
 
 			RandomizerData = randoData;
 			FF1PR.PlacedItems = randoData.PlacedItems;
 			randoData.Serialize(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring);
 		}
-		public static void ArchipelagoRandomize()
+		public static void ArchipelagoRandomize(string hashseed)
 		{
-			//MT19337 rng = new(hash);
-			//FF1PR.PlacedItems = DoItemPlacement(rng.Next());
-			//ShuffleGearShop(true, rng.Next());
+			RandomizerData randoData = new();
+			MT19337 rng = new(FF1PR.SessionManager.CreateApHash(hashseed));
+
+			foreach (var option in Options.Dict)
+			{
+				if (!FF1PR.SessionManager.Options.ContainsKey(option.Key))
+				{
+					FF1PR.SessionManager.Options[option.Key] = option.Value.Default;
+				}
+			}
+
+			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng.Next());
+
+			RandomizerData = randoData;
+			randoData.Serialize(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed);
 		}
 		public static Dictionary<int, ItemData> DoItemPlacement(uint hash)
 		{

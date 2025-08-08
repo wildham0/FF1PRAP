@@ -78,6 +78,7 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"TitleWindowController initialized.");
 			FF1PR.TitleWindowController = __instance;
 		}
+		/*
 		private static void LoadGameWindowControllerInitialize_Post(LoadGameWindowController __instance)
 		{
 			InternalLogger.LogInfo($"LoadGameWindowController initialized.");
@@ -101,6 +102,6 @@ namespace FF1PRAP
 			//Monitor.instance.SetSaveMenuState(state);
 		}
 
-
+		*/
 	}
 }

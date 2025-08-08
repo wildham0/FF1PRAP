@@ -104,9 +104,6 @@ namespace FF1PRAP
 		private static List<int> npcLocations = new() { (int)TreasureFlags.Princess, (int)TreasureFlags.Bikke, (int)TreasureFlags.Astos, (int)TreasureFlags.ElfPrince, (int)TreasureFlags.Matoya, (int)TreasureFlags.Sarda, (int)TreasureFlags.CanoeSage, (int)TreasureFlags.CubeBot, (int)TreasureFlags.Fairy, (int)TreasureFlags.Lefeinman, (int)TreasureFlags.Smitt };
 		private static List<Items> plandoItems = new() { Items.Ship };
 
-
-		private static bool PrioritizeChests = true;
-		private static bool PrioritizeNPCs = true;
 		public static Dictionary<int, ItemData> ItemPlacement(MT19337 rng)
 		{
 

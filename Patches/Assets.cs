@@ -66,9 +66,11 @@ namespace FF1PRAP
 
 		public static Dictionary<string, string> assetsToReplace = new()
 		{
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld" },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_20011/Map_20011_1/ev_e_0004", "ev_coneriacastle_from_teleport" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0007", "ev_overworld_pre_canal" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld_post_canal" },
+			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20011/Map_20011_1/ev_e_0014", "ev_coneriacastle_1" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20011/Map_20011_2/ev_e_0004", "ev_coneriacastle_from_teleport" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30011/Map_30011_1/ev_e_0014", "ev_templeoffiends" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30011/Map_30011_1/ev_e_0038", "ev_templeoffiends_blackorb" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30011/Map_30011_1/ev_e_0039", "ev_templeoffiends_beyond" },

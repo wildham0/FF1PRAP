@@ -66,50 +66,6 @@
           "y": 3760
         },
         {
-          "gid": 1006,
-          "height": 16,
-          "id": 277,
-          "name": "\u904b\u6cb3\u9678\u3060\u3051\u901a\u308c\u308b",
-          "properties": [
-            {
-              "name": "collision_type",
-              "type": "int",
-              "value": 7
-            },
-            {
-              "name": "confirm_landing",
-              "type": "bool",
-              "value": false
-            },
-            {
-              "name": "entity_id",
-              "type": "int",
-              "value": 205
-            },
-            {
-              "name": "object_type",
-              "type": "int",
-              "value": 19
-            },
-            {
-              "name": "target_transportation_ids",
-              "type": "string",
-              "value": "1,4"
-            },
-            {
-              "name": "through_condition_type",
-              "type": "int",
-              "value": 0
-            }
-          ],
-          "rotation": 0,
-          "type": "",
-          "visible": true,
-          "width": 16,
-          "x": 1520,
-          "y": 2528
-        },
-        {
           "gid": 1000,
           "height": 16,
           "id": 98,
@@ -1288,7 +1244,7 @@
           ],
           "rotation": 0,
           "type": "",
-          "visible": false,
+          "visible": true,
           "width": 16,
           "x": 1520,
           "y": 2528

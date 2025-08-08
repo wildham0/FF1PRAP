@@ -702,12 +702,6 @@ namespace FF1PRAP
 		LoadMenu,
 		SaveMenu,
 	}
-	public class SaveInfoState
-	{
-		public int CurrentSlot = 0;
-		public int PreviousSlot = 255;
-	}
-
 	public class RandoDataStorage
 	{
 		public int Counter { get; set; } = 0;

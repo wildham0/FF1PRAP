@@ -140,7 +140,10 @@ namespace FF1PRAP
 					}
 				}
 			}
-			catch (Exception e) { }
+			catch (Exception e)
+			{
+				InternalLogger.LogInfo(e.Message);
+			}
 		}
 		public void LoadSaveSlotInfoData()
 		{
@@ -167,6 +170,7 @@ namespace FF1PRAP
 				}
 				catch (Exception e)
 				{
+					//InternalLogger.LogInfo(e.Message);
 					fileexist = false;
 				}
 
@@ -507,6 +511,22 @@ namespace FF1PRAP
 			{
 				Blob hash = hasher.ComputeHash(encodedsettings);
 				hashString = EncodeTo32(hash).Substring(0,8);
+				finalhash = (uint)hash.ToUInts().Sum(x => x);
+				Info.Hash = hash;
+				Info.Hashstring = hashString;
+			}
+
+			return finalhash;
+		}
+		public uint CreateApHash(string hashseed)
+		{
+			var encodedseed = Encoding.UTF8.GetBytes(hashseed);
+			uint finalhash;
+			string hashString;
+			using (SHA256 hasher = SHA256.Create())
+			{
+				Blob hash = hasher.ComputeHash(encodedseed);
+				hashString = EncodeTo32(hash).Substring(0, 8);
 				finalhash = (uint)hash.ToUInts().Sum(x => x);
 				Info.Hash = hash;
 				Info.Hashstring = hashString;

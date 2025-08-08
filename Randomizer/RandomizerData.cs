@@ -27,8 +27,6 @@ namespace FF1PRAP
 		public void Serialize(string folderPath, string filedata)
 		{
 			string filepath = folderPath + "ff1pr_" + filedata + ".dat";
-			bool fileexist = true;
-
 
 			var serializeOptions = new JsonSerializerOptions();
 			serializeOptions.Converters.Add(new JsonConverters.ProductConverter());
@@ -46,10 +44,8 @@ namespace FF1PRAP
 			}
 			catch (Exception e)
 			{
-				fileexist = false;
+				InternalLogger.LogInfo(e.Message);
 			}
-
-			//return JsonSerializer.Serialize<RandomizerData>(this);
 		}
 
 		public bool Load(string folderPath, string filedata)
@@ -80,6 +76,7 @@ namespace FF1PRAP
 			{
 				InternalLogger.LogError(e.Message);
 				fileexist = false;
+				return false;
 			}
 
 			InternalLogger.LogInfo($"Previously randomized data {filedata} loaded successfully.");
