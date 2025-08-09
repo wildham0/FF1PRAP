@@ -435,8 +435,8 @@ namespace FF1PRAP
 			new LocationData() { Content = (int)Items.WarpCube, Qty = 1, Id = 11, Flag = (int)TreasureFlags.CubeBot, Type = LocationType.GameObject, Name = "CubeBot", Script = 0, Map = "Map_20160", Region = Regions.Waterfall, Access = new() { } },
 
 			// Caravan
-			//new LocationData() { Content = (int)Items.BottledFaerie, Qty = 1, Id = 12, Flag = (int)TreasureFlags.Caravan, Type = LocationType.GameObject, Name = "Caravan", Script = 0, Map = "Map_20160", Region = Regions.Caravan, Access = new() { } },
-			new LocationData() { Type = LocationType.Event, Name = "Caravan", Region = Regions.Caravan, Access = new() { }, Trigger = new() { AccessRequirements.BottledFaerie } },
+			new LocationData() { Content = (int)Items.BottledFaerie, Qty = 1, Id = 12, Flag = (int)TreasureFlags.Caravan, Type = LocationType.GameObject, Name = "Caravan", Script = 0, Map = "Map_20160", Region = Regions.Caravan, Access = new() { } },
+			//new LocationData() { Type = LocationType.Event, Name = "Caravan", Region = Regions.Caravan, Access = new() { }, Trigger = new() { AccessRequirements.BottledFaerie } },
 
 			// Fairy
 			new LocationData() { Content = (int)Items.Oxyale, Qty = 1, Id = 10, Flag = (int)TreasureFlags.Fairy, Type = LocationType.GameObject, Name = "Fairy", Script = 0, Map = "Map_20160", Region = Regions.Gaia, Access = new() { new() { AccessRequirements.BottledFaerie } } },
@@ -494,7 +494,7 @@ namespace FF1PRAP
 			new LocationData() { Type = LocationType.Event, Name = "Dr. Unne", Region = Regions.Melmond, Access = new() { new() { AccessRequirements.RosettaStone } }, Trigger = new() { AccessRequirements.LeifenishLearned } },
 
 			// Lefeinman
-			new LocationData() { Content = (int)Items.Bell, Qty = 1, Id = 8, Flag = 255, Type = LocationType.GameObject, Name = "Lefeinman", Script = 0, Map = "Map_20160", Region = Regions.Lefein, Access = new() { new() { AccessRequirements.LeifenishLearned } } },
+			new LocationData() { Content = (int)Items.Chime, Qty = 1, Id = 8, Flag = 255, Type = LocationType.GameObject, Name = "Lefeinman", Script = 0, Map = "Map_20160", Region = Regions.Lefein, Access = new() { new() { AccessRequirements.LeifenishLearned } } },
 
 			// Mirage
 			new LocationData() { Type = LocationType.Event, Name = "Mirage", Region = Regions.MirageTower, Access = new() { }, Trigger = new() { AccessRequirements.MirageAccess } },
@@ -586,7 +586,6 @@ namespace FF1PRAP
 
 			// Air
 			new LocationData() { Content = 103, Qty = 1, Id = 1, Flag = 208, Type = LocationType.Treasure, Name = "", Script = 0, Map = "Map_30121_7", Region = Regions.TempleOfFiends, Access = new() { new() { AccessRequirements.BlackOrbDestroyed, AccessRequirements.Lute } } },
-
 			};
 
 
@@ -606,7 +605,7 @@ namespace FF1PRAP
 			{ (int)Items.WarpCube, (int)ScenarioFlags.WarpCube },
 			{ (int)Items.Oxyale, (int)ScenarioFlags.Oxyale },
 			{ (int)Items.RosettaStone, (int)ScenarioFlags.RosettaStone },
-			{ (int)Items.Bell, (int)ScenarioFlags.Chime },
+			{ (int)Items.Chime, (int)ScenarioFlags.Chime },
 			{ (int)Items.RatsTail, (int)ScenarioFlags.RatTail },
 			{ (int)Items.Adamantite, (int)ScenarioFlags.Adamant },
 			{ (int)Items.BottledFaerie, (int)ScenarioFlags.BottledFaerie },
@@ -815,6 +814,7 @@ namespace FF1PRAP
 			{ 218, "Dragon Caves (Plains) - Entrance" },
 			{ 219, "Dragon Caves (Plains) - Duo 1" },
 			{ 220, "Dragon Caves (Plains) - Duooo 2" },
+			{ 406, "Caravan" },
 			{ 114, "Waterfall Caverns - Chest 1" },
 			{ 115, "Waterfall Caverns - Chest 2" },
 			{ 116, "Waterfall Caverns - Chest 3" },
@@ -1059,6 +1059,7 @@ namespace FF1PRAP
 			{ "Protect Cloak", new ItemData() { Id = 173, Qty = 1 } },
 			{ "Sasuke's Blade", new ItemData() { Id = 100, Qty = 1 } },
 			{ "Masamune", new ItemData() { Id = 103, Qty = 1 } },
+			{ "Bottled Faerie", new ItemData() { Id = 59, Qty = 1 } },
 		};
 	}
 }

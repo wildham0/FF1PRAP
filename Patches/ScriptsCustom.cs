@@ -297,6 +297,22 @@ namespace FF1PRAP
 			"ChangeScript sc_e_0046",
 			"Exit",
 		};
+		public static List<string> Caravan = new()
+		{
+			"MainSub:",
+			"Nop",
+			$"Branch TreasureFlag1 {(int)TreasureFlags.Caravan} [CaravanItemBought]",
+			"Msg MSG_SYSTEM_134",
+			"SysCall 妖精の瓶ショップ",
+			"Msg MSG_SYSTEM_143",
+			"Exit",
+			"CaravanItemBought:",
+			"Nop",
+			"Msg MSG_SYSTEM_134",
+			"SysCall キャラバンショップ",
+			"Msg MSG_SYSTEM_143",
+			"Exit",
+		};
 		public static List<string> SubEngineer = new()
 		{
 			"Sub Main:",

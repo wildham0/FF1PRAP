@@ -36,7 +36,7 @@ namespace FF1PRAP
 
 			// Create AP Item
 			FF1PR.MessageManager.AddMessage("MSG_KEY_NAME_19", "<IC_IOBJ>AP Item");
-			FF1PR.MessageManager.AddMessage("MSG_KEY_INF_19", "AP Item, but we shouldn't be seeing this anyway.");
+			FF1PR.MessageManager.AddMessage("MSG_KEY_INF_19", "An Archipelago Item. What are these anyway?");
 			FF1PR.MasterManager.GetList<Item>().Add(42, new Item("42,42,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"));
 			FF1PR.MasterManager.GetList<Content>().Add(43, new Content("43,MSG_KEY_NAME_19,None,MSG_KEY_INF_19,0,1,42"));
 
@@ -82,6 +82,48 @@ namespace FF1PRAP
 			chaosdefeated.Id = 1002;
 			chaosdefeated.ScriptName = "sc_chaosdefeated";
 			FF1PR.MasterManager.GetList<Script>().Add(1002, chaosdefeated);
+
+			// give buy price to ribbon
+			var ribbon = FF1PR.MasterManager.GetData<Armor>(54).Buy = 65535;
+		}
+		public static void ApplyRandomizedFeatures(RandomizerData randoData)
+		{
+			// Apply randomized data
+			Randomizer.LoadShuffledShops(randoData.GearShops);
+			Randomizer.LoadShuffledSpells(randoData.ShuffledSpells);
+			CreateCaravanItem();
+		}
+		public static void CreateCaravanItem()
+		{
+			if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
+			{
+				// 141 is the bottle product
+				var caravanitem = GetPlacedItemData((int)TreasureFlags.Caravan).Id;
+				var caravanproduct = FF1PR.MasterManager.GetData<Product>(141);
+				caravanproduct.ContentId = caravanitem;
+
+				if (caravanitem >= (int)Items.CaravanItem && caravanitem <= (int)Items.Canoe)
+				{
+					var keyitemid = FF1PR.MasterManager.GetData<Content>(caravanitem).TypeValue;
+					FF1PR.MasterManager.GetData<Item>(keyitemid).Buy = 40000;
+				}
+			}
+			else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+			{
+				ApLocationData caravanlocation;
+				if (!Randomizer.ApLocations.TryGetValue((int)TreasureFlags.Caravan, out caravanlocation))
+				{
+					// jank backward compatibility, remove down the road
+					return;	
+				}
+
+				FF1PR.MessageManager.GetMessageDictionary()["MSG_KEY_NAME_19"] = "<IC_IOBJ>" + caravanlocation.Content;
+				var caravanproduct = FF1PR.MasterManager.GetData<Product>(141);
+				caravanproduct.ContentId = (int)Items.CaravanItem;
+
+				var keyitemid = FF1PR.MasterManager.GetData<Content>((int)Items.CaravanItem).TypeValue;
+				FF1PR.MasterManager.GetData<Item>(keyitemid).Buy = 40000;
+			}
 		}
 
 		public static void InitializeRandoItems(RandomizerData randoData)
@@ -102,6 +144,7 @@ namespace FF1PRAP
 			var lefeinitem = GetPlacedItemName((int)TreasureFlags.Lefeinman);
 			var skyitem = GetPlacedItemName((int)TreasureFlags.SkyChest);
 			var smittitem = GetPlacedItemName((int)TreasureFlags.Smitt);
+			//var caravanitem = GetPlacedItemName((int)TreasureFlags.Caravan);
 
 			InternalLogger.LogInfo($"Initialization GetItem.");
 
@@ -120,10 +163,6 @@ namespace FF1PRAP
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_GET_CHIME_02"] = $"You obtain {lefeinitem}.";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_WND_DAN_04"] = $"You obtain {skyitem}.";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_GET_EXCALIBAR_05"] = $"You obtain {smittitem}.";
-
-			// Apply randomized data
-			Randomizer.LoadShuffledShops(randoData.GearShops);
-			Randomizer.LoadShuffledSpells(randoData.ShuffledSpells);
 		}
 
 		public static void InitializeNewGame()
@@ -142,10 +181,10 @@ namespace FF1PRAP
 					FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
 					FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
 				}
-			}*/
+			}
 
-			//FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
-			
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
+			*/
 			// Set Flags
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 4, 1); // Bridge Building Cutscene
@@ -173,6 +212,17 @@ namespace FF1PRAP
 			else
 			{
 				return "ITEM_ERROR";
+			}
+		}
+		public static ItemData GetPlacedItemData(int flag)
+		{
+			if (FF1PR.PlacedItems.TryGetValue(flag, out var itemdata))
+			{
+				return itemdata;
+			}
+			else
+			{
+				throw new Exception("Generation Error: Can't find any Item at this location.");
 			}
 		}
 	}

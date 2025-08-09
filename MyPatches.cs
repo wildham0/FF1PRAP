@@ -695,6 +695,44 @@ namespace FF1PRAP
 			//InternalLogger.LogInfo($"SaveSloData: {index} - {data.id}");
 			FF1PR.SaveInfoState.CurrentSlot = data.id;
 		}
+
+		public static void CheckFairyShop_Post()
+		{
+			InternalLogger.LogInfo($"Fairy: {Last.Interpreter.Instructions.SystemCall.Current.kFairyBottleId} - {Last.Interpreter.Instructions.SystemCall.Current.kFairyBottleEventFlag}");
+
+			//Last.Interpreter.Instructions.SystemCall.Current.kFairyBottleId = FF1PR.PlacedItems[(int)TreasureFlags.Caravan].Id;
+		}
+
+		private static void BuyItemProduct_Post(ShopProductData data, int count, bool __result)
+		{
+			if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
+			{
+				// 141 is the caravan shop product id
+				if (data.ProductId == 141 && __result)
+				{
+					FF1PR.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
+				}
+			}
+			else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+			{
+				if (data.ProductId == 141 && __result)
+				{
+					FF1PR.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
+					Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[(int)TreasureFlags.Caravan]);
+				}
+			}
+		}
+		private static void BuyItemInt_Post(int productId, int count, bool __result)
+		{
+			if (productId == FF1PR.PlacedItems[(int)TreasureFlags.Caravan].Id && __result)
+			{
+				InternalLogger.LogInfo($"Item bought! Int");
+			}
+			else
+			{
+				InternalLogger.LogInfo($"Item bought? Int {__result} {productId}");
+			}
+		}
 	}
 	public enum SaveInfoModes
 	{ 

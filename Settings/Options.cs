@@ -44,8 +44,7 @@ namespace FF1PRAP
 		private static List<Option> optionlist = new()
 		{
 			new("npcs_priority", "NPCs", new() { { "prioritize", "Prioritize" }, {"include", "Include"}, {"exclude", "Exclude"} }, "prioritize",
-				"When placing Key Items, set if NPCs are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."
-				),
+				"When placing Key Items, set if NPCs are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."),
 			new("keychests_priority", "Key Chests", new() {  { "prioritize", "Prioritize" }, {"include", "Include"}, {"exclude", "Exclude"} }, "prioritize",
 				"When placing Key Items, set if Chests containing Key Items in the Vanilla Game are prioritized (if possible, a Key Item is always placed there), are included (a Key Item may be placed there) or are excluded (a Key Item is never placed there)."),
 			new("trapped_priority", "Trapped Chests", new() {  { "prioritize", "Prioritize" }, {"include", "Include"}, {"exclude", "Exclude"} }, "include",

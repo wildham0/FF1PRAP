@@ -91,16 +91,18 @@ namespace FF1PRAP
 					if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
 					{
 						Initialization.InitializeRandoItems(Randomizer.RandomizerData);
+						Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 					}
 					else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 					{
-						RandomizerData randoData = new();
+						Randomizer.RandomizerData = new();
 						InternalLogger.LogInfo($"Loading saved randomization data.");
-						if (!randoData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
+						if (!Randomizer.RandomizerData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
 						{
 							InternalLogger.LogInfo($"File not found, generating randomization data.");
 							Randomizer.ArchipelagoRandomize(FF1PR.SessionManager.Data.Player + FF1PR.SessionManager.Data.WorldSeed);
 						}
+						Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 					}
 				}
 			}
@@ -111,24 +113,27 @@ namespace FF1PRAP
 				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 				{
 					Archipelago.instance.RestoreState();
-					RandomizerData randoData = new();
+					Randomizer.RandomizerData = new();
 					InternalLogger.LogInfo($"Loading saved randomization data.");
-					if (!randoData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
+					if (!Randomizer.RandomizerData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
 					{
 						InternalLogger.LogInfo($"File not found, generating randomization data.");
 						Randomizer.ArchipelagoRandomize(FF1PR.SessionManager.Data.Player + FF1PR.SessionManager.Data.WorldSeed);
 					}
+
+					Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 				}
 				else
 				{
-					RandomizerData randoData = new();
-					if (!randoData.Load(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring))
+					Randomizer.RandomizerData = new();
+					if (!Randomizer.RandomizerData.Load(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring))
 					{
 						InternalLogger.LogInfo($"File not found, gameplay might be unstable. Generate a game first in the Solo Randomizer Settings Menu.");
 					}
 					
-					FF1PR.PlacedItems = randoData.PlacedItems;
-					Initialization.InitializeRandoItems(randoData);
+					FF1PR.PlacedItems = Randomizer.RandomizerData.PlacedItems;
+					Initialization.InitializeRandoItems(Randomizer.RandomizerData);
+					Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 				}
 			}
 		}

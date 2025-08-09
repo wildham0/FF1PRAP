@@ -130,7 +130,7 @@ namespace FF1PRAP
 			//{ "sc_e_0048", new ScriptBuilder("sc_empty") }, // Bahamut
 			//{ "sc_e_0023", new ScriptBuilder("sc_empty") }, // Kary
 			//{ "sc_e_0023_2", new ScriptBuilder("sc_empty") }, // Kary Post fight
-			//{ "sc_e_0027", new ScriptBuilder("sc_empty") }, // Caravan
+			{ "sc_e_0027", ScriptBuilder.FromScript(Scripts.Caravan, "sc_caravan") }, // Caravan
 			//{ "sc_map_20150", new ScriptBuilder("sc_empty") }, // Gaia
 			//{ "sc_e_0028", new ScriptBuilder("sc_empty") }, // Fairy release
 			{ "sc_e_0029", ScriptBuilder.FromJson("sc_fairy") }, // Fairy

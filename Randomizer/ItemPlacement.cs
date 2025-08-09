@@ -12,7 +12,7 @@ namespace FF1PRAP
 
 	partial class Randomizer
     {
-		// 10 npcs
+		// 11 npcs
 		public static List<int> PriorityNPCs = new()
 		{
 			(int)TreasureFlags.Princess,
@@ -25,6 +25,7 @@ namespace FF1PRAP
 			(int)TreasureFlags.Smitt,
 			(int)TreasureFlags.Fairy,
 			(int)TreasureFlags.Lefeinman,
+			(int)TreasureFlags.Caravan,
 		};
 
 		// 7 chests
@@ -93,12 +94,12 @@ namespace FF1PRAP
 			{ Items.WarpCube, AccessRequirements.WarpCube },
 			{ Items.Oxyale, AccessRequirements.Oxyale },
 			{ Items.RosettaStone, AccessRequirements.RosettaStone },
-			{ Items.Bell, AccessRequirements.Bell },
+			{ Items.Chime, AccessRequirements.Bell },
 			{ Items.Adamantite, AccessRequirements.Adamantite },
 			{ Items.BottledFaerie, AccessRequirements.BottledFaerie },
 			{ Items.Ship, AccessRequirements.Ship },
 		};
-		private static List<Items> keyItems = new() { Items.Lute, Items.Ship, Items.Crown, Items.CrystalEye, Items.JoltTonic, Items.MysticKey, Items.NitroPowder, Items.StarRuby, Items.EarthRod, Items.Canoe, Items.RatsTail, Items.Levistone, Items.Oxyale, Items.RosettaStone, Items.Bell, Items.WarpCube, Items.Adamantite };
+		private static List<Items> keyItems = new() { Items.Lute, Items.Ship, Items.Crown, Items.CrystalEye, Items.JoltTonic, Items.MysticKey, Items.NitroPowder, Items.StarRuby, Items.EarthRod, Items.Canoe, Items.RatsTail, Items.Levistone, Items.Oxyale, Items.RosettaStone, Items.Chime, Items.WarpCube, Items.Adamantite, Items.BottledFaerie };
 		private static List<Items> progItems = new() { Items.Ship, Items.NitroPowder, Items.Canoe, Items.Levistone };
 		private static List<int> chestLocations = new() { (int)TreasureFlags.MarshChest, (int)TreasureFlags.VampireChest, (int)TreasureFlags.ConeriaChest, (int)TreasureFlags.EyeChest, (int)TreasureFlags.MouseChest, (int)TreasureFlags.MermaidsChest, (int)TreasureFlags.SkyChest };
 		private static List<int> npcLocations = new() { (int)TreasureFlags.Princess, (int)TreasureFlags.Bikke, (int)TreasureFlags.Astos, (int)TreasureFlags.ElfPrince, (int)TreasureFlags.Matoya, (int)TreasureFlags.Sarda, (int)TreasureFlags.CanoeSage, (int)TreasureFlags.CubeBot, (int)TreasureFlags.Fairy, (int)TreasureFlags.Lefeinman, (int)TreasureFlags.Smitt };
@@ -329,6 +330,16 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"SanityCheck - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
 
 			standardItems.Shuffle(rng);
+
+			// special part for caravan, we can't put Gil in there
+			if (remainingLocations.TryFind(l => l.Flag == (int)TreasureFlags.Caravan, out var caravan))
+			{
+				var caravanitem = rng.PickFrom(standardItems.Where(i => i.Id != 1).ToList());
+				standardItems.Remove(caravanitem);
+				placedItems.Add(caravan.Flag, caravanitem);
+				remainingLocations = remainingLocations.Where(l => l.Flag != caravan.Flag).ToList();
+			}
+
 			var remainingItems = remainingLocations.Select((l, i) => (l.Flag, standardItems[i])).ToDictionary(y => y.Flag, y => y.Item2);
 			placedItems.AddRange(remainingItems);
 

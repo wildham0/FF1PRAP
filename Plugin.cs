@@ -23,13 +23,14 @@ using Last.Scene;
 using Last.Data.User;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Last.Message;
+using Last.Systems;
 
 namespace FF1PRAP;
 
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.2.1";
+	public const string VERSION = "0.2.2";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -91,6 +92,7 @@ public class FF1PR : BasePlugin
 
 		// Item Patch
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.OwnedItemClient), "AddOwnedItem", [typeof(Content), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "Items_Postfix")));
+		harmony.Patch(AccessTools.Method(typeof(ShopUtility), "BuyItem", [typeof(ShopProductData), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "BuyItemProduct_Post")));
 
 		// Gameflag Patch
 		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.DataStorage), "Set", [typeof(string), typeof(int), typeof(int)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "Gameflags_Postfix")));
@@ -136,7 +138,10 @@ public class FF1PR : BasePlugin
 		// Loading/Saving Screen State
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.TitleWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TitleWindowControllerInitialize_Post")));
 		harmony.Patch(AccessTools.Method(typeof(MessageManager), "ReplaceKeyToValue", [typeof(string), typeof(Il2CppSystem.Collections.Generic.Dictionary<string, string>)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ReplaceKey_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveListController), "SetContentData"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetContentData_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveListController), "SetContentData"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "SetContentData_Pre")));
+		/*
+		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Instructions.SystemCall.Current), "FairyShop"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckFairyShop_Post")));
+		harmony.Patch(AccessTools.Method(typeof(ShopUtility), "BuyItem", [typeof(int), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "BuyItemInt_Post")));*/
 
 		// Xp patch
 		//harmony.Patch(AccessTools.Method(typeof(Last.Data.Master.Monster), "get_Exp"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "get_Exp")));

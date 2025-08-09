@@ -1,4 +1,5 @@
 ﻿using Il2CppSystem.Common;
+using Last.Data;
 using Last.Data.Master;
 using Last.Entity.Field;
 using Last.Interpreter;
@@ -60,6 +61,25 @@ namespace FF1PRAP
 			//InternalLogger.LogInfo($"Add Owned Content: {targetData.Id} - {targetData.MesIdName}, {count}");
 		}
 
+		private static void BuyItemProduct_Post(ShopProductData data, int count, bool __result)
+		{
+			if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
+			{
+				// 141 is the caravan shop product id
+				if (data.ProductId == 141 && __result)
+				{
+					FF1PR.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
+				}
+			}
+			else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+			{
+				if (data.ProductId == 141 && __result)
+				{
+					FF1PR.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
+					Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[(int)TreasureFlags.Caravan]);
+				}
+			}
+		}
 		public static ItemResults GiveItem(string itemName, bool showMessage)
 		{
 			bool validItem = Randomizer.ItemNameToData.TryGetValue(itemName, out var itemdata);

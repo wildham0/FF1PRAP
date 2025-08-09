@@ -29,7 +29,7 @@ namespace FF1PRAP
 		ProtectDrink = 35,
 		SpeedDrink = 36,
 
-
+		CaravanItem = 43,
 		Ship = 44, // ?
 		Lute = 45,
 		Crown = 46,
@@ -42,7 +42,7 @@ namespace FF1PRAP
 		StarRuby = 53,
 		EarthRod = 54,
 		Levistone = 55,
-		Bell = 56,
+		Chime = 56,
 		RatsTail = 57,
 		WarpCube = 58,
 		BottledFaerie = 59,

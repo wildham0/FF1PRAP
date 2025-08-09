@@ -58,7 +58,9 @@ namespace FF1PRAP
 		BahamutPromoted,
 		Adamant,
 		XcalForged,
-		MysticKeyBugFix // I'm not sure how it works, but it's probably to make sure you exit with the mystic key
+		MysticKeyBugFix, // I'm not sure how it works, but it's probably to make sure you exit with the mystic key
+		CaravanItemBought // hopefully it's not use by anything else
+
 
 
 
