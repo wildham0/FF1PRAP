@@ -812,6 +812,7 @@ namespace FF1PRAP
 			apHeight += 20f * guiScale;
 			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Shops");
 			CreateDropdown(Options.Dict["shuffle_gear_shops"].Display, Options.Dict["shuffle_gear_shops"]);
+			CreateDropdown(Options.Dict["shuffle_spells"].Display, Options.Dict["shuffle_spells"]);
 			apHeight += 20f * guiScale;
 
 			GUI.EndScrollView();

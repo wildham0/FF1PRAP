@@ -10,18 +10,21 @@ using System.Text.Json;
 
 using System.IO;
 using UnityEngine;
+using static FF1PRAP.Randomizer;
 
 namespace FF1PRAP
 {
 	class RandomizerData
     {
 		public List<Product> GearShops { get; set; }
+		public List<ShuffledSpell> ShuffledSpells { get; set; }
 		public Dictionary<int, ItemData> PlacedItems { get; set; }
 
 		public RandomizerData()
 		{
 			GearShops = new();
 			PlacedItems = new();
+			ShuffledSpells = new();
 		}
 
 		public void Serialize(string folderPath, string filedata)
@@ -68,7 +71,9 @@ namespace FF1PRAP
 						//options.Converters.Add(new ValueToStringConverter());
 
 						var randoData = JsonSerializer.Deserialize<RandomizerData>(configdata, serializeOptions);
+						PlacedItems = randoData.PlacedItems != null ? randoData.PlacedItems : new();
 						GearShops = randoData.GearShops != null ? randoData.GearShops : new();
+						ShuffledSpells = randoData.ShuffledSpells != null ? randoData.ShuffledSpells : new();
 					}
 				}
 			}

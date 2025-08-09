@@ -56,6 +56,8 @@ namespace FF1PRAP
 
 			new("shuffle_gear_shops", "Shuffle Gear Shops", new() {  { "1", "Enable" }, {"0", "Disable"} }, "0",
 				"Shuffle the content of all Weapon Shops together, and do the same for Armor Shops."),
+			new("shuffle_spells", "Shuffle Spells", new() {  { "1", "Enable" }, {"0", "Disable"} }, "0",
+				"Shuffle Spells amongst their own School."),
 		};
 
 		public static Dictionary<string, Option> Dict = optionlist.ToDictionary(o => o.Key, o => o);

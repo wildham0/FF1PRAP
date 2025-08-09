@@ -262,8 +262,8 @@ namespace FF1PRAP
 		ElflandArmorShop,
 		ElflandItemShop,
 		ElflandWhiteMagicShop1,
-		ElflandBlackMagicShop1,
 		ElflandWhiteMagicShop2,
+		ElflandBlackMagicShop1,
 		ElflandBlackMagicShop2,
 		MelmondWeaponShop = 18,
 		MelmondArmorShop,
@@ -428,6 +428,7 @@ namespace FF1PRAP
 			
 			randoData.PlacedItems = DoItemPlacement(rng.Next());
 			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng.Next());
+			randoData.ShuffledSpells = ShuffleSpells(FF1PR.SessionManager.Options["shuffle_spells"] == Options.Enable, rng.Next());
 
 			RandomizerData = randoData;
 			FF1PR.PlacedItems = randoData.PlacedItems;
@@ -447,6 +448,7 @@ namespace FF1PRAP
 			}
 
 			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng.Next());
+			randoData.ShuffledSpells = ShuffleSpells(FF1PR.SessionManager.Options["shuffle_spells"] == Options.Enable, rng.Next());
 
 			RandomizerData = randoData;
 			randoData.Serialize(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed);

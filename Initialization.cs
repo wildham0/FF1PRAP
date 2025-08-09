@@ -185,6 +185,8 @@ namespace FF1PRAP
 			{
 				FF1PR.MasterManager.GetList<Product>()[product.Id] = product;
 			}
+
+			Randomizer.LoadShuffledSpells(randoData.ShuffledSpells);
 		}
 
 		public static void InitializeNewGame()
