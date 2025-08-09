@@ -55,16 +55,8 @@ public class FF1PR : BasePlugin
 
 	// Loading/Saving Menu Stuff
 	public static Last.UI.KeyInput.TitleWindowController TitleWindowController;
-	//public static Last.UI.KeyInput.LoadGameWindowController LoadGameWindowController;
-	//public static Last.UI.KeyInput.MainMenuController MainMenuController;
-	//public static Last.UI.KeyInput.SaveListController SaveListController;
-	//public static Last.UI.KeyInput.LoadWindowController LoadWindowController;
-	//public static Last.UI.KeyInput.SaveWindowController SaveWindowController;
-
-
 
 	public static int CurrentSlot;
-
 	public static SaveInfoState SaveInfoState = new();
 
 	// Settings
@@ -75,25 +67,24 @@ public class FF1PR : BasePlugin
 	//public static GameStates GameState => GameStates.Title;
 	public override void Load()
 	{
-		// Plugin startup logic
+		// Create Logger
 		InternalLogger.SetLogger(base.Log);
 		InternalLogger.LogInfo($"Plugin {PluginInfo.NAME} v{PluginInfo.VERSION} is loaded! ({PluginInfo.GUID})");
 
+		// Create Session Manager
 		SessionManager = new SessionManager();
 
+		// Create Behaviours
 		ClassInjector.RegisterTypeInIl2Cpp<Archipelago>();
 		ClassInjector.RegisterTypeInIl2Cpp<Monitor>();
 		ClassInjector.RegisterTypeInIl2Cpp<ApItemWindow>();
 		
 		RegisterTypeAndCreateObject(typeof(SettingsWindow), "settings gui");
-		//RegisterTypeAndCreateObject(typeof(SaveInfoWindow), "save info");
 
 		//Application.runInBackground = Settings.RunInBackground;
 
+		// Apply all the patches
 		Harmony harmony = new Harmony(PluginInfo.GUID);
-
-		// Xp patch
-		//harmony.Patch(AccessTools.Method(typeof(Last.Data.Master.Monster), "get_Exp"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "get_Exp")));
 
 		// Treasure Patch
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.EventActionTreasure), "CreateTask"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "Treasure_Prefix")));
@@ -138,42 +129,17 @@ public class FF1PR : BasePlugin
 		// Loading State
 		harmony.Patch(AccessTools.Method(typeof(Last.Systems.Indicator.SystemIndicator), "Activate"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetLoadingState_Post")));
 
-		// Resource Manager
+		// Resource Manager + Assets
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetResourceManager_Post")));
-		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "AddLoadingTask"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "AddLoadingTask_Pre")));
-		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceLoadTask), "CheckComplete"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TaskCheckComplete_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckCompleteAsset", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckGroupLoadAssetCompleted_Post")));
-		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckLoadAssetCompleted", [typeof(string), typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckGroupLoadAssetCompleted2_Post")));
 
-		// Loadsing/Saving Screen State
-		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveListController), "CreateDataList"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "SaveListControllerCreateContentList_Post")));
+		// Loading/Saving Screen State
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.TitleWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TitleWindowControllerInitialize_Post")));
-		
-		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.LoadGameWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "LoadGameWindowControllerInitialize_Post")));
-		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.LoadWindowController), "SetActive"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "LoadWindowControllerInitialize_Post")));
-		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveWindowController), "SetActive"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "SaveWindowControllerInitialize_Post")));
-
-		//harmony.Patch(AccessTools.Method(typeof(Last.UI.SaveWindowManager), "SetNextState"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "SaveWindowControllerInitialize_Post")));
-		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.MainMenuController), "SetNextState"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "MainMenuControllerInitialize_Post")));
-
-		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "GetAsset"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetAsset_Pre")));
-		//harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "EntitiesSetup"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "EntitiesSetup_Post")));
-
-		//harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "InitPlayerStatePlay"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "InitPlayerStatePlay_Post")));
-
-		/*
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveContentController), "SetCharaNameText"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetSlotNumText_Pre")));
-
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveListController), "CreateContent"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "InitSaveView_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveContentController), "SetData"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetData_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveContentView), "SetSlotNumText"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetDSlotName_Post")), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetDSlotName_Post")));*/
-		//harmony.Patch(AccessTools.Method(typeof(SaveSlotManager), "CreateSlotListUniTask"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetData_Post")), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetData_Post"))); 
-		//harmony.Patch(AccessTools.Constructor(typeof(SaveSlotData)), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetData_Pre"))); 
-		harmony.Patch(AccessTools.Method(typeof(MessageManager), "ReplaceKeyToValue", [typeof(string), typeof(Il2CppSystem.Collections.Generic.Dictionary<string,string>)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ReplaceKey_Post")));
+		harmony.Patch(AccessTools.Method(typeof(MessageManager), "ReplaceKeyToValue", [typeof(string), typeof(Il2CppSystem.Collections.Generic.Dictionary<string, string>)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ReplaceKey_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveListController), "SetContentData"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetContentData_Pre")));
 
-
-
+		// Xp patch
+		//harmony.Patch(AccessTools.Method(typeof(Last.Data.Master.Monster), "get_Exp"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "get_Exp")));
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
 	{

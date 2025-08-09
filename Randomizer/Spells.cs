@@ -22,14 +22,12 @@ namespace FF1PRAP
 			public int Level { get; set; }
 		}
 
-		public static List<ShuffledSpell> ShuffleSpells(bool enable, uint seed)
+		public static List<ShuffledSpell> ShuffleSpells(bool enable, MT19337 rng)
 		{
 			if (!enable)
 			{
 				return new();
 			}
-
-			MT19337 rng = new MT19337(seed);
 
 			Dictionary<Shops, List<Product>> whiteShops = new()
 			{
@@ -130,6 +128,5 @@ namespace FF1PRAP
 				targetspell.UseJobGroupId = spell.Permission;
 			}
 		}
-
-    }
+	}
 }

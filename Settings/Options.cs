@@ -15,7 +15,6 @@ using Last.Systems.Indicator;
 
 namespace FF1PRAP
 {
-
 	public class Option
 	{
 		public string Key;
@@ -31,16 +30,16 @@ namespace FF1PRAP
 			Default = defaultchoice;
 			Description = description;
 		}
-
 	}
 
 	public static class Options
 	{
+		// Generic choices for easy reference
 		public static string Enable = "1";
 		public static string Disable = "0";
 		public static string Include = "include";
 		public static string Exclude = "exclude";
-		public static string Prioritize = "proprotoze";
+		public static string Prioritize = "prioritize";
 
 		private static List<Option> optionlist = new()
 		{
@@ -61,15 +60,6 @@ namespace FF1PRAP
 		};
 
 		public static Dictionary<string, Option> Dict = optionlist.ToDictionary(o => o.Key, o => o);
-		/*
-		public static Dictionary<string, List<string>> Flags = new()
-		{
-			{ "prioritize npcs", new() { "prioritize", "include", "exclude" } },
-			{ "prioritize key chests", new() { "prioritize", "include", "exclude" } },
-			{ "prioritize trapped chests", new() { "prioritize", "include", "exclude" } },
-		};
-	*/
-	
 	}
 	
 }

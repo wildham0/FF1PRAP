@@ -58,26 +58,12 @@ namespace FF1PRAP
 		public List<AssetTask> tasksToMonitor;
 		public MonitorTool()
 		{
-			//FF1PR.SessionManager.GameMode = GameModes.Archipelago;
 			tasksToMonitor = new();
 		}
 
 		public void Update()
 		{
 			ProcessGameState();
-			ProcessAssets();
-
-			/*
-			if(FF1PR.MapManager != null && FF1PR.MapManager.currentMapModel != null)
-			{
-				InternalLogger.LogInfo($"Map: {FF1PR.MapManager.currentMapModel.GetMapName()} - {FF1PR.MapManager.IsAllCompleted()}");
-			}
-
-			if (FF1PR.ScriptIntegrator != null)
-			{
-				InternalLogger.LogInfo($"Map: {FF1PR.ScriptIntegrator.scriptName} - {FF1PR.ScriptIntegrator.working}");
-			}*/
-
 
 			if (FF1PR.SessionManager.GameMode == GameModes.Vanilla)
 			{
@@ -92,7 +78,7 @@ namespace FF1PRAP
 			}
 			else if (GameState == GameStates.Title && ProcessState == ProcessStates.InitGame)
 			{
-				Initialization.InitializeRando();
+				Initialization.ApplyBaseGameModifications();
 				ProcessState = ProcessStates.None;
 			}
 			else if (ProcessState == ProcessStates.NewGame)
@@ -104,10 +90,6 @@ namespace FF1PRAP
 					Initialization.InitializeNewGame();
 					if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
 					{
-						//var seed = (uint)System.DateTime.Now.Ticks;
-						//FF1PR.SessionManager.SetValue("seed", seed.ToString());
-						//FF1PR.PlacedItems = Randomizer.DoItemPlacement(seed);
-						//FF1PR.SessionManager.SetRandomizedGame(FF1PR.PlacedItems);
 						Initialization.InitializeRandoItems(Randomizer.RandomizerData);
 					}
 					else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
@@ -125,8 +107,6 @@ namespace FF1PRAP
 			else if (ProcessState == ProcessStates.LoadGame)
 			{
 				ProcessState = ProcessStates.None;
-				//var test = GameObject.Find("save info");
-				//test.enabled = false;
 
 				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 				{
@@ -142,9 +122,11 @@ namespace FF1PRAP
 				else
 				{
 					RandomizerData randoData = new();
-					randoData.Load(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring);
-
-					//FF1PR.PlacedItems = FF1PR.SessionManager.GetPlacedItems();
+					if (!randoData.Load(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring))
+					{
+						InternalLogger.LogInfo($"File not found, gameplay might be unstable. Generate a game first in the Solo Randomizer Settings Menu.");
+					}
+					
 					FF1PR.PlacedItems = randoData.PlacedItems;
 					Initialization.InitializeRandoItems(randoData);
 				}
@@ -177,40 +159,6 @@ namespace FF1PRAP
 				GameState = GameStates.InGame;
 			}
 		}
-
-		private void ProcessAssets()
-		{
-
-			//tasksToMonitor = tasksToMonitor.Where(t => !t.Done).ToList();
-
-			foreach (var task in tasksToMonitor.Where(t => !t.Done).ToList())
-			{
-				task.Ready = task.Task.CheckComplete();
-				
-				if (task.Ready)
-				{
-					var asset = FF1PR.ResourceManager.GetAsset<TextAsset>(task.Name);
-					if (asset != null)
-					{
-						FF1PR.ResourceManager.completeAssetDic[task.Name] = task.Asset;
-						task.Done = true;
-						InternalLogger.LogInfo($"Asset {task.Name} modified.");
-					}
-				}
-				InternalLogger.LogInfo($"AssetTask: {task.Ready}");
-			}
-		}
-		public bool IsTaskDone(string assetName)
-		{
-			if (tasksToMonitor.TryFind(t => t.Name == assetName, out var task))
-			{
-				return task.Done;
-			}
-			else
-			{
-				return true;
-			}
-		}
 	}
 
 	public class Monitor : MonoBehaviour
@@ -237,21 +185,10 @@ namespace FF1PRAP
 		{
 			tool.LoadingState = mode;
 		}
-
-		public void SetAssetTask(string name, TextAsset asset, Last.Management.ResourceLoadTask task)
-		{
-			tool.tasksToMonitor.Add(new AssetTask(name, task, asset));
-		}
 		public int GetGameState()
 		{
 			return (int)tool.GameState;
 		}
-
-		public bool IsTaskDone(string assetName)
-		{
-			return tool.IsTaskDone(assetName);
-		}
-
 		public void SetMainMenuState(Last.Defaine.MenuCommandId state)
 		{
 			tool.MainMenuState = state;

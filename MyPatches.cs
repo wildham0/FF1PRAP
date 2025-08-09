@@ -702,20 +702,4 @@ namespace FF1PRAP
 		LoadMenu,
 		SaveMenu,
 	}
-	public class RandoDataStorage
-	{
-		public int Counter { get; set; } = 0;
-		public int CurrentItem { get; set; } = 44;
-		public bool InitializationDone = false;
-
-		public void Initialize()
-		{
-			Counter = 0;
-		}
-
-		public void Increment()
-		{
-			Counter++;
-		}
-	}
 }

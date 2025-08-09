@@ -65,12 +65,10 @@ namespace FF1PRAP
 		{
 			FF1PR.ResourceManager = __instance;
 		}
-
-		// All that to check the state of saving/loading screen ;_;
+		// Menu/Title controllers
 		private static void MainMenuControllerInitialize_Post(MainMenuController __instance, MenuCommandId state)
 		{
 			InternalLogger.LogInfo($"MainMenuController initialized.");
-			//FF1PR.MainMenuController = __instance;
 			Monitor.instance.SetMainMenuState(state);
 		}
 		private static void TitleWindowControllerInitialize_Post(TitleWindowController __instance)
@@ -78,30 +76,5 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"TitleWindowController initialized.");
 			FF1PR.TitleWindowController = __instance;
 		}
-		/*
-		private static void LoadGameWindowControllerInitialize_Post(LoadGameWindowController __instance)
-		{
-			InternalLogger.LogInfo($"LoadGameWindowController initialized.");
-			FF1PR.LoadGameWindowController = __instance;
-		}
-		private static void SaveListControllerCreateContentList_Post(SaveListController __instance)
-		{
-			InternalLogger.LogInfo($"SaveListController initialized.");
-			FF1PR.SaveListController = __instance;
-		}
-
-		private static void LoadWindowControllerInitialize_Post(LoadWindowController __instance)
-		{
-			InternalLogger.LogInfo($"LoadWindowController initialized.");
-			FF1PR.LoadWindowController = __instance;
-		}
-		private static void SaveWindowControllerInitialize_Post(SaveWindowManager.State value)
-		{
-			InternalLogger.LogInfo($"SaveWindowMaanger {value}.");
-			//FF1PR.SaveWindowController = __instance;
-			//Monitor.instance.SetSaveMenuState(state);
-		}
-
-		*/
 	}
 }

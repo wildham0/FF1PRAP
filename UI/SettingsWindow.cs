@@ -1,5 +1,6 @@
 ﻿//using Il2CppSystem;
 using BepInEx.Core.Logging.Interpolation;
+using FF1PRAP.UI;
 using Last.Battle;
 using Last.UI.KeyInput;
 using MonoMod.Utils;
@@ -18,46 +19,41 @@ namespace FF1PRAP
 {
 	public partial class SettingsWindow : MonoBehaviour
 	{
-
-		public static string CustomSeed = "";
+		// Assets
 		public static Font PixelRemasterFont;
-		public static List<string> FoolChoices = new List<string>() { "Off", "Normal", "Double", "Onslaught" };
-		public static List<string> FoolColors = new List<string>() { "white", "#4FF5D4", "#E3D457", "#FF3333" };
-		private static bool ShowAdvancedSinglePlayerOptions = false;
+		public static Texture2D windowTexture;
+
+		// State
 		private static bool ShowAPSettingsWindow = false;
-		private static bool ShowMysterySeedWindow = false;
-		private static int MysteryWindowPage = 0;
-		private static string stringToEdit = "";
-		private static int stringCursorPosition = 0;
 		private static bool showPort = false;
 		private static bool showPassword = false;
+		private static string stringToEdit = "";
+		private static int stringCursorPosition = 0;
+		private static string currentOptionShowing = "";
+		private static Option currentToolTip;
+		private static bool generationReady = false;
+		public static Vector2 scrollPosition = Vector2.zero;
+
+		// Parameters
 		private static float guiScale = 1f;
 		private static float apHeight = 0f;
 		private static float lastApHeight = 0f;
 		private static float apMargin = 20f;
-		private static float advHeight = 0f;
-		private static float mystHeight = 0f;
 		private static int screenWidth = 0;
 		private static int screenHeight = 0;
 		private static float standardFontSize = 15f;
-		private static Texture2D windowTexture;
-		private static Texture2D tooltipTexture;
-		private static bool showGameOption = false;
-		private static float gameOptionHeight = 0f;
-		private static string currentOptionShowing = "";
-		private static Option currentToolTip;
-		private static bool generationReady = false;
+		public static GUISkin windowSkin;
+		public static Rect standardWindowRect;
+
+		// Gamedata
+		public static string CustomSeed = "";
 		private static byte[] seed = new byte[4];
-		public static Vector2 scrollPosition = Vector2.zero;
+
 		private static Dictionary<GameModes, string> gameModeOption = new()
 		{
 			{ GameModes.Archipelago, "Archipelago" },
 			{ GameModes.Randomizer, "Single Player" },
 		};
-
-		//private static Texture2D 
-		private static GUISkin windowSkin;
-		private static Rect standardWindowRect;
 		private static Dictionary<string, bool> editingFlags = new Dictionary<string, bool>() {
 			{"Player", false},
 			{"Hostname", false},
@@ -211,155 +207,25 @@ namespace FF1PRAP
 			FF1PR.SessionManager.WriteSessionInfo();
 		}
 
-		private static void DrawBorders(ref int[] colorArray, int width, int height, int borderwidth, int setindent, int offset, int color)
+		private static void CalcGuiScale()
 		{
-			var indent = setindent + 1;
-			for (int y = 0 + offset; y < borderwidth + offset; y++)
+			screenWidth = Screen.width;
+			screenHeight = Screen.height;
+
+			if (Screen.width == 3840 && Screen.height == 2160)
 			{
-				if (indent > 0) indent--;
-				for (int x = indent + offset; x < width - indent - offset; x++)
-				{
-					colorArray[x + (y * width)] = color;
-				}
+				guiScale = 1.25f;
 			}
-
-			indent = setindent + 1;
-			for (int y = height - offset - 1; y > height - offset - borderwidth; y--)
+			else if (Screen.width == 1280 && Screen.height <= 800)
 			{
-				if (indent > 0) indent--;
-				for (int x = indent + offset; x < width - indent - offset; x++)
-				{
-					colorArray[x + (y * width)] = color;
-				}
+				guiScale = 0.75f;
 			}
-
-			indent = setindent + 1;
-			for (int x = 0 + offset; x < borderwidth + offset; x++)
+			else
 			{
-				if (indent > 0) indent--;
-				for (int y = indent + offset; y < height - indent - offset; y++)
-				{
-					colorArray[x + (y * width)] = color;
-				}
+				guiScale = 1f;
 			}
-
-			indent = setindent + 1;
-			for (int x = width - offset - 1; x > width - borderwidth - offset; x--)
-			{
-				if (indent > 0) indent--;
-				for (int y = indent + offset; y < height - indent - offset; y++)
-				{
-					colorArray[x + (y * width)] = color;
-				}
-			}
-
-
 		}
-		private void GenerateSkin()
-		{
-			InternalLogger.LogInfo("Generating Skin.");
-			
-			var skin = GUI.skin;
-			//GUISkin test = new();
-			var width = (int)standardWindowRect.width;
-			var height = (int)standardWindowRect.height;
 
-			var texture = new Texture2D((int)standardWindowRect.width, (int)standardWindowRect.height);
-
-			// This is a pretty ugly way to generate the texture, revisit using the game's window texture
-			// var alltexture = Resources.FindObjectsOfTypeAll<Texture2D>().ToList();
-			// UI_Common-WindowFrame01?
-
-			var colorArray = new Color[width * height];
-			var intArray = new int[width * height];
-			var selectColors = new Color[]
-			{
-					new Color(0.05f, 0.05f, 0.55f, 1.0f),
-					new Color(0.09f, 0.09f, 0.60f, 1.0f),
-					new Color(0.14f, 0.14f, 0.66f, 1.0f),
-					new Color(0.18f, 0.18f, 0.72f, 1.0f),
-					new Color(0.23f, 0.23f, 0.78f, 1.0f),
-					new Color(0.25f, 0.25f, 0.80f, 1.0f),
-			};
-
-			float maxrg = 0.25f;
-			float minrg = 0.05f;
-			float maxb = 0.80f;
-			float minb = 0.55f;
-
-
-			Color currentColor;
-			Color whiteColor = new Color(0.96f, 0.96f, 0.96f, 1.0f);
-			Color blackColor = new Color(0.04f, 0.04f, 0.04f, 1.0f);
-			int borderwidth = 7;
-			int setindent = 4;
-
-			DrawBorders(ref intArray, width, height, borderwidth, 4, 0, 1);
-			DrawBorders(ref intArray, width, height, borderwidth - 1, 4, 1, 2);
-
-			for (int y = 0; y < height; y++)
-			{
-				for (int x = 0; x < width; x++)
-				{
-					if (intArray[x + (y * width)] == 1)
-					{
-						colorArray[x + (y * width)] = blackColor;
-					}
-					else if(intArray[x + (y * width)] == 2)
-					{
-						colorArray[x + (y * width)] = whiteColor;
-					}
-				}
-			}
-
-			for (int y = borderwidth; y < height - borderwidth + 1; y++)
-			{
-
-				float currentrg = ((maxrg - minrg) * ((float)y / (float)height)) + minrg;
-				float currentb = ((maxb - minb) * ((float)y / (float)height)) + minb;
-				//InternalLogger.LogInfo($"Blue pixel: {currentb}");
-				currentColor = new Color(currentrg, currentrg, currentb, 1.0f);
-				for (int x = borderwidth; x < width - borderwidth + 1; x++)
-				{
-					colorArray[x + (y * width)] = currentColor;
-				}
-			}
-
-			texture.SetPixels(colorArray);
-			texture.Apply();
-
-			windowTexture = texture;
-			
-			skin.window.normal.background = windowTexture;
-			skin.window.normal.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-			skin.window.active.background = windowTexture;
-			skin.window.active.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-			skin.window.hover.background = windowTexture;
-			skin.window.hover.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-			skin.window.focused.background = windowTexture;
-			skin.window.focused.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-
-			skin.window.onNormal.background = windowTexture;
-			skin.window.onNormal.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-			skin.window.onActive.background = windowTexture;
-			skin.window.onActive.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-			skin.window.onHover.background = windowTexture;
-			skin.window.onHover.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-			skin.window.onFocused.background = windowTexture;
-			skin.window.onFocused.textColor = new Color(0.95f, 0.95f, 0.95f, 1.0f);
-
-
-			skin.window.border = new RectOffset(8, 8, 8, 8);
-			skin.window.alignment = TextAnchor.UpperCenter;
-			skin.window.fontStyle = FontStyle.Normal;
-			skin.window.margin = new RectOffset(8, 8, 8, 8);
-			skin.window.padding = new RectOffset(16, 16, 32, 16);
-
-			skin.window.stretchHeight = true;
-			skin.window.stretchWidth = true;
-
-			windowSkin = skin;
-		}
 		private void OnGUI()
 		{
 			bool showSettings = SceneManager.GetActiveScene().name == "Title" &&
@@ -375,25 +241,10 @@ namespace FF1PRAP
 				// initial draw or screen was resized, redraw texture
 				if (screenWidth != Screen.width || screenHeight != Screen.height || windowTexture == null)
 				{
-					screenWidth = Screen.width;
-					screenHeight = Screen.height;
-					
-					if (Screen.width == 3840 && Screen.height == 2160)
-					{
-						guiScale = 1.25f;
-					}
-					else if (Screen.width == 1280 && Screen.height <= 800)
-					{
-						guiScale = 0.75f;
-					}
-					else
-					{
-						guiScale = 1f;
-					}
-
+					CalcGuiScale();
 					standardWindowRect = new Rect(20f, (float)Screen.height * 0.12f, 430f * guiScale, 600f * guiScale);
-					windowSkin = GUI.skin;
-					GenerateSkin();
+					windowTexture = WindowTexture.GenerateWindowTexture(standardWindowRect);
+					windowSkin = WindowTexture.CreateWindowSyle(windowTexture);
 
 					if (PixelRemasterFont == null)
 					{
@@ -402,7 +253,6 @@ namespace FF1PRAP
 
 					GUI.skin = windowSkin;
 					GUI.skin.font = PixelRemasterFont;
-
 				}
 
 				Cursor.visible = true;
@@ -417,7 +267,6 @@ namespace FF1PRAP
 						ShowAPSettingsWindow = false;
 						break;
 					case GameModes.Archipelago:
-						//windowRects["archipelago"] = new Rect(20f, (float)Screen.height * 0.12f, 430f * guiScale, apHeight);
 						GUI.Window(101, standardWindowRect, new Action<int>(ArchipelagoQuickSettingsWindow), "Archipelago Settings", GUI.skin.window);
 						break;
 				}
@@ -455,14 +304,9 @@ namespace FF1PRAP
 
 		private void Update()
 		{
-
+			//if ((FF1PR.SessionManager.GameMode == GameModes.Archipelago && ShowAPSettingsWindow) && SceneManager.GetActiveScene().name == "Title")
 			if (editingFlags.Where(f => f.Value).Any() && SceneManager.GetActiveScene().name == "Title")
 			{
-
-
-				//if ((FF1PR.SessionManager.GameMode == GameModes.Archipelago && ShowAPSettingsWindow) && SceneManager.GetActiveScene().name == "Title")
-				//if ((FF1PR.SessionManager.GameMode == GameModes.Archipelago && ShowAPSettingsWindow) && SceneManager.GetActiveScene().name == "Title")
-				//{
 				bool submitKeyPressed = false;
 
 				//handle text input
@@ -674,7 +518,6 @@ namespace FF1PRAP
 
 			return choicepicked;
 		}
-
 		private static void CreateGameModeDropdown(string label)
 		{
 			var backcolor = GUI.backgroundColor;
@@ -751,7 +594,6 @@ namespace FF1PRAP
 				}
 			}
 		}
-
 		private static void RandomizerSettingsWindow(int windowID)
 		{
 			GUI.skin.label.fontSize = (int)(standardFontSize * 1.2 * guiScale);
@@ -800,20 +642,8 @@ namespace FF1PRAP
 			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
 			GUI.Label(ScaledRect(apMargin, GetApHeight(80f), 360f, 30f), genlabel);
 
-
-			GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
-
-			apHeight += 20f * guiScale;
-			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Key Items Placement");
-			CreateDropdown(Options.Dict["npcs_priority"].Display, Options.Dict["npcs_priority"]);
-			CreateDropdown(Options.Dict["keychests_priority"].Display, Options.Dict["keychests_priority"]);
-			CreateDropdown(Options.Dict["trapped_priority"].Display, Options.Dict["trapped_priority"]);
-			CreateDropdown(Options.Dict["adamantite_craft"].Display, Options.Dict["adamantite_craft"]);
-			apHeight += 20f * guiScale;
-			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Shops");
-			CreateDropdown(Options.Dict["shuffle_gear_shops"].Display, Options.Dict["shuffle_gear_shops"]);
-			CreateDropdown(Options.Dict["shuffle_spells"].Display, Options.Dict["shuffle_spells"]);
-			apHeight += 20f * guiScale;
+			// Add rando options
+			AddRandoOptions();
 
 			GUI.EndScrollView();
 
@@ -980,6 +810,7 @@ namespace FF1PRAP
 			lastApHeight = apHeight + 40f * guiScale;
 		}
 
+		// Options and version to modify
 		public static void VersionWindow(int windowID)
 		{
 			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
@@ -987,57 +818,22 @@ namespace FF1PRAP
 			GUI.contentColor = new Color(0f, 0f, 0f, 1f);
 			GUI.Label(ScaledRect(0, 0, 300f, 30f), $"v{PluginInfo.VERSION} Alpha");
 		}
-		
-		/*
-		public static bool FileManagement_LoadFileAndStart_PrefixPatch(FileManagementGUI __instance, string filename) {
-			CloseAPSettingsWindow();
-			SaveFile.LoadFromFile(filename);
-			if (SaveFile.GetInt("archipelago") == 0 && SaveFile.GetInt("randomizer") == 0) {
-				TunicLogger.LogInfo("Non-Randomizer file selected!");
-				GenericMessage.ShowMessage("<#FF0000>[death] \"<#FF0000>warning!\" <#FF0000>[death]\n\"Non-Randomizer file selected.\"\n\"Returning to menu.\"");
-				return false;
-			}
-			string errorMessage = "";
-			if (SaveFile.GetInt("archipelago") == 1 && SaveFile.GetString("archipelago player name") != "") {
-				if (!Archipelago.instance.IsConnected() || (Archipelago.instance.integration.connected && (SaveFile.GetString("archipelago player name") != Archipelago.instance.GetPlayerName(Archipelago.instance.GetPlayerSlot()) || int.Parse(Archipelago.instance.integration.slotData["seed"].ToString()) != SaveFile.GetInt("seed")))) {
-					if (SaveFile.GetString(SaveFlags.ArchipelagoHostname) != "" && SaveFile.GetInt(SaveFlags.ArchipelagoPort) != 0) { 
-						TunicRandomizer.Settings.ReadConnectionSettingsFromSaveFile();
-					}
-					Archipelago.instance.Disconnect();
-					errorMessage = Archipelago.instance.Connect();
-				}
-				if (!Archipelago.instance.IsConnected()) {
-					GenericMessage.ShowMessage($"<#FF0000>[death] \"<#FF0000>warning!\" <#FF0000>[death]\n\"Failed to connect to Archipelago:\"\n{errorMessage}\n\"Returning to title screen.\"");
-					return false;
-				} else if (SaveFlags.IsArchipelago()) {
-					if (SaveFile.GetString("archipelago player name") != Archipelago.instance.GetPlayerName(Archipelago.instance.GetPlayerSlot()) || int.Parse(Archipelago.instance.integration.slotData["seed"].ToString()) != SaveFile.GetInt("seed")) {
-						TunicLogger.LogInfo("Save does not match connected slot! Connected to " + TunicRandomizer.Settings.ConnectionSettings.Player + " [seed " + Archipelago.instance.integration.slotData["seed"].ToString() + "] but slot name in save file is " + SaveFile.GetString("archipelago player name") + " [seed " + SaveFile.GetInt("seed") + "]");
-						GenericMessage.ShowMessage("<#FF0000>[death] \"<#FF0000>warning!\" <#FF0000>[death]\n\"Save does not match connected slot.\"\n\"Returning to menu.\"");
-						return false;
-					}
-					PlayerCharacterSpawn.OnArrivalCallback += (Action)(() => {
-						List<long> locationsInLimbo = new List<long>();
-						foreach (KeyValuePair<string, long> pair in Locations.LocationIdToArchipelagoId) {
-							if (SaveFile.GetInt("randomizer picked up " + pair.Key) == 1 && !Archipelago.instance.integration.session.Locations.AllLocationsChecked.Contains(pair.Value) && Archipelago.instance.integration.session.Locations.AllMissingLocations.Contains(pair.Value)) {
-								locationsInLimbo.Add(pair.Value);
-							}
-						}
-						if (locationsInLimbo.Count > 0) {
-							LanguageLine line = ScriptableObject.CreateInstance<LanguageLine>();
-							line.text = $"<#FFFF00>[death] \"<#FFFF00>attention!\" <#FFFF00>[death]\n" +
-								$"\"Found {locationsInLimbo.Count} location{(locationsInLimbo.Count != 1 ? "s": "")} in the save file\"\n\"that {(locationsInLimbo.Count != 1 ? "were" : "was")} not sent to Archipelago.\"\n" +
-								$"\"Send {(locationsInLimbo.Count != 1 ? "these" : "this")} location{(locationsInLimbo.Count != 1 ? "s" : "")} now?\"";
-							if (TunicRandomizer.Settings.UseTrunicTranslations) {
-								line.text = $"<#FFFF00>[death] <#FFFF00>uhtehn$uhn! <#FFFF00>[death]\nfownd \"{locationsInLimbo.Count}\" lOkA$uhn{(locationsInLimbo.Count != 1 ? "z" : "")} in #uh sAv fIl #aht\n{(locationsInLimbo.Count != 1 ? "wur" : "wawz")} nawt sehnt too RkipehluhgO.\nsehnd {(locationsInLimbo.Count != 1 ? "#Ez" : "#is")} lOkA$uhn{(locationsInLimbo.Count != 1 ? "z" : "")} now?";
-							}
-							GenericPrompt.ShowPrompt(line, (Action)(() => { Archipelago.instance.integration.session.Locations.CompleteLocationChecks(locationsInLimbo.ToArray()); }), (Action)(() => { }));
-						}
-					});
-				}
-			}
-
-			return true;
-		}*/
-
+		private static void AddRandoOptions()
+		{
+			GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
+			apHeight += 20f * guiScale;
+			
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Key Items Placement");
+			CreateDropdown(Options.Dict["npcs_priority"].Display, Options.Dict["npcs_priority"]);
+			CreateDropdown(Options.Dict["keychests_priority"].Display, Options.Dict["keychests_priority"]);
+			CreateDropdown(Options.Dict["trapped_priority"].Display, Options.Dict["trapped_priority"]);
+			CreateDropdown(Options.Dict["adamantite_craft"].Display, Options.Dict["adamantite_craft"]);
+			apHeight += 20f * guiScale;
+			
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Shops");
+			CreateDropdown(Options.Dict["shuffle_gear_shops"].Display, Options.Dict["shuffle_gear_shops"]);
+			CreateDropdown(Options.Dict["shuffle_spells"].Display, Options.Dict["shuffle_spells"]);
+			apHeight += 20f * guiScale;
+		}
 	}
 }

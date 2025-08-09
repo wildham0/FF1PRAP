@@ -7,307 +7,6 @@ using System.Threading.Tasks;
 
 namespace FF1PRAP
 {
-
-	public enum LocationType
-	{ 
-		Treasure,
-		GameObject,
-		Event,
-	}
-	public enum Regions
-	{ 
-		TempleOfFiends,
-		Coneria,
-		ConeriaCastle,
-		MatoyaCave,
-		Pravoka,
-		DwarfCave,
-		Elfland,
-		ElflandCastle,
-		NorthWestCastle,
-		MarshCave,
-		Melmond,
-		EarthCave,
-		TitanTunnelE,
-		TitanTunnelW,
-		SardaCave,
-		CrescentLake,
-		RyukhanDesert,
-		IceCave,
-		Volcano,
-		Caravan,
-		Waterfall,
-		Onrac,
-		SeaShrine,
-		CardiaPlains,
-		CardiaForest,
-		CardiaMarsh,
-		CardiaSmall,
-		CardiaTop,
-		BahamutCave,
-		CasteOfOrdeals,
-		MirageTower,
-		SkyCastle,
-		Gaia,
-		Lefein
-	}
-	public enum AccessRequirements
-	{ 
-		Lute,
-		Bridge,
-		Ship,
-		Crown,
-		CrystalEye,
-		JoltTonic,
-		MysticKey,
-		NitroPowder,
-		StarRuby,
-		EarthRod,
-		Canoe,
-		Levistone,
-		RatsTail,
-		BottledFaerie,
-		Oxyale,
-		RosettaStone,
-		Bell,
-		WarpCube,
-		Adamantite,
-
-		Canal,
-		Airship,
-
-		TranslatedRosettaStone,
-		EarthCrystal,
-		FireCrystal,
-		WaterCrystal,
-		AirCrystal,
-
-		GarlandDefeated,
-		VampireDefeated,
-		SlabLifted,
-		TitanFed,
-		Submarine,
-		LeifenishLearned,
-		MirageAccess,
-		BlackOrbDestroyed,
-
-		None,
-	}
-	public enum Items
-	{ 
-		Gil = 1,
-		Potion = 2,
-		HiPotion = 3,
-		XPotion = 4,
-		Ether = 5,
-		DryEther = 7,
-		Elixir = 8,
-		PhoenixDown = 10,
-		Antidote = 11,
-		EyeDrops = 12,
-		EchoGrass = 13,
-		GoldNeedle = 14,
-		Remedy = 15,
-		SleepingBag = 17,
-		Tent = 18,
-		Cottage = 19,
-		GiantsTonic = 32,
-		StrengthTonic = 34,
-		ProtectDrink = 35,
-		SpeedDrink = 36,
-
-
-		Ship = 44, // ?
-		Lute = 45,
-		Crown = 46,
-		CrystalEye = 47,
-		JoltTonic = 48,
-		MysticKey = 49,
-		NitroPowder = 50,
-		Adamantite = 51,
-		RosettaStone = 52,
-		StarRuby = 53,
-		EarthRod = 54,
-		Levistone = 55,
-		Bell = 56,
-		RatsTail = 57,
-		WarpCube = 58,
-		BottledFaerie = 59,
-		Oxyale = 60,
-		Canoe = 61,
-
-		Empty = 62,
-
-		// Weapons
-		Knife = 63, // shop onlu
-		Dagger = 64,
-		MythrilKnife = 65,
-		CatClaws = 67, // shop only
-		//
-		Rapier = 71,
-		Saber = 72,
-		Broadsword = 73,
-		Werebuster = 74,
-		RuneBlade = 75,
-		Wyrmkiller = 76,
-		CoralSword = 77,
-		LongSword = 78, // shop only
-		GreatSword = 79,
-		Razer = 80,
-		MythrilSword = 81, // shop only
-		VorpalSword = 82,
-		FlameSword = 83,
-		//
-		IceBrand = 86,
-		Defender = 87,
-		//
-		SunBlade = 89,
-		//
-		Excalibur = 92,
-		//
-		Scimitar = 96, // shop only
-		Falchion = 97,
-		//
-		SasukesBlade = 100,
-		//
-		Masamune = 103,
-		Nunchaku = 104, // shop only
-		IronNunchaku = 105, // shop only
-		BattleAxe = 106, // shop only
-		GreatAxe = 107,
-		//
-		MythrilAxe = 109,
-		LightAxe = 110,
-		//
-		Hammer = 114,
-		MythrilHammer = 115,
-		ThorsHammer = 116,
-		//
-		Staff = 118,
-		HealingStaff = 119,
-		PowerStaff = 120,
-		MagesStaff = 121,
-		Crosier = 122, // shop only
-		WizardsStaff = 123,
-
-		// Armor
-		Clothes = 134,
-		//
-		WhiteRobe = 136,
-		BlackRobe = 137,
-		//
-		LeatherArmor = 145, // shop only
-		ChainMail = 146, // shop only
-		MythrilMail = 147,
-		IronArmor = 148,
-		IceArmor = 149,
-		FlameMail = 150,
-		KnightArmor = 151,
-		//
-		DiamondArmor = 153,
-		DragonMail = 154,
-		//
-		CopperArmlet = 156,
-		SilverArmlet = 157,
-		RubyArmlet = 158,
-		//
-		DiamondArmlet = 160,
-		LeatherShield = 161,
-		Buckler = 162, // shop only
-		IronShield = 163, // shop only
-		MythrilShield = 164,
-		IceShield = 165,
-		FlameShield = 166,
-		//
-		DiamondShield = 168,
-		//
-		AegisShield = 170,
-		//
-		ProtectCloak = 173,
-		//
-		LeatherCap = 175,
-		//
-		Ribbon = 183,
-		Helm = 184,
-		GreatHelm = 185,
-		HealingHelm = 186,
-		MythrilHelm = 187,
-		DiamondHelm = 188,
-		//
-		LeatherGloves = 191, // shop only
-		BronzeGloves = 192,
-		SteelGloves = 193,
-		Gauntlets = 194,
-		GiantsGloves = 195,
-		//
-		MythrilGloves = 197,
-		DiamonGloves = 198,
-		//
-		ProtectRing = 202,
-	}
-
-	public enum Shops
-	{ 
-		ConeriaWeaponShop = 1,
-		ConeriaArmorShop = 2,
-		ConeriaItemShop = 3,
-		ConeriaWhiteMagicShop = 4,
-		ConeriaBlackMagicShop = 5,
-		PravokaWeaponShop = 6,
-		PravokaArmorShop,
-		PravokaItemShop,
-		PravokaWhiteMagicShop,
-		PravokaBlackMagicShop,
-		ElflandWeaponShop = 11,
-		ElflandArmorShop,
-		ElflandItemShop,
-		ElflandWhiteMagicShop1,
-		ElflandWhiteMagicShop2,
-		ElflandBlackMagicShop1,
-		ElflandBlackMagicShop2,
-		MelmondWeaponShop = 18,
-		MelmondArmorShop,
-		MelmondWhiteMagicShop,
-		MelmondBlackMagicShop,
-		CrescentWeaponShop = 22,
-		CrescentArmorShop,
-		CrescentItemShop,
-		CrescentWhiteMagicShop,
-		CrescentBlackMagicShop,
-		OnracItemShop = 27,
-		OnracWhiteMagicShop,
-		OnracBlackMagicShop,
-		GaiaWeaponShop = 30,
-		GaiaArmorShop,
-		GaiaItemShop,
-		GaiaWhiteMagicShop1,
-		GaiaBlackMagicShop1,
-		LufeniaWhiteMagicShop = 35,
-		LufeniaBlackMagicShop = 36,
-		CaravanBottleShop = 37,
-		CaravanDrinkShop = 38,
-		GaiaWhiteMagicShop2 = 39,
-		GaiaBlackMagicShop2 = 40,
-
-		ConeriaInn = 101,
-		PravokaInn,
-		ElflandInn,
-		MelmondInn,
-		CrescentInn,
-		OnracInn,
-		GaiaInn,
-
-		ConeriaClinic = 201,
-		PravokaClinic,
-		ElflandClinic,
-		CrescentClinic,
-		OnracClinic,
-		GaiaClinic
-
-	}
-
-
-
 	public class ItemData
 	{
 		public int Id { get; set; }
@@ -344,24 +43,11 @@ namespace FF1PRAP
 		public long Id;
 	}
 
-	public struct EventData
-	{
-		public List<AccessRequirements> Trigger;
-		public Regions Region;
-		public string Name;
-		public int Script;
-		public string Map;
-		//public string Message;
-		public List<List<AccessRequirements>> Access;
-	}
-
 	public struct RegionData
 	{
 		public Regions Region;
 		public List<List<AccessRequirements>> Access;
 	}
-
-
 
 	partial class Randomizer
     {
@@ -380,44 +66,14 @@ namespace FF1PRAP
 		{
 			Locations = new();
 			PlacedItems = new();
-			/*
-			List<ItemData> items = FixedLocations.Select(l => new ItemData() { Id = l.Content, Qty = l.Qty }).ToList();
-			//items = Enumerable.Repeat((int)Items.Ship, items.Count).Select(s => new ItemData() { Id = s, Qty = 1 }).ToList();
-			//List<int> flags = FixedLocations.Select(l => l.Flag).ToList();
-			
-			Dictionary<ItemData, int> mergedItems = new();
-
-			foreach (var item in items)
-			{
-				if (mergedItems.ContainsKey(item))
-				{
-					mergedItems[item]++;
-				}
-				else
-				{
-					mergedItems[item] = 1;
-				}
-			}*/
-
-			/*
-			InternalLogger.LogInfo("--- Item List ---");
-			foreach (var item in mergedItems)
-			{
-				InternalLogger.LogInfo($"\"name\": FF1PRItemData(IC.filler, {item.Value}, {item.Key.Id}, {item.Key.Qty}),");
-			}
-
-			*/
-			
-			
-
-			//items.Shuffle(rng);
-			//PlacedItems = items.Select((x, i) => (flags[i], x)).ToDictionary(y => y.Item1, y => y.x);
 		}
 		public static void Randomize(uint hash)
 		{
+			// Create seed
 			RandomizerData randoData = new();
 			MT19337 rng = new(hash);
 
+			// Make sure all options are set, if not apply default values
 			foreach (var option in Options.Dict)
 			{
 				if (!FF1PR.SessionManager.Options.ContainsKey(option.Key))
@@ -425,20 +81,25 @@ namespace FF1PRAP
 					FF1PR.SessionManager.Options[option.Key] = option.Value.Default;
 				}
 			}
-			
-			randoData.PlacedItems = DoItemPlacement(rng.Next());
-			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng.Next());
-			randoData.ShuffledSpells = ShuffleSpells(FF1PR.SessionManager.Options["shuffle_spells"] == Options.Enable, rng.Next());
+
+			// Create randomized data
+			randoData.PlacedItems = ItemPlacement(rng);
+			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng);
+			randoData.ShuffledSpells = ShuffleSpells(FF1PR.SessionManager.Options["shuffle_spells"] == Options.Enable, rng);
 
 			RandomizerData = randoData;
-			FF1PR.PlacedItems = randoData.PlacedItems;
+			FF1PR.PlacedItems = randoData.PlacedItems; // do we need to do this?
+			
+			// Write Rando data file
 			randoData.Serialize(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring);
 		}
 		public static void ArchipelagoRandomize(string hashseed)
 		{
+			// Create seed
 			RandomizerData randoData = new();
 			MT19337 rng = new(FF1PR.SessionManager.CreateApHash(hashseed));
 
+			// Make sure all options are set, if not apply default values
 			foreach (var option in Options.Dict)
 			{
 				if (!FF1PR.SessionManager.Options.ContainsKey(option.Key))
@@ -447,26 +108,16 @@ namespace FF1PRAP
 				}
 			}
 
-			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng.Next());
-			randoData.ShuffledSpells = ShuffleSpells(FF1PR.SessionManager.Options["shuffle_spells"] == Options.Enable, rng.Next());
+			// Create randomized data
+			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng);
+			randoData.ShuffledSpells = ShuffleSpells(FF1PR.SessionManager.Options["shuffle_spells"] == Options.Enable, rng);
 
 			RandomizerData = randoData;
+			
+			// Write Rando data file
 			randoData.Serialize(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed);
 		}
-		public static Dictionary<int, ItemData> DoItemPlacement(uint hash)
-		{
-			//MT19337 rng = new((uint)System.DateTime.Now.Ticks);
-			MT19337 rng = new(hash);
-			
-
-			
-			foreach(var loc in FixedLocations.Where(l => l.Flag == 0).ToList())
-			{
-				InternalLogger.LogInfo($"Item 0: {loc.Name} - {loc.Region} - {loc.Type}");
-			}
-			return ItemPlacement(rng);
-		}
-
+		
 		static public List<RegionData> FixedRegions = new()
 		{ 
 			new RegionData() { Region = Regions.TempleOfFiends, Access = new() { } },
@@ -1408,12 +1059,6 @@ namespace FF1PRAP
 			{ "Protect Cloak", new ItemData() { Id = 173, Qty = 1 } },
 			{ "Sasuke's Blade", new ItemData() { Id = 100, Qty = 1 } },
 			{ "Masamune", new ItemData() { Id = 103, Qty = 1 } },
-
-
 		};
 	}
-
-
-
-
 }

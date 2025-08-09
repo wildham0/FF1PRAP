@@ -15,38 +15,8 @@ namespace FF1PRAP
 {
 	partial class Patches
 	{
-
-
-		public static void AddLoadingTask_Pre(string addressName, ref ResourceLoadTask task)
-		{
-			InternalLogger.LogInfo($"Loading asset: {addressName}");
-
-			if (assetsToReplace.TryGetValue(addressName, out var assetfilename))
-			{
-				var assetfile = GetFile(assetfilename);
-				var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assetfile);
-				var assetname = addressName.Split('/').Last();
-				textasset.name = assetname;
-				Monitor.instance.SetAssetTask(addressName, textasset, task);
-				InternalLogger.LogInfo($"Asset loading task added for {assetname} > {assetfilename}");
-			}
-		}
-
-
 		public static void CheckGroupLoadAssetCompleted_Post(ref bool __result, string addressName)
 		{
-			//InternalLogger.LogInfo($"RessourceManager check: {addressName} - {__result}.");
-			/*
-			if (__result)
-			{
-				if (Monitor.instance != null)
-				{
-					__result = Monitor.instance.IsTaskDone(addressName);
-				}
-			}*/
-
-			
-
 			if (assetsToReplace.TryGetValue(addressName, out var assetfilename))
 			{
 				var assetfile = GetFile(assetfilename);
@@ -59,9 +29,6 @@ namespace FF1PRAP
 				InternalLogger.LogInfo($"Asset loading task added for {assetname} > {assetfilename}");
 				__result = true;
 			};
-
-			
-
 		}
 
 		public static Dictionary<string, string> assetsToReplace = new()
@@ -85,20 +52,5 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30101/Map_30101_3/ev_e_0027", "ev_cubewarp" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30121/Map_30121_3/ev_e_0039", "ev_lute_floor" },
 		};
-		public static void GetAsset_Pre(ref string addressName)
-		{
-			InternalLogger.LogInfo($"Getting Asset: {addressName}");
-			/*if (addressName == "Assets/GameAssets/Serial/Res/Map/Map_20051/Map_20051_1/ev_e_0014")
-			{
-				addressName = "void";
-
-				var evfile = GetFile("ev_e_0014");
-				InternalLogger.LogInfo($"Interception load task.");
-				var evasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, evfile);
-				evasset.name = "ev_e_0014";
-				FF1PR.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/Map/Map_20051/Map_20051_1/ev_e_0014"] = evasset;
-			}*/
-		}
-
 	}
 }

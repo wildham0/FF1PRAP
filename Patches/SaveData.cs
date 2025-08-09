@@ -12,28 +12,28 @@ using UnityEngine;
 
 namespace FF1PRAP
 {
+	public class SaveInfoState
+	{
+		public int CurrentSlot = 0;
+		public int PreviousSlot = 255;
+	}
+
 	partial class Patches
 	{
 		public static void LoadSaveDataFromBoot_Postfix(SaveSlotManager __instance, int slotId)
 		{
 			InternalLogger.LogInfo($"Loading at Slot: {slotId}");
 			LoadGame(slotId);
-
-			//InitializeRando();
 		}
 		public static void LoadSaveDataFromMenu_Postfix(SaveSlotManager __instance, SaveSlotData saveData)
 		{
 			InternalLogger.LogInfo($"Loading at Slot: {saveData.id}");
 			LoadGame(saveData.id);
-
-			//InitializeRando();
 		}
 		public static void GetSavePath_Post(SaveSlotManager __instance)
 		{
 			InternalLogger.LogInfo("Saving at Slot: " + __instance.CurrentSlotId);
 			SaveGame(__instance.CurrentSlotId);
-
-			//__instance.SaveSlotDataList[__instance.CurrentSlotId].timeStamp = "weeeeee";
 		}
 		public static void LoadGame(int slotid)
 		{
@@ -86,11 +86,5 @@ namespace FF1PRAP
 			//InternalLogger.LogInfo($"SaveSloData: {index} - {data.id}");
 			FF1PR.SaveInfoState.CurrentSlot = data.id;
 		}
-	}
-
-	public class SaveInfoState
-	{
-		public int CurrentSlot = 0;
-		public int PreviousSlot = 255;
 	}
 }

@@ -14,9 +14,6 @@ namespace FF1PRAP
 		public static void CreateInstance_Post()
 		{
 			InternalLogger.LogInfo($"Creating objects.");
-
-			//
-
 			if (Monitor.instance == null)
 			{
 				GameObject monitorObject = new GameObject("gameMonitor");

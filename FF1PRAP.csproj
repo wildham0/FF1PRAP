@@ -28,19 +28,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <EmbeddedResource Include="Entities\en_earth_slab.json" />
-    <EmbeddedResource Include="Entities\en_elfdoc_script.json" />
-    <EmbeddedResource Include="Entities\en_elfdoc_prejolt.json" />
-    <EmbeddedResource Include="Entities\en_luteslab.json" />
-    <EmbeddedResource Include="Entities\en_sarda_postvamp.json" />
-    <EmbeddedResource Include="Entities\en_smitt_post_adamant.json" />
-    <EmbeddedResource Include="Entities\en_sarda_prevamp.json" />
-    <EmbeddedResource Include="Entities\en_ordealsman.json" />
-    <EmbeddedResource Include="Entities\en_nocanal.json" />
-    <EmbeddedResource Include="Entities\en_elfprince.json" />
-    <EmbeddedResource Include="Entities\en_smitt_script.json" />
-    <EmbeddedResource Include="Entities\en_nerrick_script.json" />
-    <EmbeddedResource Include="Entities\en_lockeddoor.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_from_teleport.json" />
     <EmbeddedResource Include="Entities\ev_overworld.json" />
     <EmbeddedResource Include="Entities\ev_overworld_pre_canal.json" />
@@ -81,7 +68,6 @@
     <EmbeddedResource Include="Scripts\sc_bikke_02.json" />
     <EmbeddedResource Include="Scripts\sc_bikke_01.json" />
     <EmbeddedResource Include="Scripts\pasta.json" />
-    <EmbeddedResource Include="Entities\en_garland.json" />
     <EmbeddedResource Include="Scripts\sc_exit.json" />
     <EmbeddedResource Include="Scripts\sc_empty.json" />
     <EmbeddedResource Include="Scripts\sc_garland_02.json" />

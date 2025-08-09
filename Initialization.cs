@@ -14,7 +14,7 @@ namespace FF1PRAP
 {
 	partial class Initialization
 	{
-		public static void InitializeRando()
+		public static void ApplyBaseGameModifications()
 		{
 			if (FF1PR.SessionManager.RandomizerInitialized)
 			{
@@ -26,7 +26,7 @@ namespace FF1PRAP
 				FF1PR.SessionManager.RandomizerInitialized = true;
 			}
 
-			InternalLogger.LogInfo($"Initialization Randomizer Data");
+			InternalLogger.LogInfo($"Applying base game modifications.");
 
 			// Create Ship Item
 			FF1PR.MessageManager.AddMessage("MSG_KEY_NAME_18", "<IC_IOBJ>Ship");
@@ -43,7 +43,7 @@ namespace FF1PRAP
 			// Update dialogues
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_GARLAND"] = "You really think you have what it takes to cross swords with ME? Very well... I, Garland, will knock you all down!!!";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARASAVE"] = "I am Sarah, princess of Cornelia. You must allow me to show my gratitude. Please, accompany me to Castle Cornelia.";
-			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_KINGSARA"] = "Thank you for returning my daughter to my side. There can be no doubt that you are the Warriors of Light from Lukahn's prophecy! I pray that you succeed in restoring the four Crystals.";
+			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_KINGSARA"] = "Thank you for returning my daughter to my side. There can be no doubt that you are the Warriors of Light from Lukahn's prophecy! I pray that you succeed in restoring the Crystals.";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_SHIP_03"] = "I be most sorry, young masters. I'll be makin' no more fuss, I swear. Can ye find it in yer heart to fergive an old pirate?";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_ASTOS_01"] = "Muwahaha! You fools fell right into my trap! I AM Astos, king of the dark elves!";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_AWAKEPOT_01"] = "Oh, what's this? My crystal eye? Give it here! Don't worry, I have something to give you in exchange. Ahh! I can see! I can see again!";
@@ -82,63 +82,6 @@ namespace FF1PRAP
 			chaosdefeated.Id = 1002;
 			chaosdefeated.ScriptName = "sc_chaosdefeated";
 			FF1PR.MasterManager.GetList<Script>().Add(1002, chaosdefeated);
-
-			FF1PR.MasterManager.GetList<Map>()[1].MovingAvailability = 1;
-
-			/*
-			for (int i = 44; i < 61; i++)
-			{
-				FF1PR.MasterManager.GetData<Item>(i).Buy = 5;
-			}
-
-
-			FF1PR.MasterManager.GetData<Product>(1).ContentId = 213;
-			FF1PR.MasterManager.GetData<Product>(3).ContentId = 50;
-			FF1PR.MasterManager.GetData<Product>(2).GroupId = 2;
-			*/
-			/*
-			var product1 = FF1PR.MasterManager.GetData<Product>(1);
-			var productDict = FF1PR.MasterManager.GetList<Product>()[1];
-			var test = FF1PR.MasterManager.GetMaster<Product>();
-
-			
-			FF1PR.MasterManager.GetList<Product>()[1].ContentId = 213;
-			FF1PR.MasterManager.GetList<Product>()[3].ContentId = 50;
-			FF1PR.MasterManager.GetList<Product>()[2].GroupId = 2;
-
-			InternalLogger.LogInfo($"Test Product: {product1.ContentId} - {productDict.ContentId} - {test.DataList[1].ContentId}");
-
-			foreach (var product in test.DataList)
-			{
-				InternalLogger.LogInfo($"Product: {product.key} - {product.value.Id} - {product.value.Coefficient} - {product.value.ContentId}  - {product.value.GroupId}");
-			}
-
-			foreach (var productgroup in FF1PR.MasterManager.GetList<ProductGroup>())
-			{
-				InternalLogger.LogInfo($"Product Group: {productgroup.key} - {productgroup.value.Id} - {productgroup.value.MesIdName}");
-			}*/
-
-			/*
-				  var mapobjects = FF1PR.MasterManager.GetList<Mapobject>();
-
-				  foreach (var mapobject in mapobjects)
-				  {
-					  InternalLogger.LogInfo($"Map: {mapobject.key} - {mapobject.value.Id} - {mapobject.value.ShadowName}");
-				  }*/
-			/*
-			var maplist = FF1PR.MasterManager.GetList<Map>();
-			foreach (var map in maplist)
-			{
-				InternalLogger.LogInfo($"Map: {map.key} - {map.value.Id} - {map.value.}");
-
-			}*/
-			/*
-			var landings = FF1PR.MasterManager.GetList<LandingGroup>();
-			foreach (var land in landings)
-			{
-				InternalLogger.LogInfo($"Map: {land.value.Id} - {land.value.Type1}");
-
-			}*/
 		}
 
 		public static void InitializeRandoItems(RandomizerData randoData)
@@ -178,20 +121,14 @@ namespace FF1PRAP
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_WND_DAN_04"] = $"You obtain {skyitem}.";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_GET_EXCALIBAR_05"] = $"You obtain {smittitem}.";
 
-			// Update Shops
-
-			
-			foreach (var product in randoData.GearShops)
-			{
-				FF1PR.MasterManager.GetList<Product>()[product.Id] = product;
-			}
-
+			// Apply randomized data
+			Randomizer.LoadShuffledShops(randoData.GearShops);
 			Randomizer.LoadShuffledSpells(randoData.ShuffledSpells);
 		}
 
 		public static void InitializeNewGame()
 		{
-			InternalLogger.LogInfo($"Initialization New Game.");
+			InternalLogger.LogInfo($"Initialize New Game.");
 
 			// Start with airship
 			// So 517 is ship 100%, 516 is canoe, what's 519 for???

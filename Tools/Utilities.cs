@@ -42,24 +42,5 @@ namespace FF1PRAP
 			list.Remove(value);
 			return value;
 		}
-		/*
-		[DebuggerStepThrough]
-		public static bool TryFind<T>(this IEnumerable<T> fromList, Predicate<T> query, out T result)
-		{
-			int resultIndex = fromList.ToList().FindIndex(query);
-			if (resultIndex < 0)
-			{
-				result = default;
-				return false;
-			}
-			else
-			{
-				result = fromList[resultIndex];
-				return true;
-			}
-		}*/
-
-
 	}
-
 }

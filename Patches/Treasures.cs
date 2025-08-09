@@ -11,22 +11,6 @@ namespace FF1PRAP
 	{
 		public static void Treasure_Prefix(ref FieldTresureBox tresureBoxEntity)
 		{
-			/*
-			var treasure = FF1PR.DataStorage.treasure.Export();
-
-			foreach (var value in treasure)
-			{
-
-				InternalLogger.LogInfo($"Flags: {value}");
-			}*/
-			/*
-			for (int i = 0; i < FF1PR.UserData.OwnedTransportationList.Count; i++)
-			{
-				var transport = FF1PR.UserData.OwnedTransportationList[i];
-				InternalLogger.LogInfo($"Transport: {transport.flagNumber} - {transport.Position}");
-			}*/
-
-
 			var prop = tresureBoxEntity.tresureBoxProperty;
 			if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 			{

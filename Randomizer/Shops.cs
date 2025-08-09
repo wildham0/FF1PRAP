@@ -11,14 +11,12 @@ namespace FF1PRAP
 {
 	partial class Randomizer
     {
-		public static List<Product> ShuffleGearShop(bool enable, uint seed)
+		public static List<Product> ShuffleGearShop(bool enable, MT19337 rng)
 		{
 			if (!enable)
 			{
 				return new();
 			}
-
-			MT19337 rng = new MT19337(seed);
 
 			Dictionary<Shops, List<Product>> weaponShops = new()
 			{
@@ -47,12 +45,10 @@ namespace FF1PRAP
 			{
 				if (armorShops.ContainsKey((Shops)product.Value.GroupId))
 				{
-					//product.Value.GroupId = 255;
 					armors.Add(product.value);
 				}
 				else if(weaponShops.ContainsKey((Shops)product.Value.GroupId))
 				{
-					//product.Value.GroupId = 255;
 					weapons.Add(product.value);
 				}
 			}
@@ -65,17 +61,8 @@ namespace FF1PRAP
 			{
 				foreach (var product in shop.Value)
 				{
-					//var productToAdd = new Product();
 					product.GroupId = (int)shop.Key;
-
-					/*
-					productToAdd.Id = keyBase++;
-					productToAdd.ContentId = product;
-					productToAdd.GroupId = (int)shop.Key;
-					productToAdd.Coefficient = 0;
-					productToAdd.PurchaseLimit = 99;*/
 					newShops.Add(product);
-					//FF1PR.MasterManager.GetList<Product>().Add(productToAdd.Id, productToAdd);
 				}
 			}
 
@@ -84,15 +71,7 @@ namespace FF1PRAP
 				foreach (var product in shop.Value)
 				{
 					product.GroupId = (int)shop.Key;
-					//var productToAdd = new Product();
-					/*
-					productToAdd.Id = keyBase++;
-					productToAdd.ContentId = product;
-					productToAdd.GroupId = (int)shop.Key;
-					productToAdd.Coefficient = 0;
-					productToAdd.PurchaseLimit = 99;*/
 					newShops.Add(product);
-					//FF1PR.MasterManager.GetList<Product>().Add(productToAdd.Id, productToAdd);
 				}
 			}
 
@@ -131,5 +110,12 @@ namespace FF1PRAP
 				shops[shop].Add(itemToPlace);
 			}
 		}
-    }
+		public static void LoadShuffledShops(List<Product> shops)
+		{
+			foreach (var product in shops)
+			{
+				FF1PR.MasterManager.GetList<Product>()[product.Id] = product;
+			}
+		}
+	}
 }
