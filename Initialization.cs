@@ -91,6 +91,12 @@ namespace FF1PRAP
 			// Apply randomized data
 			Randomizer.LoadShuffledShops(randoData.GearShops);
 			Randomizer.LoadShuffledSpells(randoData.ShuffledSpells);
+
+			if (!Randomizer.RandomizerData.BoostMenu)
+			{
+				FF1PR.MessageManager.GetMessageDictionary()["MSG_SYSTEM_CS_0_006"] = "Boost as been disabled by your settings.";
+			}
+
 			CreateCaravanItem();
 		}
 		public static void CreateCaravanItem()
@@ -191,6 +197,9 @@ namespace FF1PRAP
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 7, 1); // Bridge Intro
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 8, 1); // Matoya Cutscene
+
+			FF1PR.UserData.CheatSettingsData.GilRate = Randomizer.RandomizerData.GilBoost;
+			FF1PR.UserData.CheatSettingsData.ExpRate = Randomizer.RandomizerData.XpBoost;
 
 		}
 

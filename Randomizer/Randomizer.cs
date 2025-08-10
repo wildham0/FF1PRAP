@@ -1,4 +1,5 @@
-﻿using RomUtilities;
+﻿//using Il2CppSystem.Collections.Generic;
+using RomUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,15 +61,30 @@ namespace FF1PRAP
 		public static Dictionary<string, bool> CheckedLocations = new Dictionary<string, bool>();
 		public static Dictionary<int, ApLocationData> ApLocations = new Dictionary<int, ApLocationData>();
 
-		public static RandomizerData RandomizerData;
+		public static RandomizerData RandomizerData { get; set; }
 
 		public Randomizer()
 		{
 			Locations = new();
 			PlacedItems = new();
 		}
-		public static void Randomize(uint hash)
+		public static void Randomize()
 		{
+			bool archipelago = FF1PR.SessionManager.GameMode == GameModes.Archipelago;
+
+			uint hash;
+			string filename;
+			if (archipelago)
+			{
+				hash = FF1PR.SessionManager.CreateApHash(FF1PR.SessionManager.Data.Player + FF1PR.SessionManager.Data.WorldSeed);
+				filename = "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed;
+			}
+			else
+			{
+				hash = FF1PR.SessionManager.CreateHash();
+				filename = FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring;
+			}
+
 			// Create seed
 			RandomizerData randoData = new();
 			MT19337 rng = new(hash);
@@ -83,41 +99,23 @@ namespace FF1PRAP
 			}
 
 			// Create randomized data
-			randoData.PlacedItems = ItemPlacement(rng);
+			if(!archipelago) randoData.PlacedItems = ItemPlacement(rng);
 			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng);
 			randoData.ShuffledSpells = ShuffleSpells(FF1PR.SessionManager.Options["shuffle_spells"] == Options.Enable, rng);
+			randoData.DungeonEncounterRate = SetEncounterRate(FF1PR.SessionManager.Options["dungeon_encounter_rate"]);
+			randoData.OverworldEncounterRate = SetEncounterRate(FF1PR.SessionManager.Options["overworld_encounter_rate"]);
+			randoData.XpBoost = SetVictoryBoost(FF1PR.SessionManager.Options["xp_boost"]);
+			randoData.GilBoost = SetVictoryBoost(FF1PR.SessionManager.Options["gil_boost"]);
+			randoData.BoostMenu = FF1PR.SessionManager.Options["boost_menu"] == Options.Enable;
 
 			RandomizerData = randoData;
-			FF1PR.PlacedItems = randoData.PlacedItems; // do we need to do this?
+
+			if (!archipelago) FF1PR.PlacedItems = randoData.PlacedItems; // do we need to do this?
 			
 			// Write Rando data file
-			randoData.Serialize(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring);
+			Serialize(FF1PR.SessionManager.folderPath, filename);
 		}
-		public static void ArchipelagoRandomize(string hashseed)
-		{
-			// Create seed
-			RandomizerData randoData = new();
-			MT19337 rng = new(FF1PR.SessionManager.CreateApHash(hashseed));
-
-			// Make sure all options are set, if not apply default values
-			foreach (var option in Options.Dict)
-			{
-				if (!FF1PR.SessionManager.Options.ContainsKey(option.Key))
-				{
-					FF1PR.SessionManager.Options[option.Key] = option.Value.Default;
-				}
-			}
-
-			// Create randomized data
-			randoData.GearShops = ShuffleGearShop(FF1PR.SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng);
-			randoData.ShuffledSpells = ShuffleSpells(FF1PR.SessionManager.Options["shuffle_spells"] == Options.Enable, rng);
-
-			RandomizerData = randoData;
-			
-			// Write Rando data file
-			randoData.Serialize(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed);
-		}
-		
+	
 		static public List<RegionData> FixedRegions = new()
 		{ 
 			new RegionData() { Region = Regions.TempleOfFiends, Access = new() { } },

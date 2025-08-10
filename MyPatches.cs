@@ -32,6 +32,7 @@ using Last.Systems.Indicator;
 using Last.UI.KeyInput;
 using System.Xml.Linq;
 using Il2CppSystem.Threading.Tasks;
+using Last.UI;
 
 namespace FF1PRAP
 {//[HarmonyPatch("GetExp")]
@@ -733,6 +734,33 @@ namespace FF1PRAP
 				InternalLogger.LogInfo($"Item bought? Int {__result} {productId}");
 			}
 		}
+
+		private static void GetSubtractSteps_Post(ref int __result)
+		{
+			InternalLogger.LogInfo($"Map Steps: {__result}");
+			//__result = 1; 
+		}
+
+		private static void GetRequiredStepsRange_Post(MapModel __instance, ref RequiredStepsRange __result)
+		{
+			float multiplier = Randomizer.RandomizerData.DungeonEncounterRate;
+
+			if (__instance.GetMapName() == "Map_10010")
+			{
+				multiplier = Randomizer.RandomizerData.OverworldEncounterRate;
+			}
+
+
+			__result = new RequiredStepsRange((int)(__result.Min * multiplier), (int)(__result.Max * multiplier));
+			//InternalLogger.LogInfo($"Step Range for {__instance.GetMapName()}: {__result.Min} - {__result.Max}");
+			
+		}
+		private static void GameBooster_Pre(Action<ISubMenuArgument> value)
+		{
+
+			InternalLogger.LogInfo($"Command: {value.Method.Name}");
+		}
+
 	}
 	public enum SaveInfoModes
 	{ 

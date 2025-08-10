@@ -149,11 +149,15 @@ namespace FF1PRAP {
 				InternalLogger.LogInfo("Error connecting to Archipelago:");
 				string TopLine = $"\"Failed to connect to Archipelago!\"";
 				string BottomLine = $"\"Check your settings and/or log output.\"";
-				foreach (string Error in loginFailure.Errors) {
+				foreach (string Error in loginFailure.Errors)
+				{
+
+					InternalLogger.LogInfo($"{Error}");
 					BottomLine = $"\"{Error}\"";
 				}
 			   // Notifications.Show(TopLine, BottomLine);
-				foreach (ConnectionRefusedError Error in loginFailure.ErrorCodes) {
+				foreach (ConnectionRefusedError Error in loginFailure.ErrorCodes)
+				{
 					InternalLogger.LogInfo(Error.ToString());
 				}
 				TryDisconnect();

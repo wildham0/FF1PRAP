@@ -14,11 +14,16 @@ using static FF1PRAP.Randomizer;
 
 namespace FF1PRAP
 {
-	class RandomizerData
+	public class RandomizerData
     {
 		public List<Product> GearShops { get; set; }
 		public List<ShuffledSpell> ShuffledSpells { get; set; }
 		public Dictionary<int, ItemData> PlacedItems { get; set; }
+		public float DungeonEncounterRate { get; set; }
+		public float OverworldEncounterRate { get; set; }
+		public float XpBoost { get; set; }
+		public float GilBoost { get; set; }
+		public bool BoostMenu { get; set; }
 
 		public RandomizerData()
 		{
@@ -26,8 +31,11 @@ namespace FF1PRAP
 			PlacedItems = new();
 			ShuffledSpells = new();
 		}
+	}
 
-		public void Serialize(string folderPath, string filedata)
+	public partial class Randomizer
+	{ 
+		public static void Serialize(string folderPath, string filedata)
 		{
 			string filepath = folderPath + "ff1pr_" + filedata + ".dat";
 
@@ -40,7 +48,7 @@ namespace FF1PRAP
 				{
 					using (StreamWriter writer = new StreamWriter(randoDataFile))
 					{
-						var randoString = JsonSerializer.Serialize<RandomizerData>(this, serializeOptions);
+						var randoString = JsonSerializer.Serialize<RandomizerData>(RandomizerData, serializeOptions);
 						writer.Write(randoString);
 					}
 				}
@@ -51,7 +59,7 @@ namespace FF1PRAP
 			}
 		}
 
-		public bool Load(string folderPath, string filedata)
+		public static bool Load(string folderPath, string filedata)
 		{
 			string filepath = folderPath + "ff1pr_" + filedata + ".dat";
 			bool fileexist = true;
@@ -70,10 +78,7 @@ namespace FF1PRAP
 						//var options = new JsonSerializerOptions();
 						//options.Converters.Add(new ValueToStringConverter());
 
-						var randoData = JsonSerializer.Deserialize<RandomizerData>(configdata, serializeOptions);
-						PlacedItems = randoData.PlacedItems != null ? randoData.PlacedItems : new();
-						GearShops = randoData.GearShops != null ? randoData.GearShops : new();
-						ShuffledSpells = randoData.ShuffledSpells != null ? randoData.ShuffledSpells : new();
+						RandomizerData = JsonSerializer.Deserialize<RandomizerData>(configdata, serializeOptions);
 					}
 				}
 			}

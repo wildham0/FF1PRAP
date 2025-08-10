@@ -30,7 +30,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.2.2";
+	public const string VERSION = "0.2.3";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -99,6 +99,9 @@ public class FF1PR : BasePlugin
 
 		// Script Patch
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.MapAssetData), "GetScript"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetScript_Postfix")));
+		
+		// Encounter rate Patch
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.MapModel), "GetRequiredStepsRange"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetRequiredStepsRange_Post")));
 
 		// Entities Patch
 		//harmony.Patch(AccessTools.Method(typeof(MapUtility), "ParseMapObjectGroupData"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "ParseMapObjectGroupData_Prefix")));
@@ -139,6 +142,16 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.TitleWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TitleWindowControllerInitialize_Post")));
 		harmony.Patch(AccessTools.Method(typeof(MessageManager), "ReplaceKeyToValue", [typeof(string), typeof(Il2CppSystem.Collections.Generic.Dictionary<string, string>)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ReplaceKey_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.SaveListController), "SetContentData"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "SetContentData_Pre")));
+
+		// Boost Menu
+		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigController), "InitializeGameBoosterSetting"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GameBooster_Post")));
+
+
+
+
+
+		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigController), "add_OnNextMenu"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GameBooster_Pre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapModel), "GetSubtractSteps"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetSubtractSteps_Post")));
 		/*
 		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Instructions.SystemCall.Current), "FairyShop"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckFairyShop_Post")));
 		harmony.Patch(AccessTools.Method(typeof(ShopUtility), "BuyItem", [typeof(int), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "BuyItemInt_Post")));*/

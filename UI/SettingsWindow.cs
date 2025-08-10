@@ -627,7 +627,7 @@ namespace FF1PRAP
 			if (generate)
 			{
 				var hash = FF1PR.SessionManager.CreateHash();
-				Randomizer.Randomize(hash);
+				Randomizer.Randomize();
 				FF1PR.SessionManager.WriteSessionInfo();
 				generationReady = true;
 			}
@@ -834,6 +834,16 @@ namespace FF1PRAP
 			CreateDropdown(Options.Dict["shuffle_gear_shops"].Display, Options.Dict["shuffle_gear_shops"]);
 			CreateDropdown(Options.Dict["shuffle_spells"].Display, Options.Dict["shuffle_spells"]);
 			apHeight += 20f * guiScale;
+
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Scaling");
+			CreateDropdown(Options.Dict["dungeon_encounter_rate"].Display, Options.Dict["dungeon_encounter_rate"]);
+			CreateDropdown(Options.Dict["overworld_encounter_rate"].Display, Options.Dict["overworld_encounter_rate"]);
+			CreateDropdown(Options.Dict["xp_boost"].Display, Options.Dict["xp_boost"]);
+			CreateDropdown(Options.Dict["gil_boost"].Display, Options.Dict["gil_boost"]);
+			CreateDropdown(Options.Dict["boost_menu"].Display, Options.Dict["boost_menu"]);
+			apHeight += 20f * guiScale;
+
+
 		}
 	}
 }

@@ -97,10 +97,10 @@ namespace FF1PRAP
 					{
 						Randomizer.RandomizerData = new();
 						InternalLogger.LogInfo($"Loading saved randomization data.");
-						if (!Randomizer.RandomizerData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
+						if (!Randomizer.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
 						{
 							InternalLogger.LogInfo($"File not found, generating randomization data.");
-							Randomizer.ArchipelagoRandomize(FF1PR.SessionManager.Data.Player + FF1PR.SessionManager.Data.WorldSeed);
+							Randomizer.Randomize();
 						}
 						Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 					}
@@ -113,20 +113,18 @@ namespace FF1PRAP
 				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
 				{
 					Archipelago.instance.RestoreState();
-					Randomizer.RandomizerData = new();
 					InternalLogger.LogInfo($"Loading saved randomization data.");
-					if (!Randomizer.RandomizerData.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
+					if (!Randomizer.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
 					{
 						InternalLogger.LogInfo($"File not found, generating randomization data.");
-						Randomizer.ArchipelagoRandomize(FF1PR.SessionManager.Data.Player + FF1PR.SessionManager.Data.WorldSeed);
+						Randomizer.Randomize();
 					}
 
 					Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 				}
 				else
 				{
-					Randomizer.RandomizerData = new();
-					if (!Randomizer.RandomizerData.Load(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring))
+					if (!Randomizer.Load(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring))
 					{
 						InternalLogger.LogInfo($"File not found, gameplay might be unstable. Generate a game first in the Solo Randomizer Settings Menu.");
 					}

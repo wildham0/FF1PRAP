@@ -15,6 +15,23 @@ using Last.Systems.Indicator;
 
 namespace FF1PRAP
 {
+	/***
+	Steps to add Options
+	1. Write feature (duh); there's several parts
+		a. Patching (code executed in-game):
+			i. Create hook in Plugins.cs
+			ii. Add patching code in Patches
+		b. Data Randomizer (generated data that is injected and used by the patches/the game):
+			i. Create randomizing code in Randomizer, the data randomizers don't write to game's memory, they generate minimal data that can be injected
+			ii. Create data injection code in Randomizer (usually same file)
+			iii. Add Randomized Data container to RandomizerData
+			iv. Add the Data Randomizer call to Randomizer > Randomize()
+			v. Add the Data Injection call to Initialization > ApplyRandomizedFeatures()
+	2. Add Options parameters and description in Options
+	3. Add Option in SettingsWindow.cs > AddRandoOptions()
+	4. Add Option to APWorld > options.py
+	***/
+
 	public class Option
 	{
 		public string Key;
@@ -56,6 +73,12 @@ namespace FF1PRAP
 				"Shuffle the content of all Weapon Shops together, and do the same for Armor Shops."),
 			new("shuffle_spells", "Shuffle Spells", new() {  { "1", "Enable" }, {"0", "Disable"} }, "0",
 				"Shuffle Spells amongst their own School."),
+
+			new("dungeon_encounter_rate", "Dungeon Encounter Rate", new() {  { "0", "0.0x" }, { "1", "0.25x" }, { "2", "0.5x" }, { "3", "0.75x" }, { "4", "1.0x" }, { "5", "1.25x" }, { "6x", "1.5x" }}, "4", "Modify the Encounter Rate in dungeons by the multiplier selected.\n\nNOTE: This option doesn't affect the Boost setting to disable/enable encounters."),
+			new("overworld_encounter_rate", "Overworld Encounter Rate", new() {  { "0", "0.0x" }, { "1", "0.25x" }, { "2", "0.5x" }, { "3", "0.75x" }, { "4", "1.0x" }, { "5", "1.25x" }, { "6", "1.5x" }}, "4", "Modify the Encounter Rate on the Overworld by the multiplier selected.\n\nNOTE: This option doesn't affect the Boost setting to disable/enable encounters."),
+			new("xp_boost", "Experience Boost", new() {  { "0", "0.5x" }, { "1", "1x" }, { "2", "2x" }, { "3", "3x" }, { "4", "4x" }}, "1", "Set the default Experience Boost multiplier. This can still be modified in the Boost menu."),
+			new("gil_boost", "Gil Boost", new() {  { "0", "0.5x" }, { "1", "1x" }, { "2", "2x" }, { "3", "3x" }, { "4", "4x" }}, "1", "Set the default Gil Boost multiplier. This can still be modified in the Boost menu."),
+			new("boost_menu", "Boost Menu", new() {  { "1", "Enable" }, { "0", "Disable" } }, "1", "Enable/Disable the in-game Boost menu. This will lock you to your current XP, Gil and Encounter Rate options."),
 		};
 
 		public static Dictionary<string, Option> Dict = optionlist.ToDictionary(o => o.Key, o => o);
