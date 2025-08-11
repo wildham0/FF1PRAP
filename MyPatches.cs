@@ -33,6 +33,8 @@ using Last.UI.KeyInput;
 using System.Xml.Linq;
 using Il2CppSystem.Threading.Tasks;
 using Last.UI;
+using System.Runtime.InteropServices;
+using static Last.Interpreter.Instructions.External;
 
 namespace FF1PRAP
 {//[HarmonyPatch("GetExp")]
@@ -252,7 +254,7 @@ namespace FF1PRAP
 		}
 
 
-		private static void ItemContainer(Item __instance, ref string masterLine)
+		private static void ItemContainer(ref string masterLine)
 		{
 			//masterLine += "43,43,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0\n";
 			//FF1PR.ItemMaster = __instance;
@@ -761,6 +763,68 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"Command: {value.Method.Name}");
 		}
 
+		private static void CreateTelepoPointList_Post(Il2CppReferenceArray<TelepoPointData> telepoPoints)
+		{
+
+			InternalLogger.LogInfo($"---{telepoPoints.Count}---");
+
+			foreach (var telepo in telepoPoints)
+			{
+				InternalLogger.LogInfo($"TelePo: {telepo.mapId} - {telepo.property.EntityId} - {telepo.property.GotoEntityId} - {telepo.pointInEntity.Property.EntityId}");
+
+			}
+		
+		}
+
+		private static void NextMapProperty_Pre(LoadData __instance, ref PropertyGotoMap property)
+		{
+
+			// alright, so Map-EntityId is the identifier, then update MapId, PointId, AssetGroup and AssetName
+			// i guess we'll have to mine manually
+			// so
+
+			InternalLogger.LogInfo($"NextMapProperty: {FF1PR.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
+			
+
+			/*
+			if (property.EntityId == 52)
+			{
+				property.MapId = 7;
+				property.AssetName = "Map_20021_3";
+				//FF1PR.storedGotoMap = property;
+			}/*
+			else if (property.EntityId == 55)
+			{
+				property = FF1PR.storedGotoMap;
+			}*/
+
+		}
+		private static void NextMapInt_Pre(ref int mapId, ref int point)
+		{
+			InternalLogger.LogInfo($"NextMapInt: {mapId} - {point}");
+
+			if (mapId == 94)
+			{
+				if (Randomizer.RandomizerData.OrdealsMaze.TryGetValue(point, out var newpoint))
+				{
+					InternalLogger.LogInfo($"NextMapInt: Hijack {point} > {newpoint}");
+					point = newpoint;
+				}
+			}
+
+			
+			//InternalLogger.LogInfo($"NextMapInt: {FF1PR.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
+			/*
+			if (mapId == 94 && point == 3)
+			{
+				mapId = 94;
+				point = 2;
+			}*/
+		}
+		private static void NextMapVector_Pre(int mapId, Vector3 cellPos, int transportationId, int direction)
+		{
+			InternalLogger.LogInfo($"NextMapVector: {mapId} - {cellPos} - {transportationId} - {direction}");
+		}
 	}
 	public enum SaveInfoModes
 	{ 

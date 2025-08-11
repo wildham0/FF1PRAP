@@ -28,23 +28,6 @@ namespace FF1PRAP
 		NewGame,
 		None
 	}
-	public class AssetTask
-	{
-		public string Name;
-		public bool Ready;
-		public bool Done;
-		public Last.Management.ResourceLoadTask Task;
-		public TextAsset Asset;
-
-		public AssetTask(string name, Last.Management.ResourceLoadTask task, TextAsset asset)
-		{
-			Name = name;
-			Ready = false;
-			Task = task;
-			Asset = asset;
-			Done = false;
-		}
-	}
 	public class MonitorTool
 	{
 
@@ -55,11 +38,7 @@ namespace FF1PRAP
 		//public SaveWindowController.State SaveMenuState = SaveWindowController.State.None;
 		private bool newGameProcessed = false;
 
-		public List<AssetTask> tasksToMonitor;
-		public MonitorTool()
-		{
-			tasksToMonitor = new();
-		}
+		public MonitorTool() { }
 
 		public void Update()
 		{
@@ -84,13 +63,12 @@ namespace FF1PRAP
 			else if (ProcessState == ProcessStates.NewGame)
 			{
 				ProcessState = ProcessStates.None;
+
 				if (!newGameProcessed)
 				{
 					newGameProcessed = true;
-					Initialization.InitializeNewGame();
 					if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
 					{
-						Initialization.InitializeRandoItems(Randomizer.RandomizerData);
 						Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 					}
 					else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
@@ -104,6 +82,7 @@ namespace FF1PRAP
 						}
 						Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 					}
+					Initialization.InitializeNewGame();
 				}
 			}
 			else if (ProcessState == ProcessStates.LoadGame)
@@ -130,7 +109,6 @@ namespace FF1PRAP
 					}
 					
 					FF1PR.PlacedItems = Randomizer.RandomizerData.PlacedItems;
-					Initialization.InitializeRandoItems(Randomizer.RandomizerData);
 					Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
 				}
 			}

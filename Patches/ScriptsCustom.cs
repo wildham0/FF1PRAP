@@ -325,6 +325,14 @@ namespace FF1PRAP
 			"ChangeScript sc_e_0030",
 			"Exit",
 		};
+		public static List<string> OrdealsMaze = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"SysCall MapEntryRoofControl",
+			"SetEntities ev_e_0026",
+			"Exit"
+		};
 		public static List<string> OrdealsChest = new()
 		{
 			"Sub Main:",

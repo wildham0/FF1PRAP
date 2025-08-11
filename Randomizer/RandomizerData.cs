@@ -19,6 +19,7 @@ namespace FF1PRAP
 		public List<Product> GearShops { get; set; }
 		public List<ShuffledSpell> ShuffledSpells { get; set; }
 		public Dictionary<int, ItemData> PlacedItems { get; set; }
+		public Dictionary<int, int> OrdealsMaze { get; set; }
 		public float DungeonEncounterRate { get; set; }
 		public float OverworldEncounterRate { get; set; }
 		public float XpBoost { get; set; }
@@ -30,6 +31,7 @@ namespace FF1PRAP
 			GearShops = new();
 			PlacedItems = new();
 			ShuffledSpells = new();
+			OrdealsMaze = new();
 		}
 	}
 

@@ -16,6 +16,8 @@ using System.Security.Claims;
 using UnityEngine;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using static FF1PRAP.Patches;
+using Last.Map;
+using static Last.Interpreter.Instructions.External;
 //using Il2CppSystem.Collections.Generic;
 
 namespace FF1PRAP

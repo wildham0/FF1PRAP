@@ -28,6 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    <EmbeddedResource Include="Entities\ev_ordealsmaze.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_from_teleport.json" />
     <EmbeddedResource Include="Entities\ev_overworld.json" />
     <EmbeddedResource Include="Entities\ev_overworld_pre_canal.json" />
@@ -50,10 +51,15 @@
     <EmbeddedResource Include="Scripts\sc_elflandcastle.json" />
     <EmbeddedResource Include="Scripts\sc_coneriacastle.json" />
     <EmbeddedResource Include="Scripts\sc_onrac.json" />
+    <EmbeddedResource Include="Scripts\sc_ordeals_1014.json" />
+    <EmbeddedResource Include="Scripts\sc_ordeals_1013.json" />
+    <EmbeddedResource Include="Scripts\sc_ordeals_1012.json" />
+    <EmbeddedResource Include="Scripts\sc_ordeals_1011.json" />
     <EmbeddedResource Include="Scripts\sc_overworld.json" />
     <EmbeddedResource Include="Scripts\sc_chaos_fight.json" />
     <EmbeddedResource Include="Scripts\sc_marsh_bottom.json" />
     <EmbeddedResource Include="Scripts\sc_earth_b3.json" />
+    <EmbeddedResource Include="Scripts\sc_ordeals_1010.json" />
     <EmbeddedResource Include="Scripts\sc_smitt.json" />
     <EmbeddedResource Include="Scripts\sc_sky_chest.json" />
     <EmbeddedResource Include="Scripts\sc_eye_chest.json" />

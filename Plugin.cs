@@ -30,7 +30,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.2.3";
+	public const string VERSION = "0.2.4";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -60,9 +60,11 @@ public class FF1PR : BasePlugin
 	public static int CurrentSlot;
 	public static SaveInfoState SaveInfoState = new();
 
+	public static PropertyGotoMap storedGotoMap;
+
 	// Settings
 	public static SessionManager SessionManager;
-	public static string CurrentMap => FF1PR.MapManager != null ? FF1PR.MapManager.CurrentMapModel.AssetData.MapName : "None";
+	public static string CurrentMap => FF1PR.MapManager != null ? (FF1PR.MapManager.CurrentMapModel != null ? FF1PR.MapManager.CurrentMapModel.AssetData.MapName : "None") : "None";
 	public static Dictionary<int, ItemData> PlacedItems;
 	public static GameStates GameState => Monitor.instance != null ? (GameStates)Monitor.instance.GetGameState() : GameStates.Title;
 	//public static GameStates GameState => GameStates.Title;
@@ -146,18 +148,19 @@ public class FF1PR : BasePlugin
 		// Boost Menu
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigController), "InitializeGameBoosterSetting"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GameBooster_Post")));
 
+		// Loading Map coordinates, we'll need at least the first for EF shuffle
+		//harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(PropertyGotoMap), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "NextMapProperty_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(int), typeof(int), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "NextMapInt_Pre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(int), typeof(Vector3), typeof(int), typeof(int), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "NextMapVector_Pre")));
 
 
 
-
+		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapModel), "SetTelepoPoints"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CreateTelepoPointList_Post")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigController), "add_OnNextMenu"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GameBooster_Pre")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapModel), "GetSubtractSteps"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetSubtractSteps_Post")));
 		/*
 		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Instructions.SystemCall.Current), "FairyShop"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckFairyShop_Post")));
 		harmony.Patch(AccessTools.Method(typeof(ShopUtility), "BuyItem", [typeof(int), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "BuyItemInt_Post")));*/
-
-		// Xp patch
-		//harmony.Patch(AccessTools.Method(typeof(Last.Data.Master.Monster), "get_Exp"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "get_Exp")));
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
 	{

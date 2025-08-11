@@ -107,6 +107,7 @@ namespace FF1PRAP
 			randoData.XpBoost = SetVictoryBoost(FF1PR.SessionManager.Options["xp_boost"]);
 			randoData.GilBoost = SetVictoryBoost(FF1PR.SessionManager.Options["gil_boost"]);
 			randoData.BoostMenu = FF1PR.SessionManager.Options["boost_menu"] == Options.Enable;
+			randoData.OrdealsMaze = ShuffleOrdealsMaze(FF1PR.SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng);
 
 			RandomizerData = randoData;
 

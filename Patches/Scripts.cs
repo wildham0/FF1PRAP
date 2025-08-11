@@ -42,11 +42,16 @@ namespace FF1PRAP
 					}
 					else if (FF1PR.PlacedItems.TryGetValue(locationflag, out var item))
 					{
-						//InternalLogger.LogInfo($"{item.Id} - {item.Qty}");
-						//InternalLogger.LogInfo($"{script}");
-						script = script.Replace("RANDOITEM", $"{item.Id}");
-						script = script.Replace("RANDOQTY", $"{item.Qty}");
-						script = script.Replace("CHESTFLAG", $"{locationflag}");
+						if (Randomizer.FlagToDialogue.TryGetValue(locationflag, out var dialogue))
+						{
+							var itemname = GetPlacedItemName(locationflag);
+
+							FF1PR.MessageManager.GetMessageDictionary()[dialogue] = $"You obtained {itemname}.";
+
+							script = script.Replace("RANDOITEM", $"{item.Id}");
+							script = script.Replace("RANDOQTY", $"{item.Qty}");
+							script = script.Replace("CHESTFLAG", $"{locationflag}");
+						}
 					}
 					else
 					{
@@ -60,6 +65,26 @@ namespace FF1PRAP
 			}
 		}
 
+		public static string GetPlacedItemName(int flag)
+		{
+			if (FF1PR.PlacedItems.TryGetValue(flag, out var itemdata))
+			{
+				if (itemdata.Id == (int)Items.Gil)
+				{
+					return itemdata.Qty + " Gil";
+				}
+				else
+				{
+					var itemNameKey = FF1PR.MasterManager.GetList<Content>()[itemdata.Id].MesIdName;
+					var itemName = FF1PR.MessageManager.GetMessage(itemNameKey);
+					return itemName;
+				}
+			}
+			else
+			{
+				return "ITEM_ERROR";
+			}
+		}
 		// we'll need to dynamically replace entities files so we can have chests for what, adamant, floater...
 
 		public static Dictionary<string, string> scriptReplacements = new()
@@ -122,8 +147,13 @@ namespace FF1PRAP
 			//{ "sc_e_0024", new ScriptBuilder("sc_empty") }, // Floater
 			{ "sc_e_0024_2", ScriptBuilder.FromJson("sc_eye_chest") }, // Floater Post Fight
 			//{ "sc_e_0025", new ScriptBuilder("sc_empty") }, // Airship Rise
-			{ "sc_ordealsman", ScriptBuilder.FromScript(Scripts.OrdealsMan, "sc_ordealsman") }, // Ordeals dude
-			//{ "sc_e_0046", new ScriptBuilder("sc_empty") }, // Ordeals dude
+			{ "sc_ordealsman", ScriptBuilder.FromScript(Scripts.OrdealsMan, "sc_ordealsman") }, // Ordeals dude / sc_e_0046
+			//{ "sc_map_30071_2", ScriptBuilder.FromScript(Scripts.OrdealsMan, "sc_ordealsmaze") }, // Ordeals dude
+			{ "sc_ordeals_1010", ScriptBuilder.FromJson("sc_ordeals_1010") }, // Add pillars script so they can be individually shuffled
+			{ "sc_ordeals_1011", ScriptBuilder.FromJson("sc_ordeals_1011") },
+			{ "sc_ordeals_1012", ScriptBuilder.FromJson("sc_ordeals_1012") },
+			{ "sc_ordeals_1013", ScriptBuilder.FromJson("sc_ordeals_1013") },
+			{ "sc_ordeals_1014", ScriptBuilder.FromJson("sc_ordeals_1014") },
 			// we can shuffle ordeals by just rerouting hhere
 			// no wait, we'll do it in prefix
 			{ "sc_e_0047", ScriptBuilder.FromScript(Scripts.OrdealsChest, "sc_ordealschest") }, // Rat Tail chest

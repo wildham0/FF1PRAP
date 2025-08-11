@@ -48,6 +48,7 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20051/Map_20051_1/ev_e_0014", "ev_dwarf_cave" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30031/Map_30041_3/ev_e_0016", "ev_earth_b3" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30071/Map_30071_1/ev_e_0046", "ev_ordeals" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_30071/Map_30071_2/entity_default", "ev_ordealsmaze" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20090/Map_20090/ev_e_0034", "ev_melmond" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30101/Map_30101_3/ev_e_0027", "ev_cubewarp" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30121/Map_30121_3/ev_e_0039", "ev_lute_floor" },
