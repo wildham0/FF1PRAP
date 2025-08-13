@@ -28,6 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    <EmbeddedResource Include="Entities\ev_matoya_chests.json" />
     <EmbeddedResource Include="Entities\ev_ordealsmaze.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_from_teleport.json" />
     <EmbeddedResource Include="Entities\ev_overworld.json" />

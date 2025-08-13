@@ -17,15 +17,17 @@ namespace FF1PRAP
 	{
 		public static void CheckGroupLoadAssetCompleted_Post(ref bool __result, string addressName)
 		{
+			InternalLogger.LogInfo($"Loading Asset: {addressName}");
+
+			if(Monitor.instance != null) Monitor.instance.CheckForMap(addressName);
+
 			if (assetsToReplace.TryGetValue(addressName, out var assetfilename))
 			{
 				var assetfile = GetFile(assetfilename);
 				var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assetfile);
 				var assetname = addressName.Split('/').Last();
-				textasset.name = assetname;
 
 				FF1PR.ResourceManager.completeAssetDic[addressName] = textasset;
-				//Monitor.instance.SetAssetTask(addressName, textasset, task);
 				InternalLogger.LogInfo($"Asset loading task added for {assetname} > {assetfilename}");
 				__result = true;
 			};
@@ -33,6 +35,9 @@ namespace FF1PRAP
 
 		public static Dictionary<string, string> assetsToReplace = new()
 		{
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20031/Map_20031_1/entity_default", "ev_matoya_chests" },
+			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", "tm_overworld" },
+			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", "ts_overworld" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0007", "ev_overworld_pre_canal" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld_post_canal" },
 			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld" },

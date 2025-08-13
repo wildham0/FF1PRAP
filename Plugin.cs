@@ -24,6 +24,8 @@ using Last.Data.User;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Last.Message;
 using Last.Systems;
+using System.Reflection;
+using System.Linq;
 
 namespace FF1PRAP;
 
@@ -61,6 +63,8 @@ public class FF1PR : BasePlugin
 	public static SaveInfoState SaveInfoState = new();
 
 	public static PropertyGotoMap storedGotoMap;
+
+	public static string TMOverworld;
 
 	// Settings
 	public static SessionManager SessionManager;
@@ -139,6 +143,7 @@ public class FF1PR : BasePlugin
 		// Resource Manager + Assets
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetResourceManager_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckCompleteAsset", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckGroupLoadAssetCompleted_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckGroupLoadAssetCompleted", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckLoadAssetCompleted")));
 
 		// Loading/Saving Screen State
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.TitleWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TitleWindowControllerInitialize_Post")));
@@ -154,6 +159,7 @@ public class FF1PR : BasePlugin
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(int), typeof(Vector3), typeof(int), typeof(int), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "NextMapVector_Pre")));
 
 
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.MapAssetData), "GetTileMapData"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetTileMapData_Post")));
 
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapModel), "SetTelepoPoints"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CreateTelepoPointList_Post")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigController), "add_OnNextMenu"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GameBooster_Pre")));
@@ -161,6 +167,77 @@ public class FF1PR : BasePlugin
 		/*
 		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Instructions.SystemCall.Current), "FairyShop"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckFairyShop_Post")));
 		harmony.Patch(AccessTools.Method(typeof(ShopUtility), "BuyItem", [typeof(int), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "BuyItemInt_Post")));*/
+		/*
+		string scriptfile = "";
+		var assembly = Assembly.GetExecutingAssembly();
+		string filepath = assembly.GetManifestResourceNames().Single(str => str.EndsWith("tm_overworld.json"));
+		using (Stream logicfile = assembly.GetManifestResourceStream(filepath))
+		{
+			using (StreamReader reader = new StreamReader(logicfile))
+			{
+				scriptfile = reader.ReadToEnd();
+			}
+		}
+
+		var split = scriptfile.Split('\n');
+
+		InternalLogger.LogInfo($"Split length: {split.Count()}");
+		int[,] pattern =
+		{
+				{ 000, 000, 773, 000, 000, 000, 000, 000, 000, 000, 000, 000 },
+				{ 901, 901, 966, 773, 966, 773, 965, 965, 000, 000, 000, 000 },
+				{ 901, 965, 965, 901, 901, 966, 773, 902, 000, 000, 000, 000 },
+				{ 902, 902, 773, 773, 901, 773, 966, 966, 966, 965, 000, 000 },
+				{ 773, 902, 902, 966, 901, 902, 902, 773, 965, 773, 773, 000 },
+				{ 901, 965, 965, 902, 902, 773, 773, 965, 902, 902, 965, 000 },
+				{ 000, 965, 902, 902, 773, 773, 901, 901, 966, 966, 965, 000 },
+				{ 000, 000, 000, 000, 000, 000, 901, 000, 000, 000, 000, 000 },
+		};
+
+
+		(int x, int y) target = (118, 128);
+
+		for (int y = 0; y < 8; y++)
+		{
+			for (int x = 0; x < 12; x++)
+			{
+				InternalLogger.LogInfo($"Pos: {x}, {y}");
+				if (pattern[y, x] != 0)
+				{
+					int line = (target.x + x) + ((target.y + y) * 256) + 248 - 1;
+					split[line] = pattern[y, x].ToString() + ",";
+				}
+			}
+		}
+
+		TMOverworld = String.Join("", split);
+		*/
+		/*
+
+
+		for (int y = 0; y < 256; y++)
+		{
+			string line = "";
+			for (int x = 0; x < 256; x++)
+			{
+				line += split[x + 256 * y].Last();
+			}
+			map.Add(line);
+		}
+
+
+		InternalLogger.LogInfo("---map4--");
+		foreach (var line in map)
+		{
+			InternalLogger.LogInfo(line);
+		
+		}*/
+		/*
+		var teststring = new string(MapPatches.TestMap);
+		InternalLogger.LogInfo(teststring);
+		var result = MapPatcher.Patch(teststring, 0, MapPatches.Test, 4, 4);
+
+		InternalLogger.LogInfo(result);*/
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
 	{

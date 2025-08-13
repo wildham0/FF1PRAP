@@ -18,6 +18,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using static FF1PRAP.Patches;
 using Last.Map;
 using static Last.Interpreter.Instructions.External;
+using Last.Data.Master;
 //using Il2CppSystem.Collections.Generic;
 
 namespace FF1PRAP
@@ -137,6 +138,21 @@ namespace FF1PRAP
 
 		public static void UpdateEntities()
 		{
+			/*
+			if (FF1PR.CurrentMap == "Map_20031_1")
+			{
+				InternalLogger.LogInfo($"Moving treasure");
+
+				var tresurebox = FF1PR.FieldController.GetFieldEntity(5);
+
+				//tresurebox.Property.Pos = new Vector3(160, 192, tresurebox.Property.Pos.z);
+				tresurebox.Init(new Vector3(160, 192, tresurebox.Property.Pos.z), LayerSetting.Layers.BottomLayer, 15);
+				//tresurebox.Show();
+
+
+			}*/
+
+			
 			if (entititesToUpdate.TryGetValue(FF1PR.CurrentMap, out var entitiesSet))
 			{
 				InternalLogger.LogInfo($"Updating entities on {FF1PR.CurrentMap}");
@@ -294,6 +310,8 @@ namespace FF1PRAP
 					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Levistone, FlagCategory = DataStorage.Category.kScenarioFlag1 },
 					new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Airship, FlagCategory = DataStorage.Category.kScenarioFlag1 },} },
 				new EntityData() { EntityId = 145, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Chime, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				//new EntityData() { EntityId = 205, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.IntroDone, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
+				//new EntityData() { EntityId = 1000, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.IntroDone, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
 				/*
 				new EntityData() { EntityId = 205, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
 				new EntityData() { EntityId = 101, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.Canal, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },*/

@@ -147,7 +147,7 @@ namespace FF1PRAP
 
 			// Start with airship
 			// So 517 is ship 100%, 516 is canoe, what's 519 for???
-			/*
+			
 			for (int i = 0; i < FF1PR.UserData.OwnedTransportationList.Count; i++)
 			{
 				if (FF1PR.UserData.OwnedTransportationList[i].flagNumber == 518)
@@ -164,20 +164,53 @@ namespace FF1PRAP
 					FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
 					FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
 				}
+				else if (FF1PR.UserData.OwnedTransportationList[i].flagNumber == 517)
+				{
+					// Coneria dock is 145, 162
+					// Pravoka dock is 203, 146
+					FF1PR.UserData.OwnedTransportationList[i].Position = new UnityEngine.Vector3(145, 162, 149);
+					FF1PR.UserData.OwnedTransportationList[i].MapId = 1;
+					FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
+					FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
+				}
 			}
 
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Crown, 1);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
-			*/
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.NitroPowder, 1);
+
+
+			for (int i = 0; i < FF1PR.UserData.OwnedCharacterList.Count; i++)
+			{
+				InternalLogger.LogInfo($"Character list: {FF1PR.UserData.OwnedCharacterList[i].Id} : {FF1PR.UserData.OwnedCharacterList[i].JobId}");
+				if (i == 0)
+				{
+					FF1PR.UserData.OwnedCharacterList[i].JobId = 5;
+				}
+			}
+
+			for (int i = 0; i < FF1PR.UserData.OwnedCharacterList[0].OwnedJobDataList.Count; i++)
+			{
+				var job = FF1PR.UserData.OwnedCharacterList[0].OwnedJobDataList[i];
+
+				InternalLogger.LogInfo($"Job list: {job.Id}, {job.CurrentProficiency}, {job.Level}");
+				if (i == 0)
+				{
+					FF1PR.UserData.OwnedCharacterList[i].JobId = 5;
+				}
+			}
+
+
 
 			// Set Flags
+			
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 4, 1); // Bridge Building Cutscene
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 7, 1); // Bridge Intro
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 8, 1); // Matoya Cutscene
-
+			
 			// Set New Game options only
 			FF1PR.UserData.CheatSettingsData.GilRate = Randomizer.RandomizerData.GilBoost;
 			FF1PR.UserData.CheatSettingsData.ExpRate = Randomizer.RandomizerData.XpBoost;
