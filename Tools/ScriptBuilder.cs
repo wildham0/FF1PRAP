@@ -58,37 +58,38 @@ namespace FF1PRAP
 
 		static Dictionary<string, string> mnemonics = new()
 		{
-			{ "GetItem", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"GetItem\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "UseItem", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"UseItem\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "TreasureBox", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"TreasureBox\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "Msg", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Msg\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "Msg2", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Msg\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"NUM\",\"zo2\",\"zo3\",\"zo4\",\"zo5\",\"zo6\",\"zo7\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "MsgFunfare", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"MsgFunfare\",\"operands\": {  \"iValues\": [0,0,84,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "Nop", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Nop\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "SetScenarioFlag", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetFlag\",\"operands\": {  \"iValues\": [ARG_0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ScenarioFlag1\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "SetTreasureFlag", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetFlag\",\"operands\": {  \"iValues\": [ARG_0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"TreasureFlag1\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "SetFlag", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetFlag\",\"operands\": {  \"iValues\": [ARG_1,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "SetEntities", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetEntities\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "Branch", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Branch\",\"operands\": {  \"iValues\": [ARG_1,1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"＝\",\"imm\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "Jump", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Jump\",\"operands\": {  \"iValues\": [ARG_0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "Wait", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Wait\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [ARG_0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "Exit", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Exit\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "StopBGM", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"StopBGM\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "PlayBGM", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"PlayBGM\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "PauseBGM", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"PauseBGM\",\"operands\": {  \"iValues\": [0,ARG_0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "FadeIn", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"FadeIn\",\"operands\": {  \"iValues\": [0,0,0,ARG_1,0,0,0,0], \"rValues\": [ARG_0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "SysCall", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SysCall\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "EncountBoss", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"EncountBoss\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_3\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "Call", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Call\",\"operands\": {  \"iValues\": [ARG_0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "SetPuppet", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetPuppet\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 2,\"comment\": \"\"}," },
-			{ "ExecPuppet", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ExecPuppet\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 2,\"comment\": \"\"}," },
-			{ "CueAnim", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"CueAnim\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 2,\"comment\": \"\"}," },
-			{ "Return", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Return\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 2,\"comment\": \"\"}," },
-			{ "Nop2", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Nop\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 2,\"comment\": \"\"}," },
-			{ "Exit2", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Exit\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 2,\"comment\": \"\"}," },
-			{ "ChangeScript", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ChangeScript\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "ChangeMap", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ChangeMap\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_2\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
-			{ "AddTelepoCache", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"AddTelepoCache\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,ARG_3,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": 1,\"comment\": \"\"}," },
+			{ "GetItem", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"GetItem\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "UseItem", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"UseItem\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "TreasureBox", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"TreasureBox\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Msg", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Msg\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Msg2", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Msg\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"NUM\",\"zo2\",\"zo3\",\"zo4\",\"zo5\",\"zo6\",\"zo7\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "MsgFunfare", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"MsgFunfare\",\"operands\": {  \"iValues\": [0,0,84,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Nop", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Nop\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "SetScenarioFlag", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetFlag\",\"operands\": {  \"iValues\": [ARG_0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ScenarioFlag1\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "SetTreasureFlag", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetFlag\",\"operands\": {  \"iValues\": [ARG_0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"TreasureFlag1\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "SetFlag", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetFlag\",\"operands\": {  \"iValues\": [ARG_1,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "SetEntities", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetEntities\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Branch", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Branch\",\"operands\": {  \"iValues\": [ARG_1,1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"＝\",\"imm\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Jump", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Jump\",\"operands\": {  \"iValues\": [ARG_0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Wait", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Wait\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [ARG_0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Exit", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Exit\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "StopBGM", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"StopBGM\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "PlayBGM", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"PlayBGM\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "PauseBGM", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"PauseBGM\",\"operands\": {  \"iValues\": [0,ARG_0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "FadeIn", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"FadeIn\",\"operands\": {  \"iValues\": [0,0,0,ARG_1,0,0,0,0], \"rValues\": [ARG_0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "FadeOut", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"FadeOut\",\"operands\": {  \"iValues\": [0,0,0,ARG_1,0,0,0,0], \"rValues\": [ARG_0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "SysCall", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SysCall\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "EncountBoss", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"EncountBoss\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_3\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Call", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Call\",\"operands\": {  \"iValues\": [ARG_0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "ChangeScript", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ChangeScript\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "ChangeMap", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ChangeMap\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_2\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "AddTelepoCache", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"AddTelepoCache\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,ARG_3,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+
+			// Puppet ops
+			{ "SetPuppet", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetPuppet\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "ExecPuppet", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ExecPuppet\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "CueAnim", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"CueAnim\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [ARG_0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "Return", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"Return\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
 		};
 
 
@@ -219,6 +220,7 @@ namespace FF1PRAP
 			script += blocks[ScriptSegments.Open];
 
 			int segmentcount = 0;
+			string currentType = "1";
 
 			foreach (var mnemonic in segments)
 			{
@@ -250,7 +252,13 @@ namespace FF1PRAP
 					label = foundlabel.Name;
 				}
 
+				if (label.Contains("Puppet"))
+				{
+					currentType = "2";
+				}
+
 				tempsegment = tempsegment.Replace("ARG_LABEL", label);
+				tempsegment = tempsegment.Replace("ARG_TYPE", currentType);
 				segmentcount++;
 
 				mnemonicsblock += tempsegment;

@@ -24,13 +24,15 @@ using Last.Data.User;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Last.Message;
 using Last.Systems;
+using System.Reflection;
+using System.Linq;
 
 namespace FF1PRAP;
 
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.2.4";
+	public const string VERSION = "0.2.5";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -61,6 +63,8 @@ public class FF1PR : BasePlugin
 	public static SaveInfoState SaveInfoState = new();
 
 	public static PropertyGotoMap storedGotoMap;
+
+	public static string TMOverworld;
 
 	// Settings
 	public static SessionManager SessionManager;
@@ -139,6 +143,7 @@ public class FF1PR : BasePlugin
 		// Resource Manager + Assets
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetResourceManager_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckCompleteAsset", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckGroupLoadAssetCompleted_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckGroupLoadAssetCompleted", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckLoadAssetCompleted")));
 
 		// Loading/Saving Screen State
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.TitleWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TitleWindowControllerInitialize_Post")));
@@ -154,7 +159,14 @@ public class FF1PR : BasePlugin
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(int), typeof(Vector3), typeof(int), typeof(int), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "NextMapVector_Pre")));
 
 
+		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapAssetData), "GetTileMapData"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetTileMapData_Post")));
 
+		/*
+		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigActualDetailsControllerBase), "LoadStart"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ConfigLoadStart")));
+		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigActualDetailsControllerBase), "RunReloadScene"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ConfigReloadScene")));
+		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigActualDetailsControllerBase), "TitleBack"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ConfigTitleBack")));
+
+		*/
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapModel), "SetTelepoPoints"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CreateTelepoPointList_Post")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigController), "add_OnNextMenu"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GameBooster_Pre")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapModel), "GetSubtractSteps"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetSubtractSteps_Post")));

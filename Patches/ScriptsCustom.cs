@@ -36,10 +36,44 @@ namespace FF1PRAP
 		{
 			"Sub Main:",
 			"Nop",
-			//"Call [PlaceBridge]",
 			"SysCall MapEntryRoofControl",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.WestwardProgressionMode} [Westward]",
+			"Call [Puppet_Bridge]",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.Canal} [CanalDug]",
 			"SetEntities ev_e_0025",
 			"Exit",
+			"CanalDug:",
+			"Nop",
+			"Call [Puppet_Canal]",
+			"SetEntities ev_e_0025",
+			"Exit",
+			"Westward:",
+			"Nop",
+			"SetEntities ev_e_0007",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.Canal} [CanalDug2]",
+			"Exit",
+			"CanalDug2:",
+			"Nop",
+			"Call [Puppet_Canal]",
+			"Exit",
+			"Sub Puppet_Bridge:",
+			"Nop",
+			"SetPuppet 0 112 [BridgeAnim]",
+			"ExecPuppet",
+			"Return",
+			"BridgeAnim:",
+			"Nop",
+			"CueAnim 1",
+			"Exit",
+			"Sub Puppet_Canal:",
+			"Nop",
+			"SetPuppet 0 111 [CanalAnim]",
+			"ExecPuppet",
+			"Return",
+			"CanalAnim:",
+			"Nop",
+			"CueAnim 1",
+			"Exit"
 		};
 		public static List<string> ConeriaCastle = new()
 		{
@@ -285,18 +319,6 @@ namespace FF1PRAP
 			"SetEntities ev_e_0026",
 			"Exit"
 		};
-		public static List<string> OrdealsMan = new()
-		{
-			"Sub Main:",
-			"Nop",
-			$"Branch ScenarioFlag1 {(int)ScenarioFlags.Crown} [HasCrown]",
-			"Msg MSG_TRIAL_CAS_03",
-			"Exit",
-			"HasCrown:",
-			"Nop",
-			"ChangeScript sc_e_0046",
-			"Exit",
-		};
 		public static List<string> Caravan = new()
 		{
 			"MainSub:",
@@ -323,6 +345,42 @@ namespace FF1PRAP
 			"HasOxyale:",
 			"Nop",
 			"ChangeScript sc_e_0030",
+			"Exit",
+		};
+		public static List<string> Bahamut = new()
+		{
+			"Sub Main:",
+			"Nop",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.BahamutGivesItem} [BahamutItem]",
+			"ChangeScript sc_e_0048",
+			"BahamutItem:",
+			"Nop",
+			$"Branch TreasureFlag1 {(int)TreasureFlags.Bahamut} [ItemGiven]",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.RatTail} [GiveItem]",
+			"Msg MSG_DRG_CAV_01",
+			"Exit",
+			"GiveItem:",
+			"Nop",
+			"Msg MSG_CLASS_CHG_01",
+			"MsgFunfare MSG_CLASS_CHG_04",
+			"GetItem RANDOITEM RANDOQTY",
+			$"SetFlag TreasureFlag1 {(int)TreasureFlags.Bahamut}",
+			"Exit",
+			"ItemGiven:",
+			"Nop",
+			"Msg MSG_DRG_CAV_02",
+			"Exit",
+		};
+		public static List<string> OrdealsMan = new()
+		{
+			"Sub Main:",
+			"Nop",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.Crown} [HasCrown]",
+			"Msg MSG_TRIAL_CAS_03",
+			"Exit",
+			"HasCrown:",
+			"Nop",
+			"ChangeScript sc_e_0046",
 			"Exit",
 		};
 		public static List<string> OrdealsMaze = new()

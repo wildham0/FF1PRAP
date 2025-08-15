@@ -156,6 +156,21 @@ namespace FF1PRAP
 			new RegionData() { Region = Regions.Lefein, Access = new() { new() { AccessRequirements.Airship } } },
 		};
 
+		static public List<RegionData> FixedRegionsWest = new()
+		{
+			new RegionData() { Region = Regions.MatoyaCave, Access = new() { new() { AccessRequirements.Ship }, new() { AccessRequirements.Airship }, } },
+			new RegionData() { Region = Regions.Pravoka, Access = new() { new() { AccessRequirements.Ship }, new() { AccessRequirements.Airship }, } },
+			new RegionData() { Region = Regions.DwarfCave, Access = new() { } },
+			new RegionData() { Region = Regions.Elfland, Access = new() { } },
+			new RegionData() { Region = Regions.ElflandCastle, Access = new() { } },
+			new RegionData() { Region = Regions.NorthWestCastle, Access = new() { } },
+			new RegionData() { Region = Regions.MarshCave, Access = new() { } },
+			new RegionData() { Region = Regions.CrescentLake, Access = new() { new() { AccessRequirements.Ship, AccessRequirements.Canal }, new() { AccessRequirements.Canoe }, new() { AccessRequirements.Airship }, } },
+			new RegionData() { Region = Regions.RyukhanDesert, Access = new() { new() { AccessRequirements.Canoe }, new() { AccessRequirements.Airship }, } },
+			new RegionData() { Region = Regions.Volcano, Access = new() { new() { AccessRequirements.Canoe }, new() { AccessRequirements.Airship }, } },
+			new RegionData() { Region = Regions.IceCave, Access = new() { new() { AccessRequirements.Ship, AccessRequirements.Canoe }, new() { AccessRequirements.Airship }, } },
+		};
+
 		static public List<LocationData> FixedLocations = new()
 		{
 			// ToF
@@ -440,6 +455,9 @@ namespace FF1PRAP
 			// Fairy
 			new LocationData() { Content = (int)Items.Oxyale, Qty = 1, Id = 10, Flag = (int)TreasureFlags.Fairy, Type = LocationType.GameObject, Name = "Fairy", Script = 0, Map = "Map_20160", Region = Regions.Gaia, Access = new() { new() { AccessRequirements.BottledFaerie } } },
 
+			// Bahamut
+			new LocationData() { Content = (int)Items.JobAll, Qty = 1, Id = 10, Flag = (int)TreasureFlags.Bahamut, Type = LocationType.GameObject, Name = "Bahamut", Script = 0, Map = "Map_20160", Region = Regions.CardiaTop, Access = new() { new() { AccessRequirements.RatsTail } } },
+
 			// Onrac
 			new LocationData() { Type = LocationType.Event, Name = "SubEngineer", Region = Regions.Onrac, Access = new() { new() { AccessRequirements.Oxyale } }, Trigger = new() { AccessRequirements.Submarine } },
 
@@ -627,6 +645,7 @@ namespace FF1PRAP
 			{ "sc_e_0051", (int)TreasureFlags.SkyChest }, // Levistone
 			{ "sc_e_0029", (int)TreasureFlags.Fairy }, // Levistone
 			{ "sc_e_0035", (int)TreasureFlags.Lefeinman }, // Levistone
+			{ "sc_bahamut", (int)TreasureFlags.Bahamut }, // Levistone
 			//{ "sc_e_0035", (int)TreasureFlags.Caravan }, // Caravan
 		};
 
@@ -645,6 +664,8 @@ namespace FF1PRAP
 			{ (int)TreasureFlags.SkyChest, "MSG_WND_DAN_04" }, // Levistone
 			{ (int)TreasureFlags.Fairy, "MSG_OXYALE_03" }, // Levistone
 			{ (int)TreasureFlags.Lefeinman, "MSG_GET_CHIME_02" }, // Levistone
+			{ (int)TreasureFlags.Bahamut, "MSG_CLASS_CHG_04" }, // Bahamut
+
 			//{ "sc_e_0035", (int)TreasureFlags.Caravan }, // Caravan
 		};
 
@@ -813,6 +834,7 @@ namespace FF1PRAP
 			{ 218, "Dragon Caves (Plains) - Entrance" },
 			{ 219, "Dragon Caves (Plains) - Duo 1" },
 			{ 220, "Dragon Caves (Plains) - Duooo 2" },
+			{ 407, "Dragon Caves - Bahamut" },
 			{ 406, "Caravan" },
 			{ 114, "Waterfall Caverns - Chest 1" },
 			{ 115, "Waterfall Caverns - Chest 2" },
@@ -1059,6 +1081,13 @@ namespace FF1PRAP
 			{ "Sasuke's Blade", new ItemData() { Id = 100, Qty = 1 } },
 			{ "Masamune", new ItemData() { Id = 103, Qty = 1 } },
 			{ "Bottled Faerie", new ItemData() { Id = 59, Qty = 1 } },
+			{ "All Promotion Jobs", new ItemData() { Id = 500, Qty = 1 } },
+			{ "Knight Job", new ItemData() { Id = 501, Qty = 1 } },
+			{ "Ninja Job", new ItemData() { Id = 502, Qty = 1 } },
+			{ "Master Job", new ItemData() { Id = 503, Qty = 1 } },
+			{ "Red Wizard Job", new ItemData() { Id = 504, Qty = 1 } },
+			{ "White Wizard Job", new ItemData() { Id = 505, Qty = 1 } },
+			{ "Black Wizard Job", new ItemData() { Id = 506, Qty = 1 } },
 		};
 	}
 }

@@ -35,6 +35,7 @@ using Il2CppSystem.Threading.Tasks;
 using Last.UI;
 using System.Runtime.InteropServices;
 using static Last.Interpreter.Instructions.External;
+using static Serial.FF1.Map.TransportationEvent;
 
 namespace FF1PRAP
 {//[HarmonyPatch("GetExp")]
@@ -824,6 +825,44 @@ namespace FF1PRAP
 		private static void NextMapVector_Pre(int mapId, Vector3 cellPos, int transportationId, int direction)
 		{
 			InternalLogger.LogInfo($"NextMapVector: {mapId} - {cellPos} - {transportationId} - {direction}");
+		}
+
+		private static void GetTileMapData_Post(ref TileMapData __result)
+		{
+			/*
+			InternalLogger.LogInfo($"TileMapData: {__result.type}");
+
+			foreach (var layer in __result.layers)
+			{
+				InternalLogger.LogInfo($"TileMapLayerGroupData: {layer.name} - {layer.id}");
+
+				if (layer.id == 3)
+				{
+					InternalLogger.LogInfo($"TileMapLayerData?");
+					for (int y = 0; y < 128; y++)
+					{ 
+						for (int x = 0; x < 128; x++)
+						{
+							layer.layers[0].data[y * 256 + x] = 0;
+						}
+					}
+
+					//InternalLogger.LogInfo($"TileMapLayerData: ");
+				}
+			}*/
+		}
+
+		public static void ConfigLoadStart()
+		{
+			InternalLogger.LogInfo("Load Start");
+		}
+		public static void ConfigReloadScene()
+		{
+			InternalLogger.LogInfo("Config Reload");
+		}
+		public static void ConfigTitleBack()
+		{
+			InternalLogger.LogInfo("Title Back");
 		}
 	}
 	public enum SaveInfoModes

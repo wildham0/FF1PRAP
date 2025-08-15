@@ -41,6 +41,8 @@ namespace FF1PRAP
 			FF1PR.MasterManager.GetList<Item>().Add(42, new Item("42,42,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"));
 			FF1PR.MasterManager.GetList<Content>().Add(43, new Content("43,MSG_KEY_NAME_19,None,MSG_KEY_INF_19,0,1,42"));
 
+			Randomizer.GeneratePromoItems();
+
 			// Update dialogues
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_GARLAND"] = "You really think you have what it takes to cross swords with ME? Very well... I, Garland, will knock you all down!!!";
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARASAVE"] = "I am Sarah, princess of Cornelia. You must allow me to show my gratitude. Please, accompany me to Castle Cornelia.";
@@ -60,30 +62,12 @@ namespace FF1PRAP
 
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_01"] = $"This heirloom has been entrusted to the princesses of Cornelia for many generations. I want you to have it. It may aid you on your journey.";
 
-			// ordeal man script
-			var ordealsmanscript = new Script();
-			ordealsmanscript.Id = 1000;
-			ordealsmanscript.ScriptName = "sc_ordealsman";
-			FF1PR.MasterManager.GetList<Script>().Add(1000, ordealsmanscript);
 
-			// sub engineer
-			var subengscript = new Script();
-			subengscript.Id = 1003;
-			subengscript.ScriptName = "sc_subeng";
-			FF1PR.MasterManager.GetList<Script>().Add(1003, subengscript);
-
-			// lute slab script
-			var luteslabscript = new Script();
-			luteslabscript.Id = 1001;
-			luteslabscript.ScriptName = "sc_luteslab";
-			FF1PR.MasterManager.GetList<Script>().Add(1001, luteslabscript);
-
-			// chaos defeated script
-			var chaosdefeated = new Script();
-			chaosdefeated.Id = 1002;
-			chaosdefeated.ScriptName = "sc_chaosdefeated";
-			FF1PR.MasterManager.GetList<Script>().Add(1002, chaosdefeated);
-
+			FF1PR.MasterManager.GetList<Script>().Add(1000, new Script() { Id = 1000, ScriptName = "sc_ordealsman" });		// ordeal man script
+			FF1PR.MasterManager.GetList<Script>().Add(1001, new Script() { Id = 1001, ScriptName = "sc_luteslab" });		// lute slab script
+			FF1PR.MasterManager.GetList<Script>().Add(1002, new Script() { Id = 1002, ScriptName = "sc_chaosdefeated" });	// chaos defeated script
+			FF1PR.MasterManager.GetList<Script>().Add(1003, new Script() { Id = 1003, ScriptName = "sc_subeng" });			// sub engineer
+			FF1PR.MasterManager.GetList<Script>().Add(1004, new Script() { Id = 1004, ScriptName = "sc_bahamut" });			// bahamut
 			// Trials Maze scripts
 			FF1PR.MasterManager.GetList<Script>().Add(1010, new Script() { Id = 1010, ScriptName = "sc_ordeals_1010" });
 			FF1PR.MasterManager.GetList<Script>().Add(1011, new Script() { Id = 1011, ScriptName = "sc_ordeals_1011" });
@@ -164,24 +148,52 @@ namespace FF1PRAP
 					FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
 					FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
 				}
+				else if (FF1PR.UserData.OwnedTransportationList[i].flagNumber == 517)
+				{
+					// Coneria dock is 145, 162
+					// Pravoka dock is 203, 146
+					FF1PR.UserData.OwnedTransportationList[i].Position = new UnityEngine.Vector3(145, 162, 149);
+					FF1PR.UserData.OwnedTransportationList[i].MapId = 1;
+					FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
+					FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
+				}
 			}
 
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
-			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Crown, 1);
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.RatsTail, 1);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.NitroPowder, 1);
 			*/
-
 			// Set Flags
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 4, 1); // Bridge Building Cutscene
-			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 7, 1); // Bridge Intro
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 8, 1); // Matoya Cutscene
+
+
+			if (FF1PR.SessionManager.Options["early_progression"] == Options.MarshPath)
+			{
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 1);
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 0); // Bridge 
+			}
+			else
+			{
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 0);
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
+			}
+
+			if (FF1PR.SessionManager.Options["job_promotion"] != "0")
+			{
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BahamutGivesItem, 1);
+			}
+			else
+			{
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BahamutGivesItem, 0);
+			}
 
 			// Set New Game options only
 			FF1PR.UserData.CheatSettingsData.GilRate = Randomizer.RandomizerData.GilBoost;
 			FF1PR.UserData.CheatSettingsData.ExpRate = Randomizer.RandomizerData.XpBoost;
-
 		}
 	}
 }

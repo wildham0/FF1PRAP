@@ -28,11 +28,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    <EmbeddedResource Include="Entities\ev_bahamut.json" />
+    <EmbeddedResource Include="Entities\ev_matoya_chests.json" />
     <EmbeddedResource Include="Entities\ev_ordealsmaze.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_from_teleport.json" />
+    <EmbeddedResource Include="Entities\ev_overworld_entity.json" />
+    <EmbeddedResource Include="Entities\ev_overworld_west.json" />
+    <EmbeddedResource Include="Entities\ev_overworld_west_post_canal.json" />
+    <EmbeddedResource Include="Entities\ev_overworld_west_pre_canal.json" />
+    <EmbeddedResource Include="Entities\ev_overworld_east.json" />
     <EmbeddedResource Include="Entities\ev_overworld.json" />
-    <EmbeddedResource Include="Entities\ev_overworld_pre_canal.json" />
-    <EmbeddedResource Include="Entities\ev_overworld_post_canal.json" />
+    <EmbeddedResource Include="Entities\ev_overworld_east_pre_canal.json" />
+    <EmbeddedResource Include="Entities\ev_overworld_east_post_canal.json" />
     <EmbeddedResource Include="Entities\ev_cubewarp.json" />
     <EmbeddedResource Include="Entities\ev_melmond.json" />
     <EmbeddedResource Include="Entities\ev_lute_floor.json" />

@@ -1,6 +1,7 @@
 ﻿using Il2CppSystem.Common;
 using Last.Data;
 using Last.Data.Master;
+using Last.Data.User;
 using Last.Entity.Field;
 using Last.Interpreter;
 using Last.Message;
@@ -11,7 +12,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Jobs;
 using UnityEngine;
+using static Serial.FF1.Management.StatusUpProvider;
 
 namespace FF1PRAP
 {
@@ -31,7 +34,7 @@ namespace FF1PRAP
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, flag, 1);
 
 				InternalLogger.LogInfo($"Flag {flag} set by item");
-				
+
 				UpdateEntities();
 
 				// Update transport
@@ -41,7 +44,14 @@ namespace FF1PRAP
 					{
 						// Coneria dock is 145, 162
 						// Pravoka dock is 203, 146
-						FF1PR.UserData.OwnedTransportationList[i].Position = new UnityEngine.Vector3(203, 146, 149);
+
+						(int x, int y) shipSpawn = (203, 146);
+						if (FF1PR.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode) == 1)
+						{
+							shipSpawn = (145, 162);
+						}
+
+						FF1PR.UserData.OwnedTransportationList[i].Position = new UnityEngine.Vector3(shipSpawn.x, shipSpawn.y, 149);
 						FF1PR.UserData.OwnedTransportationList[i].MapId = 1;
 						FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
 						FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
@@ -58,6 +68,8 @@ namespace FF1PRAP
 				// check map
 				// run special script for mystic key, ship, canoe
 			}
+
+			Randomizer.ProcessJobItem(targetData.Id);
 			//InternalLogger.LogInfo($"Add Owned Content: {targetData.Id} - {targetData.MesIdName}, {count}");
 		}
 

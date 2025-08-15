@@ -35,15 +35,30 @@ namespace FF1PRAP
 		public ProcessStates ProcessState = ProcessStates.InitGame;
 		public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
 		public Last.Defaine.MenuCommandId MainMenuState = Last.Defaine.MenuCommandId.Non;
+		//public bool checkForMap = false;
 		//public SaveWindowController.State SaveMenuState = SaveWindowController.State.None;
 		private bool newGameProcessed = false;
+		public Dictionary<string, bool> MapDataUpdate = new()
+		{
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", false },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", false },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/attribute", false },
+		};
+
+		private static Dictionary<string, List<PatchOpGroup>> MapDataPatches = new()
+		{
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", new() { MapPatchesWestward.TilemapGround, MapPatchesWestward.TilemapTiles, MapPatchesWestward.TilemapBottom, MapPatchesCanal.BridgeCanalBottom } },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", new() { MapPatchesWestward.TransportationFoot, MapPatchesWestward.TransportationCanoe, MapPatchesCanal.TransportationFoot, MapPatchesCanal.TransportationCanalShip } },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/attribute", new() { MapPatchesWestward.Attributes, MapPatchesCanal.BridgeCanalAttribute } },
+		};
 
 		public MonitorTool() { }
 
 		public void Update()
 		{
 			ProcessGameState();
-
+			ProcessMapData();
+			
 			if (FF1PR.SessionManager.GameMode == GameModes.Vanilla)
 			{
 				return;
@@ -113,6 +128,29 @@ namespace FF1PRAP
 				}
 			}
 		}
+
+		private void ProcessMapData()
+		{
+			foreach (var mapdata in MapDataUpdate)
+			{
+				if (mapdata.Value)
+				{
+					if (FF1PR.ResourceManager.completeAssetDic.ContainsKey(mapdata.Key))
+					{
+
+						var assettext = FF1PR.ResourceManager.completeAssetDic[mapdata.Key].Cast<TextAsset>().text;
+
+						assettext = MapPatcher.Patch(assettext, MapDataPatches[mapdata.Key], 256);
+
+						//var assetfile = MapPatcher.Patch(, 0, MapPatches.Westward, 256, 256);
+						var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);
+						var assetname = mapdata.Key.Split('/').Last();
+						FF1PR.ResourceManager.completeAssetDic[mapdata.Key] = textasset;
+						MapDataUpdate[mapdata.Key] = false;
+					}
+				}
+			}
+		}
 		private void ProcessGameState()
 		{
 			var stateTrackerState = Last.Management.GameStates.Boot;
@@ -120,6 +158,7 @@ namespace FF1PRAP
 			if (FF1PR.StateTracker != null)
 			{
 				stateTrackerState = FF1PR.StateTracker.CurrentState;
+				//InternalLogger.LogInfo($"State: {FF1PR.StateTracker.CurrentState}");
 			}
 
 			if (FF1PR.StateTracker.CurrentState == Last.Management.GameStates.Title && GameState == GameStates.InGame)
@@ -174,6 +213,16 @@ namespace FF1PRAP
 		{
 			tool.MainMenuState = state;
 			InternalLogger.LogInfo($"MainMenu: {state}");
+		}
+		public void CheckForMap(string address)
+		{
+			if (tool.MapDataUpdate.TryGetValue(address, out bool result))
+			{
+				if (!result)
+				{
+					tool.MapDataUpdate[address] = true;
+				}
+			}
 		}
 	}
 

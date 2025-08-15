@@ -12,10 +12,11 @@ namespace FF1PRAP
 
 	partial class Randomizer
     {
-		// 11 npcs
+		// 13 npcs
 		public static List<int> PriorityNPCs = new()
 		{
 			(int)TreasureFlags.Princess,
+			(int)TreasureFlags.Bikke,
 			(int)TreasureFlags.Astos,
 			(int)TreasureFlags.Matoya,
 			(int)TreasureFlags.ElfPrince,
@@ -26,6 +27,7 @@ namespace FF1PRAP
 			(int)TreasureFlags.Fairy,
 			(int)TreasureFlags.Lefeinman,
 			(int)TreasureFlags.Caravan,
+			(int)TreasureFlags.Bahamut,
 		};
 
 		// 7 chests
@@ -98,37 +100,75 @@ namespace FF1PRAP
 			{ Items.Adamantite, AccessRequirements.Adamantite },
 			{ Items.BottledFaerie, AccessRequirements.BottledFaerie },
 			{ Items.Ship, AccessRequirements.Ship },
+			{ Items.RatsTail, AccessRequirements.RatsTail },
 		};
-		private static List<Items> keyItems = new() { Items.Lute, Items.Ship, Items.Crown, Items.CrystalEye, Items.JoltTonic, Items.MysticKey, Items.NitroPowder, Items.StarRuby, Items.EarthRod, Items.Canoe, Items.RatsTail, Items.Levistone, Items.Oxyale, Items.RosettaStone, Items.Chime, Items.WarpCube, Items.Adamantite, Items.BottledFaerie };
+		private static List<Items> KeyItems = new() { Items.Lute, Items.Ship, Items.Crown, Items.CrystalEye, Items.JoltTonic, Items.MysticKey, Items.NitroPowder, Items.StarRuby, Items.EarthRod, Items.Canoe, Items.RatsTail, Items.Levistone, Items.Oxyale, Items.RosettaStone, Items.Chime, Items.WarpCube, Items.Adamantite, Items.BottledFaerie, Items.JobAll };
 		private static List<Items> progItems = new() { Items.Ship, Items.NitroPowder, Items.Canoe, Items.Levistone };
-		private static List<int> chestLocations = new() { (int)TreasureFlags.MarshChest, (int)TreasureFlags.VampireChest, (int)TreasureFlags.ConeriaChest, (int)TreasureFlags.EyeChest, (int)TreasureFlags.MouseChest, (int)TreasureFlags.MermaidsChest, (int)TreasureFlags.SkyChest };
-		private static List<int> npcLocations = new() { (int)TreasureFlags.Princess, (int)TreasureFlags.Bikke, (int)TreasureFlags.Astos, (int)TreasureFlags.ElfPrince, (int)TreasureFlags.Matoya, (int)TreasureFlags.Sarda, (int)TreasureFlags.CanoeSage, (int)TreasureFlags.CubeBot, (int)TreasureFlags.Fairy, (int)TreasureFlags.Lefeinman, (int)TreasureFlags.Smitt };
-		private static List<Items> plandoItems = new() { Items.Ship };
+		private static List<Items> PlandoItems = new() { Items.Ship };
 
 		public static Dictionary<int, ItemData> ItemPlacement(MT19337 rng)
 		{
 
 			List<ItemData> items = FixedLocations.Where(l => l.Type != LocationType.Event).Select(l => new ItemData() { Id = l.Content, Qty = l.Qty }).ToList();
-
-
 			
-			var standardItems = items.Where(i => !keyItems.Contains((Items)i.Id)).ToList();
-			var adamantitecraft = int.Parse(FF1PR.SessionManager.Options["adamantite_craft"]);
-			List<Items> extraItems = new();
+			// Initial Item Lists
+			var standardItems = items.Where(i => !KeyItems.Contains((Items)i.Id)).ToList();
+			var keyItems = items.Where(i => KeyItems.Contains((Items)i.Id)).ToList();
 
+			foreach (var item in items)
+			{
+				InternalLogger.LogInfo($"Items: {(Items)item.Id}");
+			
+			}
+			
+			
+			var adamantitecraft = int.Parse(FF1PR.SessionManager.Options["adamantite_craft"]);
+			bool marshpath = FF1PR.SessionManager.Options["early_progression"] == Options.MarshPath;
+			bool bahamutpromo = FF1PR.SessionManager.Options["job_promotion"] == "0";
+
+			List<Items> extraItems = new();
+			List<(Items item, int location)> plandoItems = new();
+
+			Items adamantItem = Items.Excalibur;
 			if (adamantitecraft == -1)
 			{
-				extraItems.Add(rng.PickFrom(goodItems));
+				adamantItem = rng.PickFrom(goodItems);
+				//extraItems.Add(rng.PickFrom(goodItems));
 			}
 			else
 			{
-				extraItems.Add((Items)adamantitecraft);
+				adamantItem = (Items)adamantitecraft;
+				//extraItems.Add((Items)adamantitecraft);
 			}
 
+			var adamantData = standardItems.Find(i => i.Id == (int)adamantItem);
+			standardItems.Remove(adamantData);
+			keyItems.Add(adamantData);
+
+			/*
 			foreach (var extraItem in extraItems)
 			{
 				var item = standardItems.Find(i => i.Id == (int)extraItem);
 				standardItems.Remove(item);
+			}*/
+
+			//
+			
+			if (!marshpath) plandoItems.Add((Items.Ship, (int)TreasureFlags.Bikke));
+
+			switch (FF1PR.SessionManager.Options["job_promotion"])
+			{
+				case "0":
+					plandoItems.Add((Items.JobAll, (int)TreasureFlags.Bahamut));
+					break;
+				case "2":
+					standardItems = RemoveItems(standardItems, 5);
+					keyItems = keyItems.Where(i => i.Id != (int)Items.JobAll).ToList();
+					List<Items> promoItems = new() { Items.JobKnight, Items.JobNinja, Items.JobMaster, Items.JobRedWizard, Items.JobWhiteWizard, Items.JobBlackWizard };
+					var favoredJob = rng.TakeFrom(promoItems);
+					keyItems.Add(new ItemData() { Id = (int)favoredJob, Qty = 1 });
+					standardItems.AddRange(promoItems.Select(i => new ItemData() { Id = (int)i, Qty = 1 }));
+					break;
 			}
 
 			// priority locations
@@ -148,10 +188,28 @@ namespace FF1PRAP
 				else if (setting.setting == "exclude") excludedLocations.AddRange(setting.locations);
 			}
 
+			foreach (var location in priorizedLocations)
+			{
+				InternalLogger.LogInfo($"Priority Location: {location}");
+			
+			}
+
+
 
 			// build logic
 			List<LocationData> allLocations = new(FixedLocations);
 			List<LocationData> updatedLocations = new();
+			
+			
+			List<RegionData> regionRules = new(FixedRegions);
+
+			if (marshpath)
+			{
+				regionRules = regionRules
+					.Where(r => FixedRegionsWest.Select(w => w.Region).ToList().Contains(r.Region))
+					.Concat(FixedRegionsWest)
+					.ToList();
+			}
 
 			foreach (var location in allLocations)
 			{
@@ -199,19 +257,30 @@ namespace FF1PRAP
 				int progPlaced = 0;
 				int progCounter = 1;
 
-				List<int> priorityLocations = new(priorizedLocations);
+				List<int> priorityLocations = new(priorizedLocations
+					.Where(l => !plandoItems
+						.Select(p => p.location)
+						.ToList()
+						.Contains(l))
+					.ToList());
 				List<int> excludeLocations = new(excludedLocations);
 				//if (PrioritizeNPCs) priorityLocations.AddRange(npcLocations);
 				//if (PrioritizeChests) priorityLocations.AddRange(chestLocations);
 
-				List<Items> itemsToPlace = new(keyItems.Concat(extraItems));
+				List<Items> itemsToPlace = new(keyItems
+					.Where(k => !plandoItems
+						.Select(p => p.item)
+						.ToList()
+						.Contains((Items)k.Id))
+					.Select(k => (Items)k.Id)
+					.ToList());
 				List<Items> progItemsToPlace = new(progItems);
 
-				int priorityItemsCount = Math.Min(priorityLocations.Count, itemsToPlace.Except(plandoItems).ToList().Count);
-				int looseItemsCount = Math.Max(0, itemsToPlace.Except(plandoItems).ToList().Count - priorityLocations.Count);
+				int priorityItemsCount = Math.Min(priorityLocations.Count, itemsToPlace.Count);
+				int looseItemsCount = Math.Max(0, itemsToPlace.Count - priorityLocations.Count);
 
 
-				InternalLogger.LogInfo($"ItemCount - Priority: {priorityItemsCount} - Loose: {looseItemsCount} - Total: {keyItems.Except(plandoItems).ToList().Count}");
+				InternalLogger.LogInfo($"ItemCount - Priority: {priorityItemsCount} - Loose: {looseItemsCount} - Total: {itemsToPlace.Count}");
 				bool softlock = false;
 
 				placedItems = new();
@@ -221,9 +290,33 @@ namespace FF1PRAP
 				List<LocationData> accessibleLocations = new();
 				List<LocationData> placedLocations = new();
 
-				itemsToPlace.Shuffle(rng);
 
-				ProcessRequirements(AccessRequirements.None, access, unaccessibleLocations, accessibleLocations);
+				List<AccessRequirements> plandoAccess = new();
+
+				foreach (var plandoItem in plandoItems)
+				{
+					var location = unaccessibleLocations.Where(l => l.Flag == plandoItem.location).ToList().First();
+					var removal = unaccessibleLocations.Remove(location);
+					
+					placedItems.Add(location.Flag, new ItemData() { Id = (int)plandoItem.item, Qty = 1 });
+					progItemsToPlace.Remove(plandoItem.item);
+					itemsToPlace.Remove(plandoItem.item);
+
+					if (ItemIdToAccess.TryGetValue(plandoItem.item, out var newaccess))
+					{
+						plandoAccess.Add(newaccess);
+					}
+				}
+
+				ProcessRequirements(plandoAccess, access, unaccessibleLocations, accessibleLocations);
+
+				itemsToPlace.Shuffle(rng);
+				progItemsToPlace.Shuffle(rng);
+				if (progItemsToPlace.Remove(Items.Levistone))
+				{
+					progItemsToPlace.Add(Items.Levistone);
+				}
+
 
 				while (itemsToPlace.Any())
 				{
@@ -232,11 +325,7 @@ namespace FF1PRAP
 					var looseAccessLocations = accessibleLocations.Where(l => !priorityLocations.Contains(l.Flag) && !excludedLocations.Contains(l.Flag)).ToList();
 					List<LocationData> validLocations = new();
 
-					if (itemsToPlace.Contains(Items.Ship))
-					{
-						validLocations = accessibleLocations.Where(l => l.Flag == (int)TreasureFlags.Bikke).ToList();
-					}
-					else if ((priorityAccessLocations.Any() && looseAccessLocations.Any() && diceRoll <= priorityItemsCount) ||
+					if ((priorityAccessLocations.Any() && looseAccessLocations.Any() && diceRoll <= priorityItemsCount) ||
 							(priorityAccessLocations.Any() && !looseAccessLocations.Any()))
 					{
 						InternalLogger.LogInfo($"Sanity Checker - Placing at priority Locations: PriorityLoc: {priorityAccessLocations.Count}  - LooseLocations: {looseAccessLocations.Count}- Priority Item Count: {priorityItemsCount} - Losse Item Count {looseItemsCount} - Dice Roll {diceRoll}");
@@ -254,11 +343,7 @@ namespace FF1PRAP
 
 					Items itemToPlace;
 
-					if (itemsToPlace.Contains(Items.Ship))
-					{
-						itemToPlace = Items.Ship;
-					}
-					else if ((progCounter <= 0 && progItemsToPlace.Any()) || (validLocations.Count == 1 && progItemsToPlace.Any()))
+					if ((progCounter <= 0 && progItemsToPlace.Any()) || (validLocations.Count == 1 && progItemsToPlace.Any()))
 					{
 						itemToPlace = progItemsToPlace.First();
 					}
@@ -273,6 +358,8 @@ namespace FF1PRAP
 						progPlaced++;
 						progCounter = progPlaced + 1;
 					}
+
+					InternalLogger.LogInfo($"Sanity Checker - Placing Item: {itemToPlace}");
 
 					progItemsToPlace.Remove(itemToPlace);
 					itemsToPlace.Remove(itemToPlace);
@@ -302,7 +389,7 @@ namespace FF1PRAP
 
 					if (ItemIdToAccess.TryGetValue(itemToPlace, out var newaccess))
 					{
-						ProcessRequirements(newaccess, access, unaccessibleLocations, accessibleLocations);
+						ProcessRequirements(new() { newaccess }, access, unaccessibleLocations, accessibleLocations);
 					}
 				}
 
@@ -329,8 +416,10 @@ namespace FF1PRAP
 
 			InternalLogger.LogInfo($"SanityCheck - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
 
+
 			standardItems.Shuffle(rng);
 
+			standardItems.Shuffle(rng);
 			// special part for caravan, we can't put Gil in there
 			if (remainingLocations.TryFind(l => l.Flag == (int)TreasureFlags.Caravan, out var caravan))
 			{
@@ -351,10 +440,10 @@ namespace FF1PRAP
 
 			return placedItems;
 		}
-		private static void ProcessRequirements(AccessRequirements newaccess, List<AccessRequirements> currentaccess, List<LocationData> unaccessibleLocations, List<LocationData> accessiblesLocations)
+		private static void ProcessRequirements(List<AccessRequirements> newaccess, List<AccessRequirements> currentaccess, List<LocationData> unaccessibleLocations, List<LocationData> accessiblesLocations)
 		{
 
-			List<AccessRequirements> accessToProcess = new() { newaccess };
+			List<AccessRequirements> accessToProcess = new(newaccess);
 			while (accessToProcess.Any())
 			{
 				currentaccess.Add(accessToProcess.First());
@@ -398,7 +487,18 @@ namespace FF1PRAP
 			}
 		}
 
+		public static List<ItemData> RemoveItems(List<ItemData> items, int qty)
+		{
+			var gpitems = items.Where(i => i.Id == 1).OrderBy(i => i.Qty).Where((g,i) => i < qty).ToList();
+			List<ItemData> workingItems = new(items);
 
+			foreach (var gpitem in gpitems)
+			{
+				workingItems.Remove(gpitem);
+			}
+
+			return workingItems;
+		}
 	}
 
 }

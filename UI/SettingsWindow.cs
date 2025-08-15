@@ -823,17 +823,19 @@ namespace FF1PRAP
 			GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
 			apHeight += 20f * guiScale;
 			
-			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Key Items Placement");
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Items Placement");
 			CreateDropdown(Options.Dict["npcs_priority"].Display, Options.Dict["npcs_priority"]);
 			CreateDropdown(Options.Dict["keychests_priority"].Display, Options.Dict["keychests_priority"]);
 			CreateDropdown(Options.Dict["trapped_priority"].Display, Options.Dict["trapped_priority"]);
 			CreateDropdown(Options.Dict["adamantite_craft"].Display, Options.Dict["adamantite_craft"]);
+			CreateDropdown(Options.Dict["job_promotion"].Display, Options.Dict["job_promotion"]);
 			apHeight += 20f * guiScale;
 			
 			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Shops & Maps");
 			CreateDropdown(Options.Dict["shuffle_gear_shops"].Display, Options.Dict["shuffle_gear_shops"]);
 			CreateDropdown(Options.Dict["shuffle_spells"].Display, Options.Dict["shuffle_spells"]);
 			CreateDropdown(Options.Dict["shuffle_trials_maze"].Display, Options.Dict["shuffle_trials_maze"]);
+			CreateDropdown(Options.Dict["early_progression"].Display, Options.Dict["early_progression"]);
 			apHeight += 20f * guiScale;
 
 			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Scaling");
