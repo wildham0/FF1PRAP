@@ -837,7 +837,7 @@ namespace FF1PRAP
 			{ 219, "Dragon Caves (Plains) - Duo 1" },
 			{ 220, "Dragon Caves (Plains) - Duooo 2" },
 			{ 407, "Dragon Caves - Bahamut" },
-			{ 406, "Caravan" },
+			{ 406, "Onrac Desert - Caravan" },
 			{ 114, "Waterfall Caverns - Chest 1" },
 			{ 115, "Waterfall Caverns - Chest 2" },
 			{ 116, "Waterfall Caverns - Chest 3" },
