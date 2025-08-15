@@ -157,5 +157,14 @@ namespace FF1PRAP
 		DiamonGloves = 198,
 		//
 		ProtectRing = 202,
+
+		JobAll = 500,
+		JobKnight,
+		JobNinja,
+		JobMaster,
+		JobRedWizard,
+		JobWhiteWizard,
+		JobBlackWizard,
+		
 	}
 }

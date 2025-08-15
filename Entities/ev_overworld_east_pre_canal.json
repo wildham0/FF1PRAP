@@ -1391,7 +1391,7 @@
         {
           "gid": 1001,
           "height": 48,
-          "id": 272,
+          "id": 276,
           "name": "\u8df3\u306d\u6a4b\u30aa\u30d6\u30b8\u30a7\u30af\u30c8",
           "properties": [
             {
@@ -1442,7 +1442,7 @@
             {
               "name": "entity_id",
               "type": "int",
-              "value": 197
+              "value": 200
             },
             {
               "name": "flight_altitude_ratio",
@@ -1524,8 +1524,8 @@
           "type": "",
           "visible": true,
           "width": 48,
-          "x": 1552,
-          "y": 2544
+          "x": 2304,
+          "y": 2352
         },
         {
           "gid": 1024,

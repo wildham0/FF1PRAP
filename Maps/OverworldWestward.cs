@@ -10,106 +10,19 @@ using UnityEngine.SocialPlatforms;
 using System.Xml.Linq;
 using System.Net.NetworkInformation;
 using Last.Data.Master;
+using Last.Interpreter;
+using static FF1PRAP.Patches;
 //using Il2CppSystem.Collections.Generic;
 
 namespace FF1PRAP
 {
-
-	public class PatchOp
+	public static class MapPatchesWestward
 	{
-		public int X;
-		public int Y;
-		public int Value;
-
-		public PatchOp(int x, int y, int value)
-		{
-			X = x;
-			Y = y;
-			Value = value;
-		}
-
-		public int Position(int mapx)
-		{
-			return X + mapx * Y;
-		}
-	}
-	public class PatchOpGroup
-	{
-		public int DataId;
-		public List<PatchOp> Operations;
-		public int MapX;
-		public int MapY;
-
-		public PatchOpGroup(int dataid, int x, int y, List<PatchOp> operations)
-		{
-			DataId = dataid;
-			MapX = x;
-			MapY = y;
-			Operations = operations;
-		}
-	}
-
-	public static class MapPatcher
-	{
-		public static string Patch(string mapfile, List<PatchOpGroup> opgroups)
-		{
-			//InternalLogger.LogInfo(mapfile);
-
-			InternalLogger.LogInfo("---MapPatcher---");
-
-			int dataindex = mapfile.IndexOf("data", StringComparison.InvariantCultureIgnoreCase);
-
-			//InternalLogger.LogInfo($"{dataindex}, {testindex}, {vindex}");
-			int currentgroup = 0;
-
-			// Order to be safe
-			opgroups = opgroups.OrderBy(g => g.DataId).ToList();
-
-			foreach (var group in opgroups)
+		public static PatchOpGroup TilemapTiles = new(256, 0, new()
 			{
-				for (int i = currentgroup; i < group.DataId; i++)
-				{
-					dataindex = mapfile.IndexOf("data", dataindex + 1);
-				}
-
-				currentgroup = group.DataId;
-
-				InternalLogger.LogInfo($"Processing DataId {group.DataId} at {dataindex}");
-
-				int currentoffset = dataindex;
-				int currentposition = 0;
-
-				// Order to be safe
-				group.Operations = group.Operations.OrderBy(o => o.Position(group.MapX)).ToList();
-
-				foreach (var op in group.Operations)
-				{
-					for (int i = currentposition; i < op.Position(group.MapX); i++)
-					{
-						currentoffset = mapfile.IndexOf(",", currentoffset + 1);
-					}
-
-					var first = currentoffset;
-					var last = mapfile.IndexOf(",", first + 1) - 1;
-
-
-					mapfile = mapfile.Remove(first + 1, last - first);
-					mapfile = mapfile.Insert(first + 1, $"{op.Value}");
-					currentposition = op.Position(group.MapX);
-
-					InternalLogger.LogInfo($"Insert {op.Value} at ({op.X},{op.Y}) > Offset: {currentoffset}");
-				}
-			}
-
-			return mapfile;
-		}
-	}
-
-	public static class MapPatches
-	{
-		public static List<PatchOpGroup> TilemapWestward = new()
-		{
-			new PatchOpGroup(0, 256, 256, new()
+				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+			}, new()
 			{
 				// Mountain to Marsh
 				new PatchOp(118,129,644),
@@ -187,6 +100,7 @@ namespace FF1PRAP
 
 				new PatchOp(97,164,961),
 
+				/*
 				// Bridge
 				new PatchOp(144,144,72),
 				new PatchOp(145,144,74),
@@ -209,8 +123,14 @@ namespace FF1PRAP
 				new PatchOp(95,157,1699),
 
 				new PatchOp(95,158,1538),
-			}),
-			new PatchOpGroup(1, 256, 256, new()
+				*/
+
+			});
+		public static PatchOpGroup TilemapBottom = new(256, 1, new()
+			{
+				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+			}, new()
 			{
 				// Mountain to Marsh
 				new PatchOp(120,128,154),
@@ -266,6 +186,7 @@ namespace FF1PRAP
 
 				new PatchOp(97,164,1),
 
+				/*
 				// Bridge
 				new PatchOp(144,144,88),
 				new PatchOp(145,144,90),
@@ -286,28 +207,32 @@ namespace FF1PRAP
 
 				new PatchOp(95,157,1699),
 
-				new PatchOp(95,158,1766),
-			}),
+				new PatchOp(95,158,1766),*/
 
-			new PatchOpGroup(2, 256, 256, new()
+			});
+		public static PatchOpGroup TilemapGround = new(256, 2, new()
+			{
+				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+			}, new()
 			{
 				// Mountain to Marsh
 				new PatchOp(98,162,0),
 				new PatchOp(97,163,0),
 
+				/*
 				// Canal Bridge
 				new PatchOp(95,156,1635),
 
 				new PatchOp(95,157,1699),
 
-				new PatchOp(95,158,1766),
-			}),
-		};
-
-		public static List<PatchOpGroup> TransportationWestward = new()
-		{
-			// On Foot
-			new PatchOpGroup(0, 256, 256, new()
+				new PatchOp(95,158,1766),*/
+			});
+		public static PatchOpGroup TransportationFoot = new(256, 0, new()
+			{
+				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+			}, new()
 			{
 				// Mountain to Marsh
 				new PatchOp(120,128,0),
@@ -377,37 +302,34 @@ namespace FF1PRAP
 
 				// Bridge
 				new PatchOp(145,145,1),
-			}),
-			
-			// Canoe
-			new PatchOpGroup(1, 256, 256, new()
+			});
+		public static PatchOpGroup TransportationCanoe = new(256, 1, new()
+			{
+				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+			}, new()
 			{
 				// Mountain to Marsh
 				new PatchOp(96,163,1),
 				new PatchOp(97,163,1),
 				new PatchOp(98,163,1),
-			}),
-		};
-		public static List<PatchOpGroup> AttributeWestward = new()
+			});
+		public static PatchOpGroup Attributes = new(256, 0, new()
 		{
-			// Attributes
-			new PatchOpGroup(0, 256, 256, new()
-			{
-				new PatchOp(95,157,18),
+			//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
+			new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+		}, new()
+		{
+			new PatchOp(95,157,18),
 
-				// River
-				new PatchOp(96,162,4),
-				new PatchOp(97,162,4),
-				new PatchOp(96,163,4),
-				new PatchOp(97,163,4),
-				new PatchOp(98,163,4),
-				new PatchOp(97,164,4),
-				new PatchOp(98,164,4),
-
-				
-
-			}),
-		};
-		public static string TestMap = "zzzzzzzzzzzzzzzzzzzzzzdata: [0,0,0,0,12,2,1,0,4,4,8,1,0,0,555,9]";
+			// River
+			new PatchOp(96,162,4),
+			new PatchOp(97,162,4),
+			new PatchOp(96,163,4),
+			new PatchOp(97,163,4),
+			new PatchOp(98,163,4),
+			new PatchOp(97,164,4),
+			new PatchOp(98,164,4),
+		});
 	}
 }

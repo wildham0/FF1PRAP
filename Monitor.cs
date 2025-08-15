@@ -47,9 +47,9 @@ namespace FF1PRAP
 
 		private static Dictionary<string, List<PatchOpGroup>> MapDataPatches = new()
 		{
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", MapPatches.TilemapWestward },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", MapPatches.TransportationWestward },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/attribute", MapPatches.AttributeWestward },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", new() { MapPatchesWestward.TilemapGround, MapPatchesWestward.TilemapTiles, MapPatchesWestward.TilemapBottom, MapPatchesCanal.BridgeCanalBottom } },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", new() { MapPatchesWestward.TransportationFoot, MapPatchesWestward.TransportationCanoe, MapPatchesCanal.TransportationFoot, MapPatchesCanal.TransportationCanalShip } },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/attribute", new() { MapPatchesWestward.Attributes, MapPatchesCanal.BridgeCanalAttribute } },
 		};
 
 		public MonitorTool() { }
@@ -57,8 +57,8 @@ namespace FF1PRAP
 		public void Update()
 		{
 			ProcessGameState();
-			//ProcessMapData();
-
+			ProcessMapData();
+			
 			if (FF1PR.SessionManager.GameMode == GameModes.Vanilla)
 			{
 				return;
@@ -140,7 +140,7 @@ namespace FF1PRAP
 
 						var assettext = FF1PR.ResourceManager.completeAssetDic[mapdata.Key].Cast<TextAsset>().text;
 
-						assettext = MapPatcher.Patch(assettext, MapDataPatches[mapdata.Key]);
+						assettext = MapPatcher.Patch(assettext, MapDataPatches[mapdata.Key], 256);
 
 						//var assetfile = MapPatcher.Patch(, 0, MapPatches.Westward, 256, 256);
 						var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);
@@ -158,6 +158,7 @@ namespace FF1PRAP
 			if (FF1PR.StateTracker != null)
 			{
 				stateTrackerState = FF1PR.StateTracker.CurrentState;
+				//InternalLogger.LogInfo($"State: {FF1PR.StateTracker.CurrentState}");
 			}
 
 			if (FF1PR.StateTracker.CurrentState == Last.Management.GameStates.Title && GameState == GameStates.InGame)

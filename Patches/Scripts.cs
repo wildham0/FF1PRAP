@@ -90,8 +90,8 @@ namespace FF1PRAP
 		public static Dictionary<string, string> scriptReplacements = new()
 		{
 			{ "sc_e_0001", ScriptBuilder.FromScript(Scripts.Intro, "sc_e_0001") }, // Intro script
-			{ "sc_map_10010", ScriptBuilder.FromJson("sc_overworld") }, // Intro script
-			//{ "sc_map_10010", ScriptBuilder.FromScript(Scripts.Overworld, "sc_overworld_01") }, // Intro script
+			//{ "sc_map_10010", ScriptBuilder.FromJson("sc_overworld") }, // Overworld
+			{ "sc_map_10010", ScriptBuilder.FromScript(Scripts.Overworld, "sc_overworld_01") }, // Overworld
 			// { "sc_map_20020", new ScriptBuilder("sc_empty") }, // Coneria Town
 			 { "sc_map_20011_1", ScriptBuilder.FromScript(Scripts.ConeriaCastle, "sc_map_20011_1") }, // Coneria Castle
 			// { "sc_e_0002_2", new ScriptBuilder("sc_empty") }, // Go see the king
@@ -157,7 +157,7 @@ namespace FF1PRAP
 			// we can shuffle ordeals by just rerouting hhere
 			// no wait, we'll do it in prefix
 			{ "sc_e_0047", ScriptBuilder.FromScript(Scripts.OrdealsChest, "sc_ordealschest") }, // Rat Tail chest
-			//{ "sc_e_0048", new ScriptBuilder("sc_empty") }, // Bahamut
+			{ "sc_bahamut", ScriptBuilder.FromScript(Scripts.Bahamut, "sc_bahamut") }, // Bahamut
 			//{ "sc_e_0023", new ScriptBuilder("sc_empty") }, // Kary
 			//{ "sc_e_0023_2", new ScriptBuilder("sc_empty") }, // Kary Post fight
 			{ "sc_e_0027", ScriptBuilder.FromScript(Scripts.Caravan, "sc_caravan") }, // Caravan

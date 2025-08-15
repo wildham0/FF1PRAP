@@ -57,6 +57,8 @@ namespace FF1PRAP
 		public static string Include = "include";
 		public static string Exclude = "exclude";
 		public static string Prioritize = "prioritize";
+		public static string BikkeShip = "0";
+		public static string MarshPath = "1";
 
 		private static List<Option> optionlist = new()
 		{
@@ -73,8 +75,11 @@ namespace FF1PRAP
 				"Shuffle the content of all Weapon Shops together, and do the same for Armor Shops."),
 			new("shuffle_spells", "Shuffle Spells", new() {  { "1", "Enable" }, {"0", "Disable"} }, "0",
 				"Shuffle Spells amongst their own School."),
+			new("job_promotion", "Job Promotion", new() {  { "0", "Bahamut" }, {"1", "Promote All Item"}, {"2", "Job Item"} }, "0",
+				"Set how Promotion Jobs are handled.\n\nBahamut: Giving the Rat's Tail to Bahamut promote all Characters.\n\nPromote All Item: A Promote All Item is added to the Item Pool, when found all Characters promote. Bahamut becomes a Location.\n\nJob Item: All six Promotion Jobs become an individual Item added to the Item Pool. When acquired, all characters of the corresponding base Job promote. Bahamut becomes a Location."),
 
 			new("shuffle_trials_maze", "Shuffle Trials' Maze", new() {  { "1", "Enable" }, { "0", "Disable" } }, "0", "Shuffle the Pillars Maze on floor 2F of the Citadel of Trials."),
+			new("early_progression", "Early Progression", new() {  { "0", "Bikke's Ship" }, { "1", "Marsh Cave Path" } }, "0", "Set how the world is opened at the start of the game.\n\nBikke's Ship: The Bridge is built from the start and Bikke will always give the Ship.\n\nMarsh Cave Path: Open a path to the West of Coneria that allows you to reach the Marsh Cave area by foot. The Bridge is never built. The Ship is shuffled with other items and Bikke is a Location."),
 
 			new("dungeon_encounter_rate", "Dungeon Encounter Rate", new() {  { "0", "0.0x" }, { "1", "0.25x" }, { "2", "0.5x" }, { "3", "0.75x" }, { "4", "1.0x" }, { "5", "1.25x" }, { "6", "1.5x" }}, "4", "Modify the Encounter Rate in dungeons by the multiplier selected.\n\nNOTE: This option doesn't affect the Boost setting to disable/enable encounters."),
 			new("overworld_encounter_rate", "Overworld Encounter Rate", new() {  { "0", "0.0x" }, { "1", "0.25x" }, { "2", "0.5x" }, { "3", "0.75x" }, { "4", "1.0x" }, { "5", "1.25x" }, { "6", "1.5x" }}, "4", "Modify the Encounter Rate on the Overworld by the multiplier selected.\n\nNOTE: This option doesn't affect the Boost setting to disable/enable encounters."),

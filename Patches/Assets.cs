@@ -17,7 +17,7 @@ namespace FF1PRAP
 	{
 		public static void CheckGroupLoadAssetCompleted_Post(ref bool __result, string addressName)
 		{
-			InternalLogger.LogInfo($"Loading Asset: {addressName}");
+			//InternalLogger.LogInfo($"Loading Asset: {addressName}");
 
 			if(Monitor.instance != null) Monitor.instance.CheckForMap(addressName);
 
@@ -38,8 +38,11 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20031/Map_20031_1/entity_default", "ev_matoya_chests" },
 			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", "tm_overworld" },
 			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", "ts_overworld" },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0007", "ev_overworld_pre_canal" },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld_post_canal" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/entity_default", "ev_overworld_entity" },
+			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0006", "ev_overworld_west_pre_canal" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0007", "ev_overworld_west" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld_east" },
+			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0015", "ev_overworld_east_post_canal" },
 			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20011/Map_20011_1/ev_e_0014", "ev_coneriacastle_1" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20011/Map_20011_2/ev_e_0004", "ev_coneriacastle_from_teleport" },
@@ -54,6 +57,7 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30031/Map_30041_3/ev_e_0016", "ev_earth_b3" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30071/Map_30071_1/ev_e_0046", "ev_ordeals" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30071/Map_30071_2/entity_default", "ev_ordealsmaze" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20121/Map_20121_3/entity_default", "ev_bahamut" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20090/Map_20090/ev_e_0034", "ev_melmond" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30101/Map_30101_3/ev_e_0027", "ev_cubewarp" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30121/Map_30121_3/ev_e_0039", "ev_lute_floor" },

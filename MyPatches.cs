@@ -851,6 +851,19 @@ namespace FF1PRAP
 				}
 			}*/
 		}
+
+		public static void ConfigLoadStart()
+		{
+			InternalLogger.LogInfo("Load Start");
+		}
+		public static void ConfigReloadScene()
+		{
+			InternalLogger.LogInfo("Config Reload");
+		}
+		public static void ConfigTitleBack()
+		{
+			InternalLogger.LogInfo("Title Back");
+		}
 	}
 	public enum SaveInfoModes
 	{ 
