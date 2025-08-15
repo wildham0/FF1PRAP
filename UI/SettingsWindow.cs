@@ -212,11 +212,11 @@ namespace FF1PRAP
 			screenWidth = Screen.width;
 			screenHeight = Screen.height;
 
-			if (Screen.width == 3840 && Screen.height == 2160)
+			if (Screen.height >= 2160)
 			{
 				guiScale = 1.25f;
 			}
-			else if (Screen.width == 1280 && Screen.height <= 800)
+			else if (Screen.height <= 800)
 			{
 				guiScale = 0.75f;
 			}
@@ -242,7 +242,7 @@ namespace FF1PRAP
 				if (screenWidth != Screen.width || screenHeight != Screen.height || windowTexture == null)
 				{
 					CalcGuiScale();
-					standardWindowRect = new Rect(20f, (float)Screen.height * 0.12f, 430f * guiScale, 600f * guiScale);
+					standardWindowRect = new Rect(20f, (float)Screen.height * 0.12f, 440f * guiScale, 600f * guiScale);
 					windowTexture = WindowTexture.GenerateWindowTexture(standardWindowRect);
 					windowSkin = WindowTexture.CreateWindowSyle(windowTexture);
 
@@ -274,7 +274,7 @@ namespace FF1PRAP
 				// Show ToolTips
 				if (currentToolTip != null)
 				{
-					Rect sideSettingsWindow = new Rect(460f * guiScale, standardWindowRect.y, standardWindowRect.width, standardWindowRect.height);
+					Rect sideSettingsWindow = new Rect(440f * guiScale + 30f, standardWindowRect.y, standardWindowRect.width, standardWindowRect.height);
 					GUI.Window(104, sideSettingsWindow, new Action<int>(ToolTipWindow), currentToolTip.Display);
 
 					if (FF1PR.TitleWindowController != null)
@@ -398,10 +398,10 @@ namespace FF1PRAP
 				}
 			}
 		}
-		private static float GetApHeight(float increment)
+		private static float GetApHeight(float increment, bool scale = false)
 		{
 			var oldApHeight = apHeight;
-			apHeight += increment * guiScale;
+			apHeight += increment * (scale ? guiScale : 1.0f);
 			return oldApHeight;
 		}
 		public static Rect ScaledRect(float x, float y, float width, float height)
@@ -444,7 +444,7 @@ namespace FF1PRAP
 
 			string pointer = showOptions ? "▼" : "▶";
 
-			if (GUI.Button(new Rect(apMargin, GetApHeight(30f), 300f, 30f), pointer + " " + label + ": " + currentSelection))
+			if (GUI.Button(ScaledRect(apMargin, GetApHeight(30f), 300f, 30f), pointer + " " + label + ": " + currentSelection))
 			{
 				currentOptionShowing = showOptions ? "" : label;
 			}
@@ -455,7 +455,7 @@ namespace FF1PRAP
 			{
 				foreach (var choice in option.Choices)
 				{
-					if (GUI.Button(new Rect((apMargin + 20f), GetApHeight(30f), 280f, 30f), choice.Value))
+					if (GUI.Button(ScaledRect((apMargin + 20f), GetApHeight(30f), 280f, 30f), choice.Value))
 					{
 						FF1PR.SessionManager.Options[option.Key] = choice.Key;
 						currentOptionShowing = "";
@@ -491,7 +491,7 @@ namespace FF1PRAP
 
 			string pointer = showOptions ? "▼" : "▶";
 
-			if (GUI.Button(new Rect(apMargin, GetApHeight(30f), 300f, 30f), pointer + " " + currentSelection))
+			if (GUI.Button(ScaledRect(apMargin, GetApHeight(30f), 300f, 30f), pointer + " " + currentSelection))
 			{
 				currentOptionShowing = showOptions ? "" : label;
 			}
@@ -503,7 +503,7 @@ namespace FF1PRAP
 			{
 				foreach (var choice in options)
 				{
-					if (GUI.Button(new Rect((apMargin + 20f), GetApHeight(30f), 280f, 30f), choice))
+					if (GUI.Button(ScaledRect((apMargin + 20f), GetApHeight(30f), 280f, 30f), choice))
 					{
 						choicepicked = choice;
 						currentOptionShowing = "";
@@ -542,7 +542,7 @@ namespace FF1PRAP
 
 			string pointer = showOptions ? "▼" : "▶";
 
-			if (GUI.Button(new Rect(apMargin, GetApHeight(30f), 340f, 30f), pointer + " " + label + ": " + currentSelection))
+			if (GUI.Button(ScaledRect(apMargin, GetApHeight(30f), 340f, 30f), pointer + " " + label + ": " + currentSelection))
 			{
 				currentOptionShowing = showOptions ? "" : label;
 			}
@@ -553,7 +553,7 @@ namespace FF1PRAP
 			{
 				foreach (var choice in gameModeOption)
 				{
-					if (GUI.Button(new Rect((apMargin + 20f), GetApHeight(30f), 320f, 30f), choice.Value))
+					if (GUI.Button(ScaledRect((apMargin + 20f), GetApHeight(30f), 320f, 30f), choice.Value))
 					{
 						FF1PR.SessionManager.GameMode = choice.Key;
 						currentOptionShowing = "";
@@ -581,11 +581,11 @@ namespace FF1PRAP
 
 			GUI.skin.window.wordWrap = true;
 
-			GUI.Label(ScaledRect(apMargin, 60f, standardWindowRect.width - (apMargin * 3), (standardWindowRect.height - 200f) * guiScale), currentToolTip.Description);
+			GUI.Label(new Rect(apMargin * guiScale, 60f * guiScale, standardWindowRect.width - (apMargin * 3 * guiScale), (standardWindowRect.height - 200f) * guiScale), currentToolTip.Description);
 
 			GUI.skin.window.wordWrap = false;
 
-			if (GUI.Button(ScaledRect(apMargin, standardWindowRect.height - 60f, 100f, 30f), "Close"))
+			if (GUI.Button(new Rect(apMargin * guiScale, standardWindowRect.height - (apMargin * 3 * guiScale), 100f, 30f), "Close"))
 			{
 				currentToolTip = null;
 				if (FF1PR.TitleWindowController != null)
@@ -606,7 +606,7 @@ namespace FF1PRAP
 			GUI.contentColor = new Color(0.96f, 0.96f, 0.96f, 1.0f);
 
 			apHeight = 0f;
-			scrollPosition = GUI.BeginScrollView(new Rect(apMargin * guiScale, apMargin * 3f * guiScale, standardWindowRect.width - (apMargin * 2f * guiScale), standardWindowRect.height - (apMargin * 4f * guiScale)), scrollPosition, new Rect(0, 0, standardWindowRect.width - (apMargin * 3f * guiScale), lastApHeight));
+			scrollPosition = GUI.BeginScrollView(new Rect(apMargin * guiScale, apMargin * 3f * guiScale, standardWindowRect.width - (apMargin * 2f * guiScale), standardWindowRect.height - (apMargin * 4f * guiScale)), scrollPosition, new Rect(0, 0, standardWindowRect.width - (apMargin * 2f * guiScale) -20f, lastApHeight));
 
 			CreateGameModeDropdown("Game Mode");
 			apHeight += 20f * guiScale;
@@ -640,7 +640,7 @@ namespace FF1PRAP
 
 			string genlabel = generationReady ? "Randomization done. You can start a new game to play with these settings." : "Click Generate to randomize a new game or load a save file to continue a previously randomize game.";
 			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
-			GUI.Label(ScaledRect(apMargin, GetApHeight(80f), 360f, 30f), genlabel);
+			GUI.Label(ScaledRect(apMargin, GetApHeight(80f), 340f, 30f), genlabel);
 
 			// Add rando options
 			AddRandoOptions();
@@ -662,12 +662,12 @@ namespace FF1PRAP
 			GUI.contentColor = new Color(0.96f, 0.96f, 0.96f, 1.0f);
 
 			apHeight = 0f;
-			scrollPosition = GUI.BeginScrollView(new Rect(apMargin * guiScale, apMargin * 3f * guiScale, standardWindowRect.width - (apMargin * 2f * guiScale), standardWindowRect.height - (apMargin * 4f * guiScale)), scrollPosition, new Rect(0, 0, standardWindowRect.width - (apMargin * 3f * guiScale), lastApHeight));
+			scrollPosition = GUI.BeginScrollView(new Rect(apMargin * guiScale, apMargin * 3f * guiScale, standardWindowRect.width - (apMargin * 2f * guiScale), standardWindowRect.height - (apMargin * 4f * guiScale)), scrollPosition, new Rect(0, 0, standardWindowRect.width - (apMargin * 2f * guiScale) - 20f, lastApHeight));
 
 			CreateGameModeDropdown("Game Mode");
 			apHeight += 20f * guiScale;
 
-			GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 500f, 30f), $"Player: {FF1PR.SessionManager.Data.Player}");
+			GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 350f, 30f), $"Player: {FF1PR.SessionManager.Data.Player}");
 			GUI.Label(ScaledRect(apMargin, apHeight, 70f, 30f), $"Status:");
 			if (Archipelago.instance.integration != null && Archipelago.instance.integration.connected)
 			{
@@ -708,7 +708,7 @@ namespace FF1PRAP
 
 			string pointer = ShowAPSettingsWindow ? "▼ Hide Connection Info" : "▶ Edit Connection Info";
 
-			if (GUI.Button(new Rect(apMargin, GetApHeight(50f), 340f, 30f), pointer))
+			if (GUI.Button(ScaledRect(apMargin, GetApHeight(50f), 340f, 30f), pointer))
 			{
 				ShowAPSettingsWindow = !ShowAPSettingsWindow;
 				if (ShowAPSettingsWindow)
@@ -723,6 +723,7 @@ namespace FF1PRAP
 			if (ShowAPSettingsWindow)
 			{
 				//Player name
+				
 				GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
 				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 340f, 30f), $"Player: {textWithCursor(getConnectionSetting("Player"), editingFlags["Player"], true)}");
 
@@ -781,11 +782,11 @@ namespace FF1PRAP
 				if (ClearPort) handleClearButton("Port");
 				
 				apHeight += 50f * guiScale;
-
+				
 				//Password
 				GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
 				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 340f, 30f), $"Password: {textWithCursor(getConnectionSetting("Password"), editingFlags["Password"], showPassword)}");
-
+				
 				string passwordVisibility = CreateGenericDropdown("Password Visibility", new List<string>() { "Show", "Hide" }, showPassword ? "Show" : "Hide");
 
 				if (passwordVisibility != "")

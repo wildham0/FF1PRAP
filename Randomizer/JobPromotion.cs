@@ -12,6 +12,12 @@ namespace FF1PRAP
 {
 	partial class Randomizer
     {
+		public enum JobPromotionModes
+		{ 
+			Bahamut = 0,
+			AllJobsItem,
+			JobItems,
+		}
 		public static void GeneratePromoItems()
 		{
 			// Job Items

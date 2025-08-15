@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using Archipelago.MultiClient.Net.Converters;
 using FF1PRAP;
 using Last.Interpreter;
+using Last.Management;
 
 namespace FF1PRAP {
 	public class ArchipelagoIntegration {

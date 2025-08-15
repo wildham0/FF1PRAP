@@ -33,13 +33,8 @@ This is a mod to add Archipelago support to Final Fantasy 1 Pixel Remaster (FF1P
 
 
 ## Helpful Tips
-- Only Items are shuffled for now.
-- Items will only be effective after leaving the map you're currently on and re-entering (ie the Dwarf's Cave door will not be unlocked by the Mystic Key if you receive it while on that map, you'll have to leave, then come back).
-- The Bridge is built from the start, the King isn't a check.
-- Bikke always gives the Ship.
+- The King isn't a Location.
 - Nerrick always builds the Canal.
-- The Caravan always sells the Bottle.
-
 
 ## Credits
 - silent-destroyer, for the Tunic Randomizer which was used extensively as a basis for this mod.

@@ -104,8 +104,6 @@ namespace FF1PRAP
 		};
 		private static List<Items> KeyItems = new() { Items.Lute, Items.Ship, Items.Crown, Items.CrystalEye, Items.JoltTonic, Items.MysticKey, Items.NitroPowder, Items.StarRuby, Items.EarthRod, Items.Canoe, Items.RatsTail, Items.Levistone, Items.Oxyale, Items.RosettaStone, Items.Chime, Items.WarpCube, Items.Adamantite, Items.BottledFaerie, Items.JobAll };
 		private static List<Items> progItems = new() { Items.Ship, Items.NitroPowder, Items.Canoe, Items.Levistone };
-		private static List<Items> PlandoItems = new() { Items.Ship };
-
 		public static Dictionary<int, ItemData> ItemPlacement(MT19337 rng)
 		{
 
@@ -291,7 +289,7 @@ namespace FF1PRAP
 				List<LocationData> placedLocations = new();
 
 
-				List<AccessRequirements> plandoAccess = new();
+				List<AccessRequirements> plandoAccess = new() { AccessRequirements.None };
 
 				foreach (var plandoItem in plandoItems)
 				{

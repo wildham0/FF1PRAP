@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Unity.Jobs;
 using UnityEngine;
 using static Serial.FF1.Management.StatusUpProvider;
+using Last.Management;
 
 namespace FF1PRAP
 {
@@ -28,12 +29,11 @@ namespace FF1PRAP
 		}
 		public static void Items_Postfix(Content targetData, int count)
 		{
-
 			if (Randomizer.ItemIdToFlag.TryGetValue(targetData.Id, out var flag))
 			{
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, flag, 1);
 
-				InternalLogger.LogInfo($"Flag {flag} set by item");
+				InternalLogger.LogInfo($"Flag {flag} set by {(Items)targetData.Id}");
 
 				UpdateEntities();
 

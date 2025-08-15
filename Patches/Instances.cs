@@ -55,6 +55,8 @@ namespace FF1PRAP
 		// OwnedItems
 		private static void OwnedItemClientInit_Postfix(Last.Management.OwnedItemClient __instance)
 		{
+			//InternalLogger.LogInfo($"OwnedItemClient initialization; last instance was null? {FF1PR.OwnedItemsClient == null}");
+			
 			if (FF1PR.OwnedItemsClient == null)
 			{
 				FF1PR.OwnedItemsClient = __instance;

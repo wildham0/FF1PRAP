@@ -127,10 +127,13 @@ namespace FF1PRAP
 		{
 			//InternalLogger.LogInfo(mapfile);
 
-			InternalLogger.LogInfo("---MapPatcher---");
-
+			//InternalLogger.LogInfo("---MapPatcher---");
+			/*
+			var filepath = mapfile.Split('/');
+			var filename = filepath[filepath.Count() - 2] + "/" + filepath[filepath.Count() - 1];
+			*/
 			int dataindex = mapfile.IndexOf("data", StringComparison.InvariantCultureIgnoreCase);
-
+			
 
 			Dictionary<int, List<PatchOp>> operationsGroups = new();
 			foreach (var opgroup in opgroups)
@@ -145,12 +148,12 @@ namespace FF1PRAP
 					{
 						operationsGroups[opgroup.DataId].AddRange(opgroup.Operations);
 					}
-					
 				}
 			}
 
 			operationsGroups = operationsGroups.OrderBy(o => o.Key).ToDictionary(o => o.Key, o => o.Value);
 
+			InternalLogger.LogInfo($"MapPatcher: OpGroup to Apply: {operationsGroups.Count}.");
 
 			//InternalLogger.LogInfo($"{dataindex}, {testindex}, {vindex}");
 			int currentgroup = 0;
@@ -167,7 +170,7 @@ namespace FF1PRAP
 
 				currentgroup = datagroup.Key;
 
-				InternalLogger.LogInfo($"Processing DataId {datagroup.Key} at {dataindex}");
+				//InternalLogger.LogInfo($"MapPatcher: Processing DataId {datagroup.Key} at {dataindex}");
 
 				int currentoffset = dataindex;
 				int currentposition = 0;
@@ -190,7 +193,7 @@ namespace FF1PRAP
 					mapfile = mapfile.Insert(first + 1, $"{op.Value}");
 					currentposition = op.Position(mapx);
 
-					InternalLogger.LogInfo($"Insert {op.Value} at ({op.X},{op.Y}) > Offset: {currentoffset}");
+					//InternalLogger.LogInfo($"Insert {op.Value} at ({op.X},{op.Y}) > Offset: {currentoffset}");
 				}
 			}
 

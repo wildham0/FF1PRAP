@@ -90,7 +90,6 @@ namespace FF1PRAP
 		public static Dictionary<string, string> scriptReplacements = new()
 		{
 			{ "sc_e_0001", ScriptBuilder.FromScript(Scripts.Intro, "sc_e_0001") }, // Intro script
-			//{ "sc_map_10010", ScriptBuilder.FromJson("sc_overworld") }, // Overworld
 			{ "sc_map_10010", ScriptBuilder.FromScript(Scripts.Overworld, "sc_overworld_01") }, // Overworld
 			// { "sc_map_20020", new ScriptBuilder("sc_empty") }, // Coneria Town
 			 { "sc_map_20011_1", ScriptBuilder.FromScript(Scripts.ConeriaCastle, "sc_map_20011_1") }, // Coneria Castle
@@ -148,14 +147,12 @@ namespace FF1PRAP
 			{ "sc_e_0024_2", ScriptBuilder.FromJson("sc_eye_chest") }, // Floater Post Fight
 			//{ "sc_e_0025", new ScriptBuilder("sc_empty") }, // Airship Rise
 			{ "sc_ordealsman", ScriptBuilder.FromScript(Scripts.OrdealsMan, "sc_ordealsman") }, // Ordeals dude / sc_e_0046
-			//{ "sc_map_30071_2", ScriptBuilder.FromScript(Scripts.OrdealsMan, "sc_ordealsmaze") }, // Ordeals dude
-			{ "sc_ordeals_1010", ScriptBuilder.FromJson("sc_ordeals_1010") }, // Add pillars script so they can be individually shuffled
+			// Add pillars script so they can be individually shuffled
+			{ "sc_ordeals_1010", ScriptBuilder.FromJson("sc_ordeals_1010") }, 
 			{ "sc_ordeals_1011", ScriptBuilder.FromJson("sc_ordeals_1011") },
 			{ "sc_ordeals_1012", ScriptBuilder.FromJson("sc_ordeals_1012") },
 			{ "sc_ordeals_1013", ScriptBuilder.FromJson("sc_ordeals_1013") },
 			{ "sc_ordeals_1014", ScriptBuilder.FromJson("sc_ordeals_1014") },
-			// we can shuffle ordeals by just rerouting hhere
-			// no wait, we'll do it in prefix
 			{ "sc_e_0047", ScriptBuilder.FromScript(Scripts.OrdealsChest, "sc_ordealschest") }, // Rat Tail chest
 			{ "sc_bahamut", ScriptBuilder.FromScript(Scripts.Bahamut, "sc_bahamut") }, // Bahamut
 			//{ "sc_e_0023", new ScriptBuilder("sc_empty") }, // Kary
@@ -186,9 +183,6 @@ namespace FF1PRAP
 			{ "sc_e_0044", ScriptBuilder.FromJson("sc_chaos_fight") }, // Chaos
 			{ "sc_chaosdefeated", ScriptBuilder.FromScript(Scripts.ChaosDefeated, "sc_chaosdefeated") }, // Chaos Post fight
 			//{ "sc_e_0044_1", new ScriptBuilder("sc_empty") }, // Chaos Post fight
-			{ "ms_test", ScriptBuilder.FromScript(Scripts.testscript, "ms_test") }, // Lute Slab
-			{ "sc_empty", ScriptBuilder.FromJson("sc_empty") }, // Chaos Post fight
-			{ "sc_comeback", ScriptBuilder.FromScript(Scripts.comeback, "sc_combeack") }, // Chaos Post fight
 		};
 	}
 }

@@ -35,15 +35,9 @@ namespace FF1PRAP
 
 		public static Dictionary<string, string> assetsToReplace = new()
 		{
-			{ "Assets/GameAssets/Serial/Res/Map/Map_20031/Map_20031_1/entity_default", "ev_matoya_chests" },
-			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", "tm_overworld" },
-			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", "ts_overworld" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/entity_default", "ev_overworld_entity" },
-			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0006", "ev_overworld_west_pre_canal" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0007", "ev_overworld_west" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld_east" },
-			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0015", "ev_overworld_east_post_canal" },
-			//{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/ev_e_0025", "ev_overworld" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20011/Map_20011_1/ev_e_0014", "ev_coneriacastle_1" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20011/Map_20011_2/ev_e_0004", "ev_coneriacastle_from_teleport" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30011/Map_30011_1/ev_e_0014", "ev_templeoffiends" },

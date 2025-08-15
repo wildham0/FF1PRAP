@@ -470,23 +470,5 @@ namespace FF1PRAP
 			"ChangeScript sc_e_0044_1",
 			"Exit",
 		};
-		public static List<string> testscript = new()
-		{
-			"MainSub:",
-			"Nop",
-			//"AddTelepoCache 72 2 21 1",
-			"ChangeScript sc_map_20051_1",
-			//"ChangeMap 21 1 sc_comeback",
-			"Exit"
-		};
-
-		public static List<string> comeback = new()
-		{
-			"MainSub:",
-			"Nop",
-			"FadeIn 0.7 255",
-			"ChangeScript sc_map_20051_1",
-			"Exit"
-		};
 	};
 }

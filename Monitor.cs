@@ -11,33 +11,27 @@ using static UnityEngine.GridBrushBase;
 using Il2CppSystem;
 using Last.Data.Master;
 using Last.UI.KeyInput;
+using Last.Management;
 
 namespace FF1PRAP
-{
-	public enum GameStates
-	{
-		Title,
-		Loading,
-		InGame
-	}
-	public enum ProcessStates
+{	public enum ProcessStates
 	{ 
 		Reset,
 		InitGame,
 		LoadGame,
 		NewGame,
+		ResetAndInitGame,
 		None
 	}
 	public class MonitorTool
 	{
-
 		public GameStates GameState = GameStates.Title;
 		public ProcessStates ProcessState = ProcessStates.InitGame;
 		public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
 		public Last.Defaine.MenuCommandId MainMenuState = Last.Defaine.MenuCommandId.Non;
-		//public bool checkForMap = false;
-		//public SaveWindowController.State SaveMenuState = SaveWindowController.State.None;
 		private bool newGameProcessed = false;
+		private bool nowLoading = false;
+
 		public Dictionary<string, bool> MapDataUpdate = new()
 		{
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", false },
@@ -63,15 +57,27 @@ namespace FF1PRAP
 			{
 				return;
 			}
+			
+			//InternalLogger.LogInfo($"Process State: {ProcessState}; Loading: {LoadingState}; Game: {GameState}: StateTracker: {(FF1PR.StateTracker != null ? FF1PR.StateTracker.CurrentState + " + " + FF1PR.StateTracker.CurrentSubState : "null")}");
 
 			if (ProcessState == ProcessStates.Reset)
 			{
+				InternalLogger.LogInfo($"Randomizer Settings Reset.");
 				ProcessState = ProcessStates.None;
 				FF1PR.OwnedItemsClient = null;
 				newGameProcessed = false;
 			}
 			else if (GameState == GameStates.Title && ProcessState == ProcessStates.InitGame)
 			{
+				Initialization.ApplyBaseGameModifications();
+				ProcessState = ProcessStates.None;
+			}
+			else if (GameState == GameStates.Title && ProcessState == ProcessStates.ResetAndInitGame)
+			{
+				InternalLogger.LogInfo($"Randomizer Settings Reset + Game Intialization.");
+				FF1PR.OwnedItemsClient = null;
+				newGameProcessed = false;
+				FF1PR.SessionManager.RandomizerInitialized = false;
 				Initialization.ApplyBaseGameModifications();
 				ProcessState = ProcessStates.None;
 			}
@@ -139,12 +145,16 @@ namespace FF1PRAP
 					{
 
 						var assettext = FF1PR.ResourceManager.completeAssetDic[mapdata.Key].Cast<TextAsset>().text;
+						var assetnameparts = mapdata.Key.Split('/');
+						var assetname = assetnameparts.Last();
+						var filename = assetnameparts[assetnameparts.Count() - 2] + "/" + assetnameparts[assetnameparts.Count() - 1];
+						InternalLogger.LogInfo($"MapPatcher: Patching {filename}.");
 
 						assettext = MapPatcher.Patch(assettext, MapDataPatches[mapdata.Key], 256);
 
 						//var assetfile = MapPatcher.Patch(, 0, MapPatches.Westward, 256, 256);
 						var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);
-						var assetname = mapdata.Key.Split('/').Last();
+						
 						FF1PR.ResourceManager.completeAssetDic[mapdata.Key] = textasset;
 						MapDataUpdate[mapdata.Key] = false;
 					}
@@ -153,31 +163,27 @@ namespace FF1PRAP
 		}
 		private void ProcessGameState()
 		{
-			var stateTrackerState = Last.Management.GameStates.Boot;
+			//var stateTrackerState = Last.Management.GameStates.Boot;
+			var currentState = Last.Management.GameStates.Boot;
 
 			if (FF1PR.StateTracker != null)
 			{
-				stateTrackerState = FF1PR.StateTracker.CurrentState;
+				currentState = FF1PR.StateTracker.CurrentState;
 				//InternalLogger.LogInfo($"State: {FF1PR.StateTracker.CurrentState}");
 			}
 
-			if (FF1PR.StateTracker.CurrentState == Last.Management.GameStates.Title && GameState == GameStates.InGame)
+			if (currentState == GameStates.Title && GameState == GameStates.InGame)
 			{
 				ProcessState = ProcessStates.Reset;
-				GameState = GameStates.Title;
 			}
-			else if (LoadingState != SystemIndicator.Mode.kNone)
+			else if(currentState == GameStates.Splash && (GameState == GameStates.InGame || GameState == GameStates.Title))
 			{
-				GameState = GameStates.Loading;
+				ProcessState = ProcessStates.ResetAndInitGame;
 			}
-			else if(LoadingState == SystemIndicator.Mode.kNone && stateTrackerState == Last.Management.GameStates.Title)
-			{
-				GameState = GameStates.Title;
-			}
-			else if (LoadingState == SystemIndicator.Mode.kNone && stateTrackerState == Last.Management.GameStates.InGame)
-			{
-				GameState = GameStates.InGame;
-			}
+
+			nowLoading = LoadingState != SystemIndicator.Mode.kNone;
+
+			GameState = nowLoading ? GameStates.None : currentState;
 		}
 	}
 

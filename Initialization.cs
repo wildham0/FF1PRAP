@@ -170,8 +170,8 @@ namespace FF1PRAP
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 7, 1); // Bridge Intro
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 8, 1); // Matoya Cutscene
 
-
-			if (FF1PR.SessionManager.Options["early_progression"] == Options.MarshPath)
+			// should be RandomizerData
+			if (Randomizer.RandomizerData.EarlyProgression == Randomizer.EarlyProgressionModes.MarshPath)
 			{
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 1);
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 0); // Bridge 
@@ -182,7 +182,7 @@ namespace FF1PRAP
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
 			}
 
-			if (FF1PR.SessionManager.Options["job_promotion"] != "0")
+			if (Randomizer.RandomizerData.JobPromotion != Randomizer.JobPromotionModes.Bahamut)
 			{
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BahamutGivesItem, 1);
 			}
