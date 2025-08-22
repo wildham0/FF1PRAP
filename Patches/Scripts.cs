@@ -134,7 +134,7 @@ namespace FF1PRAP
 			//{ "sc_e_0016_2", new ScriptBuilder("sc_empty") }, // Vampire Post fight
 			{ "sc_e_0017", ScriptBuilder.FromScript(Scripts.VampireChest, "sc_vampirechest_01") }, // Ruby Chest
 			//{ "sc_e_0017", new ScriptBuilder("sc_empty") }, // Slab
-			//{ "sc_e_0018", new ScriptBuilder("sc_empty") }, // Titan
+			{ "sc_e_0018", ScriptBuilder.FromJson("sc_titan") }, // Titan
 			{ "sc_map_20101_1", ScriptBuilder.FromScript(Scripts.SardaCave, "sc_sardacavemap_01") }, // Sarda Cave
 			{ "sc_e_0019", ScriptBuilder.FromScript(Scripts.Sarda, "sc_sarda_01") }, // Sarda
 			//{ "sc_e_0020", new ScriptBuilder("sc_empty") }, // Earth Rod

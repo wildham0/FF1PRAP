@@ -37,6 +37,8 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", false },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", false },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/attribute", false },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/tilemap", false },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/collision", false },
 		};
 
 		private static Dictionary<string, List<PatchOpGroup>> MapDataPatches = new()
@@ -44,6 +46,8 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", new() { MapPatchesWestward.TilemapGround, MapPatchesWestward.TilemapTiles, MapPatchesWestward.TilemapBottom, MapPatchesCanal.BridgeCanalBottom } },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", new() { MapPatchesWestward.TransportationFoot, MapPatchesWestward.TransportationCanoe, MapPatchesCanal.TransportationFoot, MapPatchesCanal.TransportationCanalShip } },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/attribute", new() { MapPatchesWestward.Attributes, MapPatchesCanal.BridgeCanalAttribute } },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/tilemap", new() { MapPatchesTitanTunnel.TilemapTiles } },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/collision", new() { MapPatchesTitanTunnel.Collision } },
 		};
 
 		public MonitorTool() { }
@@ -150,7 +154,7 @@ namespace FF1PRAP
 						var filename = assetnameparts[assetnameparts.Count() - 2] + "/" + assetnameparts[assetnameparts.Count() - 1];
 						InternalLogger.LogInfo($"MapPatcher: Patching {filename}.");
 
-						assettext = MapPatcher.Patch(assettext, MapDataPatches[mapdata.Key], 256);
+						assettext = MapPatcher.Patch(assettext, MapDataPatches[mapdata.Key]);
 
 						//var assetfile = MapPatcher.Patch(, 0, MapPatches.Westward, 256, 256);
 						var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);

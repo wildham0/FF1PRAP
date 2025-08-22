@@ -162,7 +162,7 @@ namespace FF1PRAP
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.RatsTail, 1);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
-			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.NitroPowder, 1);
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.StarRuby, 1);
 			*/
 			// Set Flags
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria

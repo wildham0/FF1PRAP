@@ -49,6 +49,7 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20071/Map_20071_1/ev_e_0014", "ev_elflandcastle" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20051/Map_20051_1/ev_e_0014", "ev_dwarf_cave" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30031/Map_30041_3/ev_e_0016", "ev_earth_b3" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/ev_e_0018", "ev_titan" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30071/Map_30071_1/ev_e_0046", "ev_ordeals" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30071/Map_30071_2/entity_default", "ev_ordealsmaze" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20121/Map_20121_3/entity_default", "ev_bahamut" },

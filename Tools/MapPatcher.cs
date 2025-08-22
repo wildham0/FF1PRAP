@@ -123,7 +123,7 @@ namespace FF1PRAP
 
 	public static class MapPatcher
 	{
-		public static string Patch(string mapfile, List<PatchOpGroup> opgroups, int mapx)
+		public static string Patch(string mapfile, List<PatchOpGroup> opgroups)
 		{
 			//InternalLogger.LogInfo(mapfile);
 
@@ -154,6 +154,8 @@ namespace FF1PRAP
 			operationsGroups = operationsGroups.OrderBy(o => o.Key).ToDictionary(o => o.Key, o => o.Value);
 
 			InternalLogger.LogInfo($"MapPatcher: OpGroup to Apply: {operationsGroups.Count}.");
+
+			int mapx = opgroups.First().MapX;
 
 			//InternalLogger.LogInfo($"{dataindex}, {testindex}, {vindex}");
 			int currentgroup = 0;

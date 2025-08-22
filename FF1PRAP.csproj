@@ -44,6 +44,7 @@
     <EmbeddedResource Include="Entities\ev_earth_b3.json" />
     <EmbeddedResource Include="Entities\ev_nwcastle.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_1.json" />
+    <EmbeddedResource Include="Entities\ev_titan.json" />
     <EmbeddedResource Include="Entities\ev_templeoffiends_beyond.json" />
     <EmbeddedResource Include="Entities\ev_templeoffiends_blackorb.json" />
     <EmbeddedResource Include="Entities\ev_templeoffiends.json" />
@@ -61,6 +62,7 @@
     <EmbeddedResource Include="Scripts\sc_marsh_bottom.json" />
     <EmbeddedResource Include="Scripts\sc_earth_b3.json" />
     <EmbeddedResource Include="Scripts\sc_ordeals_1010.json" />
+    <EmbeddedResource Include="Scripts\sc_titan.json" />
     <EmbeddedResource Include="Scripts\sc_smitt.json" />
     <EmbeddedResource Include="Scripts\sc_sky_chest.json" />
     <EmbeddedResource Include="Scripts\sc_eye_chest.json" />
