@@ -18,7 +18,7 @@ namespace FF1PRAP
 {
 	public static class MapPatchesWestward
 	{
-		public static PatchOpGroup TilemapTiles = new(256, 0, new()
+		public static PatchOpGroup TilemapTiles = new(0, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
 				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
@@ -126,7 +126,7 @@ namespace FF1PRAP
 				*/
 
 			});
-		public static PatchOpGroup TilemapBottom = new(256, 1, new()
+		public static PatchOpGroup TilemapBottom = new(1, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
 				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
@@ -210,7 +210,7 @@ namespace FF1PRAP
 				new PatchOp(95,158,1766),*/
 
 			});
-		public static PatchOpGroup TilemapGround = new(256, 2, new()
+		public static PatchOpGroup TilemapGround = new(2, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
 				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
@@ -228,7 +228,7 @@ namespace FF1PRAP
 
 				new PatchOp(95,158,1766),*/
 			});
-		public static PatchOpGroup TransportationFoot = new(256, 0, new()
+		public static PatchOpGroup TransportationFoot = new(0, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
 				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
@@ -303,7 +303,7 @@ namespace FF1PRAP
 				// Bridge
 				new PatchOp(145,145,1),
 			});
-		public static PatchOpGroup TransportationCanoe = new(256, 1, new()
+		public static PatchOpGroup TransportationCanoe = new(1, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
 				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
@@ -314,7 +314,7 @@ namespace FF1PRAP
 				new PatchOp(97,163,1),
 				new PatchOp(98,163,1),
 			});
-		public static PatchOpGroup Attributes = new(256, 0, new()
+		public static PatchOpGroup Attributes = new(0, new()
 		{
 			//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
 			new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),

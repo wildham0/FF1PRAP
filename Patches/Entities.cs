@@ -116,11 +116,11 @@ namespace FF1PRAP
 			return JsonConvert.DeserializeObject<System.Collections.Generic.List<TileMapCustomPropertyData>>(scriptfile).ToArray();
 		}
 
-		private static string GetFile(string name)
+		private static string GetFile(string name, string ext = "json")
 		{
 			string scriptfile = "";
 			var assembly = Assembly.GetExecutingAssembly();
-			string filepath = assembly.GetManifestResourceNames().Single(str => str.EndsWith(name + ".json"));
+			string filepath = assembly.GetManifestResourceNames().Single(str => str.EndsWith(name + "." + ext));
 			using (Stream logicfile = assembly.GetManifestResourceStream(filepath))
 			{
 				using (StreamReader reader = new StreamReader(logicfile))

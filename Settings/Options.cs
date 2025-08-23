@@ -81,6 +81,8 @@ namespace FF1PRAP
 			new("shuffle_trials_maze", "Shuffle Trials' Maze", new() {  { "1", "Enable" }, { "0", "Disable" } }, "0", "Shuffle the Pillars Maze on floor 2F of the Citadel of Trials."),
 			new("early_progression", "Early Progression", new() {  { "0", "Bikke's Ship" }, { "1", "Marsh Cave Path" } }, "0", "Set how the world is opened at the start of the game.\n\nBikke's Ship: The Bridge is built from the start and Bikke will always give the Ship.\n\nMarsh Cave Path: Open a path to the West of Coneria that allows you to reach the Marsh Cave area by foot. The Bridge is never built. The Ship is shuffled with other items and Bikke is a Location."),
 
+			new("nerf_chaos", "Nerf Chaos", new() {  { "1", "Enable" }, { "0", "Disable" } }, "0", "Halve Chaos' HP and reduce his Intelligence and Attack Power by 25%."),
+
 			new("dungeon_encounter_rate", "Dungeon Encounter Rate", new() {  { "0", "0.0x" }, { "1", "0.25x" }, { "2", "0.5x" }, { "3", "0.75x" }, { "4", "1.0x" }, { "5", "1.25x" }, { "6", "1.5x" }}, "4", "Modify the Encounter Rate in dungeons by the multiplier selected.\n\nNOTE: This option doesn't affect the Boost setting to disable/enable encounters."),
 			new("overworld_encounter_rate", "Overworld Encounter Rate", new() {  { "0", "0.0x" }, { "1", "0.25x" }, { "2", "0.5x" }, { "3", "0.75x" }, { "4", "1.0x" }, { "5", "1.25x" }, { "6", "1.5x" }}, "4", "Modify the Encounter Rate on the Overworld by the multiplier selected.\n\nNOTE: This option doesn't affect the Boost setting to disable/enable encounters."),
 			new("xp_boost", "Experience Boost", new() {  { "0", "0.5x" }, { "1", "1x" }, { "2", "2x" }, { "3", "3x" }, { "4", "4x" }}, "1", "Set the default Experience Boost multiplier. This can still be modified in the Boost menu."),

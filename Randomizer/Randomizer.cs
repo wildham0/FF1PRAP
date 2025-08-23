@@ -110,6 +110,7 @@ namespace FF1PRAP
 			randoData.OrdealsMaze = ShuffleOrdealsMaze(FF1PR.SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng);
 			randoData.JobPromotion = (JobPromotionModes)int.Parse(FF1PR.SessionManager.Options["job_promotion"]);
 			randoData.EarlyProgression = (EarlyProgressionModes)int.Parse(FF1PR.SessionManager.Options["early_progression"]);
+			randoData.NerfChaos = FF1PR.SessionManager.Options["nerf_chaos"] == Options.Enable;
 
 			RandomizerData = randoData;
 

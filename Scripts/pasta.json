@@ -1,9 +1,35 @@
 {
+  "SystemFlag": {
+    "SkipInitialize": 0,
+    "KeepPlayerPuppet": 0,
+    "KeepBadStatusVisual": 0,
+    "RidingVehicle": 0
+  },
   "Segments": [
     {
       "Label": "Main",
       "EntryPoint": 0,
-      "Count": 4
+      "Count": 40
+    },
+    {
+      "Label": "キャラ",
+      "EntryPoint": 40,
+      "Count": 15
+    },
+    {
+      "Label": "puppet_0003",
+      "EntryPoint": 55,
+      "Count": 7
+    },
+    {
+      "Label": "puppet_0001",
+      "EntryPoint": 62,
+      "Count": 7
+    },
+    {
+      "Label": "puppet_0002",
+      "EntryPoint": 69,
+      "Count": 11
     }
   ],
   "ScriptLocal": [
@@ -14,6 +40,1350 @@
     {
       "label": "Main",
       "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Call",
+      "operands": {
+        "iValues": [
+          40,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SysCall",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "スタッフロール読み込み",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "ColorFade",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "FadeIn",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Wait",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          1.4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SysCall",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "エンディング：謝辞",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Wait",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0.7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "FadeOut",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "ColorFade",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "PlayBGM",
+      "operands": {
+        "iValues": [
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetEventSkipMode",
+      "operands": {
+        "iValues": [
+          127,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "sc_e_0044_4",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Call",
+      "operands": {
+        "iValues": [
+          55,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SysCall",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "スタッフロール読み込み待ち",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SysCall",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "スタッフロールテキスト生成",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "FadeIn",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          1.4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Wait",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          1.4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Wait",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0.7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SysCall",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "スタッフロールメッセージ",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Wait",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          2.1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Call",
+      "operands": {
+        "iValues": [
+          62,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Wait",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0.7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetEventSkipMode",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SysCall",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "キー入力待ち",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Wait",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0.7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "StopBGM",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0.7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "FadeOut",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          1.4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Wait",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0.7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetFlag",
+      "operands": {
+        "iValues": [
+          42,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "ScenarioFlag1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetFlag",
+      "operands": {
+        "iValues": [
+          43,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "ScenarioFlag1",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Call",
+      "operands": {
+        "iValues": [
+          69,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "RemoveCondition",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "RecoveryHP",
+      "operands": {
+        "iValues": [
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "RecoveryMP",
+      "operands": {
+        "iValues": [
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "ColorFade",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "FadeIn",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "OpenSaveWindow",
       "operands": {
         "iValues": [
           0,
@@ -57,14 +1427,14 @@
           0,
           0,
           0,
-          ARG_1,
+          255,
           0,
           0,
           0,
           0
         ],
         "rValues": [
-          255,
+          0,
           0,
           0,
           0,
@@ -89,11 +1459,11 @@
     },
     {
       "label": "",
-      "mnemonic": "ChangeMap",
+      "mnemonic": "GoToTitle",
       "operands": {
         "iValues": [
-          1,
-          500,
+          0,
+          0,
           0,
           0,
           0,
@@ -112,7 +1482,7 @@
           0
         ],
         "sValues": [
-          "ARG_2",
+          "",
           "",
           "",
           "",
@@ -162,17 +1532,1269 @@
       },
       "type": 1,
       "comment": ""
+    },
+    {
+      "label": "キャラ",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetPuppet",
+      "operands": {
+        "iValues": [
+          0,
+          -1001,
+          46,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetPuppet",
+      "operands": {
+        "iValues": [
+          1,
+          3,
+          49,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetPuppet",
+      "operands": {
+        "iValues": [
+          2,
+          2,
+          52,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "ExecPuppet",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Return",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "キャラ_00",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Hide",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Exit",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "キャラ_01",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Hide",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Exit",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "キャラ_02",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Hide",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Exit",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "puppet_0003",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetPuppet",
+      "operands": {
+        "iValues": [
+          0,
+          2,
+          59,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "ExecPuppet",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Return",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "puppet_0003_00",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "PlayAnim",
+      "operands": {
+        "iValues": [
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Exit",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "puppet_0001",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetPuppet",
+      "operands": {
+        "iValues": [
+          0,
+          3,
+          66,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "ExecPuppet",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Return",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "puppet_0001_00",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Show",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          1.4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Exit",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "puppet_0002",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetPuppet",
+      "operands": {
+        "iValues": [
+          0,
+          3,
+          74,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "SetPuppet",
+      "operands": {
+        "iValues": [
+          1,
+          2,
+          77,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "ExecPuppet",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Return",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "puppet_0002_00",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Hide",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Exit",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "puppet_0002_01",
+      "mnemonic": "Nop",
+      "operands": {
+        "iValues": [
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Hide",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Exit",
+      "operands": {
+        "iValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 2,
+      "comment": ""
     }
   ],
-  "SystemFlag": {
-    "SkipInitialize": 0,
-    "KeepPlayerPuppet": 0,
-    "KeepBadStatusVisual": 0,
-    "RidingVehicle": 0
-  },
-  "Name": "sc_canal_south",
+  "Animations": [
+  ],
+  "Name": "sc_e_0044_3",
   "Title": {
-    "main": "dummy",
-    "sub": "subdummy"
+    "main": "汎用スクリプト",
+    "sub": "オンラクのデモ"
   }
 }

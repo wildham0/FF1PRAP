@@ -18,11 +18,11 @@ namespace FF1PRAP
 {
 	public static class MapPatchesTitanTunnel
 	{
-		public static PatchOpGroup TilemapTiles = new(34, 2, new(), new()
+		public static PatchOpGroup TilemapTiles = new(2, new(), new()
 			{
 				new PatchOp(11,13,715),
 			});
-		public static PatchOpGroup Collision = new(34, 1, new(), new()
+		public static PatchOpGroup Collision = new(1, new(), new()
 			{
 				new PatchOp(11,13,1),
 			});

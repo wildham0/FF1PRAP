@@ -62,6 +62,9 @@ namespace FF1PRAP
 
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_01"] = $"This heirloom has been entrusted to the princesses of Cornelia for many generations. I want you to have it. It may aid you on your journey.";
 
+			//InternalLogger.LogInfo(FF1PR.MessageManager.GetMessageDictionary()["STUFF_SQDEV_01_07"]);
+			
+
 
 			FF1PR.MasterManager.GetList<Script>().Add(1000, new Script() { Id = 1000, ScriptName = "sc_ordealsman" });		// ordeal man script
 			FF1PR.MasterManager.GetList<Script>().Add(1001, new Script() { Id = 1001, ScriptName = "sc_luteslab" });		// lute slab script
@@ -89,6 +92,14 @@ namespace FF1PRAP
 			if (!Randomizer.RandomizerData.BoostMenu)
 			{
 				FF1PR.MessageManager.GetMessageDictionary()["MSG_SYSTEM_CS_0_006"] = "Boost as been disabled by your settings.";
+			}
+
+			if (Randomizer.RandomizerData.NerfChaos)
+			{
+				var chaos = FF1PR.MasterManager.GetData<Monster>(128);
+				chaos.Hp /= 2;
+				chaos.Intelligence = (int)(chaos.Intelligence * 0.75);
+				chaos.Attack = (int)(chaos.Attack * 0.75);
 			}
 
 			CreateCaravanItem();
@@ -131,6 +142,7 @@ namespace FF1PRAP
 
 			// Start with airship
 			// So 517 is ship 100%, 516 is canoe, what's 519 for???
+			
 			/*
 			for (int i = 0; i < FF1PR.UserData.OwnedTransportationList.Count; i++)
 			{
@@ -160,6 +172,10 @@ namespace FF1PRAP
 			}
 
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.IceArmor, 4);
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Ribbon, 4);
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.IceShield, 4);
+			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Elixir, 99);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.RatsTail, 1);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.StarRuby, 1);

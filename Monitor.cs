@@ -31,7 +31,8 @@ namespace FF1PRAP
 		public Last.Defaine.MenuCommandId MainMenuState = Last.Defaine.MenuCommandId.Non;
 		private bool newGameProcessed = false;
 		private bool nowLoading = false;
-
+		public List<string> AssetsToPatch = new();
+		/*
 		public Dictionary<string, bool> MapDataUpdate = new()
 		{
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", false },
@@ -49,14 +50,14 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/tilemap", new() { MapPatchesTitanTunnel.TilemapTiles } },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/collision", new() { MapPatchesTitanTunnel.Collision } },
 		};
-
+		*/
 		public MonitorTool() { }
 
 		public void Update()
 		{
 			ProcessGameState();
-			ProcessMapData();
-			
+			ProcessPatches();
+
 			if (FF1PR.SessionManager.GameMode == GameModes.Vanilla)
 			{
 				return;
@@ -138,7 +139,7 @@ namespace FF1PRAP
 				}
 			}
 		}
-
+		/*
 		private void ProcessMapData()
 		{
 			foreach (var mapdata in MapDataUpdate)
@@ -164,6 +165,36 @@ namespace FF1PRAP
 					}
 				}
 			}
+		}*/
+		private void ProcessPatches()
+		{
+			List<string> patchToRemove = new();
+
+			foreach (var patchdata in AssetsToPatch)
+			{
+				if (FF1PR.ResourceManager.completeAssetDic.ContainsKey(patchdata))
+				{
+
+					var assettext = FF1PR.ResourceManager.completeAssetDic[patchdata].Cast<TextAsset>().text;
+					var assetnameparts = patchdata.Split('/');
+					var assetname = assetnameparts.Last();
+					var filename = assetnameparts[assetnameparts.Count() - 2] + "/" + assetnameparts[assetnameparts.Count() - 1];
+					InternalLogger.LogInfo($"MapPatcher: Patching {filename}.");
+
+
+					if (AssetPatches.Maps.TryGetValue(patchdata, out var mappatches))
+					{
+						assettext = MapPatcher.Patch(assettext, mappatches);
+					}
+
+					var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);
+
+					FF1PR.ResourceManager.completeAssetDic[patchdata] = textasset;
+					patchToRemove.Add(patchdata);
+				}
+			}
+
+			AssetsToPatch = AssetsToPatch.Except(patchToRemove).ToList();
 		}
 		private void ProcessGameState()
 		{
@@ -224,6 +255,7 @@ namespace FF1PRAP
 			tool.MainMenuState = state;
 			InternalLogger.LogInfo($"MainMenu: {state}");
 		}
+		/*
 		public void CheckForMap(string address)
 		{
 			if (tool.MapDataUpdate.TryGetValue(address, out bool result))
@@ -233,6 +265,10 @@ namespace FF1PRAP
 					tool.MapDataUpdate[address] = true;
 				}
 			}
+		}*/
+		public void AddPatchesToProcess(string address)
+		{
+			tool.AssetsToPatch.Add(address);
 		}
 	}
 

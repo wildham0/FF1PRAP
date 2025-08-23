@@ -94,13 +94,10 @@ namespace FF1PRAP
 		public int DataId;
 		public List<PatchOp> Operations;
 		//public Dictionary<int, List<PatchOp>> Operations;
-		public int MapX;
-		public int MapY;
 		public List<RandoCondition> Conditions;
-		public PatchOpGroup(int x, int dataid, List<RandoCondition> conditions, List<PatchOp> operations)
+		public PatchOpGroup(int dataid, List<RandoCondition> conditions, List<PatchOp> operations)
 		{
 			DataId = dataid;
-			MapX = x;
 			Operations = operations;
 			Conditions = conditions;
 		}
@@ -120,10 +117,22 @@ namespace FF1PRAP
 			return trigger;
 		}
 	}
+	public class PatchAsset
+	{
+		public string Name;
+		public int Width;
+		public List<PatchOpGroup> OpGroups;
+		public PatchAsset(int width, List<PatchOpGroup> opgroups)
+		{
+			Name = "";
+			Width = width;
+			OpGroups = opgroups;
+		}
+	}
 
 	public static class MapPatcher
 	{
-		public static string Patch(string mapfile, List<PatchOpGroup> opgroups)
+		public static string Patch(string mapfile, PatchAsset patchAsset)
 		{
 			//InternalLogger.LogInfo(mapfile);
 
@@ -136,7 +145,7 @@ namespace FF1PRAP
 			
 
 			Dictionary<int, List<PatchOp>> operationsGroups = new();
-			foreach (var opgroup in opgroups)
+			foreach (var opgroup in patchAsset.OpGroups)
 			{
 				if (opgroup.Resolve())
 				{
@@ -155,7 +164,7 @@ namespace FF1PRAP
 
 			InternalLogger.LogInfo($"MapPatcher: OpGroup to Apply: {operationsGroups.Count}.");
 
-			int mapx = opgroups.First().MapX;
+			int mapx = patchAsset.Width;
 
 			//InternalLogger.LogInfo($"{dataindex}, {testindex}, {vindex}");
 			int currentgroup = 0;

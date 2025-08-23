@@ -25,6 +25,7 @@ namespace FF1PRAP
 		public float XpBoost { get; set; }
 		public float GilBoost { get; set; }
 		public bool BoostMenu { get; set; }
+		public bool NerfChaos { get; set; }
 		public JobPromotionModes JobPromotion { get; set; }
 		public EarlyProgressionModes EarlyProgression { get; set; }
 

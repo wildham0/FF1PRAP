@@ -18,7 +18,7 @@ namespace FF1PRAP
 {
 	public static class MapPatchesCanal
 	{
-		public static PatchOpGroup BridgeCanalBottom = new(256, 1, new()
+		public static PatchOpGroup BridgeCanalBottom = new(1, new()
 			{
 				//new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.Canal}", FlagMode.Gameflag),
 				//new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
@@ -31,7 +31,7 @@ namespace FF1PRAP
 				new PatchOp(95,157,1699),
 				new PatchOp(95,158,1766),*/
 			});
-		public static PatchOpGroup BridgeCanalAttribute = new(256, 0, new()
+		public static PatchOpGroup BridgeCanalAttribute = new(0, new()
 		{
 		}, new()
 			{
@@ -39,7 +39,7 @@ namespace FF1PRAP
 				new PatchOp(95,160,19),
 			});
 
-		public static PatchOpGroup TransportationCanalShip = new(256, 3, new()
+		public static PatchOpGroup TransportationCanalShip = new(3, new()
 			{
 				new RandoCondition(ConditionState.Off, "ScenarioFlag1", $"{(int)ScenarioFlags.Canal}", FlagMode.Gameflag),
 			}, new()
@@ -47,7 +47,7 @@ namespace FF1PRAP
 				// Block ship if no canal
 				new PatchOp(95,157,1),
 			});
-		public static PatchOpGroup TransportationFoot = new(256, 0, new()
+		public static PatchOpGroup TransportationFoot = new(0, new()
 			{
 				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.Canal}", FlagMode.Gameflag),
 				//new RandoCondition(ConditionState.On, "progression_mode", "eastward", FlagMode.Randoflag),

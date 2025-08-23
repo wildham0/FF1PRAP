@@ -1329,7 +1329,7 @@
             {
               "name": "target_transportation_ids",
               "type": "string",
-              "value": "1"
+              "value": ""
             },
             {
               "name": "visible_minimap",

@@ -840,6 +840,7 @@ namespace FF1PRAP
 			apHeight += 20f * guiScale;
 
 			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Scaling");
+			CreateDropdown(Options.Dict["nerf_chaos"].Display, Options.Dict["nerf_chaos"]);
 			CreateDropdown(Options.Dict["dungeon_encounter_rate"].Display, Options.Dict["dungeon_encounter_rate"]);
 			CreateDropdown(Options.Dict["overworld_encounter_rate"].Display, Options.Dict["overworld_encounter_rate"]);
 			CreateDropdown(Options.Dict["xp_boost"].Display, Options.Dict["xp_boost"]);

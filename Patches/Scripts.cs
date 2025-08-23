@@ -97,6 +97,7 @@ namespace FF1PRAP
 			// { "sc_e_0002_1", new ScriptBuilder("sc_empty") }, // Talk King
 			{ "sc_map_30011_1", ScriptBuilder.FromScript(Scripts.TempleOfFiends, "sc_templeoffiends") }, // ToF Map
 			{ "sc_e_0003", ScriptBuilder.FromScript(Scripts.Garland, "sc_garland_01") }, // Garland
+			//{ "sc_e_0003", ScriptBuilder.FromJson("pasta") }, // Garland
 			{ "sc_e_0003_2", ScriptBuilder.FromJson("sc_garland_02") }, // Post-fight
 			{ "sc_e_0003_3", ScriptBuilder.FromJson("sc_garland_03") }, // At the castle?
 			{ "sc_e_0004_1", ScriptBuilder.FromScript(Scripts.Princess, "sc_princess_01") }, // Talk Princess

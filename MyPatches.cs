@@ -36,6 +36,7 @@ using Last.UI;
 using System.Runtime.InteropServices;
 using static Last.Interpreter.Instructions.External;
 using static Serial.FF1.Map.TransportationEvent;
+using AsmResolver.Collections;
 
 namespace FF1PRAP
 {//[HarmonyPatch("GetExp")]
@@ -863,6 +864,10 @@ namespace FF1PRAP
 		public static void ConfigTitleBack()
 		{
 			InternalLogger.LogInfo("Title Back");
+		}
+		public static void GetAsset_Post(string assetName, ref string __result)
+		{
+			InternalLogger.LogInfo($"End Roll: {assetName} - {__result}");
 		}
 	}
 	public enum SaveInfoModes

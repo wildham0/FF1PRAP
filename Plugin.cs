@@ -32,7 +32,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.2.8";
+	public const string VERSION = "0.2.9";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -142,9 +142,9 @@ public class FF1PR : BasePlugin
 
 		// Resource Manager + Assets
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetResourceManager_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckCompleteAsset", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckGroupLoadAssetCompleted_Post")));
-		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckGroupLoadAssetCompleted", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckLoadAssetCompleted")));
-
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckCompleteAsset", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckCompleteAsset_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckGroupLoadAssetCompleted", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CheckGroupLoadAssetCompleted_Post"))); // for credits
+		
 		// Loading/Saving Screen State
 		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.TitleWindowController), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TitleWindowControllerInitialize_Post")));
 		harmony.Patch(AccessTools.Method(typeof(MessageManager), "ReplaceKeyToValue", [typeof(string), typeof(Il2CppSystem.Collections.Generic.Dictionary<string, string>)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ReplaceKey_Post")));
@@ -173,6 +173,14 @@ public class FF1PR : BasePlugin
 		/*
 		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Instructions.SystemCall.Current), "FairyShop"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckFairyShop_Post")));
 		harmony.Patch(AccessTools.Method(typeof(ShopUtility), "BuyItem", [typeof(int), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "BuyItemInt_Post")));*/
+		
+		
+		//harmony.Patch(AccessTools.Method(typeof(Last.Endroll.EndRollManager), "GetAsset"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "EndRollGetAsset_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Endroll.EndRollManager), "LoadMessageList"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "EndRollGetAsset_Pre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Endroll.EndRollManager), "AsyncLoadAssets"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetMatches_Post")));
+
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "CheckLoadingAsset", [typeof(string)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetMatches_Post2")));
+
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
 	{
