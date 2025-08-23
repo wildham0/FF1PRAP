@@ -64,6 +64,7 @@ namespace FF1PRAP
 			"<color=\"#43deff\">PLAYTESTERS</color>\n" +
 			"Prime\n\n\n" +
 			"<color=\"#43deff\">SPECIAL THANKS</color>\n" +
+			"silentdestroyer\n" +
 			"Scipio\n" +
 			"Silvris\n" +
 			"FFR Dev Team\n" +
