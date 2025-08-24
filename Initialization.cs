@@ -80,6 +80,15 @@ namespace FF1PRAP
 
 			// give buy price to ribbon
 			var ribbon = FF1PR.MasterManager.GetData<Armor>(54).Buy = 65535;
+
+			// formations
+			/*
+			var garlandform = FF1PR.MasterManager.GetData<MonsterParty>(350);
+
+			garlandform.Monster1 = 111;
+			garlandform.Monster1XPosition = 25;
+			garlandform.Monster1YPosition = -20;
+			garlandform.Monster2 = 1;*/
 		}
 		public static void ApplyRandomizedFeatures(RandomizerData randoData)
 		{
@@ -88,6 +97,7 @@ namespace FF1PRAP
 			// Apply randomized data
 			Randomizer.LoadShuffledShops(randoData.GearShops);
 			Randomizer.LoadShuffledSpells(randoData.ShuffledSpells);
+			Randomizer.LoadMonsterParties(randoData.MonsterParties);
 
 			if (!Randomizer.RandomizerData.BoostMenu)
 			{

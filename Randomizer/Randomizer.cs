@@ -111,6 +111,7 @@ namespace FF1PRAP
 			randoData.JobPromotion = (JobPromotionModes)int.Parse(FF1PR.SessionManager.Options["job_promotion"]);
 			randoData.EarlyProgression = (EarlyProgressionModes)int.Parse(FF1PR.SessionManager.Options["early_progression"]);
 			randoData.NerfChaos = FF1PR.SessionManager.Options["nerf_chaos"] == Options.Enable;
+			randoData.MonsterParties = RandomizeMonsterParties(FF1PR.SessionManager.Options["monster_parties"] != Options.Disable, (MonsterPartyRangeModes)int.Parse(FF1PR.SessionManager.Options["monster_parties"]), (MonsterPartyCapModes)int.Parse(FF1PR.SessionManager.Options["monsters_cap"]), rng);
 
 			RandomizerData = randoData;
 

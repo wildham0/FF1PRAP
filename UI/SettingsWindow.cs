@@ -839,8 +839,13 @@ namespace FF1PRAP
 			CreateDropdown(Options.Dict["early_progression"].Display, Options.Dict["early_progression"]);
 			apHeight += 20f * guiScale;
 
-			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Scaling");
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Monsters");
 			CreateDropdown(Options.Dict["nerf_chaos"].Display, Options.Dict["nerf_chaos"]);
+			CreateDropdown(Options.Dict["monster_parties"].Display, Options.Dict["monster_parties"]);
+			CreateDropdown(Options.Dict["monsters_cap"].Display, Options.Dict["monsters_cap"]);
+			apHeight += 20f * guiScale;
+
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Scaling");
 			CreateDropdown(Options.Dict["dungeon_encounter_rate"].Display, Options.Dict["dungeon_encounter_rate"]);
 			CreateDropdown(Options.Dict["overworld_encounter_rate"].Display, Options.Dict["overworld_encounter_rate"]);
 			CreateDropdown(Options.Dict["xp_boost"].Display, Options.Dict["xp_boost"]);

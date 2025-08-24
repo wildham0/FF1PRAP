@@ -20,6 +20,7 @@ namespace FF1PRAP
 		public List<ShuffledSpell> ShuffledSpells { get; set; }
 		public Dictionary<int, ItemData> PlacedItems { get; set; }
 		public Dictionary<int, int> OrdealsMaze { get; set; }
+		public Dictionary<int, Dictionary<int, MonsterIds>> MonsterParties { get; set; }
 		public float DungeonEncounterRate { get; set; }
 		public float OverworldEncounterRate { get; set; }
 		public float XpBoost { get; set; }
@@ -35,6 +36,7 @@ namespace FF1PRAP
 			PlacedItems = new();
 			ShuffledSpells = new();
 			OrdealsMaze = new();
+			MonsterParties = new();
 		}
 	}
 
