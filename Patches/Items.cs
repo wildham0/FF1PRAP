@@ -29,6 +29,12 @@ namespace FF1PRAP
 		}
 		public static void Items_Postfix(Content targetData, int count)
 		{
+
+			if (Randomizer.ItemsToIgnore.Contains(targetData.Id))
+			{
+				return;
+			}
+
 			if (Randomizer.ItemIdToFlag.TryGetValue(targetData.Id, out var flag))
 			{
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, flag, 1);
@@ -46,7 +52,9 @@ namespace FF1PRAP
 						// Pravoka dock is 203, 146
 
 						(int x, int y) shipSpawn = (203, 146);
-						if (FF1PR.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode) == 1)
+
+						// Check if we spawn at Coneria
+						if (FF1PR.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode) == 1 || (FF1PR.SessionManager.Options.TryGetValue("spawn_ship", out var spawnship) && spawnship == Options.Enable))
 						{
 							shipSpawn = (145, 162);
 						}
@@ -104,7 +112,10 @@ namespace FF1PRAP
 			// check if in state to give item
 			if (FF1PR.OwnedItemsClient != null && FF1PR.GameState == GameStates.InGame)
 			{
-				FF1PR.OwnedItemsClient.AddOwnedItem(itemdata.Id, itemdata.Qty);
+				if (!Randomizer.ItemsToIgnore.Contains(itemdata.Id))
+				{
+					FF1PR.OwnedItemsClient.AddOwnedItem(itemdata.Id, itemdata.Qty);
+				}
 
 				if (showMessage)
 				{

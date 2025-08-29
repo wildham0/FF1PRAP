@@ -131,7 +131,11 @@ namespace FF1PRAP {
 					}
 				}
 
-				
+				// Start from inventory
+				FF1PR.SessionManager.Options["spawn_airship"] = (bool)slotData["spawn_airship"] ? Options.Enable : Options.Disable;
+				FF1PR.SessionManager.Options["spawn_ship"] = (bool)slotData["spawn_ship"] ? Options.Enable : Options.Disable;
+
+				Randomizer.ItemsToIgnore = ((JArray)slotData["items_to_ignore"]).ToObject<List<int>>();
 
 				//Archipelago.instance.integration.session.Locations.S
 				/*
@@ -199,12 +203,6 @@ namespace FF1PRAP {
 				{
 					aplocdata.Add(location.Flag, new ApLocationData() { Flag = location.Flag, Id = item.Key, Name = location.Name, Content = itemstring });
 				}
-			}
-
-			// Add a dummy Bahamut location if he just gives promotion
-			if (!aplocdata.ContainsKey(407))
-			{
-				aplocdata.Add(407, new ApLocationData() { Content = "Nothing" });
 			}
 
 			Randomizer.ApLocations = aplocdata;

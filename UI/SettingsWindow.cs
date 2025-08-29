@@ -817,7 +817,7 @@ namespace FF1PRAP
 			GUI.skin.label.fontSize = (int)(standardFontSize * 0.9 * guiScale);
 			GUI.color = new Color(0f, 0f, 0f, 1f);
 			GUI.contentColor = new Color(0f, 0f, 0f, 1f);
-			GUI.Label(ScaledRect(0, 0, 300f, 30f), $"v{PluginInfo.VERSION} Alpha");
+			GUI.Label(ScaledRect(0, 0, 300f, 30f), $"v{PluginInfo.VERSION} Beta");
 		}
 		private static void AddRandoOptions()
 		{

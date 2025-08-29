@@ -30,7 +30,6 @@ namespace FF1PRAP
 		public JobPromotionModes JobPromotion { get; set; }
 		public EarlyProgressionModes EarlyProgression { get; set; }
 		public bool NorthernDocks { get; set; }
-
 		public RandomizerData()
 		{
 			GearShops = new();

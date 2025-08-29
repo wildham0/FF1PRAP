@@ -165,6 +165,7 @@ namespace FF1PRAP
 		JobRedWizard,
 		JobWhiteWizard,
 		JobBlackWizard,
-		
+
+		Airship	
 	}
 }

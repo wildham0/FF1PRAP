@@ -59,6 +59,7 @@ namespace FF1PRAP
 		public static Dictionary<string, long> LocationIdToArchipelagoId = new Dictionary<string, long>();
 		public static Dictionary<string, bool> CheckedLocations = new Dictionary<string, bool>();
 		public static Dictionary<int, ApLocationData> ApLocations = new Dictionary<int, ApLocationData>();
+		public static List<int> ItemsToIgnore = new();
 
 		public static RandomizerData RandomizerData { get; set; }
 
@@ -1105,6 +1106,7 @@ namespace FF1PRAP
 			{ "Red Wizard Job", new ItemData() { Id = 504, Qty = 1 } },
 			{ "White Wizard Job", new ItemData() { Id = 505, Qty = 1 } },
 			{ "Black Wizard Job", new ItemData() { Id = 506, Qty = 1 } },
+			{ "Airship", new ItemData() { Id = 507, Qty = 1 } },
 		};
 	}
 }

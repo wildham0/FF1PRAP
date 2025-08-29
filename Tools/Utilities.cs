@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Last.Data.User;
+using RomUtilities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine.SocialPlatforms;
 using System.Xml.Linq;
-using System.Diagnostics;
-using RomUtilities;
+using UnityEngine.SocialPlatforms;
 //using Il2CppSystem.Collections.Generic;
 
 namespace FF1PRAP
@@ -41,6 +42,18 @@ namespace FF1PRAP
 			var value = rng.PickFrom(list);
 			list.Remove(value);
 			return value;
+		}
+		public static OwnedTransportationData GetTransport(this Il2CppSystem.Collections.Generic.List<Last.Data.User.OwnedTransportationData> fromlist, int id)
+		{
+			for (int i = 0; i < fromlist.Count; i++)
+			{
+				if (fromlist[i].flagNumber == id)
+				{
+					return fromlist[i];
+				}
+			}
+
+			return null;
 		}
 	}
 }
