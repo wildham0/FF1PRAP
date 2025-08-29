@@ -122,6 +122,7 @@ namespace FF1PRAP
 			
 			var adamantitecraft = int.Parse(FF1PR.SessionManager.Options["adamantite_craft"]);
 			bool marshpath = FF1PR.SessionManager.Options["early_progression"] == Options.MarshPath;
+			bool northerndocks = FF1PR.SessionManager.Options["northern_docks"] == Options.Enable;
 			bool bahamutpromo = FF1PR.SessionManager.Options["job_promotion"] == "0";
 
 			List<Items> extraItems = new();
@@ -204,8 +205,16 @@ namespace FF1PRAP
 			if (marshpath)
 			{
 				regionRules = regionRules
-					.Where(r => FixedRegionsWest.Select(w => w.Region).ToList().Contains(r.Region))
+					.Where(r => !FixedRegionsWest.Select(w => w.Region).ToList().Contains(r.Region))
 					.Concat(FixedRegionsWest)
+					.ToList();
+			}
+
+			if (northerndocks)
+			{
+				regionRules = regionRules
+					.Where(r => !FixedRegionsNorthernDocks.Select(w => w.Region).ToList().Contains(r.Region))
+					.Concat(FixedRegionsNorthernDocks)
 					.ToList();
 			}
 
@@ -213,7 +222,7 @@ namespace FF1PRAP
 			{
 				List<List<AccessRequirements>> adjustedReqs = new();
 				InternalLogger.LogInfo($"SanityCheck - Region: {location.Flag} - {location.Region}");
-				var regionAccess = FixedRegions.Find(r => r.Region == location.Region).Access;
+				var regionAccess = regionRules.Find(r => r.Region == location.Region).Access;
 				var locationAccess = location.Access;
 
 				if (regionAccess.Count == 0)

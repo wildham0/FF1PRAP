@@ -62,7 +62,8 @@ namespace FF1PRAP
 		// Additional flags
 		CaravanItemBought, // hopefully it's not use by anything else
 		WestwardProgressionMode,
-		BahamutGivesItem
+		BahamutGivesItem,
+		NorthernDocks,
 
 
 

@@ -152,7 +152,6 @@ namespace FF1PRAP
 
 			// Start with airship
 			// So 517 is ship 100%, 516 is canoe, what's 519 for???
-			
 			/*
 			for (int i = 0; i < FF1PR.UserData.OwnedTransportationList.Count; i++)
 			{
@@ -189,6 +188,7 @@ namespace FF1PRAP
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.RatsTail, 1);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.StarRuby, 1);
+			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Canal, 1); // Force visit King in Coneria
 			*/
 			// Set Flags
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
@@ -206,6 +206,15 @@ namespace FF1PRAP
 			{
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 0);
 				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
+			}
+
+			if (Randomizer.RandomizerData.NorthernDocks)
+			{
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.NorthernDocks, 1);
+			}
+			else
+			{
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.NorthernDocks, 0);
 			}
 
 			if (Randomizer.RandomizerData.JobPromotion != Randomizer.JobPromotionModes.Bahamut)

@@ -155,8 +155,39 @@ namespace FF1PRAP
 		LowVariance,
 		HighVariance,
 	}
+	public enum MinionsRangeModes
+	{
+		None,
+		Weak,
+		Strong,
+		WeakStrong
+	}
+	public enum MinionGroupSizes
+	{
+		Small,
+		Large
+	}
 	partial class Randomizer
     {
+		private struct BossMinionConfig
+		{
+			public int WeakRange;
+			public int MidRange;
+			public int StrongRange;
+			public int MaxSmall;
+			public int MaxBig;
+		}
+
+		private struct MiniBossExtendConfig
+		{
+			public int WeakMin;
+			public int WeakMax;
+			public int StrongMin;
+			public int StrongMax;
+			public MonsterIds Monster;
+			public List<int> Free;
+		}
+
 		private static Dictionary<MonsterIds, int> MonsterToPowerGroup = new()
 		{
 			{ MonsterIds.Goblin, 0 },
@@ -291,13 +322,72 @@ namespace FF1PRAP
 
 		private static Dictionary<int, List<MonsterIds>> PowerGroupToMonsters = MonsterToPowerGroup.GroupBy(x => x.Value).ToDictionary(x => x.Key, x => x.Select(m => m.Key).ToList());
 
-		private static List<int> ExcludedBosses = new() { 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350 };
-		private static List<int> ExcludedMiniBosses = new() { 65, 88, 97, 102, 115, 117, 118, 119, 123, 128, 134, 138, 175, 192, 195, 197, 202, 208, 229, 239, 241, 312, 327, 329, 827, 828, 829, 830 };
-		private static List<int> ExcludedWarmech = new() { 261 };
-		private static List<int> ExcludedAll = ExcludedBosses.Concat(ExcludedMiniBosses).Concat(ExcludedWarmech).ToList();
+		private static List<int> Bosses = new() { 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350 };
+		private static List<int> MiniBosses = new() { 65, 88, 97, 102, 115, 117, 118, 119, 123, 128, 134, 138, 175, 192, 195, 197, 202, 208, 229, 239, 241, 312, 327, 329, 827, 828, 829, 830 };
+		private static List<int> Warmech = new() { 261 };
+		private static List<int> ExcludedAll = Bosses.Concat(MiniBosses).Concat(Warmech).ToList();
 
+		// 3-4 weak, 1-2 strong
+		private static Dictionary<int, BossMinionConfig> BossMinionConfigs = new()
+		{
+			{ 350, new() { WeakRange = 0, MidRange = 1, StrongRange = 1 } }, // Garland > 0 - Special one
+			// 349 - Pirates
+			{ 348, new() { WeakRange = 1, MidRange = 2, StrongRange = 3 } }, // Astos > 2
+			{ 347, new() { WeakRange = 2, MidRange = 3, StrongRange = 4 } }, // Vampire > 3
+			{ 345, new() { WeakRange = 3, MidRange = 4, StrongRange = 5 } }, // Lich
+		
+			{ 344, new() { WeakRange = 4, MidRange = 5, StrongRange = 6 } }, // Marilith
+
+			{ 343, new() { WeakRange = 5, MidRange = 6, StrongRange = 7 } }, // Kraken
+
+			{ 342, new() { WeakRange = 5, MidRange = 6, StrongRange = 7 } }, // Tiamat
+
+			{ 338, new() { WeakRange = 6, MidRange = 7, StrongRange = 8 } }, // Lich2
+			{ 339, new() { WeakRange = 6, MidRange = 7, StrongRange = 8 } }, // Marilith2
+			{ 340, new() { WeakRange = 6, MidRange = 7, StrongRange = 8 } }, // Kraken2
+			{ 341, new() { WeakRange = 6, MidRange = 7, StrongRange = 8 } }, // Tiamat2
+
+			{ 346, new() { WeakRange = 7, MidRange = 7, StrongRange = 8 } }, // Chaos - Special one
+		};
+
+		private static Dictionary<int, MiniBossExtendConfig> MiniBossesConfigs = new()
+		{
+			//{ 65, new() { WeakMin = 1, WeakMax = 2, StrongMin = 2, StrongMax = 3, Free = new() { 1, 2, 3 } } }, // Anaconda Group
+			{ 88, new() { Monster = MonsterIds.Piscodemon, WeakMin = 1, WeakMax = 2, StrongMin = 2, StrongMax = 3, Free = new() { 1, 2, 3, 4, 6 } } }, // Marsh Chest Pisco Demons
+			//{ 97, new() { WeakMin = 1, WeakMax = 2, StrongMin = 2, StrongMax = 3, Free = new() { 1, 2, 3, 4, 6 } } }, // Lizard+Fire Giants
+			//{ 102, new() { WeakMin = 1, WeakMax = 2, StrongMin = 2, StrongMax = 3, Free = new() { 1, 2, 3, 4, 6 } } }, // Single Earth Elemental
+			//{ 115, new() { WeakMin = 1, WeakMax = 2, StrongMin = 2, StrongMax = 3, Free = new() { 1, 2, 3, 4, 6 } } }, // Two Fire Elemental
+			// 117 - Lava Worm
+			// 118 - Fire Lizard
+			// 119 - Red Dragon
+			// 123 - Ice Undead Pack
+			// 128 - ??? party of #6, but there's no #6 monster
+			// 134 - Dark Wizard x4
+			// 138 - White Dragon x2
+			// 175 - Clay Golem x3
+			// 192 - Sea Food Pack
+			// 195 - White Shark Pack
+			{ 197, new() { Monster = MonsterIds.DeathEye, WeakMin = 1, WeakMax = 1, StrongMin = 2, StrongMax = 3, Free = new() { 1, 2, 3, 4, 5, 6, 7, 9 } } }, // 197 - Death Eye (Wrong eye)
+			// 202 - Water Elemental x3
+			// 208 - Waterfall Mummy Pack
+			{ 229, new() { Monster = MonsterIds.DragonZombie, WeakMin = 1, WeakMax = 2, StrongMin = 3, StrongMax = 4, Free = new() { 1, 2, 3, 4, 5, 6, 8 } } }, // 229 - Dragon Zombie x2
+			{ 239, new() { Monster = MonsterIds.BlueDragon, WeakMin = 1, WeakMax = 1, StrongMin = 2, StrongMax = 3, Free = new() { 1, 2, 3, 4, 5, 6, 7, 9 } } }, // 239 - Blue Dragon
+			// 241 - Nightmare x2
+			{ 312, new() { Monster = MonsterIds.EvilEye, WeakMin = 1, WeakMax = 1, StrongMin = 2, StrongMax = 3, Free = new() { 1, 2, 3, 4, 5, 6, 7, 9 } } }, // 312 - Evil Eye
+			// 327 - Ogre+Hyena
+			// 329 - Sphinx x2
+			// 827 - Mummy Pack
+			// 828 - Wraith x5
+			// 829 - Mummy x5
+			// 830 - Death Eye (runnable?)
+		};
 		public static Dictionary<int, Dictionary<int, MonsterIds>> RandomizeMonsterParties(bool enable, MonsterPartyRangeModes rangemode, MonsterPartyCapModes capmode, MT19337 rng)
 		{
+			if (!enable)
+			{
+				return new();
+			}
+
 			var partyList = FF1PR.MasterManager.GetList<MonsterParty>();
 			int range = 0;
 
@@ -372,6 +462,157 @@ namespace FF1PRAP
 				}
 
 				newMonsterParties.Add(party.Key, newMonsters);
+			}
+
+			return newMonsterParties;
+		}
+
+		public static Dictionary<int, Dictionary<int, MonsterIds>> AddBossMinions(bool enable, MinionsRangeModes rangemode, MT19337 rng)
+		{
+			if (!enable)
+			{
+				return new();
+			}
+
+			Dictionary<int, Dictionary<int, MonsterIds>> newMonsterParties = new();
+
+			// Do Bosses Minions first
+			foreach (var boss in BossMinionConfigs)
+			{
+				int power = 0;
+				int pick = 0;
+				MinionGroupSizes size = MinionGroupSizes.Small;
+
+				switch (rangemode)
+				{
+					case MinionsRangeModes.Weak:
+						pick = rng.Between(0, 1);
+						if (pick == 0)
+						{
+							size = MinionGroupSizes.Large;
+							power = boss.Value.WeakRange;
+						}
+						else
+						{
+							size = MinionGroupSizes.Small;
+							power = boss.Value.MidRange;
+						}
+						break;
+					case MinionsRangeModes.Strong:
+						pick = rng.Between(0, 1);
+						if (pick == 0)
+						{
+							size = MinionGroupSizes.Large;
+							power = boss.Value.MidRange;
+						}
+						else
+						{
+							size = MinionGroupSizes.Small;
+							power = boss.Value.StrongRange;
+						}
+						break;
+					case MinionsRangeModes.WeakStrong:
+						pick = rng.Between(0, 1);
+						if (pick == 0)
+						{
+							size = MinionGroupSizes.Large;
+							pick = rng.Between(0, 1);
+							if (pick == 0)
+							{
+								power = boss.Value.WeakRange;
+							}
+							else
+							{
+								power = boss.Value.MidRange;
+							}
+						}
+						else
+						{
+							size = MinionGroupSizes.Small;
+							pick = rng.Between(0, 1);
+							if (pick == 0)
+							{
+								power = boss.Value.MidRange;
+							}
+							else
+							{
+								power = boss.Value.StrongRange;
+							}
+						}
+						break;
+				}
+
+				if (size == MinionGroupSizes.Large)
+				{
+					List<int> positions = new() { 1, 2, 3, 4, 5, 6 };
+					var qty = rng.Between(4, 6);
+					if (boss.Key == 350) qty /= 2; // garland special condition
+					var monster = rng.PickFrom(PowerGroupToMonsters[power]);
+
+					Dictionary<int, MonsterIds> newmonsters = new();
+
+					for (int i = 0; i < qty; i++)
+					{
+						var position = rng.TakeFrom(positions);
+						newmonsters.Add(position, monster);
+					}
+					newMonsterParties.Add(boss.Key, newmonsters);
+				}
+				else
+				{
+					List<int> positions = new() { 1, 2, 3, 4, 5, 6 };
+					var qty = rng.Between(1, 2);
+					if (boss.Key == 350) qty /= 2; // garland special condition
+
+					var monster1 = rng.PickFrom(PowerGroupToMonsters[power]);
+					var monster2 = rng.PickFrom(PowerGroupToMonsters[power]);
+
+					if (boss.Key == 346)
+					{
+						monster1 = rng.PickFrom(new List<MonsterIds> { MonsterIds.Lich, MonsterIds.Marilith, MonsterIds.Kraken, MonsterIds.Tiamat, MonsterIds.Warmech });
+					}
+
+					Dictionary<int, MonsterIds> newmonsters = new();
+					var position = rng.TakeFrom(positions);
+					newmonsters.Add(position, monster1);
+
+					if (qty > 1)
+					{
+						position = rng.TakeFrom(positions);
+						newmonsters.Add(position, monster2);
+					}
+
+					newMonsterParties.Add(boss.Key, newmonsters);
+				}
+			}
+
+			// Mini Bosses
+			foreach (var miniboss in MiniBossesConfigs)
+			{
+				int count = 0;
+				int pick = 0;
+
+				switch (rangemode)
+				{
+					case MinionsRangeModes.Weak:
+						count = rng.Between(miniboss.Value.WeakMin, miniboss.Value.WeakMax);
+						break;
+					case MinionsRangeModes.Strong:
+						count = rng.Between(miniboss.Value.StrongMin, miniboss.Value.StrongMax);
+						break;
+					case MinionsRangeModes.WeakStrong:
+						count = rng.Between(miniboss.Value.WeakMin, miniboss.Value.StrongMax);
+						break;
+				}
+				Dictionary<int, MonsterIds> newmonsters = new();
+				List<int> positions = new(miniboss.Value.Free);
+				for (int i = 0; i < count; i++)
+				{
+					var position = rng.TakeFrom(positions);
+					newmonsters.Add(position, miniboss.Value.Monster);
+				}
+
+				newMonsterParties.Add(miniboss.Key, newmonsters);
 			}
 
 			return newMonsterParties;

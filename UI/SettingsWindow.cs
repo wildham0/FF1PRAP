@@ -837,10 +837,12 @@ namespace FF1PRAP
 			CreateDropdown(Options.Dict["shuffle_spells"].Display, Options.Dict["shuffle_spells"]);
 			CreateDropdown(Options.Dict["shuffle_trials_maze"].Display, Options.Dict["shuffle_trials_maze"]);
 			CreateDropdown(Options.Dict["early_progression"].Display, Options.Dict["early_progression"]);
+			CreateDropdown(Options.Dict["northern_docks"].Display, Options.Dict["northern_docks"]);
 			apHeight += 20f * guiScale;
 
 			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Monsters");
 			CreateDropdown(Options.Dict["nerf_chaos"].Display, Options.Dict["nerf_chaos"]);
+			CreateDropdown(Options.Dict["boss_minions"].Display, Options.Dict["boss_minions"]);
 			CreateDropdown(Options.Dict["monster_parties"].Display, Options.Dict["monster_parties"]);
 			CreateDropdown(Options.Dict["monsters_cap"].Display, Options.Dict["monsters_cap"]);
 			apHeight += 20f * guiScale;

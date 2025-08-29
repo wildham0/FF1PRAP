@@ -1,5 +1,4 @@
-﻿//using Il2CppSystem.Collections.Generic;
-using RomUtilities;
+﻿using RomUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,8 +109,13 @@ namespace FF1PRAP
 			randoData.OrdealsMaze = ShuffleOrdealsMaze(FF1PR.SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng);
 			randoData.JobPromotion = (JobPromotionModes)int.Parse(FF1PR.SessionManager.Options["job_promotion"]);
 			randoData.EarlyProgression = (EarlyProgressionModes)int.Parse(FF1PR.SessionManager.Options["early_progression"]);
+			randoData.NorthernDocks = FF1PR.SessionManager.Options["northern_docks"] == Options.Enable;
 			randoData.NerfChaos = FF1PR.SessionManager.Options["nerf_chaos"] == Options.Enable;
-			randoData.MonsterParties = RandomizeMonsterParties(FF1PR.SessionManager.Options["monster_parties"] != Options.Disable, (MonsterPartyRangeModes)int.Parse(FF1PR.SessionManager.Options["monster_parties"]), (MonsterPartyCapModes)int.Parse(FF1PR.SessionManager.Options["monsters_cap"]), rng);
+			// This is ugly but it'll do for now
+			randoData.MonsterParties = 
+				RandomizeMonsterParties(FF1PR.SessionManager.Options["monster_parties"] != Options.Disable, (MonsterPartyRangeModes)int.Parse(FF1PR.SessionManager.Options["monster_parties"]), (MonsterPartyCapModes)int.Parse(FF1PR.SessionManager.Options["monsters_cap"]), rng)
+				.Concat(AddBossMinions(FF1PR.SessionManager.Options["boss_minions"] != Options.Disable, (MinionsRangeModes)int.Parse(FF1PR.SessionManager.Options["boss_minions"]), rng))
+				.ToDictionary(x => x.Key, x => x.Value);
 
 			RandomizerData = randoData;
 
@@ -173,6 +177,15 @@ namespace FF1PRAP
 			new RegionData() { Region = Regions.RyukhanDesert, Access = new() { new() { AccessRequirements.Canoe }, new() { AccessRequirements.Airship }, } },
 			new RegionData() { Region = Regions.Volcano, Access = new() { new() { AccessRequirements.Canoe }, new() { AccessRequirements.Airship }, } },
 			new RegionData() { Region = Regions.IceCave, Access = new() { new() { AccessRequirements.Ship, AccessRequirements.Canoe }, new() { AccessRequirements.Airship }, } },
+		};
+
+		static public List<RegionData> FixedRegionsNorthernDocks = new()
+		{
+			new RegionData() { Region = Regions.Onrac, Access = new() { new() { AccessRequirements.Ship, AccessRequirements.Canal }, new() { AccessRequirements.Airship }, } },
+			new RegionData() { Region = Regions.Caravan, Access = new() { new() { AccessRequirements.Ship, AccessRequirements.Canal }, new() { AccessRequirements.Airship }, } },
+			new RegionData() { Region = Regions.Waterfall, Access = new() { new() { AccessRequirements.Ship, AccessRequirements.Canal, AccessRequirements.Canoe }, new() { AccessRequirements.Airship, AccessRequirements.Canoe }, } },
+
+			new RegionData() { Region = Regions.MirageTower, Access = new() { new() { AccessRequirements.Ship, AccessRequirements.Canal, AccessRequirements.Bell }, new() { AccessRequirements.Airship, AccessRequirements.Bell } } },
 		};
 
 		static public List<LocationData> FixedLocations = new()

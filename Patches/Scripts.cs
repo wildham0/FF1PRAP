@@ -30,7 +30,6 @@ namespace FF1PRAP
 					{
 						if (Randomizer.FlagToDialogue.TryGetValue(locationflag, out var dialogue))
 						{
-
 							var location = Randomizer.ApLocations[locationflag];
 
 							FF1PR.MessageManager.GetMessageDictionary()[dialogue] = $"You obtained {location.Content}.";

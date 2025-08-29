@@ -200,6 +200,13 @@ namespace FF1PRAP {
 					aplocdata.Add(location.Flag, new ApLocationData() { Flag = location.Flag, Id = item.Key, Name = location.Name, Content = itemstring });
 				}
 			}
+
+			// Add a dummy Bahamut location if he just gives promotion
+			if (!aplocdata.ContainsKey(407))
+			{
+				aplocdata.Add(407, new ApLocationData() { Content = "Nothing" });
+			}
+
 			Randomizer.ApLocations = aplocdata;
 			// End result is treasure flag dict > item info
 			// we need the long id to get this

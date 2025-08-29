@@ -29,6 +29,7 @@ namespace FF1PRAP
 		public bool NerfChaos { get; set; }
 		public JobPromotionModes JobPromotion { get; set; }
 		public EarlyProgressionModes EarlyProgression { get; set; }
+		public bool NorthernDocks { get; set; }
 
 		public RandomizerData()
 		{
