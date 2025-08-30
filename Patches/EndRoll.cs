@@ -19,15 +19,15 @@ namespace FF1PRAP
 			{
 				var assetName = "stuff_ja";
 
-				if (FF1PR.ResourceManager.completeAssetDic.ContainsKey("Assets/GameAssets/Serial/Res/EndRoll/" + assetName))
+				if (GameData.ResourceManager.completeAssetDic.ContainsKey("Assets/GameAssets/Serial/Res/EndRoll/" + assetName))
 				{
-					var text = FF1PR.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/EndRoll/" + assetName].TryCast<TextAsset>().text;
+					var text = GameData.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/EndRoll/" + assetName].TryCast<TextAsset>().text;
 
 					text = text.Replace("STUFF_SQDEV_01_02\tYoshinori Kitase", "STUFF_SQDEV_01_02\t<color=\"#43deff\">SUPERVISOR</color>\nYoshinori Kitase");
 					text = text.Replace("STUFF_SQDEV_01_01\t<color=\"#43deff\">SUPERVISOR</color>", "STUFF_SQDEV_01_01\t" + CreditAsset.CreditNames);
 
 					var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, text);
-					FF1PR.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/EndRoll/" + assetName] = textasset;
+					GameData.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/EndRoll/" + assetName] = textasset;
 				}
 				else
 				{
@@ -36,16 +36,16 @@ namespace FF1PRAP
 
 				assetName = "01_FF1_sqex_dev";
 
-				if (FF1PR.ResourceManager.completeAssetDic.ContainsKey("Assets/GameAssets/Serial/Res/EndRoll/" + assetName))
+				if (GameData.ResourceManager.completeAssetDic.ContainsKey("Assets/GameAssets/Serial/Res/EndRoll/" + assetName))
 				{
-					var text = FF1PR.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/EndRoll/" + assetName].TryCast<TextAsset>().text;
+					var text = GameData.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/EndRoll/" + assetName].TryCast<TextAsset>().text;
 
 					text = text.Replace("\n      \"STUFF_SQDEV_01_01\",", "");
 					var index = text.IndexOf("      \"STUFF_TITLE_00_01\",");
 					text = text.Insert(index, "      \"STUFF_SQDEV_01_01\",\n");
 
 					var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, text);
-					FF1PR.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/EndRoll/" + assetName] = textasset;
+					GameData.ResourceManager.completeAssetDic["Assets/GameAssets/Serial/Res/EndRoll/" + assetName] = textasset;
 				}
 				else
 				{

@@ -11,7 +11,7 @@ namespace FF1PRAP
 	{
 		private static void GameBooster_Post(ref Last.UI.KeyInput.ConfigController __instance)
 		{
-			if (!Randomizer.RandomizerData.BoostMenu)
+			if (!Randomizer.Data.BoostMenu)
 			{
 				__instance.InitializeNone();
 			}

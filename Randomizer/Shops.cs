@@ -41,7 +41,7 @@ namespace FF1PRAP
 			List<Product> armors = new();
 			List<Product> weapons = new();
 
-			foreach (var product in FF1PR.MasterManager.GetList<Product>())
+			foreach (var product in GameData.MasterManager.GetList<Product>())
 			{
 				if (armorShops.ContainsKey((Shops)product.Value.GroupId))
 				{
@@ -114,7 +114,7 @@ namespace FF1PRAP
 		{
 			foreach (var product in shops)
 			{
-				FF1PR.MasterManager.GetList<Product>()[product.Id] = product;
+				GameData.MasterManager.GetList<Product>()[product.Id] = product;
 			}
 		}
 	}

@@ -12,9 +12,9 @@ namespace FF1PRAP
 		public static void Treasure_Prefix(ref FieldTresureBox tresureBoxEntity)
 		{
 			var prop = tresureBoxEntity.tresureBoxProperty;
-			if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+			if (SessionManager.GameMode == GameModes.Archipelago)
 			{
-				if (FF1PR.DataStorage.Get(Last.Interpreter.DataStorage.Category.kTreasureFlag1, prop.FlagId) == 1)
+				if (GameData.DataStorage.Get(Last.Interpreter.DataStorage.Category.kTreasureFlag1, prop.FlagId) == 1)
 				{
 					return;
 				}
@@ -25,10 +25,10 @@ namespace FF1PRAP
 
 				var location = Randomizer.ApLocations[prop.FlagId];
 
-				FF1PR.MessageManager.GetMessageDictionary()["MSG_OTHER_11"] = $"You obtained {location.Content}.";
+				GameData.MessageManager.GetMessageDictionary()["MSG_OTHER_11"] = $"You obtained {location.Content}.";
 				Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[prop.FlagId]);
 			}
-			else if (FF1PR.PlacedItems.TryGetValue(prop.FlagId, out var item))
+			else if (Randomizer.Data.PlacedItems.TryGetValue(prop.FlagId, out var item))
 			{
 				prop.ContentId = item.Id;
 				prop.ContentNum = item.Qty;

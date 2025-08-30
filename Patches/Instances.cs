@@ -19,53 +19,53 @@ namespace FF1PRAP
 		// Message Manager to inject Dialogues
 		public static void MessageManagerInit_Postfix(MessageManager __instance)
 		{
-			FF1PR.MessageManager = __instance;
+			GameData.MessageManager = __instance;
 		}
 		// DataStorage to manipulate flags
 		public static void DataStorageInit_Postfix(DataStorage __instance)
 		{
-			FF1PR.DataStorage = __instance;
+			GameData.DataStorage = __instance;
 		}
 		// GameStateTracker to read current state
 		public static void GameStateTrackerInit_Postfix(GameStateTracker __instance)
 		{
 			//InternalLogger.LogInfo($"Stat Tracker: Do we ever init? {__instance.CurrentState}");
-			FF1PR.StateTracker = __instance;
+			GameData.StateTracker = __instance;
 		}
 		// UserDataManager, set starting transportation
 		public static void UserDataManagerInit_Postfix(UserDataManager __instance)
 		{
-			FF1PR.UserData = __instance;
+			GameData.UserData = __instance;
 		}
 		// Master Manager, to manipulate game data (items, class, attack, whatever)
 		private static void MasterManagerInit_Postfix(Last.Data.Master.MasterManager __instance)
 		{
-			FF1PR.MasterManager = __instance;
+			GameData.MasterManager = __instance;
 		}
 		// Map Manager, for map data?
 		private static void MapManagerInit_Postfix(Last.Map.MapManager __instance)
 		{
-			FF1PR.MapManager = __instance;
+			GameData.MapManager = __instance;
 		}
 		// FieldController
 		private static void FieldControllerInit_Postfix(Last.Map.FieldController __instance)
 		{
-			FF1PR.FieldController = __instance;
+			GameData.FieldController = __instance;
 		}
 		// OwnedItems
 		private static void OwnedItemClientInit_Postfix(Last.Management.OwnedItemClient __instance)
 		{
-			//InternalLogger.LogInfo($"OwnedItemClient initialization; last instance was null? {FF1PR.OwnedItemsClient == null}");
+			//InternalLogger.LogInfo($"OwnedItemClient initialization; last instance was null? {GameData.OwnedItemsClient == null}");
 			
-			if (FF1PR.OwnedItemsClient == null)
+			if (GameData.OwnedItemsClient == null)
 			{
-				FF1PR.OwnedItemsClient = __instance;
+				GameData.OwnedItemsClient = __instance;
 			}
 		}
 		// Resource Manager
 		public static void GetResourceManager_Post(ResourceManager __instance)
 		{
-			FF1PR.ResourceManager = __instance;
+			GameData.ResourceManager = __instance;
 		}
 		// Menu/Title controllers
 		private static void MainMenuControllerInitialize_Post(MainMenuController __instance, MenuCommandId state)
@@ -76,7 +76,7 @@ namespace FF1PRAP
 		private static void TitleWindowControllerInitialize_Post(TitleWindowController __instance)
 		{
 			InternalLogger.LogInfo($"TitleWindowController initialized.");
-			FF1PR.TitleWindowController = __instance;
+			GameData.TitleWindowController = __instance;
 		}
 	}
 }

@@ -68,15 +68,15 @@ namespace FF1PRAP
 			switch(fieldName)
 			{
 				case "Player":
-					return FF1PR.SessionManager.Data.Player;
+					return SessionManager.Data.Player;
 				case "Hostname":
-					return FF1PR.SessionManager.Data.Host;
+					return SessionManager.Data.Host;
 				case "Port":
-					return FF1PR.SessionManager.Data.Port;
+					return SessionManager.Data.Port;
 				case "Password":
-					return FF1PR.SessionManager.Data.Password;
+					return SessionManager.Data.Password;
 				case "Seed":
-					return FF1PR.SessionManager.Data.Seed;
+					return SessionManager.Data.Seed;
 				default:
 					return "";
 			}
@@ -88,19 +88,19 @@ namespace FF1PRAP
 			switch (fieldName)
 			{
 				case "Player":
-					FF1PR.SessionManager.Data.Player = value;
+					SessionManager.Data.Player = value;
 					return;
 				case "Hostname":
-					FF1PR.SessionManager.Data.Host = value;
+					SessionManager.Data.Host = value;
 					return;
 				case "Port":
-					FF1PR.SessionManager.Data.Port = value;
+					SessionManager.Data.Port = value;
 					return;
 				case "Password":
-					FF1PR.SessionManager.Data.Password = value;
+					SessionManager.Data.Password = value;
 					return;
 				case "Seed":
-					FF1PR.SessionManager.Data.Seed = value;
+					SessionManager.Data.Seed = value;
 					try
 					{
 						seed = Convert.FromHexString(value);
@@ -157,7 +157,7 @@ namespace FF1PRAP
 
 			stringToEdit = "";
 			stringCursorPosition = 0;
-			FF1PR.SessionManager.WriteSessionInfo();
+			SessionManager.WriteSessionInfo();
 			editingFlags[fieldName] = false;
 		}
 
@@ -182,14 +182,14 @@ namespace FF1PRAP
 				stringToEdit = GUIUtility.systemCopyBuffer;
 				finishEditingTextField(fieldName);
 			}
-			FF1PR.SessionManager.WriteSessionInfo();
+			SessionManager.WriteSessionInfo();
 		}
 
 		private static void handleClearButton(string fieldName)
 		{
 			setConnectionSetting(fieldName, "");
 			if (editingFlags[fieldName]) stringToEdit = "";
-			FF1PR.SessionManager.WriteSessionInfo();
+			SessionManager.WriteSessionInfo();
 		}
 
 		private static void handleRollButton(string fieldName)
@@ -204,7 +204,7 @@ namespace FF1PRAP
 			}
 			setConnectionSetting(fieldName, seedString);
 			if (editingFlags[fieldName]) stringToEdit = "";
-			FF1PR.SessionManager.WriteSessionInfo();
+			SessionManager.WriteSessionInfo();
 		}
 
 		private static void CalcGuiScale()
@@ -229,13 +229,13 @@ namespace FF1PRAP
 		private void OnGUI()
 		{
 			bool showSettings = SceneManager.GetActiveScene().name == "Title" &&
-				FF1PR.TitleWindowController != null &&
-				(FF1PR.TitleWindowController.stateMachine.Current == TitleWindowController.State.None ||
-				FF1PR.TitleWindowController.stateMachine.Current == TitleWindowController.State.Select);
+				GameData.TitleWindowController != null &&
+				(GameData.TitleWindowController.stateMachine.Current == TitleWindowController.State.None ||
+				GameData.TitleWindowController.stateMachine.Current == TitleWindowController.State.Select);
 
 			if (showSettings)
 			{
-				FF1PR.SessionManager.CurrentSlot = 0;
+				SessionManager.CurrentSlot = 0;
 
 				//InternalLogger.LogInfo($"Title Window is here.");
 				// initial draw or screen was resized, redraw texture
@@ -260,7 +260,7 @@ namespace FF1PRAP
 				GUI.backgroundColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 				// Show Main window
-				switch (FF1PR.SessionManager.GameMode)
+				switch (SessionManager.GameMode)
 				{
 					case GameModes.Randomizer:
 						GUI.Window(101, standardWindowRect, new Action<int>(RandomizerSettingsWindow), "Single Player Randomizer Settings", GUI.skin.window);
@@ -277,9 +277,9 @@ namespace FF1PRAP
 					Rect sideSettingsWindow = new Rect(440f * guiScale + 30f, standardWindowRect.y, standardWindowRect.width, standardWindowRect.height);
 					GUI.Window(104, sideSettingsWindow, new Action<int>(ToolTipWindow), currentToolTip.Display);
 
-					if (FF1PR.TitleWindowController != null)
+					if (GameData.TitleWindowController != null)
 					{
-						FF1PR.TitleWindowController.SetEnableMenu(false);
+						GameData.TitleWindowController.SetEnableMenu(false);
 					}
 				}
 
@@ -304,7 +304,7 @@ namespace FF1PRAP
 
 		private void Update()
 		{
-			//if ((FF1PR.SessionManager.GameMode == GameModes.Archipelago && ShowAPSettingsWindow) && SceneManager.GetActiveScene().name == "Title")
+			//if ((SessionManager.GameMode == GameModes.Archipelago && ShowAPSettingsWindow) && SceneManager.GetActiveScene().name == "Title")
 			if (editingFlags.Where(f => f.Value).Any() && SceneManager.GetActiveScene().name == "Title")
 			{
 				bool submitKeyPressed = false;
@@ -371,9 +371,9 @@ namespace FF1PRAP
 					if (!editingFlags["Player"] && !editingFlags["Hostname"] && !editingFlags["Port"] && !editingFlags["Password"] && !editingFlags["Seed"])
 					{
 						currentToolTip = null;
-						if (FF1PR.TitleWindowController != null)
+						if (GameData.TitleWindowController != null)
 						{
-							FF1PR.TitleWindowController.SetEnableMenu(true);
+							GameData.TitleWindowController.SetEnableMenu(true);
 						}
 					}
 
@@ -392,9 +392,9 @@ namespace FF1PRAP
 			else if (Input.GetKeyDown(KeyCode.Escape) && SceneManager.GetActiveScene().name == "Title")
 			{
 				currentToolTip = null;
-				if (FF1PR.TitleWindowController != null)
+				if (GameData.TitleWindowController != null)
 				{
-					FF1PR.TitleWindowController.SetEnableMenu(true);
+					GameData.TitleWindowController.SetEnableMenu(true);
 				}
 			}
 		}
@@ -417,9 +417,9 @@ namespace FF1PRAP
 				currentToolTip = currentToolTip == option ? null : option;
 				if (currentToolTip == null)
 				{
-					if (FF1PR.TitleWindowController != null)
+					if (GameData.TitleWindowController != null)
 					{
-						FF1PR.TitleWindowController.SetEnableMenu(true);
+						GameData.TitleWindowController.SetEnableMenu(true);
 					}
 				}
 			}
@@ -427,7 +427,7 @@ namespace FF1PRAP
 			bool showOptions = currentOptionShowing == label;
 
 			string currentSelection = option.Choices[option.Default];
-			if (FF1PR.SessionManager.Data.Options.TryGetValue(option.Key, out var select))
+			if (SessionManager.Data.Options.TryGetValue(option.Key, out var select))
 			{
 				if (option.Choices.TryGetValue(select, out var foundchoice))
 				{
@@ -457,7 +457,7 @@ namespace FF1PRAP
 				{
 					if (GUI.Button(ScaledRect((apMargin + 20f), GetApHeight(30f), 280f, 30f), choice.Value))
 					{
-						FF1PR.SessionManager.Options[option.Key] = choice.Key;
+						SessionManager.Options[option.Key] = choice.Key;
 						currentOptionShowing = "";
 					}
 				}
@@ -532,7 +532,7 @@ namespace FF1PRAP
 
 			bool showOptions = currentOptionShowing == label;
 
-			string currentSelection = gameModeOption[FF1PR.SessionManager.GameMode];
+			string currentSelection = gameModeOption[SessionManager.GameMode];
 
 
 			if (showOptions)
@@ -555,9 +555,9 @@ namespace FF1PRAP
 				{
 					if (GUI.Button(ScaledRect((apMargin + 20f), GetApHeight(30f), 320f, 30f), choice.Value))
 					{
-						FF1PR.SessionManager.GameMode = choice.Key;
+						SessionManager.GameMode = choice.Key;
 						currentOptionShowing = "";
-						FF1PR.SessionManager.WriteSessionInfo();
+						SessionManager.WriteSessionInfo();
 					}
 				}
 			}
@@ -588,9 +588,9 @@ namespace FF1PRAP
 			if (GUI.Button(new Rect(apMargin * guiScale, standardWindowRect.height - (apMargin * 3 * guiScale), 100f, 30f), "Close"))
 			{
 				currentToolTip = null;
-				if (FF1PR.TitleWindowController != null)
+				if (GameData.TitleWindowController != null)
 				{
-					FF1PR.TitleWindowController.SetEnableMenu(true);
+					GameData.TitleWindowController.SetEnableMenu(true);
 				}
 			}
 		}
@@ -626,16 +626,16 @@ namespace FF1PRAP
 
 			if (generate)
 			{
-				var hash = FF1PR.SessionManager.CreateHash();
+				var hash = SessionManager.CreateHash();
 				Randomizer.Randomize();
-				FF1PR.SessionManager.WriteSessionInfo();
+				SessionManager.WriteSessionInfo();
 				generationReady = true;
 			}
 
 			if (generationReady)
 			{
 				GUI.skin.label.fontSize = (int)(standardFontSize * 1 * guiScale);
-				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 200f, 30f), $"Hash: {FF1PR.SessionManager.Data.Hashstring}");
+				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 200f, 30f), $"Hash: {SessionManager.Data.Hashstring}");
 			}
 
 			string genlabel = generationReady ? "Randomization done. You can start a new game to play with these settings." : "Click Generate to randomize a new game or load a save file to continue a previously randomize game.";
@@ -667,7 +667,7 @@ namespace FF1PRAP
 			CreateGameModeDropdown("Game Mode");
 			apHeight += 20f * guiScale;
 
-			GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 350f, 30f), $"Player: {FF1PR.SessionManager.Data.Player}");
+			GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 350f, 30f), $"Player: {SessionManager.Data.Player}");
 			GUI.Label(ScaledRect(apMargin, apHeight, 70f, 30f), $"Status:");
 			if (Archipelago.instance.integration != null && Archipelago.instance.integration.connected)
 			{
@@ -742,12 +742,12 @@ namespace FF1PRAP
 				GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
 				GUI.Label(ScaledRect(apMargin, GetApHeight(30f), 340f, 30f), $"Host: {textWithCursor(getConnectionSetting("Hostname"), editingFlags["Hostname"], true)}");
 
-				string setHost = CreateGenericDropdown("Hostname", new List<string>() { "localhost", "archipelago.gg" }, FF1PR.SessionManager.Data.Host);
+				string setHost = CreateGenericDropdown("Hostname", new List<string>() { "localhost", "archipelago.gg" }, SessionManager.Data.Host);
 
-				if (setHost != "" && FF1PR.SessionManager.Data.Host != setHost)
+				if (setHost != "" && SessionManager.Data.Host != setHost)
 				{
 					setConnectionSetting("Hostname", setHost);
-					FF1PR.SessionManager.WriteSessionInfo();
+					SessionManager.WriteSessionInfo();
 				}
 
 				bool EditHostname = GUI.Button(ScaledRect(apMargin, apHeight, 75f, 30f), editingFlags["Hostname"] ? "Save" : "Edit");

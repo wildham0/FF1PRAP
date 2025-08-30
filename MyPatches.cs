@@ -70,7 +70,7 @@ namespace FF1PRAP
 			var prop = tresureBoxEntity.tresureBoxProperty;
 
 			//InternalLogger.LogInfo($"Treasure {treasurename} opened: {entityid} - {flagid}; Content: {contentid} - {contentnum}");
-			InternalLogger.LogInfo($"new LocationData() {{ Content = {prop.ContentId}, Qty = {prop.ContentNum}, Id = {prop.EntityId}, Flag = {prop.FlagId}, Type = LocationType.Treasure, Name = \"\", Script = {prop.ScriptId}, Map = \"{FF1PR.CurrentMap}\", Access = new() {{ }} }},");
+			InternalLogger.LogInfo($"new LocationData() {{ Content = {prop.ContentId}, Qty = {prop.ContentNum}, Id = {prop.EntityId}, Flag = {prop.FlagId}, Type = LocationType.Treasure, Name = \"\", Script = {prop.ScriptId}, Map = \"{GameData.CurrentMap}\", Access = new() {{ }} }},");
 		}
 
 		public static void TransportationData(ref OwnedTransportationData data)
@@ -114,7 +114,7 @@ namespace FF1PRAP
 			if (data.ContentId == 59)
 			{
 				// slab !
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 31, 1);
+				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 31, 1);
 			}
 			InternalLogger.LogInfo($"{data.ProductId} - {data.ContentId} - {count}");
 		}
@@ -190,7 +190,7 @@ namespace FF1PRAP
 		public static void CheckForScriptAndInject(string scriptName, MapAssetData __instance)
 		{
 
-			InternalLogger.LogInfo($"Running {scriptName} on {FF1PR.CurrentMap}");
+			InternalLogger.LogInfo($"Running {scriptName} on {GameData.CurrentMap}");
 			/*
 			if (scriptName == "sc_e_0051")
 			{
@@ -316,7 +316,7 @@ namespace FF1PRAP
 		public static void AnalyseCallBack(UserDataManager __instance)
 		{
 
-			FF1PR.UserData = __instance;
+			GameData.UserData = __instance;
 			InternalLogger.LogInfo($"Init: {__instance.CurrentLocation}");
 
 
@@ -331,8 +331,8 @@ namespace FF1PRAP
 		public static void GetLatestSaveSlotData(SaveSlotManager __instance, int slotId)
 		{
 
-			FF1PR.SaveManager = __instance;
-			FF1PR.CurrentSlot = slotId;
+			//FF1PR.SaveManager = __instance;
+			//FF1PR.CurrentSlot = slotId;
 			InternalLogger.LogInfo($"Slot Loaded: {slotId}");
 
 			// Load randomization data here
@@ -342,8 +342,8 @@ namespace FF1PRAP
 		public static void GetLatestSaveSlotData2(SaveSlotManager __instance, SaveSlotData saveData)
 		{
 
-			FF1PR.SaveManager = __instance;
-			FF1PR.CurrentSlot = saveData.id;
+			//FF1PR.SaveManager = __instance;
+			//FF1PR.CurrentSlot = saveData.id;
 			InternalLogger.LogInfo($"Slot Loaded 2: {__instance.CurrentSlotId} / {saveData.id}");
 
 			// Load randomization data here
@@ -410,9 +410,9 @@ namespace FF1PRAP
 			//FF1PR.RandoData.Counter++;
 			//InternalLogger.LogInfo($"Entity Update : {Plugin.RandoData.Counter} - Running? {__instance.working}");
 
-			if (FF1PR.StateTracker is null)
+			if (GameData.StateTracker is null)
 			{
-				FF1PR.StateTracker = GameObject.Find("GameStateTracker").GetComponent<GameStateTracker>();
+				GameData.StateTracker = GameObject.Find("GameStateTracker").GetComponent<GameStateTracker>();
 			}
 			/*
 			var dataManager = FF1PR.UserData;
@@ -423,7 +423,7 @@ namespace FF1PRAP
 			{
 				FF1PR.RandoData.Counter = 0;
 				
-				//InternalLogger.LogInfo($"State: {FF1PR.StateTracker.CurrentState} /  {FF1PR.StateTracker.CurrentSubState}");
+				//InternalLogger.LogInfo($"State: {GameData.StateTracker.CurrentState} /  {GameData.StateTracker.CurrentSubState}");
 
 				if (dataManager is not null)
 				{
@@ -466,13 +466,13 @@ namespace FF1PRAP
 			Message.PlayMessageCommon("MSG_WND_DAN_04", test, true);
 			*/
 			/*
-			var itemNameKey = FF1PR.MasterManager.GetList<Content>()[FF1PR.RandoData.CurrentItem].MesIdName;
-			var itemName = FF1PR.MessageManager.GetMessage(itemNameKey);
+			var itemNameKey = GameData.MasterManager.GetList<Content>()[FF1PR.RandoData.CurrentItem].MesIdName;
+			var itemName = GameData.MessageManager.GetMessage(itemNameKey);
 
-			//FF1PR.MessageManager.GetMessage("");
-			FF1PR.MessageManager.RemoveValue("MSG_CUSTM_01");
-			FF1PR.MessageManager.AddMessage("MSG_CUSTM_01", $"You obtained {itemName}? Hope you're happy with it!");
-			FF1PR.MessageManager.GetMessageDictionary()["MSG_CUSTM_01"] = $"You obtained {itemName}? Hope you're happy with it!";
+			//GameData.MessageManager.GetMessage("");
+			GameData.MessageManager.RemoveValue("MSG_CUSTM_01");
+			GameData.MessageManager.AddMessage("MSG_CUSTM_01", $"You obtained {itemName}? Hope you're happy with it!");
+			GameData.MessageManager.GetMessageDictionary()["MSG_CUSTM_01"] = $"You obtained {itemName}? Hope you're happy with it!";
 
 			newitemscript.AddSegment(new List<string>()
 			{
@@ -544,7 +544,7 @@ namespace FF1PRAP
 
 		public static void IntegratorExit_Post(Integrator __instance)
 		{
-			FF1PR.ScriptIntegrator = __instance;
+			//FF1PR.ScriptIntegrator = __instance;
 			//InternalLogger.LogInfo($"Exiting script {__instance.scriptName}.");
 		}
 
@@ -674,22 +674,22 @@ namespace FF1PRAP
 
 		public static void ReplaceKey_Post(ref string __result, string message, Dictionary<string, string> dictionary)
 		{
-			if (FF1PR.SaveInfoState.CurrentSlot != FF1PR.SaveInfoState.PreviousSlot)
+			if (GameData.SaveInfoState.CurrentSlot != GameData.SaveInfoState.PreviousSlot)
 			{
-				if (message.Contains("File") && FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot) != "")
+				if (message.Contains("File") && SessionManager.GetSlotInfo(GameData.SaveInfoState.CurrentSlot) != "")
 				{
-					__result = $"{FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot)}   File";
-					FF1PR.SaveInfoState.PreviousSlot = FF1PR.SaveInfoState.CurrentSlot;
+					__result = $"{SessionManager.GetSlotInfo(GameData.SaveInfoState.CurrentSlot)}   File";
+					GameData.SaveInfoState.PreviousSlot = GameData.SaveInfoState.CurrentSlot;
 				}
-				else if (message.Contains("Autosave") && FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot) != "")
+				else if (message.Contains("Autosave") && SessionManager.GetSlotInfo(GameData.SaveInfoState.CurrentSlot) != "")
 				{
-					__result = $"{FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot)}   Autosave";
-					FF1PR.SaveInfoState.PreviousSlot = FF1PR.SaveInfoState.CurrentSlot;
+					__result = $"{SessionManager.GetSlotInfo(GameData.SaveInfoState.CurrentSlot)}   Autosave";
+					GameData.SaveInfoState.PreviousSlot = GameData.SaveInfoState.CurrentSlot;
 				}
-				else if (message.Contains("Quick Save") && FF1PR.SaveInfoState.CurrentSlot == 22 && FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot) != "")
+				else if (message.Contains("Quick Save") && GameData.SaveInfoState.CurrentSlot == 22 && SessionManager.GetSlotInfo(GameData.SaveInfoState.CurrentSlot) != "")
 				{
-					__result = $"{FF1PR.SessionManager.GetSlotInfo(FF1PR.SaveInfoState.CurrentSlot)}   Quick Save";
-					FF1PR.SaveInfoState.PreviousSlot = FF1PR.SaveInfoState.CurrentSlot;
+					__result = $"{SessionManager.GetSlotInfo(GameData.SaveInfoState.CurrentSlot)}   Quick Save";
+					GameData.SaveInfoState.PreviousSlot = GameData.SaveInfoState.CurrentSlot;
 				}
 				
 			}
@@ -698,7 +698,7 @@ namespace FF1PRAP
 		public static void SetContentData_Pre(ref SaveSlotData data, int index, SaveListController.Mode mode)
 		{
 			//InternalLogger.LogInfo($"SaveSloData: {index} - {data.id}");
-			FF1PR.SaveInfoState.CurrentSlot = data.id;
+			GameData.SaveInfoState.CurrentSlot = data.id;
 		}
 
 		public static void CheckFairyShop_Post()
@@ -710,26 +710,26 @@ namespace FF1PRAP
 
 		private static void BuyItemProduct_Post(ShopProductData data, int count, bool __result)
 		{
-			if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
+			if (SessionManager.GameMode == GameModes.Randomizer)
 			{
 				// 141 is the caravan shop product id
 				if (data.ProductId == 141 && __result)
 				{
-					FF1PR.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
+					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
 				}
 			}
-			else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+			else if (SessionManager.GameMode == GameModes.Archipelago)
 			{
 				if (data.ProductId == 141 && __result)
 				{
-					FF1PR.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
+					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
 					Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[(int)TreasureFlags.Caravan]);
 				}
 			}
 		}
 		private static void BuyItemInt_Post(int productId, int count, bool __result)
 		{
-			if (productId == FF1PR.PlacedItems[(int)TreasureFlags.Caravan].Id && __result)
+			if (productId == Randomizer.Data.PlacedItems[(int)TreasureFlags.Caravan].Id && __result)
 			{
 				InternalLogger.LogInfo($"Item bought! Int");
 			}
@@ -747,11 +747,11 @@ namespace FF1PRAP
 
 		private static void GetRequiredStepsRange_Post(MapModel __instance, ref RequiredStepsRange __result)
 		{
-			float multiplier = Randomizer.RandomizerData.DungeonEncounterRate;
+			float multiplier = Randomizer.Data.DungeonEncounterRate;
 
 			if (__instance.GetMapName() == "Map_10010")
 			{
-				multiplier = Randomizer.RandomizerData.OverworldEncounterRate;
+				multiplier = Randomizer.Data.OverworldEncounterRate;
 			}
 
 
@@ -785,7 +785,7 @@ namespace FF1PRAP
 			// i guess we'll have to mine manually
 			// so
 
-			InternalLogger.LogInfo($"NextMapProperty: {FF1PR.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
+			InternalLogger.LogInfo($"NextMapProperty: {GameData.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
 			
 
 			/*
@@ -807,7 +807,7 @@ namespace FF1PRAP
 
 			if (mapId == 94)
 			{
-				if (Randomizer.RandomizerData.OrdealsMaze.TryGetValue(point, out var newpoint))
+				if (Randomizer.Data.OrdealsMaze.TryGetValue(point, out var newpoint))
 				{
 					InternalLogger.LogInfo($"NextMapInt: Hijack {point} > {newpoint}");
 					point = newpoint;
@@ -815,7 +815,7 @@ namespace FF1PRAP
 			}
 
 			
-			//InternalLogger.LogInfo($"NextMapInt: {FF1PR.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
+			//InternalLogger.LogInfo($"NextMapInt: {GameData.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
 			/*
 			if (mapId == 94 && point == 3)
 			{

@@ -20,32 +20,32 @@ namespace FF1PRAP
 	{
 		public static void GetScript_Postfix(string scriptName, ref TextAsset __result, ref MapAssetData __instance)
 		{
-			InternalLogger.LogInfo($"Running {scriptName} on {FF1PR.CurrentMap}");
+			InternalLogger.LogInfo($"Running {scriptName} on {GameData.CurrentMap}");
 
 			if (scriptReplacements.TryGetValue(scriptName, out var script))
 			{
 				if (Randomizer.ScriptToItemFlag.TryGetValue(scriptName, out var locationflag))
 				{
-					if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+					if (SessionManager.GameMode == GameModes.Archipelago)
 					{
 						if (Randomizer.FlagToDialogue.TryGetValue(locationflag, out var dialogue))
 						{
 							var location = Randomizer.ApLocations[locationflag];
 
-							FF1PR.MessageManager.GetMessageDictionary()[dialogue] = $"You obtained {location.Content}.";
+							GameData.MessageManager.GetMessageDictionary()[dialogue] = $"You obtained {location.Content}.";
 
 							script = script.Replace("RANDOITEM", $"{43}");
 							script = script.Replace("RANDOQTY", $"{0}");
 							script = script.Replace("CHESTFLAG", $"{locationflag}");
 						}
 					}
-					else if (FF1PR.PlacedItems.TryGetValue(locationflag, out var item))
+					else if (Randomizer.Data.PlacedItems.TryGetValue(locationflag, out var item))
 					{
 						if (Randomizer.FlagToDialogue.TryGetValue(locationflag, out var dialogue))
 						{
 							var itemname = GetPlacedItemName(locationflag);
 
-							FF1PR.MessageManager.GetMessageDictionary()[dialogue] = $"You obtained {itemname}.";
+							GameData.MessageManager.GetMessageDictionary()[dialogue] = $"You obtained {itemname}.";
 
 							script = script.Replace("RANDOITEM", $"{item.Id}");
 							script = script.Replace("RANDOQTY", $"{item.Qty}");
@@ -66,7 +66,7 @@ namespace FF1PRAP
 
 		public static string GetPlacedItemName(int flag)
 		{
-			if (FF1PR.PlacedItems.TryGetValue(flag, out var itemdata))
+			if (Randomizer.Data.PlacedItems.TryGetValue(flag, out var itemdata))
 			{
 				if (itemdata.Id == (int)Items.Gil)
 				{
@@ -74,8 +74,8 @@ namespace FF1PRAP
 				}
 				else
 				{
-					var itemNameKey = FF1PR.MasterManager.GetList<Content>()[itemdata.Id].MesIdName;
-					var itemName = FF1PR.MessageManager.GetMessage(itemNameKey);
+					var itemNameKey = GameData.MasterManager.GetList<Content>()[itemdata.Id].MesIdName;
+					var itemName = GameData.MessageManager.GetMessage(itemNameKey);
 					return itemName;
 				}
 			}

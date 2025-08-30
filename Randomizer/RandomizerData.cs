@@ -58,7 +58,7 @@ namespace FF1PRAP
 				{
 					using (StreamWriter writer = new StreamWriter(randoDataFile))
 					{
-						var randoString = JsonSerializer.Serialize<RandomizerData>(RandomizerData, serializeOptions);
+						var randoString = JsonSerializer.Serialize<RandomizerData>(Data, serializeOptions);
 						writer.Write(randoString);
 					}
 				}
@@ -88,7 +88,7 @@ namespace FF1PRAP
 						//var options = new JsonSerializerOptions();
 						//options.Converters.Add(new ValueToStringConverter());
 
-						RandomizerData = JsonSerializer.Deserialize<RandomizerData>(configdata, serializeOptions);
+						Data = JsonSerializer.Deserialize<RandomizerData>(configdata, serializeOptions);
 					}
 				}
 			}

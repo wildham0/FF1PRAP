@@ -57,13 +57,13 @@ namespace FF1PRAP
 			bool result = false;
 			if (Mode == FlagMode.Randoflag)
 			{
-				result = (FF1PR.SessionManager.Options[FlagGroup] == Value);
+				result = (SessionManager.Options[FlagGroup] == Value);
 			}
 			else if (Mode == FlagMode.Gameflag)
 			{
-				if (FF1PR.DataStorage != null)
+				if (GameData.DataStorage != null)
 				{
-					result = FF1PR.DataStorage.Get(gameflagCategory[FlagGroup], Value) == 1;
+					result = GameData.DataStorage.Get(gameflagCategory[FlagGroup], Value) == 1;
 				}
 			}
 

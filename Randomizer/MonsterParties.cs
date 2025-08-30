@@ -388,7 +388,7 @@ namespace FF1PRAP
 				return new();
 			}
 
-			var partyList = FF1PR.MasterManager.GetList<MonsterParty>();
+			var partyList = GameData.MasterManager.GetList<MonsterParty>();
 			int range = 0;
 
 			switch (rangemode)
@@ -621,7 +621,7 @@ namespace FF1PRAP
 		{
 			foreach (var party in newMonsterParties)
 			{
-				var monsterParty = FF1PR.MasterManager.GetData<MonsterParty>(party.Key);
+				var monsterParty = GameData.MasterManager.GetData<MonsterParty>(party.Key);
 
 				MonsterIds monster;
 
@@ -673,9 +673,9 @@ namespace FF1PRAP
 		}
 		public static void ApplyChaos()
 		{
-			if (Randomizer.RandomizerData.NerfChaos)
+			if (Randomizer.Data.NerfChaos)
 			{
-				var chaos = FF1PR.MasterManager.GetData<Monster>(128);
+				var chaos = GameData.MasterManager.GetData<Monster>(128);
 				chaos.Hp /= 2;
 				chaos.Intelligence = (int)(chaos.Intelligence * 0.75);
 				chaos.Attack = (int)(chaos.Attack * 0.75);

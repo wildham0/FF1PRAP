@@ -12,11 +12,11 @@ namespace FF1PRAP
 	{
 		private static void GetRequiredStepsRange_Post(MapModel __instance, ref RequiredStepsRange __result)
 		{
-			float multiplier = Randomizer.RandomizerData.DungeonEncounterRate;
+			float multiplier = Randomizer.Data.DungeonEncounterRate;
 
 			if (__instance.GetMapName() == "Map_10010")
 			{
-				multiplier = Randomizer.RandomizerData.OverworldEncounterRate;
+				multiplier = Randomizer.Data.OverworldEncounterRate;
 			}
 
 			__result = new RequiredStepsRange((int)(__result.Min * multiplier), (int)(__result.Max * multiplier));

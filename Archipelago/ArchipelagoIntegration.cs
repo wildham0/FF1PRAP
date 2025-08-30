@@ -42,7 +42,7 @@ namespace FF1PRAP {
 
 		public void Update()
 		{
-			if (FF1PR.SessionManager.GameMode != GameModes.Archipelago || !connected)
+			if (SessionManager.GameMode != GameModes.Archipelago || !connected)
 			{
 				return;
 			}
@@ -52,7 +52,7 @@ namespace FF1PRAP {
 				checkItemsReceived.MoveNext();
 			}
 
-			if (FF1PR.GameState == GameStates.InGame)
+			if (GameData.GameState == GameStates.InGame)
 			{
 				if (incomingItemHandler != null) {
 					incomingItemHandler.MoveNext();
@@ -64,7 +64,7 @@ namespace FF1PRAP {
 				locationsToSendTimer += Time.fixedUnscaledDeltaTime;
 			}
 						
-			if (FF1PR.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.ChaosDefeated) != 0 && !sentCompletion)
+			if (GameData.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.ChaosDefeated) != 0 && !sentCompletion)
 			{
 				sentCompletion = true;
 				SendCompletion();
@@ -73,7 +73,7 @@ namespace FF1PRAP {
 
 		public string TryConnect() {
 			
-			if (connected && FF1PR.SessionManager.Data.Player == session.Players.GetPlayerName(session.ConnectionInfo.Slot)) {
+			if (connected && SessionManager.Data.Player == session.Players.GetPlayerName(session.ConnectionInfo.Slot)) {
 				return "";
 			}
 
@@ -83,7 +83,7 @@ namespace FF1PRAP {
 
 			if (session == null) {
 				try {
-					session = ArchipelagoSessionFactory.CreateSession(FF1PR.SessionManager.Data.Host, int.Parse(FF1PR.SessionManager.Data.Port));
+					session = ArchipelagoSessionFactory.CreateSession(SessionManager.Data.Host, int.Parse(SessionManager.Data.Port));
 				} catch (Exception e) {
 					InternalLogger.LogInfo("Failed to create archipelago session!");
 					InternalLogger.LogInfo(e.GetBaseException().Message);
@@ -97,7 +97,7 @@ namespace FF1PRAP {
 			locationsToSend = new List<string>();
 
 			try {
-				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.Data.Player, ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.Data.Password);
+				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", SessionManager.Data.Player, ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: SessionManager.Data.Password);
 			} catch (Exception e) {
 				LoginResult = new LoginFailure(e.GetBaseException().Message);
 			}
@@ -116,7 +116,7 @@ namespace FF1PRAP {
 					disableSpoilerLog = false;
 				}
 
-				FF1PR.SessionManager.Data.WorldSeed = Archipelago.instance.integration.session.RoomState.Seed;
+				SessionManager.Data.WorldSeed = Archipelago.instance.integration.session.RoomState.Seed;
 				foreach (var option in Options.Dict)
 				{
 					if (slotData.ContainsKey(option.Key))
@@ -124,23 +124,23 @@ namespace FF1PRAP {
 						//InternalLogger.LogInfo($"{option.Key}: {slotData[option.Key].ToString()}");
 						if (slotData[option.Key].GetType() == typeof(bool))
 						{
-							FF1PR.SessionManager.Options[option.Key] = (bool)slotData[option.Key] ? Options.Enable : Options.Disable;
+							SessionManager.Options[option.Key] = (bool)slotData[option.Key] ? Options.Enable : Options.Disable;
 						}
 						else
 						{
-							FF1PR.SessionManager.Options[option.Key] = Convert.ToInt32((long)slotData[option.Key]);
+							SessionManager.Options[option.Key] = Convert.ToInt32((long)slotData[option.Key]);
 						}
 					}
 					else
 					{
 						//InternalLogger.LogInfo($"{option.Key} not found.");
-						FF1PR.SessionManager.Options[option.Key] = option.Value.Default;
+						SessionManager.Options[option.Key] = option.Value.Default;
 					}
 				}
 
 				// Start from inventory
-				FF1PR.SessionManager.Options["spawn_airship"] = (bool)slotData["spawn_airship"] ? Options.Enable : Options.Disable;
-				FF1PR.SessionManager.Options["spawn_ship"] = (bool)slotData["spawn_ship"] ? Options.Enable : Options.Disable;
+				SessionManager.Options["spawn_airship"] = (bool)slotData["spawn_airship"] ? Options.Enable : Options.Disable;
+				SessionManager.Options["spawn_ship"] = (bool)slotData["spawn_ship"] ? Options.Enable : Options.Disable;
 
 				Randomizer.ItemsToIgnore = ((JArray)slotData["items_to_ignore"]).ToObject<List<int>>();
 
@@ -197,7 +197,7 @@ namespace FF1PRAP {
 			foreach (var item in content)
 			{
 				string itemstring;
-				if (item.Value.Player.Name == FF1PR.SessionManager.Data.Player)
+				if (item.Value.Player.Name == SessionManager.Data.Player)
 				{
 					itemstring = item.Value.ItemDisplayName;
 				}
@@ -220,7 +220,7 @@ namespace FF1PRAP {
 		public void TrySilentReconnect() {
 			LoginResult LoginResult;
 			try {
-				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", FF1PR.SessionManager.Data.Player, ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: FF1PR.SessionManager.Data.Password);
+				LoginResult = session.TryConnectAndLogin("FF1 Pixel Remaster", SessionManager.Data.Player, ItemsHandlingFlags.AllItems, version: archipelagoVersion, requestSlotData: true, password: SessionManager.Data.Password);
 			} catch (Exception e) {
 				LoginResult = new LoginFailure(e.GetBaseException().Message);
 			}
@@ -266,7 +266,7 @@ namespace FF1PRAP {
 					InternalLogger.LogInfo("Placing item " + ItemInfo.ItemDisplayName + " with index " + ItemIndex + " in queue.");
 					incomingItems.Enqueue((ItemInfo, ItemIndex));
 					ItemIndex++;
-					FF1PR.SessionManager.Data.ItemIndex = ItemIndex;
+					SessionManager.Data.ItemIndex = ItemIndex;
 				}
 				yield return true;
 			}
@@ -298,7 +298,7 @@ namespace FF1PRAP {
 					yield return true;
 				}*/
 
-				var handleResult = Patches.GiveItem(itemName, FF1PR.SessionManager.Data.Player != itemInfo.Player.Name);
+				var handleResult = Patches.GiveItem(itemName, SessionManager.Data.Player != itemInfo.Player.Name);
 				switch (handleResult) {
 					case Patches.ItemResults.Success:
 						InternalLogger.LogInfo("Received " + itemDisplayName + " from " + itemInfo.Player.Name + " at " + itemInfo.LocationDisplayName);

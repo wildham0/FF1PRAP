@@ -53,27 +53,27 @@ namespace FF1PRAP
 			Options = new();
 		}
 	}
-	public class SessionManager
+	public static class SessionManager
     {
 		public static Dictionary<string, string> Slot = new();
 		public static Dictionary<int, string> SlotInfo = new();
 
 		private static SessionInfo Info { get; set; } = new();
-		public int CurrentSlot { get => Info.Slot; set => Info.Slot = value; }
-		public GameModes GameMode { get => Info.Mode; set => Info.Mode = value; }
-		public SessionInfo Data { get => Info; }
-		public Dictionary<string, int> Options { get => Info.Options; }
+		public static int CurrentSlot { get => Info.Slot; set => Info.Slot = value; }
+		public static GameModes GameMode { get => Info.Mode; set => Info.Mode = value; }
+		public static SessionInfo Data { get => Info; }
+		public static Dictionary<string, int> Options { get => Info.Options; }
 
-		public string folderPath;
-		public bool RandomizerInitialized = false;
-		public SessionManager()
+		public static string FolderPath;
+		public static bool RandomizerInitialized = false;
+		public static void Create()
 		{
 			if (!Directory.Exists(Application.persistentDataPath + "/Randomizer/"))
 			{
 				Directory.CreateDirectory(Application.persistentDataPath + "/Randomizer/");
 			}
 
-			folderPath = Application.persistentDataPath + "/Randomizer/";
+			FolderPath = Application.persistentDataPath + "/Randomizer/";
 
 			if (!LoadSessionInfo(0))
 			{
@@ -95,9 +95,9 @@ namespace FF1PRAP
 			LoadSaveSlotInfoData();
 		}
 
-		public bool LoadSessionInfo(int slot)
+		public static bool LoadSessionInfo(int slot)
 		{
-			string filepath = folderPath + "ff1pr_rando_data_" + slot + ".dat";
+			string filepath = FolderPath + "ff1pr_rando_data_" + slot + ".dat";
 			bool fileexist = true;
 
 			try
@@ -125,9 +125,9 @@ namespace FF1PRAP
 
 			return fileexist;
 		}
-		public void WriteSessionInfo()
+		public static void WriteSessionInfo()
 		{
-			string filepath = folderPath + "ff1pr_rando_data_" + CurrentSlot + ".dat";
+			string filepath = FolderPath + "ff1pr_rando_data_" + CurrentSlot + ".dat";
 
 			Info.StoredPassword = Info.RememberPassword ? Info.Password : "";
 
@@ -147,12 +147,12 @@ namespace FF1PRAP
 				InternalLogger.LogInfo(e.Message);
 			}
 		}
-		public void LoadSaveSlotInfoData()
+		public static void LoadSaveSlotInfoData()
 		{
 
 			for (int i = 1; i <= 22; i++)
 			{
-				string filepath = folderPath + "ff1pr_rando_data_" + i + ".dat";
+				string filepath = FolderPath + "ff1pr_rando_data_" + i + ".dat";
 				bool fileexist = true;
 				SessionInfo slotdata = new();
 				try
@@ -195,7 +195,7 @@ namespace FF1PRAP
 				SlotInfo[i] = content;
 			}
 		}
-		public string GetSlotInfo(int slot)
+		public static string GetSlotInfo(int slot)
 		{
 			if (SlotInfo.TryGetValue(slot, out var info))
 			{
@@ -206,7 +206,7 @@ namespace FF1PRAP
 				return "";
 			}
 		}
-		public uint CreateHash()
+		public static uint CreateHash()
 		{
 			string settings = "";
 			foreach (var option in FF1PRAP.Options.Dict.Values)
@@ -236,7 +236,7 @@ namespace FF1PRAP
 
 			return finalhash;
 		}
-		public uint CreateApHash(string hashseed)
+		public static uint CreateApHash(string hashseed)
 		{
 			var encodedseed = Encoding.UTF8.GetBytes(hashseed);
 			uint finalhash;
@@ -266,12 +266,12 @@ namespace FF1PRAP
 
 			return encodedString;
 		}
-		public void SaveLocationsToSend(List<string> locationsToSend)
+		public static void SaveLocationsToSend(List<string> locationsToSend)
 		{
 			Info.LocationsToSend = new(locationsToSend);
 			Info.LocationCount = Info.LocationsToSend.Count;
 		}
-		public List<string> LoadLocationsToSend()
+		public static List<string> LoadLocationsToSend()
 		{
 			return Info.LocationsToSend;
 		}

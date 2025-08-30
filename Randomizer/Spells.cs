@@ -64,7 +64,7 @@ namespace FF1PRAP
 			Dictionary<int, int> contentToSpellId = new();
 			Dictionary<int, int> spellToContentId = new();
 
-			foreach (var ability in FF1PR.MasterManager.GetList<Ability>())
+			foreach (var ability in GameData.MasterManager.GetList<Ability>())
 			{
 				if (ability.Value.TypeId == 1 && ability.Value.Id <= 68)
 				{
@@ -76,19 +76,19 @@ namespace FF1PRAP
 				}
 			}
 
-			foreach (var product in FF1PR.MasterManager.GetList<Product>())
+			foreach (var product in GameData.MasterManager.GetList<Product>())
 			{
 				if (whiteShops.ContainsKey((Shops)product.value.GroupId))
 				{
 					whiteProducts.Add(product.value);
-					var spellId = FF1PR.MasterManager.GetData<Content>(product.value.ContentId).TypeValue;
+					var spellId = GameData.MasterManager.GetData<Content>(product.value.ContentId).TypeValue;
 					contentToSpellId.Add(product.value.ContentId, spellId);
 					spellToContentId.Add(spellId, product.value.ContentId);
 				}
 				else if (blackShops.ContainsKey((Shops)product.value.GroupId))
 				{
 					blackProducts.Add(product.value);
-					var spellId = FF1PR.MasterManager.GetData<Content>(product.value.ContentId).TypeValue;
+					var spellId = GameData.MasterManager.GetData<Content>(product.value.ContentId).TypeValue;
 					contentToSpellId.Add(product.value.ContentId, spellId);
 					spellToContentId.Add(spellId, product.value.ContentId);
 				}
@@ -121,8 +121,8 @@ namespace FF1PRAP
 		{
 			foreach (var spell in shuffledSpells)
 			{
-				FF1PR.MasterManager.GetData<Product>(spell.ProductId).ContentId = spell.ContentId;
-				var targetspell = FF1PR.MasterManager.GetData<Ability>(spell.TargetId);
+				GameData.MasterManager.GetData<Product>(spell.ProductId).ContentId = spell.ContentId;
+				var targetspell = GameData.MasterManager.GetData<Ability>(spell.TargetId);
 				targetspell.AbilityLv = spell.Level;
 				targetspell.Buy = spell.Cost;
 				targetspell.UseJobGroupId = spell.Permission;

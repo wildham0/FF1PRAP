@@ -140,11 +140,11 @@ namespace FF1PRAP
 		public static void UpdateEntities()
 		{
 			/*
-			if (FF1PR.CurrentMap == "Map_20031_1")
+			if (GameData.CurrentMap == "Map_20031_1")
 			{
 				InternalLogger.LogInfo($"Moving treasure");
 
-				var tresurebox = FF1PR.FieldController.GetFieldEntity(5);
+				var tresurebox = GameData.FieldController.GetFieldEntity(5);
 
 				//tresurebox.Property.Pos = new Vector3(160, 192, tresurebox.Property.Pos.z);
 				tresurebox.Init(new Vector3(160, 192, tresurebox.Property.Pos.z), LayerSetting.Layers.BottomLayer, 15);
@@ -154,13 +154,13 @@ namespace FF1PRAP
 			}*/
 
 			
-			if (entititesToUpdate.TryGetValue(FF1PR.CurrentMap, out var entitiesSet))
+			if (entititesToUpdate.TryGetValue(GameData.CurrentMap, out var entitiesSet))
 			{
-				InternalLogger.LogInfo($"Updating entities on {FF1PR.CurrentMap}");
+				InternalLogger.LogInfo($"Updating entities on {GameData.CurrentMap}");
 
 				foreach (var entity in entitiesSet)
 				{
-					var fieldentity = FF1PR.FieldController.GetFieldEntity(entity.EntityId);
+					var fieldentity = GameData.FieldController.GetFieldEntity(entity.EntityId);
 
 					if (fieldentity != null)
 					{
@@ -169,7 +169,7 @@ namespace FF1PRAP
 						foreach (var condition in entity.Conditions)
 						{
 							//InternalLogger.LogInfo($"Evaluation condition: {condition.Flag} - {condition.Value}.");
-							var flag = FF1PR.DataStorage.Get(condition.FlagCategory, condition.Flag);
+							var flag = GameData.DataStorage.Get(condition.FlagCategory, condition.Flag);
 							if ((condition.Value == EntityCondition.On && flag == 0) ||
 								(condition.Value == EntityCondition.Off && flag != 0))
 							{
@@ -186,12 +186,12 @@ namespace FF1PRAP
 						if (met)
 						{
 							InternalLogger.LogInfo($"Updating entity {entity.EntityId}: Show.");
-							FF1PR.FieldController.GetFieldEntity(entity.EntityId).Show();
+							GameData.FieldController.GetFieldEntity(entity.EntityId).Show();
 						}
 						else
 						{
 							InternalLogger.LogInfo($"Updating entity {entity.EntityId}: Hide.");
-							FF1PR.FieldController.GetFieldEntity(entity.EntityId).Hide();
+							GameData.FieldController.GetFieldEntity(entity.EntityId).Hide();
 						}
 					}
 					else

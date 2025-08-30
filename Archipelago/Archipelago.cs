@@ -107,16 +107,16 @@ namespace FF1PRAP {
 		public void RestoreState()
 		{
 			integration.ClearQueue();
-			integration.ItemIndex = FF1PR.SessionManager.Data.ItemIndex;
+			integration.ItemIndex = SessionManager.Data.ItemIndex;
 			InternalLogger.LogInfo($"Set item index at: {integration.ItemIndex}");
-			integration.locationsToSend = FF1PR.SessionManager.LoadLocationsToSend();
+			integration.locationsToSend = SessionManager.LoadLocationsToSend();
 			/*
 			integration.ItemIndex = index;
 			integration.locationsToSend = locationsToSend;*/
 		}
 		public void GetLocationsToSend()
 		{
-			FF1PR.SessionManager.SaveLocationsToSend(integration.locationsToSend);
+			SessionManager.SaveLocationsToSend(integration.locationsToSend);
 		}
         public bool IsConnected() {
             return integration != null ? integration.connected : false;

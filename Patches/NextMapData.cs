@@ -17,7 +17,7 @@ namespace FF1PRAP
 			// i guess we'll have to mine manually
 			// so
 
-			//InternalLogger.LogInfo($"NextMapProperty: {FF1PR.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
+			//InternalLogger.LogInfo($"NextMapProperty: {GameData.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
 
 
 			/*
@@ -38,9 +38,9 @@ namespace FF1PRAP
 			//InternalLogger.LogInfo($"NextMapInt: {mapId} - {point}");
 
 			// Shuffled Citadel of Trials' Maze
-			if (mapId == 94 && Randomizer.RandomizerData.OrdealsMaze.Any())
+			if (mapId == 94 && Randomizer.Data.OrdealsMaze.Any())
 			{
-				if (Randomizer.RandomizerData.OrdealsMaze.TryGetValue(point, out var newpoint))
+				if (Randomizer.Data.OrdealsMaze.TryGetValue(point, out var newpoint))
 				{
 					point = newpoint;
 				}

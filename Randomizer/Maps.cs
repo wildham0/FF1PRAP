@@ -19,26 +19,26 @@ namespace FF1PRAP
 		}
 		public static void InitializeEarlyProgression()
 		{
-			if (Randomizer.RandomizerData.EarlyProgression == Randomizer.EarlyProgressionModes.MarshPath)
+			if (Randomizer.Data.EarlyProgression == Randomizer.EarlyProgressionModes.MarshPath)
 			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 1);
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 0); // Bridge 
+				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 1);
+				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 0); // Bridge 
 			}
 			else
 			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 0);
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
+				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 0);
+				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
 			}
 		}
 		public static void InitializeNorthernDocks()
 		{
-			if (Randomizer.RandomizerData.NorthernDocks)
+			if (Randomizer.Data.NorthernDocks)
 			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.NorthernDocks, 1);
+				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.NorthernDocks, 1);
 			}
 			else
 			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.NorthernDocks, 0);
+				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.NorthernDocks, 0);
 			}
 		}
 	}

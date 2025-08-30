@@ -23,15 +23,15 @@ namespace FF1PRAP
 		}
 		public static void InitializeBoost()
 		{
-			FF1PR.UserData.CheatSettingsData.GilRate = Randomizer.RandomizerData.GilBoost;
-			FF1PR.UserData.CheatSettingsData.ExpRate = Randomizer.RandomizerData.XpBoost;
+			GameData.UserData.CheatSettingsData.GilRate = Randomizer.Data.GilBoost;
+			GameData.UserData.CheatSettingsData.ExpRate = Randomizer.Data.XpBoost;
 		}
 
 		public static void ApplyBoost()
 		{
-			if (!Randomizer.RandomizerData.BoostMenu)
+			if (!Randomizer.Data.BoostMenu)
 			{
-				FF1PR.MessageManager.GetMessageDictionary()["MSG_SYSTEM_CS_0_006"] = "Boost as been disabled by your settings.";
+				GameData.MessageManager.GetMessageDictionary()["MSG_SYSTEM_CS_0_006"] = "Boost as been disabled by your settings.";
 			}
 		}
 	}

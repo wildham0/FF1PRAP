@@ -39,18 +39,18 @@ namespace FF1PRAP
 			ProcessGameState();
 			ProcessPatches();
 
-			if (FF1PR.SessionManager.GameMode == GameModes.Vanilla)
+			if (SessionManager.GameMode == GameModes.Vanilla)
 			{
 				return;
 			}
 			
-			//InternalLogger.LogInfo($"Process State: {ProcessState}; Loading: {LoadingState}; Game: {GameState}: StateTracker: {(FF1PR.StateTracker != null ? FF1PR.StateTracker.CurrentState + " + " + FF1PR.StateTracker.CurrentSubState : "null")}");
+			//InternalLogger.LogInfo($"Process State: {ProcessState}; Loading: {LoadingState}; Game: {GameState}: StateTracker: {(GameData.StateTracker != null ? GameData.StateTracker.CurrentState + " + " + GameData.StateTracker.CurrentSubState : "null")}");
 
 			if (ProcessState == ProcessStates.Reset)
 			{
 				InternalLogger.LogInfo($"Randomizer Settings Reset.");
 				ProcessState = ProcessStates.None;
-				FF1PR.OwnedItemsClient = null;
+				GameData.OwnedItemsClient = null;
 				newGameProcessed = false;
 			}
 			else if (GameState == GameStates.Title && ProcessState == ProcessStates.InitGame)
@@ -61,9 +61,9 @@ namespace FF1PRAP
 			else if (GameState == GameStates.Title && ProcessState == ProcessStates.ResetAndInitGame)
 			{
 				InternalLogger.LogInfo($"Randomizer Settings Reset + Game Intialization.");
-				FF1PR.OwnedItemsClient = null;
+				GameData.OwnedItemsClient = null;
 				newGameProcessed = false;
-				FF1PR.SessionManager.RandomizerInitialized = false;
+				SessionManager.RandomizerInitialized = false;
 				Initialization.ApplyBaseGameModifications();
 				ProcessState = ProcessStates.None;
 			}
@@ -74,20 +74,20 @@ namespace FF1PRAP
 				if (!newGameProcessed)
 				{
 					newGameProcessed = true;
-					if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
+					if (SessionManager.GameMode == GameModes.Randomizer)
 					{
-						Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
+						Initialization.ApplyRandomizedFeatures(Randomizer.Data);
 					}
-					else if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+					else if (SessionManager.GameMode == GameModes.Archipelago)
 					{
-						Randomizer.RandomizerData = new();
+						Randomizer.Data = new();
 						InternalLogger.LogInfo($"Loading saved randomization data.");
-						if (!Randomizer.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
+						if (!Randomizer.Load(SessionManager.FolderPath, "ap_" + SessionManager.Data.Player + "_" + SessionManager.Data.WorldSeed))
 						{
 							InternalLogger.LogInfo($"File not found, generating randomization data.");
 							Randomizer.Randomize();
 						}
-						Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
+						Initialization.ApplyRandomizedFeatures(Randomizer.Data);
 					}
 					Initialization.InitializeNewGame();
 				}
@@ -96,27 +96,27 @@ namespace FF1PRAP
 			{
 				ProcessState = ProcessStates.None;
 
-				if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+				if (SessionManager.GameMode == GameModes.Archipelago)
 				{
 					Archipelago.instance.RestoreState();
 					InternalLogger.LogInfo($"Loading saved randomization data.");
-					if (!Randomizer.Load(FF1PR.SessionManager.folderPath, "ap_" + FF1PR.SessionManager.Data.Player + "_" + FF1PR.SessionManager.Data.WorldSeed))
+					if (!Randomizer.Load(SessionManager.FolderPath, "ap_" + SessionManager.Data.Player + "_" + SessionManager.Data.WorldSeed))
 					{
 						InternalLogger.LogInfo($"File not found, generating randomization data.");
 						Randomizer.Randomize();
 					}
 
-					Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
+					Initialization.ApplyRandomizedFeatures(Randomizer.Data);
 				}
 				else
 				{
-					if (!Randomizer.Load(FF1PR.SessionManager.folderPath, FF1PR.SessionManager.Data.Seed + "_" + FF1PR.SessionManager.Data.Hashstring))
+					if (!Randomizer.Load(SessionManager.FolderPath, SessionManager.Data.Seed + "_" + SessionManager.Data.Hashstring))
 					{
 						InternalLogger.LogInfo($"File not found, gameplay might be unstable. Generate a game first in the Solo Randomizer Settings Menu.");
 					}
 					
-					FF1PR.PlacedItems = Randomizer.RandomizerData.PlacedItems;
-					Initialization.ApplyRandomizedFeatures(Randomizer.RandomizerData);
+					//FF1PR.PlacedItems = Randomizer.Data.PlacedItems;
+					Initialization.ApplyRandomizedFeatures(Randomizer.Data);
 				}
 			}
 		}
@@ -127,10 +127,10 @@ namespace FF1PRAP
 			{
 				if (mapdata.Value)
 				{
-					if (FF1PR.ResourceManager.completeAssetDic.ContainsKey(mapdata.Key))
+					if (GameData.ResourceManager.completeAssetDic.ContainsKey(mapdata.Key))
 					{
 
-						var assettext = FF1PR.ResourceManager.completeAssetDic[mapdata.Key].Cast<TextAsset>().text;
+						var assettext = GameData.ResourceManager.completeAssetDic[mapdata.Key].Cast<TextAsset>().text;
 						var assetnameparts = mapdata.Key.Split('/');
 						var assetname = assetnameparts.Last();
 						var filename = assetnameparts[assetnameparts.Count() - 2] + "/" + assetnameparts[assetnameparts.Count() - 1];
@@ -141,7 +141,7 @@ namespace FF1PRAP
 						//var assetfile = MapPatcher.Patch(, 0, MapPatches.Westward, 256, 256);
 						var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);
 						
-						FF1PR.ResourceManager.completeAssetDic[mapdata.Key] = textasset;
+						GameData.ResourceManager.completeAssetDic[mapdata.Key] = textasset;
 						MapDataUpdate[mapdata.Key] = false;
 					}
 				}
@@ -153,10 +153,10 @@ namespace FF1PRAP
 
 			foreach (var patchdata in AssetsToPatch)
 			{
-				if (FF1PR.ResourceManager.completeAssetDic.ContainsKey(patchdata))
+				if (GameData.ResourceManager.completeAssetDic.ContainsKey(patchdata))
 				{
 
-					var assettext = FF1PR.ResourceManager.completeAssetDic[patchdata].Cast<TextAsset>().text;
+					var assettext = GameData.ResourceManager.completeAssetDic[patchdata].Cast<TextAsset>().text;
 					var assetnameparts = patchdata.Split('/');
 					var assetname = assetnameparts.Last();
 					var filename = assetnameparts[assetnameparts.Count() - 2] + "/" + assetnameparts[assetnameparts.Count() - 1];
@@ -170,7 +170,7 @@ namespace FF1PRAP
 
 					var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);
 
-					FF1PR.ResourceManager.completeAssetDic[patchdata] = textasset;
+					GameData.ResourceManager.completeAssetDic[patchdata] = textasset;
 					patchToRemove.Add(patchdata);
 				}
 			}
@@ -182,10 +182,10 @@ namespace FF1PRAP
 			//var stateTrackerState = Last.Management.GameStates.Boot;
 			var currentState = Last.Management.GameStates.Boot;
 
-			if (FF1PR.StateTracker != null)
+			if (GameData.StateTracker != null)
 			{
-				currentState = FF1PR.StateTracker.CurrentState;
-				//InternalLogger.LogInfo($"State: {FF1PR.StateTracker.CurrentState}");
+				currentState = GameData.StateTracker.CurrentState;
+				//InternalLogger.LogInfo($"State: {GameData.StateTracker.CurrentState}");
 			}
 
 			if (currentState == GameStates.Title && GameState == GameStates.InGame)

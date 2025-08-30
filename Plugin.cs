@@ -39,39 +39,7 @@ public class PluginInfo
 [BepInPlugin(PluginInfo.GUID, PluginInfo.NAME, PluginInfo.VERSION)]
 public class FF1PR : BasePlugin
 {
-	// Instances
-	public static UserDataManager UserData;
-	public static GameStateTracker StateTracker;
-	public static DataStorage DataStorage;
-	public static MessageManager MessageManager;
-	public static MasterManager MasterManager;
-	public static MapManager MapManager;
-	public static FieldController FieldController;
-	public static OwnedItemClient OwnedItemsClient;
-	public static MainGame MainGame;
-	public static ResourceManager ResourceManager;
-	public static Integrator ScriptIntegrator;
-
-	// save stuff at save load 
-	public static SaveSlotManager SaveManager;
-	public static SaveSlotData CurrentSave;
-
-	// Loading/Saving Menu Stuff
-	public static Last.UI.KeyInput.TitleWindowController TitleWindowController;
-
-	public static int CurrentSlot;
-	public static SaveInfoState SaveInfoState = new();
-
-	public static PropertyGotoMap storedGotoMap;
-
-	public static string TMOverworld;
-
-	// Settings
-	public static SessionManager SessionManager;
-	public static string CurrentMap => FF1PR.MapManager != null ? (FF1PR.MapManager.CurrentMapModel != null ? FF1PR.MapManager.CurrentMapModel.AssetData.MapName : "None") : "None";
 	public static Dictionary<int, ItemData> PlacedItems;
-	public static GameStates GameState => Monitor.instance != null ? (GameStates)Monitor.instance.GetGameState() : GameStates.Title;
-	//public static GameStates GameState => GameStates.Title;
 	public override void Load()
 	{
 		// Create Logger
@@ -79,7 +47,7 @@ public class FF1PR : BasePlugin
 		InternalLogger.LogInfo($"Plugin {PluginInfo.NAME} v{PluginInfo.VERSION} is loaded! ({PluginInfo.GUID})");
 
 		// Create Session Manager
-		SessionManager = new SessionManager();
+		SessionManager.Create();
 
 		// Create Behaviours
 		ClassInjector.RegisterTypeInIl2Cpp<Archipelago>();
@@ -197,7 +165,6 @@ public class FF1PR : BasePlugin
 }
 public class InternalLogger
 {
-
 	private static ManualLogSource Logger;
 
 	public static void LogInfo(string message)

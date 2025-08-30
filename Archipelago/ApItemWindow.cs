@@ -82,13 +82,13 @@ namespace FF1PRAP
 			if (windowState == WindowStates.Open)
 			{
 				// Interrupted window
-				if (foreignWindow == ForeignWindowStates.Open || !validSubstates.Contains(FF1PR.StateTracker.CurrentSubState))
+				if (foreignWindow == ForeignWindowStates.Open || !validSubstates.Contains(GameData.StateTracker.CurrentSubState))
 				{
 					MessageWindowManager.instance.battleWindowController.Close();
 					timeLeft = (timeWindowOpened + System.TimeSpan.FromSeconds(3f)) - System.DateTime.Now;
 
 					windowState = WindowStates.Suspended;
-					suspendedFromState = !validSubstates.Contains(FF1PR.StateTracker.CurrentSubState);
+					suspendedFromState = !validSubstates.Contains(GameData.StateTracker.CurrentSubState);
 					//InternalLogger.LogInfo($"TimeLefT: {timeLeft.TotalSeconds}");
 
 				}
@@ -103,7 +103,7 @@ namespace FF1PRAP
 			}
 			else if (windowState == WindowStates.Suspended)
 			{
-				if (foreignWindow == ForeignWindowStates.Closed && validSubstates.Contains(FF1PR.StateTracker.CurrentSubState))
+				if (foreignWindow == ForeignWindowStates.Closed && validSubstates.Contains(GameData.StateTracker.CurrentSubState))
 				{
 					//InternalLogger.LogInfo($"Unsuspendending: {timeLeft.TotalSeconds}");
 					windowState = WindowStates.Open;
@@ -127,7 +127,7 @@ namespace FF1PRAP
 			}
 			else if (windowState == WindowStates.Closed)
 			{
-				if (validSubstates.Contains(FF1PR.StateTracker.CurrentSubState) && foreignWindow == ForeignWindowStates.Closed)
+				if (validSubstates.Contains(GameData.StateTracker.CurrentSubState) && foreignWindow == ForeignWindowStates.Closed)
 				{
 					if (queuedMessage.Any() && System.DateTime.Now > timeWindowClosed + System.TimeSpan.FromSeconds(1.5f))
 					{

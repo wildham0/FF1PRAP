@@ -27,7 +27,7 @@ namespace FF1PRAP
 				var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assetfile);
 				var assetname = addressName.Split('/').Last();
 
-				FF1PR.ResourceManager.completeAssetDic[addressName] = textasset;
+				GameData.ResourceManager.completeAssetDic[addressName] = textasset;
 				InternalLogger.LogInfo($"Asset loading task added for {assetname} > {assetfilename}");
 				__result = true;
 			}

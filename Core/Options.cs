@@ -82,8 +82,8 @@ namespace FF1PRAP
 			new("early_progression", "Early Progression", new() {  { 0, "Bikke's Ship" }, { 1, "Marsh Cave Path" } }, 0, "Set how the world is opened at the start of the game.\n\nBikke's Ship: The Bridge is built from the start and Bikke will always give the Ship.\n\nMarsh Cave Path: Open a path to the West of Coneria that allows you to reach the Marsh Cave area by foot. The Bridge is never built. The Ship is shuffled with other items and Bikke is a Location."),
 			new("northern_docks", "Northern Docks", new() { { 1, "Enable" }, { 0, "Disable" } }, 0, "Add docks to the Onrac Continent and the Mirage Desert Continent to make them accessible by Ship."),
 
-			new("lute_tablatures", "Lute Tablatures", new() {  { 0, "Lute Only" }, { 18, "18" }, { 24, "24" }, { 30, "30" }, { 36, "36" }, { 1830, "18-30" }, { 2436, "24-36" }, { 1836, "18-36" } }, 0, "Playing the Lute requires a fixed number of Tablatures; 40 are shuffled in the Item Pool. The Lute is in your starting inventory."),
-			new("crystals_required", "Crystals Required", new() {  { 0, "0" }, { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "4" }, { 5, "Random" } }, 4, "Set the number of Crystals that must be restored so the Dark Orb can be destroyed."),
+			new("lute_tablatures", "Lute Tablatures", new() {  { 0, "Lute Only" }, { 18, "18" }, { 24, "24" }, { 30, "30" }, { 36, "36" }, { 1830, "18-30" }, { 2436, "24-36" }, { 1836, "18-36" } }, 0, "Playing the Lute requires a fixed number of Tablatures; 40 are shuffled in the Item Pool. The Lute is in your starting inventory.\n\nThe Item description will reveal the required number."),
+			new("crystals_required", "Crystals Required", new() {  { 0, "0" }, { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "4" }, { 5, "Random" } }, 4, "Set the number of Crystals that must be restored so the Black Orb can be destroyed.\n\nTalking to the Black Orb will reveal the required number."),
 
 			new("nerf_chaos", "Nerf Chaos", new() {  { 1, "Enable" }, { 0, "Disable" } }, 0, "Halve Chaos' HP and reduce his Intelligence and Attack Power by 25%."),
 			new("boss_minions", "Boss Minions", new() {  { 0, "None" }, { 1, "Weak Minions" }, { 2, "Strong Minions" }, { 3, "Weak-Strong Minions" } }, 0, "Add Minions to Bosses and Extend some Minibosses party.\n\nNone: Original Parties are maintained.\n\nWeak Minions: Add relatively weak minions to Bosses and extend Minibosses by 1-2 members.\n\nStrong Minions: Add relatively strong minions to Bosses and extend Minibosses by 2-3 members.\n\nWeak-Strong Minions: Minions can be weak or strong."),
@@ -99,5 +99,4 @@ namespace FF1PRAP
 
 		public static Dictionary<string, Option> Dict = optionlist.ToDictionary(o => o.Key, o => o);
 	}
-	
 }

@@ -121,11 +121,11 @@ namespace FF1PRAP
 			}
 			
 			
-			var adamantitecraft = FF1PR.SessionManager.Options["adamantite_craft"];
-			bool marshpath = FF1PR.SessionManager.Options["early_progression"] == Options.MarshPath;
-			bool northerndocks = FF1PR.SessionManager.Options["northern_docks"] == Options.Enable;
-			bool bahamutpromo = FF1PR.SessionManager.Options["job_promotion"] == Options.Disable;
-			bool tablatures = FF1PR.SessionManager.Options["lute_tablatures"] > 0;
+			var adamantitecraft = SessionManager.Options["adamantite_craft"];
+			bool marshpath = SessionManager.Options["early_progression"] == Options.MarshPath;
+			bool northerndocks = SessionManager.Options["northern_docks"] == Options.Enable;
+			bool bahamutpromo = SessionManager.Options["job_promotion"] == Options.Disable;
+			bool tablatures = SessionManager.Options["lute_tablatures"] > 0;
 
 			List<Items> extraItems = new();
 			List<(Items item, int location)> plandoItems = new();
@@ -165,7 +165,7 @@ namespace FF1PRAP
 			
 			if (!marshpath) plandoItems.Add((Items.Ship, (int)TreasureFlags.Bikke));
 
-			switch (FF1PR.SessionManager.Options["job_promotion"])
+			switch (SessionManager.Options["job_promotion"])
 			{
 				case 0:
 					plandoItems.Add((Items.JobAll, (int)TreasureFlags.Bahamut));
@@ -183,9 +183,9 @@ namespace FF1PRAP
 			// priority locations
 			List<(int setting, List<int> locations)> prioritySetitngs = new()
 			{
-				(FF1PR.SessionManager.Options["npcs_priority"], PriorityNPCs),
-				(FF1PR.SessionManager.Options["keychests_priority"], PriorityChests),
-				(FF1PR.SessionManager.Options["trapped_priority"], TrappedChests),
+				(SessionManager.Options["npcs_priority"], PriorityNPCs),
+				(SessionManager.Options["keychests_priority"], PriorityChests),
+				(SessionManager.Options["trapped_priority"], TrappedChests),
 			};
 
 			List<int> priorizedLocations = new();

@@ -39,19 +39,19 @@ namespace FF1PRAP
 		}
 		public static void ApplyLute()
 		{
-			if (Randomizer.RandomizerData.RequiredTablatures > 0)
+			if (Randomizer.Data.RequiredTablatures > 0)
 			{
-				FF1PR.MessageManager.GetMessageDictionary()["MSG_TABLATURE_INF"] = FF1PR.MessageManager.GetMessageDictionary()["MSG_TABLATURE_INF"] + $"\nA number in the corner, {Randomizer.RandomizerData.RequiredTablatures} are needed for the complete song.";
+				GameData.MessageManager.GetMessageDictionary()["MSG_TABLATURE_INF"] = GameData.MessageManager.GetMessageDictionary()["MSG_TABLATURE_INF"] + $"\nA number in the corner, {Randomizer.Data.RequiredTablatures} are needed for the complete song.";
 			}
 		}
 		public static void InitializeLute()
 		{
-			if (Randomizer.RandomizerData.RequiredTablatures > 0)
+			if (Randomizer.Data.RequiredTablatures > 0)
 			{
-				if (FF1PR.SessionManager.GameMode == GameModes.Randomizer)
+				if (SessionManager.GameMode == GameModes.Randomizer)
 				{
-					FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Lute, 1);
-					FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Lute, 1);
+					GameData.OwnedItemsClient.AddOwnedItem((int)Items.Lute, 1);
+					GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Lute, 1);
 				}
 			}
 		}
@@ -66,16 +66,16 @@ namespace FF1PRAP
 		}
 		public static void ApplyCrystals()
 		{
-			if (Randomizer.RandomizerData.RequiredCrystals > 0 && Randomizer.RandomizerData.RequiredCrystals < 4)
+			if (Randomizer.Data.RequiredCrystals > 0 && Randomizer.Data.RequiredCrystals < 4)
 			{
-				FF1PR.MessageManager.GetMessageDictionary()["MSG_CHS_03"] = $"The Black Crystal shines ominously. The air in the room seems slightly... distorted.\nYou sense the power of {Randomizer.RandomizerData.RequiredCrystals} Crystal{(Randomizer.RandomizerData.RequiredCrystals > 1 ? "s" : "")} should be enough to destroy it.";
+				GameData.MessageManager.GetMessageDictionary()["MSG_CHS_03"] = $"The Black Crystal shines ominously. The air in the room seems slightly... distorted.\nYou sense the power of {Randomizer.Data.RequiredCrystals} Crystal{(Randomizer.Data.RequiredCrystals > 1 ? "s" : "")} should be enough to destroy it.";
 			}
 		}
 		public static void InitializeCrystals()
 		{
-			if (Randomizer.RandomizerData.RequiredCrystals == 0)
+			if (Randomizer.Data.RequiredCrystals == 0)
 			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BlackOrbReqCompleted, 1);
+				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BlackOrbReqCompleted, 1);
 			}
 		}
 	}

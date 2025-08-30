@@ -12,7 +12,7 @@ namespace FF1PRAP
 		public static List<ScenarioFlags> FiendsFlags = new() { ScenarioFlags.LichDefeated, ScenarioFlags.KaryDefeated, ScenarioFlags.KrakenDefeated, ScenarioFlags.TiamatDefeated };
 		public static void Gameflags_Postfix(string c, int index, int value)
 		{
-			if (FF1PR.SessionManager.GameMode == GameModes.Archipelago)
+			if (SessionManager.GameMode == GameModes.Archipelago)
 			{
 				InternalLogger.LogInfo($"Setting flag: {c} - {index}");
 				if (c == "TreasureFlag1" && value == 1)
@@ -28,15 +28,15 @@ namespace FF1PRAP
 
 				foreach (var flag in FiendsFlags)
 				{
-					if (FF1PR.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)flag) == 1)
+					if (GameData.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)flag) == 1)
 					{
 						crystalCount++;
 					}
 				}
 
-				if (crystalCount >= Randomizer.RandomizerData.RequiredCrystals)
+				if (crystalCount >= Randomizer.Data.RequiredCrystals)
 				{
-					FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BlackOrbReqCompleted, 1);
+					GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BlackOrbReqCompleted, 1);
 				}
 			}
 		}
