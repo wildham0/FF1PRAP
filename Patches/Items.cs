@@ -16,6 +16,7 @@ using Unity.Jobs;
 using UnityEngine;
 using static Serial.FF1.Management.StatusUpProvider;
 using Last.Management;
+using Il2CppSystem.Linq;
 
 namespace FF1PRAP
 {
@@ -43,38 +44,53 @@ namespace FF1PRAP
 
 				UpdateEntities();
 
-				// Update transport
-				for (int i = 0; i < FF1PR.UserData.OwnedTransportationList.Count; i++)
+				// Special scenario
+				if (targetData.Id == (int)Items.Ship)
 				{
-					if (targetData.Id == (int)Items.Ship && FF1PR.UserData.OwnedTransportationList[i].flagNumber == 517)
+					var ship = FF1PR.UserData.OwnedTransportationList.GetTransport(517);
+					// Coneria dock is 145, 162
+					// Pravoka dock is 203, 146
+
+					(int x, int y) shipSpawn = (203, 146);
+
+					// Check if we spawn at Coneria
+					if (FF1PR.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode) == 1 || (FF1PR.SessionManager.Options.TryGetValue("spawn_ship", out var spawnship) && spawnship == Options.Enable))
 					{
-						// Coneria dock is 145, 162
-						// Pravoka dock is 203, 146
-
-						(int x, int y) shipSpawn = (203, 146);
-
-						// Check if we spawn at Coneria
-						if (FF1PR.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode) == 1 || (FF1PR.SessionManager.Options.TryGetValue("spawn_ship", out var spawnship) && spawnship == Options.Enable))
-						{
-							shipSpawn = (145, 162);
-						}
-
-						FF1PR.UserData.OwnedTransportationList[i].Position = new UnityEngine.Vector3(shipSpawn.x, shipSpawn.y, 149);
-						FF1PR.UserData.OwnedTransportationList[i].MapId = 1;
-						FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
-						FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
+						shipSpawn = (145, 162);
 					}
-					else if (targetData.Id == (int)Items.Canoe && FF1PR.UserData.OwnedTransportationList[i].flagNumber == 516)
+
+					ship.Position = new UnityEngine.Vector3(shipSpawn.x, shipSpawn.y, 149);
+					ship.MapId = 1;
+					ship.Direction = 2;
+					ship.SetDataStorageFlag(true);
+				}
+				else if (targetData.Id == (int)Items.Canoe)
+				{
+					var canoe = FF1PR.UserData.OwnedTransportationList.GetTransport(516);
+
+					canoe.Position = new UnityEngine.Vector3(1000, 1000, 0);
+					canoe.MapId = 1;
+					canoe.Direction = 2;
+					canoe.SetDataStorageFlag(true);
+				}
+				else if (targetData.Id == (int)Items.Lute)
+				{
+					if (Randomizer.RandomizerData.RequiredTablatures == 0)
 					{
-						FF1PR.UserData.OwnedTransportationList[i].Position = new UnityEngine.Vector3(1000, 1000, 0);
-						FF1PR.UserData.OwnedTransportationList[i].MapId = 1;
-						FF1PR.UserData.OwnedTransportationList[i].Direction = 2;
-						FF1PR.UserData.OwnedTransportationList[i].SetDataStorageFlag(true);
+						FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.LuteAccessCompleted, 1);
 					}
 				}
-
-				// check map
-				// run special script for mystic key, ship, canoe
+				else if (targetData.Id == (int)Items.LuteTablature)
+				{
+					if (FF1PR.UserData.ImportantOwendItemList.ToArray().TryFind(i => i.ContentId == (int)Items.LuteTablature, out var result))
+					{
+						if (result.Count >= Randomizer.RandomizerData.RequiredTablatures)
+						{
+							FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.LuteAccessCompleted, 1);
+						}
+						InternalLogger.LogInfo($"Tablature Count: {result.Count}");
+					}
+				}
 			}
 
 			Randomizer.ProcessJobItem(targetData.Id);

@@ -49,7 +49,7 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30011/Map_30011_1/ev_e_0039", "ev_templeoffiends_beyond" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30021/Map_30021_3/ev_e_0014", "ev_marsh_bottom" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20081/Map_20081_1/ev_e_0010", "ev_nwcastle" },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_20031/Map_20021_1/ev_e_0012", "ev_matoyascave" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20031/Map_20031_1/ev_e_0012", "ev_matoyascave" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20071/Map_20071_1/ev_e_0014", "ev_elflandcastle" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20051/Map_20051_1/ev_e_0014", "ev_dwarf_cave" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30031/Map_30031_3/ev_e_0016", "ev_earth_b3" },

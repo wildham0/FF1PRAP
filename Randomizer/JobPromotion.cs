@@ -1,12 +1,13 @@
-﻿using RomUtilities;
+﻿using Last.Data.Master;
+using Last.Data.User;
+using Last.Interpreter;
+using RomUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Last.Data.Master;
 using UnityEngine.Bindings;
-using Last.Data.User;
 
 namespace FF1PRAP
 {
@@ -39,7 +40,6 @@ namespace FF1PRAP
 				FF1PR.MasterManager.GetList<Content>().Add((int)job, new Content($"{(int)job},MSG_JOBITEM_NAME_{(int)job},None,MSG_JOBITEM_INF_{(int)job},0,1,{(int)job}"));
 			}
 		}
-
 		public static void ProcessJobItem(int itemid)
 		{
 			if (itemid < (int)Items.JobAll || itemid > (int)Items.JobBlackWizard)
@@ -71,6 +71,17 @@ namespace FF1PRAP
 						FF1PR.UserData.OwnedCharacterList[i].JobId = job;
 					}
 				}
+			}
+		}
+		public static void InitializeJobPromotions()
+		{
+			if (Randomizer.RandomizerData.JobPromotion != Randomizer.JobPromotionModes.Bahamut)
+			{
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BahamutGivesItem, 1);
+			}
+			else
+			{
+				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BahamutGivesItem, 0);
 			}
 		}
 	}

@@ -45,7 +45,7 @@ namespace FF1PRAP
 		public List<string> LocationsToSend { get; set; }
 		public int ItemIndex { get; set; }
 		public int Slot { get; set; }
-		public Dictionary<string, string> Options { get; set; }
+		public Dictionary<string, int> Options { get; set; }
 		public SessionInfo()
 		{
 			LocationsToSend = new();
@@ -62,7 +62,7 @@ namespace FF1PRAP
 		public int CurrentSlot { get => Info.Slot; set => Info.Slot = value; }
 		public GameModes GameMode { get => Info.Mode; set => Info.Mode = value; }
 		public SessionInfo Data { get => Info; }
-		public Dictionary<string, string> Options { get => Info.Options; }
+		public Dictionary<string, int> Options { get => Info.Options; }
 
 		public string folderPath;
 		public bool RandomizerInitialized = false;
@@ -80,10 +80,16 @@ namespace FF1PRAP
 				Info = new();
 				Info.Mode = GameModes.Archipelago;
 				Info.Slot = 0;
-				Info.Port = "";
 				Info.WorldSeed = "";
 				Info.Seed = "";
 				Info.RememberPassword = false;
+			}
+			else
+			{
+				if (Info.Player is null) Info.Player = "";
+				if (Info.Port is null) Info.Port = "";
+				if (Info.Host is null) Info.Host = "archipelago.gg";
+				if (Info.Password is null) Info.Password = "";
 			}
 
 			LoadSaveSlotInfoData();

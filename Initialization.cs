@@ -42,6 +42,13 @@ namespace FF1PRAP
 			FF1PR.MasterManager.GetList<Item>().Add(42, new Item("42,42,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"));
 			FF1PR.MasterManager.GetList<Content>().Add(43, new Content("43,MSG_KEY_NAME_19,None,MSG_KEY_INF_19,0,1,42"));
 
+			// Create Lute Tablature
+			FF1PR.MessageManager.AddMessage("MSG_TABLATURE_NAME", "<IC_IOBJ>Lute Tablature");
+			FF1PR.MessageManager.AddMessage("MSG_TABLATURE_INF", "Some musical notation for the Lute. The melody seems beautiful, but the song is incomplete...");
+
+			FF1PR.MasterManager.GetList<Item>().Add((int)Items.LuteTablature, new Item($"{(int)Items.LuteTablature},{(int)Items.LuteTablature},2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"));
+			FF1PR.MasterManager.GetList<Content>().Add((int)Items.LuteTablature, new Content($"{(int)Items.LuteTablature},MSG_TABLATURE_NAME,None,MSG_TABLATURE_INF,0,1,{(int)Items.LuteTablature}"));
+
 			Randomizer.GeneratePromoItems();
 
 			// Update dialogues
@@ -64,8 +71,6 @@ namespace FF1PRAP
 			FF1PR.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_01"] = $"This heirloom has been entrusted to the princesses of Cornelia for many generations. I want you to have it. It may aid you on your journey.";
 
 			//InternalLogger.LogInfo(FF1PR.MessageManager.GetMessageDictionary()["STUFF_SQDEV_01_07"]);
-			
-
 
 			FF1PR.MasterManager.GetList<Script>().Add(1000, new Script() { Id = 1000, ScriptName = "sc_ordealsman" });		// ordeal man script
 			FF1PR.MasterManager.GetList<Script>().Add(1001, new Script() { Id = 1001, ScriptName = "sc_luteslab" });		// lute slab script
@@ -100,18 +105,10 @@ namespace FF1PRAP
 			Randomizer.LoadShuffledSpells(randoData.ShuffledSpells);
 			Randomizer.LoadMonsterParties(randoData.MonsterParties);
 
-			if (!Randomizer.RandomizerData.BoostMenu)
-			{
-				FF1PR.MessageManager.GetMessageDictionary()["MSG_SYSTEM_CS_0_006"] = "Boost as been disabled by your settings.";
-			}
-
-			if (Randomizer.RandomizerData.NerfChaos)
-			{
-				var chaos = FF1PR.MasterManager.GetData<Monster>(128);
-				chaos.Hp /= 2;
-				chaos.Intelligence = (int)(chaos.Intelligence * 0.75);
-				chaos.Attack = (int)(chaos.Attack * 0.75);
-			}
+			Randomizer.ApplyBoost();
+			Randomizer.ApplyChaos();
+			Randomizer.ApplyLute();
+			Randomizer.ApplyCrystals();
 
 			CreateCaravanItem();
 		}
@@ -150,10 +147,28 @@ namespace FF1PRAP
 		public static void InitializeNewGame()
 		{
 			InternalLogger.LogInfo($"Initialize New Game.");
+			
+			//DevHacks();
 
+			// Set Flags
+			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
+			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 4, 1); // Bridge Building Cutscene
+			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 7, 1); // Bridge Intro
+			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 8, 1); // Matoya Cutscene
+
+			// Process Randomizer Options
+			Randomizer.InitializeEarlyProgression();
+			Randomizer.InitializeNorthernDocks();
+			Randomizer.InitializeJobPromotions();
+			Randomizer.InitializeBoost();
+			Randomizer.InitializeTransportation();
+			Randomizer.InitializeLute();
+			Randomizer.InitializeCrystals();
+		}
+		public static void DevHacks()
+		{
 			// Start with airship
 			// So 517 is ship 100%, 516 is canoe, what's 519 for???
-			/*
 			for (int i = 0; i < FF1PR.UserData.OwnedTransportationList.Count; i++)
 			{
 				if (FF1PR.UserData.OwnedTransportationList[i].flagNumber == 518)
@@ -190,66 +205,6 @@ namespace FF1PRAP
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
 			FF1PR.OwnedItemsClient.AddOwnedItem((int)Items.StarRuby, 1);
 			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Canal, 1); // Force visit King in Coneria
-			*/
-			// Set Flags
-			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
-			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 4, 1); // Bridge Building Cutscene
-			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 7, 1); // Bridge Intro
-			FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 8, 1); // Matoya Cutscene
-
-			// should be RandomizerData
-			if (Randomizer.RandomizerData.EarlyProgression == Randomizer.EarlyProgressionModes.MarshPath)
-			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 1);
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 0); // Bridge 
-			}
-			else
-			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode, 0);
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 6, 1); // Bridge 
-			}
-
-			if (Randomizer.RandomizerData.NorthernDocks)
-			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.NorthernDocks, 1);
-			}
-			else
-			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.NorthernDocks, 0);
-			}
-
-			if (Randomizer.RandomizerData.JobPromotion != Randomizer.JobPromotionModes.Bahamut)
-			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BahamutGivesItem, 1);
-			}
-			else
-			{
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BahamutGivesItem, 0);
-			}
-
-			if (FF1PR.SessionManager.Options.TryGetValue("spawn_airship", out var spawnairship) && spawnairship == Options.Enable)
-			{
-				var airship = FF1PR.UserData.OwnedTransportationList.GetTransport(518);
-				airship.Position = new Vector3(144, 159, 149);
-				airship.MapId = 1;
-				airship.Direction = 2;
-				airship.SetDataStorageFlag(true);
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Airship, 1);
-			}
-
-			if (FF1PR.SessionManager.Options.TryGetValue("spawn_ship", out var spawnship) && spawnship == Options.Enable)
-			{
-				var airship = FF1PR.UserData.OwnedTransportationList.GetTransport(517);
-				airship.Position = new Vector3(145, 162, 149);
-				airship.MapId = 1;
-				airship.Direction = 2;
-				airship.SetDataStorageFlag(true);
-				FF1PR.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Ship, 1);
-			}
-
-			// Set New Game options only
-			FF1PR.UserData.CheatSettingsData.GilRate = Randomizer.RandomizerData.GilBoost;
-			FF1PR.UserData.CheatSettingsData.ExpRate = Randomizer.RandomizerData.XpBoost;
 		}
 	}
 }

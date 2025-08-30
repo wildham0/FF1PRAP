@@ -41,7 +41,7 @@ namespace FF1PRAP
 
 		public static PatchOpGroup TransportationCanalShip = new(3, new()
 			{
-				new RandoCondition(ConditionState.Off, "ScenarioFlag1", $"{(int)ScenarioFlags.Canal}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.Off, "ScenarioFlag1", (int)ScenarioFlags.Canal, FlagMode.Gameflag),
 			}, new()
 			{
 				// Block ship if no canal
@@ -49,7 +49,7 @@ namespace FF1PRAP
 			});
 		public static PatchOpGroup TransportationFoot = new(0, new()
 			{
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.Canal}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int) ScenarioFlags.Canal, FlagMode.Gameflag),
 				//new RandoCondition(ConditionState.On, "progression_mode", "eastward", FlagMode.Randoflag),
 			}, new()
 			{

@@ -21,7 +21,7 @@ namespace FF1PRAP
 		public static PatchOpGroup TilemapTiles = new(0, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.WestwardProgressionMode, FlagMode.Gameflag),
 			}, new()
 			{
 				// Mountain to Marsh
@@ -129,7 +129,7 @@ namespace FF1PRAP
 		public static PatchOpGroup TilemapBottom = new(1, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.WestwardProgressionMode, FlagMode.Gameflag),
 			}, new()
 			{
 				// Mountain to Marsh
@@ -213,7 +213,7 @@ namespace FF1PRAP
 		public static PatchOpGroup TilemapGround = new(2, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.WestwardProgressionMode, FlagMode.Gameflag),
 			}, new()
 			{
 				// Mountain to Marsh
@@ -231,7 +231,7 @@ namespace FF1PRAP
 		public static PatchOpGroup TransportationFoot = new(0, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.WestwardProgressionMode, FlagMode.Gameflag),
 			}, new()
 			{
 				// Mountain to Marsh
@@ -306,7 +306,7 @@ namespace FF1PRAP
 		public static PatchOpGroup TransportationCanoe = new(1, new()
 			{
 				//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.WestwardProgressionMode, FlagMode.Gameflag),
 			}, new()
 			{
 				// Mountain to Marsh
@@ -317,7 +317,7 @@ namespace FF1PRAP
 		public static PatchOpGroup Attributes = new(0, new()
 		{
 			//new RandoCondition(ConditionState.On, "progression_mode", "westward", FlagMode.Randoflag),
-			new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.WestwardProgressionMode}", FlagMode.Gameflag),
+			new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.WestwardProgressionMode, FlagMode.Gameflag),
 		}, new()
 		{
 			new PatchOp(95,157,18),

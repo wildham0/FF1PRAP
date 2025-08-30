@@ -166,6 +166,7 @@ namespace FF1PRAP
 		JobWhiteWizard,
 		JobBlackWizard,
 
-		Airship	
+		Airship,
+		LuteTablature,
 	}
 }

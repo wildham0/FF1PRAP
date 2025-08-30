@@ -108,14 +108,16 @@ namespace FF1PRAP
 			randoData.GilBoost = SetVictoryBoost(FF1PR.SessionManager.Options["gil_boost"]);
 			randoData.BoostMenu = FF1PR.SessionManager.Options["boost_menu"] == Options.Enable;
 			randoData.OrdealsMaze = ShuffleOrdealsMaze(FF1PR.SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng);
-			randoData.JobPromotion = (JobPromotionModes)int.Parse(FF1PR.SessionManager.Options["job_promotion"]);
-			randoData.EarlyProgression = (EarlyProgressionModes)int.Parse(FF1PR.SessionManager.Options["early_progression"]);
+			randoData.JobPromotion = (JobPromotionModes)FF1PR.SessionManager.Options["job_promotion"];
+			randoData.EarlyProgression = (EarlyProgressionModes)FF1PR.SessionManager.Options["early_progression"];
 			randoData.NorthernDocks = FF1PR.SessionManager.Options["northern_docks"] == Options.Enable;
+			randoData.RequiredCrystals = ProcessCrystals(FF1PR.SessionManager.Options["crystals_required"], rng);
+			randoData.RequiredTablatures = ProcessLute(FF1PR.SessionManager.Options["lute_tablatures"], rng);
 			randoData.NerfChaos = FF1PR.SessionManager.Options["nerf_chaos"] == Options.Enable;
 			// This is ugly but it'll do for now
 			randoData.MonsterParties = 
-				RandomizeMonsterParties(FF1PR.SessionManager.Options["monster_parties"] != Options.Disable, (MonsterPartyRangeModes)int.Parse(FF1PR.SessionManager.Options["monster_parties"]), (MonsterPartyCapModes)int.Parse(FF1PR.SessionManager.Options["monsters_cap"]), rng)
-				.Concat(AddBossMinions(FF1PR.SessionManager.Options["boss_minions"] != Options.Disable, (MinionsRangeModes)int.Parse(FF1PR.SessionManager.Options["boss_minions"]), rng))
+				RandomizeMonsterParties(FF1PR.SessionManager.Options["monster_parties"] != Options.Disable, (MonsterPartyRangeModes)FF1PR.SessionManager.Options["monster_parties"], (MonsterPartyCapModes)FF1PR.SessionManager.Options["monsters_cap"], rng)
+				.Concat(AddBossMinions(FF1PR.SessionManager.Options["boss_minions"] != Options.Disable, (MinionsRangeModes)FF1PR.SessionManager.Options["boss_minions"], rng))
 				.ToDictionary(x => x.Key, x => x.Value);
 
 			RandomizerData = randoData;
@@ -645,6 +647,7 @@ namespace FF1PRAP
 			{ (int)Items.Adamantite, (int)ScenarioFlags.Adamant },
 			{ (int)Items.BottledFaerie, (int)ScenarioFlags.BottledFaerie },
 			{ (int)Items.Ship, (int)ScenarioFlags.Ship },
+			{ (int)Items.LuteTablature, (int)ScenarioFlags.TablatureReceived },
 		};
 
 		public static Dictionary<string, int> ScriptToItemFlag = new()
@@ -1107,6 +1110,7 @@ namespace FF1PRAP
 			{ "White Wizard Job", new ItemData() { Id = 505, Qty = 1 } },
 			{ "Black Wizard Job", new ItemData() { Id = 506, Qty = 1 } },
 			{ "Airship", new ItemData() { Id = 507, Qty = 1 } },
+			{ "Lute Tablature", new ItemData() { Id = 508, Qty = 1 } },
 		};
 	}
 }

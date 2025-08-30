@@ -831,7 +831,12 @@ namespace FF1PRAP
 			CreateDropdown(Options.Dict["adamantite_craft"].Display, Options.Dict["adamantite_craft"]);
 			CreateDropdown(Options.Dict["job_promotion"].Display, Options.Dict["job_promotion"]);
 			apHeight += 20f * guiScale;
-			
+
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "End Goal");
+			CreateDropdown(Options.Dict["lute_tablatures"].Display, Options.Dict["lute_tablatures"]);
+			CreateDropdown(Options.Dict["crystals_required"].Display, Options.Dict["crystals_required"]);
+			apHeight += 20f * guiScale;
+
 			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Shops & Maps");
 			CreateDropdown(Options.Dict["shuffle_gear_shops"].Display, Options.Dict["shuffle_gear_shops"]);
 			CreateDropdown(Options.Dict["shuffle_spells"].Display, Options.Dict["shuffle_spells"]);

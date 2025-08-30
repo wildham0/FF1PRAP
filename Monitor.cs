@@ -32,25 +32,6 @@ namespace FF1PRAP
 		private bool newGameProcessed = false;
 		private bool nowLoading = false;
 		public List<string> AssetsToPatch = new();
-		/*
-		public Dictionary<string, bool> MapDataUpdate = new()
-		{
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", false },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", false },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/attribute", false },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/tilemap", false },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/collision", false },
-		};
-
-		private static Dictionary<string, List<PatchOpGroup>> MapDataPatches = new()
-		{
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", new() { MapPatchesWestward.TilemapGround, MapPatchesWestward.TilemapTiles, MapPatchesWestward.TilemapBottom, MapPatchesCanal.BridgeCanalBottom } },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", new() { MapPatchesWestward.TransportationFoot, MapPatchesWestward.TransportationCanoe, MapPatchesCanal.TransportationFoot, MapPatchesCanal.TransportationCanalShip } },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/attribute", new() { MapPatchesWestward.Attributes, MapPatchesCanal.BridgeCanalAttribute } },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/tilemap", new() { MapPatchesTitanTunnel.TilemapTiles } },
-			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/collision", new() { MapPatchesTitanTunnel.Collision } },
-		};
-		*/
 		public MonitorTool() { }
 
 		public void Update()

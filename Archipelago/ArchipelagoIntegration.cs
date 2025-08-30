@@ -122,7 +122,14 @@ namespace FF1PRAP {
 					if (slotData.ContainsKey(option.Key))
 					{
 						//InternalLogger.LogInfo($"{option.Key}: {slotData[option.Key].ToString()}");
-						FF1PR.SessionManager.Options[option.Key] = slotData[option.Key].ToString();
+						if (slotData[option.Key].GetType() == typeof(bool))
+						{
+							FF1PR.SessionManager.Options[option.Key] = (bool)slotData[option.Key] ? Options.Enable : Options.Disable;
+						}
+						else
+						{
+							FF1PR.SessionManager.Options[option.Key] = Convert.ToInt32((long)slotData[option.Key]);
+						}
 					}
 					else
 					{

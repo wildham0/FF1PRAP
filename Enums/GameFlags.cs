@@ -64,6 +64,9 @@ namespace FF1PRAP
 		WestwardProgressionMode,
 		BahamutGivesItem,
 		NorthernDocks,
+		TablatureReceived,
+		LuteAccessCompleted,
+		BlackOrbReqCompleted,
 
 
 

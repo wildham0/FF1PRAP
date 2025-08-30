@@ -42,10 +42,10 @@ namespace FF1PRAP
 		};
 		public ConditionState State { get; set; }
 		public string FlagGroup { get; set; }
-		public string Value { get; set; }
+		public int Value { get; set; }
 		public FlagMode Mode { get; set; }
 
-		public RandoCondition(ConditionState state, string flagGroup, string value, FlagMode mode)
+		public RandoCondition(ConditionState state, string flagGroup, int value, FlagMode mode)
 		{
 			State = state;
 			FlagGroup = flagGroup;
@@ -63,7 +63,7 @@ namespace FF1PRAP
 			{
 				if (FF1PR.DataStorage != null)
 				{
-					result = FF1PR.DataStorage.Get(gameflagCategory[FlagGroup], int.Parse(Value)) == 1;
+					result = FF1PR.DataStorage.Get(gameflagCategory[FlagGroup], Value) == 1;
 				}
 			}
 

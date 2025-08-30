@@ -174,8 +174,8 @@ namespace FF1PRAP
 			public int WeakRange;
 			public int MidRange;
 			public int StrongRange;
-			public int MaxSmall;
-			public int MaxBig;
+			//public int MaxSmall;
+			//public int MaxBig;
 		}
 
 		private struct MiniBossExtendConfig
@@ -590,7 +590,6 @@ namespace FF1PRAP
 			foreach (var miniboss in MiniBossesConfigs)
 			{
 				int count = 0;
-				int pick = 0;
 
 				switch (rangemode)
 				{
@@ -670,6 +669,16 @@ namespace FF1PRAP
 				{
 					monsterParty.Monster9 = (int)monster;
 				}
+			}
+		}
+		public static void ApplyChaos()
+		{
+			if (Randomizer.RandomizerData.NerfChaos)
+			{
+				var chaos = FF1PR.MasterManager.GetData<Monster>(128);
+				chaos.Hp /= 2;
+				chaos.Intelligence = (int)(chaos.Intelligence * 0.75);
+				chaos.Attack = (int)(chaos.Attack * 0.75);
 			}
 		}
 	}

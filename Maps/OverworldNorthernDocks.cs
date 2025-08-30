@@ -20,7 +20,7 @@ namespace FF1PRAP
 	{
 		public static PatchOpGroup TilemapTiles = new(0, new()
 			{
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.NorthernDocks}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int) ScenarioFlags.NorthernDocks, FlagMode.Gameflag),
 			}, new()
 			{
 				// Onrac Continent
@@ -54,7 +54,7 @@ namespace FF1PRAP
 			});
 		public static PatchOpGroup TilemapBottom = new(1, new()
 			{
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.NorthernDocks}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.NorthernDocks, FlagMode.Gameflag),
 			}, new()
 			{
 				// Onrac Continent
@@ -88,7 +88,7 @@ namespace FF1PRAP
 			});
 		public static PatchOpGroup TilemapGround = new(2, new()
 			{
-				new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.NorthernDocks}", FlagMode.Gameflag),
+				new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.NorthernDocks, FlagMode.Gameflag),
 			}, new()
 			{
 				// Onrac Continent
@@ -116,7 +116,7 @@ namespace FF1PRAP
 			});
 		public static PatchOpGroup Attributes = new(0, new()
 		{
-			new RandoCondition(ConditionState.On, "ScenarioFlag1", $"{(int)ScenarioFlags.NorthernDocks}", FlagMode.Gameflag),
+			new RandoCondition(ConditionState.On, "ScenarioFlag1", (int)ScenarioFlags.NorthernDocks, FlagMode.Gameflag),
 		}, new()
 		{
 			// Allow docking

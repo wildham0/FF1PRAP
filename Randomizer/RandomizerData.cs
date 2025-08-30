@@ -30,6 +30,8 @@ namespace FF1PRAP
 		public JobPromotionModes JobPromotion { get; set; }
 		public EarlyProgressionModes EarlyProgression { get; set; }
 		public bool NorthernDocks { get; set; }
+		public int RequiredTablatures { get; set; }
+		public int RequiredCrystals { get; set; }
 		public RandomizerData()
 		{
 			GearShops = new();
@@ -37,6 +39,7 @@ namespace FF1PRAP
 			ShuffledSpells = new();
 			OrdealsMaze = new();
 			MonsterParties = new();
+			RequiredTablatures = 0;
 		}
 	}
 

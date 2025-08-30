@@ -112,6 +112,7 @@ namespace FF1PRAP
 			// Initial Item Lists
 			var standardItems = items.Where(i => !KeyItems.Contains((Items)i.Id)).ToList();
 			var keyItems = items.Where(i => KeyItems.Contains((Items)i.Id)).ToList();
+			List<ItemData> startingItems = new();
 
 			foreach (var item in items)
 			{
@@ -120,10 +121,11 @@ namespace FF1PRAP
 			}
 			
 			
-			var adamantitecraft = int.Parse(FF1PR.SessionManager.Options["adamantite_craft"]);
+			var adamantitecraft = FF1PR.SessionManager.Options["adamantite_craft"];
 			bool marshpath = FF1PR.SessionManager.Options["early_progression"] == Options.MarshPath;
 			bool northerndocks = FF1PR.SessionManager.Options["northern_docks"] == Options.Enable;
-			bool bahamutpromo = FF1PR.SessionManager.Options["job_promotion"] == "0";
+			bool bahamutpromo = FF1PR.SessionManager.Options["job_promotion"] == Options.Disable;
+			bool tablatures = FF1PR.SessionManager.Options["lute_tablatures"] > 0;
 
 			List<Items> extraItems = new();
 			List<(Items item, int location)> plandoItems = new();
@@ -144,6 +146,14 @@ namespace FF1PRAP
 			standardItems.Remove(adamantData);
 			keyItems.Add(adamantData);
 
+			if (tablatures)
+			{ 
+				var luteData = keyItems.Find(i => i.Id == (int)Items.Lute);
+				keyItems.Remove(luteData);
+				startingItems.Add(luteData);
+				standardItems.Add(rng.PickFrom(standardItems));
+			}
+
 			/*
 			foreach (var extraItem in extraItems)
 			{
@@ -157,10 +167,10 @@ namespace FF1PRAP
 
 			switch (FF1PR.SessionManager.Options["job_promotion"])
 			{
-				case "0":
+				case 0:
 					plandoItems.Add((Items.JobAll, (int)TreasureFlags.Bahamut));
 					break;
-				case "2":
+				case 2:
 					standardItems = RemoveItems(standardItems, 5);
 					keyItems = keyItems.Where(i => i.Id != (int)Items.JobAll).ToList();
 					List<Items> promoItems = new() { Items.JobKnight, Items.JobNinja, Items.JobMaster, Items.JobRedWizard, Items.JobWhiteWizard, Items.JobBlackWizard };
@@ -171,7 +181,7 @@ namespace FF1PRAP
 			}
 
 			// priority locations
-			List<(string setting, List<int> locations)> prioritySetitngs = new()
+			List<(int setting, List<int> locations)> prioritySetitngs = new()
 			{
 				(FF1PR.SessionManager.Options["npcs_priority"], PriorityNPCs),
 				(FF1PR.SessionManager.Options["keychests_priority"], PriorityChests),
@@ -183,14 +193,13 @@ namespace FF1PRAP
 
 			foreach (var setting in prioritySetitngs)
 			{
-				if (setting.setting == "prioritize") priorizedLocations.AddRange(setting.locations);
-				else if (setting.setting == "exclude") excludedLocations.AddRange(setting.locations);
+				if (setting.setting == Options.Prioritize) priorizedLocations.AddRange(setting.locations);
+				else if (setting.setting == Options.Exclude) excludedLocations.AddRange(setting.locations);
 			}
 
 			foreach (var location in priorizedLocations)
 			{
 				InternalLogger.LogInfo($"Priority Location: {location}");
-			
 			}
 
 
@@ -299,6 +308,14 @@ namespace FF1PRAP
 
 
 				List<AccessRequirements> plandoAccess = new() { AccessRequirements.None };
+
+				foreach (var startingItem in startingItems)
+				{
+					if (ItemIdToAccess.TryGetValue((Items)startingItem.Id, out var newaccess))
+					{
+						plandoAccess.Add(newaccess);
+					}
+				}
 
 				foreach (var plandoItem in plandoItems)
 				{
@@ -424,9 +441,32 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"SanityCheck - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
 
 
-			standardItems.Shuffle(rng);
+			// Place Tablatures
+			if (tablatures)
+			{
+				List<int> tofLocations = new() { 202, 203, 204, 205, 206, 207, 208 };
+				
+				var validTabLocations = remainingLocations.Where(l => !tofLocations.Contains(l.Flag)).ToList();
+
+				for (int i = 0; i < 40; i++)
+				{
+					InternalLogger.LogInfo($"SanityCheck - Tab Location: {validTabLocations.Count}, Location Left: {remainingLocations.Count}");
+					var location = rng.TakeFrom(validTabLocations);
+					remainingLocations = remainingLocations.Where(l => l.Flag != location.Flag).ToList();
+					placedItems.Add(location.Flag, new ItemData() { Id = (int)Items.LuteTablature, Qty = 1 });
+				}
+
+				standardItems.Shuffle(rng);
+				standardItems = standardItems
+					.OrderBy(s => s.Id)
+					.Where((s, i) => i >= 40)
+					.ToList();
+
+				InternalLogger.LogInfo($"SanityCheck - Post Tablature - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
+			}
 
 			standardItems.Shuffle(rng);
+
 			// special part for caravan, we can't put Gil in there
 			if (remainingLocations.TryFind(l => l.Flag == (int)TreasureFlags.Caravan, out var caravan))
 			{
