@@ -33,6 +33,7 @@ namespace FF1PRAP
 		private static Option currentToolTip;
 		private static bool generationReady = false;
 		public static Vector2 scrollPosition = Vector2.zero;
+		public static bool TitleOptionMenuInitialized = false;
 
 		// Parameters
 		private static float guiScale = 1f;
@@ -253,6 +254,12 @@ namespace FF1PRAP
 
 					GUI.skin = windowSkin;
 					GUI.skin.font = PixelRemasterFont;
+				}
+
+				if (!TitleOptionMenuInitialized && GameData.TitleWindowController != null && GameData.TitleWindowController.stateMachine.Current == TitleWindowController.State.Select)
+				{
+					ProcessTitleOptions();
+					TitleOptionMenuInitialized = true;
 				}
 
 				Cursor.visible = true;
@@ -557,6 +564,7 @@ namespace FF1PRAP
 					{
 						SessionManager.GameMode = choice.Key;
 						currentOptionShowing = "";
+						ProcessTitleOptions();
 						SessionManager.WriteSessionInfo();
 					}
 				}
@@ -567,6 +575,37 @@ namespace FF1PRAP
 			
 			GUI.skin.button.fontSize = (int)(standardFontSize * guiScale);
 			apHeight += 10f * guiScale;
+		}
+
+		private static void ProcessTitleOptions()
+		{
+			//InternalLogger.LogInfo($"Processing Title Options - {SessionManager.GameMode}");
+			if (GameData.TitleWindowController != null)
+			{
+				if (SessionManager.GameMode == GameModes.Vanilla)
+				{
+					GameData.TitleWindowController.commandController.SetEnableCommand(Last.Defaine.TitleCommandId.NewGame, true);
+					GameData.TitleWindowController.commandController.SetEnableCommand(Last.Defaine.TitleCommandId.LoadGame, true);
+				}
+				else if (SessionManager.GameMode == GameModes.Randomizer)
+				{
+					GameData.TitleWindowController.commandController.SetEnableCommand(Last.Defaine.TitleCommandId.LoadGame, true);
+					GameData.TitleWindowController.commandController.SetEnableCommand(Last.Defaine.TitleCommandId.NewGame, generationReady);
+				}
+				else if (SessionManager.GameMode == GameModes.Archipelago)
+				{
+					if (Archipelago.instance.integration != null && Archipelago.instance.integration.connected)
+					{
+						GameData.TitleWindowController.commandController.SetEnableCommand(Last.Defaine.TitleCommandId.LoadGame, true);
+						GameData.TitleWindowController.commandController.SetEnableCommand(Last.Defaine.TitleCommandId.NewGame, true);
+					}
+					else
+					{
+						GameData.TitleWindowController.commandController.SetEnableCommand(Last.Defaine.TitleCommandId.LoadGame, false);
+						GameData.TitleWindowController.commandController.SetEnableCommand(Last.Defaine.TitleCommandId.NewGame, false);
+					}
+				}
+			}
 		}
 		private static void ToolTipWindow(int windowID)
 		{
@@ -630,6 +669,7 @@ namespace FF1PRAP
 				Randomizer.Randomize();
 				SessionManager.WriteSessionInfo();
 				generationReady = true;
+				ProcessTitleOptions();
 			}
 
 			if (generationReady)
@@ -694,6 +734,7 @@ namespace FF1PRAP
 				} else {
 					Archipelago.instance.Connect();
 				}
+				ProcessTitleOptions();
 			}
 
 			GUI.skin.label.fontSize = (int)(standardFontSize * 1.3 * guiScale);
