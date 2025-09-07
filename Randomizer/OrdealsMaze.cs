@@ -73,9 +73,9 @@ namespace FF1PRAP
 			{ 9, 304 }
 		};
 
-		public static Dictionary<int, int> ShuffleOrdealsMaze(bool enable, MT19337 rng)
+		public static Dictionary<string, string> ShuffleOrdealsMaze(bool enable, MT19337 rng)
 		{
-			if (!enable) return new Dictionary<int, int>();
+			if (!enable) return new Dictionary<string, string>();
 
 			InternalLogger.LogInfo($"Shuffling Citadel of Trials' Maze");
 
@@ -156,7 +156,10 @@ namespace FF1PRAP
 
 			}
 
-			var finalLayout = placedPillars.ToDictionary(p => p.OriginalTargetPoint, p => p.TargetPoint);
+			Dictionary<string, string> finalLayoutText = placedPillars.ToDictionary(p => Randomizer.PointToTeleporters[(94, p.OriginalTargetPoint)].Name, p => Randomizer.PointToTeleporters[(94, p.TargetPoint)].Name);
+			//Dictionary<(int, int), Teleporter> finalLayout = placedPillars.ToDictionary(p => (94, p.OriginalTargetPoint), p => new Teleporter() { MapId = 94, PointId = p.TargetPoint });
+
+
 
 			/*
 			foreach (var entry in finalLayout)
@@ -164,7 +167,7 @@ namespace FF1PRAP
 				InternalLogger.LogInfo($"Maze - Final: {entry.Key} > {entry.Value}");
 			}*/
 
-			return finalLayout;
+			return finalLayoutText;
 		}
 	}
 }

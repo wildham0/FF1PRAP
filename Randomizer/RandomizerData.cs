@@ -1,15 +1,15 @@
-﻿using RomUtilities;
+﻿using FF1PRAP;
+using Last.Data.Master;
+using RomUtilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Last.Data.Master;
-using UnityEngine.Bindings;
 using System.Text.Json;
-
-using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Bindings;
 using static FF1PRAP.Randomizer;
 
 namespace FF1PRAP
@@ -20,6 +20,8 @@ namespace FF1PRAP
 		public List<ShuffledSpell> ShuffledSpells { get; set; }
 		public Dictionary<int, ItemData> PlacedItems { get; set; }
 		public Dictionary<int, int> OrdealsMaze { get; set; }
+		//public Dictionary<(int, int), Teleporter> Teleporters { get; set; }
+		public Dictionary<string, string> Entrances { get; set; }
 		public Dictionary<int, Dictionary<int, MonsterIds>> MonsterParties { get; set; }
 		public float DungeonEncounterRate { get; set; }
 		public float OverworldEncounterRate { get; set; }
@@ -32,6 +34,7 @@ namespace FF1PRAP
 		public bool NorthernDocks { get; set; }
 		public int RequiredTablatures { get; set; }
 		public int RequiredCrystals { get; set; }
+		public bool EntrancesShuffled { get; set;}
 		public RandomizerData()
 		{
 			GearShops = new();

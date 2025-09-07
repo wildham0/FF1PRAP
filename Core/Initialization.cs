@@ -75,7 +75,10 @@ namespace FF1PRAP
 			GameData.MasterManager.GetList<Script>().Add(1001, new Script() { Id = 1001, ScriptName = "sc_luteslab" });		// lute slab script
 			GameData.MasterManager.GetList<Script>().Add(1002, new Script() { Id = 1002, ScriptName = "sc_chaosdefeated" });	// chaos defeated script
 			GameData.MasterManager.GetList<Script>().Add(1003, new Script() { Id = 1003, ScriptName = "sc_subeng" });			// sub engineer
-			GameData.MasterManager.GetList<Script>().Add(1004, new Script() { Id = 1004, ScriptName = "sc_bahamut" });			// bahamut
+			GameData.MasterManager.GetList<Script>().Add(1004, new Script() { Id = 1004, ScriptName = "sc_bahamut" });          // bahamut
+			GameData.MasterManager.GetList<Script>().Add(1005, new Script() { Id = 1005, ScriptName = "sc_garlandpostbattle" });   // 
+			GameData.MasterManager.GetList<Script>().Add(1006, new Script() { Id = 1006, ScriptName = "sc_princessnowarp" });	// 
+
 			// Trials Maze scripts
 			GameData.MasterManager.GetList<Script>().Add(1010, new Script() { Id = 1010, ScriptName = "sc_ordeals_1010" });
 			GameData.MasterManager.GetList<Script>().Add(1011, new Script() { Id = 1011, ScriptName = "sc_ordeals_1011" });
@@ -147,7 +150,7 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"Initialize New Game.");
 			
-			//DevHacks();
+			DevHacks();
 
 			// Set Flags
 			GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
@@ -163,6 +166,7 @@ namespace FF1PRAP
 			Randomizer.InitializeTransportation();
 			Randomizer.InitializeLute();
 			Randomizer.InitializeCrystals();
+			Randomizer.InitializeEntrances();
 		}
 		public static void DevHacks()
 		{
@@ -200,6 +204,7 @@ namespace FF1PRAP
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Ribbon, 4);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.IceShield, 4);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Elixir, 99);
+			GameData.OwnedItemsClient.AddOwnedItem((int)Items.PhoenixDown, 99);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.RatsTail, 1);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.StarRuby, 1);

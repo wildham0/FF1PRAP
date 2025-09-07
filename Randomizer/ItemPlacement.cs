@@ -136,6 +136,11 @@ namespace FF1PRAP
 				adamantItem = rng.PickFrom(goodItems);
 				//extraItems.Add(rng.PickFrom(goodItems));
 			}
+			else if (adamantitecraft == -2)
+			{
+				adamantItem = (Items)rng.PickFrom(standardItems.Where(i => i.Id != 1).Distinct().ToList()).Id;
+				//extraItems.Add(rng.PickFrom(goodItems));
+			}
 			else
 			{
 				adamantItem = (Items)adamantitecraft;

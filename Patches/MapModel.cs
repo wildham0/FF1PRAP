@@ -14,7 +14,7 @@ namespace FF1PRAP
 		{
 			float multiplier = Randomizer.Data.DungeonEncounterRate;
 
-			if (__instance.GetMapName() == "Map_10010")
+			if (__instance.GetMapName() == Randomizer.OverworldMap)
 			{
 				multiplier = Randomizer.Data.OverworldEncounterRate;
 			}

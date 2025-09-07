@@ -1,42 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AsmResolver.Collections;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppInterop.Runtime.Runtime;
+using Il2CppSystem.Threading.Tasks;
+using JetBrains.Annotations;
 using Last.Data;
 using Last.Data.Master;
+using Last.Data.User;
 using Last.Entity.Field;
 using Last.Event;
-using Last.Map;
-using Prime31;
-using UnityEngine;
-using System.Reflection;
-using System.IO;
-using Last.Management;
 using Last.Interpreter;
-using System.Diagnostics;
 using Last.Interpreter.Instructions;
-using Il2CppInterop.Runtime.Runtime;
-using static UnityEngine.InputSystem.Users.InputUser;
-using Last.Data.User;
 using Last.Interpreter.Instructions.SystemCall;
-using Last.Systems.Message;
-using System.Text.Json;
-using static Last.Map.LoadData;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using JetBrains.Annotations;
-using Steamworks;
+using Last.Management;
+using Last.Map;
 using Last.Systems.Indicator;
-using Last.UI.KeyInput;
-using System.Xml.Linq;
-using Il2CppSystem.Threading.Tasks;
+using Last.Systems.Message;
 using Last.UI;
+using Last.UI.KeyInput;
+using Prime31;
+using Steamworks;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+using UnityEngine;
 using static Last.Interpreter.Instructions.External;
+using static Last.Map.LoadData;
 using static Serial.FF1.Map.TransportationEvent;
-using AsmResolver.Collections;
+using static UnityEngine.InputSystem.Users.InputUser;
 
 namespace FF1PRAP
 {//[HarmonyPatch("GetExp")]
@@ -800,6 +801,108 @@ namespace FF1PRAP
 				property = FF1PR.storedGotoMap;
 			}*/
 
+		}
+		public static void CastTelepo_Post()
+		{
+
+			Randomizer.Teleporting = true;
+			InternalLogger.LogInfo($"Casting Teleportation.");
+
+			//InternalLogger.LogInfo($"Telepo Data: {Last.Interpreter.Instructions.External.Telepo.kMapId} - {Last.Interpreter.Instructions.External.Telepo.kPointInId}");
+
+		}
+
+		public static void TelepoCache_Add_Point(TelepoPointData telepo)
+		{
+			InternalLogger.LogInfo($"Telepo Cache Point: Adding ({telepo.mapId}, {telepo.pointInEntity})");
+		}
+		public static void TelepoCache_Add_Item(TelepoCacheItem item)
+		{
+			InternalLogger.LogInfo($"Telepo Cache Item: Adding ({item.MapId}, {item.PointInObjectId}) - {item.KeyName}");
+		}
+		public static void TelepoCache_Add_Int(int mapId, int pointInObjectId)
+		{
+			InternalLogger.LogInfo($"Telepo Cache Int: Adding ({mapId}, {pointInObjectId})");
+		}
+		public static void TelepoCache_Pop(TelepoCacheItem __result)
+		{
+			InternalLogger.LogInfo($"Telepo Cache Pop: Popping ({__result.MapId}, {__result.PointInObjectId})");
+			Randomizer.Teleporting = true;
+		}
+
+		public static void TelepoCache_Peek(TelepoCache __instance, TelepoCacheItem __result)
+		{
+			if (GameData.TelepoCache == null)
+			{
+				GameData.TelepoCache = __instance;
+			}
+			InternalLogger.LogInfo($"Telepo Cache Peeking ({__result.MapId}, {__result.PointInObjectId})");
+		}
+
+		public static void TelepoCache_Remove()
+		{
+			InternalLogger.LogInfo($"Deleting Cache");
+		}
+
+		public static void TelepoCache_Get()
+		{
+			InternalLogger.LogInfo($"Telepo Cache Get.");
+			Randomizer.Teleporting = true;
+		}
+
+		public static void AccessorGotoMap(LoadData newCache, bool skipFade, bool skipBgm)
+		{
+			InternalLogger.LogInfo($"GotoMap Access: {newCache.MapId} - {newCache.Point}");
+		}
+		public static void ProcedureGotoMap(LoadData loadData, bool skipFade, bool skipBgm )
+		{
+			InternalLogger.LogInfo($"GotoMap Procedure: {loadData.MapId} - {loadData.Point}");
+		}
+		public static void ActionGotoMap(ref PropertyGotoMap propertyGotoMap)
+		{
+			InternalLogger.LogInfo($"On Cache: {propertyGotoMap.MapId} - {propertyGotoMap.PointId} - {propertyGotoMap.Gimmick}");
+			/*
+			if (propertyGotoMap.MapId == 1)
+			{
+				propertyGotoMap.MapId = 255;
+			}*/
+
+			InternalLogger.LogInfo($"NextMapProperty: {GameData.CurrentMap};{propertyGotoMap.EntityId};{propertyGotoMap.MapId};{propertyGotoMap.PointId};{propertyGotoMap.AssetGroupName};{propertyGotoMap.AssetName}");
+
+			bool wasOverworld = false;
+			if (propertyGotoMap.MapId == 1)
+			{
+				wasOverworld = true;
+			}
+
+			if (Randomizer.PointToTeleporters.TryGetValue((propertyGotoMap.MapId, propertyGotoMap.PointId), out var currentteleporter))
+			{
+				if (Randomizer.Data.Entrances.TryGetValue(currentteleporter.Name, out var entrance))
+				{
+					var newpoint = Randomizer.NameToTeleporters[entrance];
+
+					InternalLogger.LogInfo($"NextMapProperty: Found {currentteleporter.Name}, replacing by {newpoint.Name}");
+					//InternalLogger.LogInfo($"NextMapProperty: Found {(property.MapId, property.PointId)}, replacing by {(newpoint.MapId, newpoint.PointId)}");
+
+					propertyGotoMap.MapId = newpoint.MapId;
+					propertyGotoMap.PointId = newpoint.PointId;
+					propertyGotoMap.AssetGroupName = newpoint.MapGroup;
+					propertyGotoMap.AssetName = newpoint.MapName;
+
+
+					if (wasOverworld && propertyGotoMap.MapId != 1)
+					{
+						var teledata = GameData.TelepoCache.Peek();
+						if (teledata != null)
+						{
+							if (teledata.MapId == propertyGotoMap.MapId && teledata.PointInObjectId == propertyGotoMap.PointId)
+							{
+								GameData.TelepoCache.Pop();
+							}
+						}
+					}
+				}
+			}
 		}
 		private static void NextMapInt_Pre(ref int mapId, ref int point)
 		{

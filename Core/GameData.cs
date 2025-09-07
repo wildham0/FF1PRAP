@@ -30,6 +30,7 @@ namespace FF1PRAP
 		public static FieldController FieldController;
 		public static OwnedItemClient OwnedItemsClient;
 		public static ResourceManager ResourceManager;
+		public static TelepoCache TelepoCache;
 
 		// Loading/Saving Menu Stuff
 		public static Last.UI.KeyInput.TitleWindowController TitleWindowController;

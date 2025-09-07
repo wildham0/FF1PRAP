@@ -50,6 +50,7 @@ namespace FF1PRAP
 			{
 				InternalLogger.LogInfo($"Randomizer Settings Reset.");
 				ProcessState = ProcessStates.None;
+				Randomizer.Teleporting = false;
 				GameData.OwnedItemsClient = null;
 				newGameProcessed = false;
 			}
@@ -163,7 +164,7 @@ namespace FF1PRAP
 					InternalLogger.LogInfo($"MapPatcher: Patching {filename}.");
 
 
-					if (AssetPatches.Maps.TryGetValue(patchdata, out var mappatches))
+					if (Randomizer.MapAssetsToPatch.TryGetValue(patchdata, out var mappatches))
 					{
 						assettext = MapPatcher.Patch(assettext, mappatches);
 					}

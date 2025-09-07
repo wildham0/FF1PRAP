@@ -90,9 +90,21 @@ namespace FF1PRAP
 			"Nop",
 			"Msg MSG_NPC_GARLAND",
 			"Wait 0.35",
-			"EncountBoss 350 38 29 sc_e_0003_2",
+			"EncountBoss 350 38 29 sc_garlandpostbattle", // sc_e_0003_2
 			"Wait 1.4",
 			"Exit"
+		};
+		public static List<string> GarlandPostBattle = new()
+		{
+			"Sub Main:",
+			"Nop",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.PrincessNoWarp} [PrincessNoWarp]",
+			"ChangeScript sc_e_0003_2",
+			"Exit",
+			"PrincessNoWarp:",
+			"Nop",
+			"ChangeScript sc_princessnowarp",
+			"Exit",
 		};
 		public static List<string> TempleOfFiends = new()
 		{

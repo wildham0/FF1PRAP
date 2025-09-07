@@ -123,9 +123,33 @@ public class FF1PR : BasePlugin
 
 		// Loading Map coordinates, we'll need at least the first for EF shuffle
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(PropertyGotoMap), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "NextMapProperty_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "OnCacheTelepoPoint"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "OnCacheTelePoint_Pre")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(int), typeof(int), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "NextMapInt_Pre")));
+
+		// TelepoCache endpoints
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Peek"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Peek")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Pop"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Pop")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "GetCacheItem"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Get")));
+
+
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(int), typeof(Vector3), typeof(int), typeof(int), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "NextMapVector_Pre")));
 
+		//	 harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Instructions.External.Telepo), "CastTelepo"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CastTelepo_Post")));
+		/*
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoPointData)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Point")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoCacheItem)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Item")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "CreateCacheItem"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Int")));
+
+	
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.IEventAccessor), "EventGotoMap"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "AccessorGotoMap")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.EventProcedure), "EventGotoMap"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ProcedureGotoMap")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "OnCacheTelepoPoint"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ActionGotoMap")));
+
+		*/
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoPointData)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Point")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "CreateCacheItem"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Int")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoCacheItem)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Item")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "RemoveAll"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Remove")));
 
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapAssetData), "GetTileMapData"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetTileMapData_Post")));
 
@@ -141,8 +165,8 @@ public class FF1PR : BasePlugin
 		/*
 		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Instructions.SystemCall.Current), "FairyShop"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckFairyShop_Post")));
 		harmony.Patch(AccessTools.Method(typeof(ShopUtility), "BuyItem", [typeof(int), typeof(int)]), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "BuyItemInt_Post")));*/
-		
-		
+
+
 		//harmony.Patch(AccessTools.Method(typeof(Last.Endroll.EndRollManager), "GetAsset"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "EndRollGetAsset_Post")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.Endroll.EndRollManager), "LoadMessageList"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "EndRollGetAsset_Pre")));
 		//harmony.Patch(AccessTools.Method(typeof(Last.Endroll.EndRollManager), "AsyncLoadAssets"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetMatches_Post")));

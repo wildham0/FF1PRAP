@@ -16,9 +16,9 @@ using static FF1PRAP.Patches;
 
 namespace FF1PRAP
 {
-	public static class AssetPatches
+	public partial class Randomizer
 	{
-		public static Dictionary<string, PatchAsset> Maps = new()
+		public static Dictionary<string, PatchAsset> MapAssetsToPatch = new()
 		{
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/tilemap", new(256, new() { MapPatchesWestward.TilemapGround, MapPatchesWestward.TilemapTiles, MapPatchesWestward.TilemapBottom, MapPatchesCanal.BridgeCanalBottom, MapPatchesNorthernDocks.TilemapGround, MapPatchesNorthernDocks.TilemapTiles, MapPatchesNorthernDocks.TilemapBottom } )},
 			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/transportation", new(256, new() { MapPatchesWestward.TransportationFoot, MapPatchesWestward.TransportationCanoe, MapPatchesCanal.TransportationFoot, MapPatchesCanal.TransportationCanalShip } )},

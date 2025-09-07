@@ -143,6 +143,12 @@ namespace FF1PRAP {
 				SessionManager.Options["spawn_ship"] = (bool)slotData["spawn_ship"] ? Options.Enable : Options.Disable;
 
 				Randomizer.ItemsToIgnore = ((JArray)slotData["items_to_ignore"]).ToObject<List<int>>();
+				Randomizer.NewTeleporters = ((JObject)slotData["result_entrances"]).ToObject<Dictionary<string, string>>();
+
+				foreach (var tele in Randomizer.NewTeleporters)
+				{
+					InternalLogger.LogInfo($"Ap Entrance: {tele.Key} > {tele.Value}");
+				}
 
 				//Archipelago.instance.integration.session.Locations.S
 				/*
@@ -187,6 +193,8 @@ namespace FF1PRAP {
 			foreach (var entry in Randomizer.FlagToLocationName)
 			{
 				var apid = Archipelago.instance.integration.session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", entry.Value);
+				InternalLogger.LogInfo($"Ap Location: {apid} - {entry.Value} - {entry.Key}");
+
 				locdata.Add(apid, new ApLocationData() { Flag = entry.Key, Id = apid, Name = entry.Value });
 			}
 

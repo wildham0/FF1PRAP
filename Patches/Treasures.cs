@@ -23,10 +23,15 @@ namespace FF1PRAP
 				prop.ContentNum = 0;
 				prop.MessageKey = "MSG_OTHER_11";
 
-				var location = Randomizer.ApLocations[prop.FlagId];
-
-				GameData.MessageManager.GetMessageDictionary()["MSG_OTHER_11"] = $"You obtained {location.Content}.";
-				Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[prop.FlagId]);
+				if(Randomizer.ApLocations.TryGetValue(prop.FlagId, out var location))
+				{
+					GameData.MessageManager.GetMessageDictionary()["MSG_OTHER_11"] = $"You obtained {location.Content}.";
+					Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[prop.FlagId]);
+				}
+				else
+				{
+					InternalLogger.LogWarning("Treasure (Archipelago): Couldn't find Location Id, make sure you're correctly connected to Archipelago.");
+				}
 			}
 			else if (Randomizer.Data.PlacedItems.TryGetValue(prop.FlagId, out var item))
 			{

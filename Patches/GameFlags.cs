@@ -9,7 +9,6 @@ namespace FF1PRAP
 {
 	partial class Patches
 	{
-		public static List<ScenarioFlags> FiendsFlags = new() { ScenarioFlags.LichDefeated, ScenarioFlags.KaryDefeated, ScenarioFlags.KrakenDefeated, ScenarioFlags.TiamatDefeated };
 		public static void Gameflags_Postfix(string c, int index, int value)
 		{
 			if (SessionManager.GameMode == GameModes.Archipelago)
@@ -21,24 +20,7 @@ namespace FF1PRAP
 				}
 			}
 
-			// Process Crystal Requirements
-			if (c == "ScenarioFlag1" && FiendsFlags.Contains((ScenarioFlags)index))
-			{
-				int crystalCount = 1;
-
-				foreach (var flag in FiendsFlags)
-				{
-					if (GameData.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)flag) == 1)
-					{
-						crystalCount++;
-					}
-				}
-
-				if (crystalCount >= Randomizer.Data.RequiredCrystals)
-				{
-					GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.BlackOrbReqCompleted, 1);
-				}
-			}
+			Randomizer.ProcessCrystals(c, index);
 		}
 	}
 }

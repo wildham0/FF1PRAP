@@ -57,8 +57,11 @@ namespace FF1PRAP
 		public static Dictionary<string, bool> CheckedLocations = new Dictionary<string, bool>();
 		public static Dictionary<int, ApLocationData> ApLocations = new Dictionary<int, ApLocationData>();
 		public static List<int> ItemsToIgnore = new();
+		public static Dictionary<string, string> NewTeleporters = new();
+		public static bool Teleporting = false;
 
 		public static RandomizerData Data { get; set; }
+
 		public static void Randomize()
 		{
 			bool archipelago = SessionManager.GameMode == GameModes.Archipelago;
@@ -98,13 +101,19 @@ namespace FF1PRAP
 			randoData.XpBoost = SetVictoryBoost(SessionManager.Options["xp_boost"]);
 			randoData.GilBoost = SetVictoryBoost(SessionManager.Options["gil_boost"]);
 			randoData.BoostMenu = SessionManager.Options["boost_menu"] == Options.Enable;
-			randoData.OrdealsMaze = ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng);
+			// randoData.OrdealsMaze = ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng);
+			/*randoData.Teleporters = ProcessEntrances()
+				.Concat(ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng))
+				.ToDictionary(x => x.Key, x => x.Value);*/
+			randoData.Entrances = ProcessEntrances2().Concat(ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng))
+				.ToDictionary(x => x.Key, x => x.Value);
 			randoData.JobPromotion = (JobPromotionModes)SessionManager.Options["job_promotion"];
 			randoData.EarlyProgression = (EarlyProgressionModes)SessionManager.Options["early_progression"];
 			randoData.NorthernDocks = SessionManager.Options["northern_docks"] == Options.Enable;
 			randoData.RequiredCrystals = ProcessCrystals(SessionManager.Options["crystals_required"], rng);
 			randoData.RequiredTablatures = ProcessLute(SessionManager.Options["lute_tablatures"], rng);
 			randoData.NerfChaos = SessionManager.Options["nerf_chaos"] == Options.Enable;
+			randoData.EntrancesShuffled = ProcessEntrancesOptions(SessionManager.Options["shuffle_overworld"] == Options.Enable, (ShuffleEntrancesMode)SessionManager.Options["shuffle_entrances"]);
 			// This is ugly but it'll do for now
 			randoData.MonsterParties = 
 				RandomizeMonsterParties(SessionManager.Options["monster_parties"] != Options.Disable, (MonsterPartyRangeModes)SessionManager.Options["monster_parties"], (MonsterPartyCapModes)SessionManager.Options["monsters_cap"], rng)

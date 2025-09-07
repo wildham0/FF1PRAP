@@ -52,7 +52,9 @@
     <EmbeddedResource Include="Scripts\sc_cubewarp.json" />
     <EmbeddedResource Include="Scripts\sc_elflandcastle.json" />
     <EmbeddedResource Include="Scripts\sc_coneriacastle.json" />
+    <EmbeddedResource Include="Scripts\sc_garland_02_no_warp.json" />
     <EmbeddedResource Include="Scripts\sc_onrac.json" />
+    <EmbeddedResource Include="Scripts\sc_ordeals_last_warp.json" />
     <EmbeddedResource Include="Scripts\sc_ordeals_1014.json" />
     <EmbeddedResource Include="Scripts\sc_ordeals_1013.json" />
     <EmbeddedResource Include="Scripts\sc_ordeals_1012.json" />
