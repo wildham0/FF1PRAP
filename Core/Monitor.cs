@@ -1,17 +1,18 @@
 ﻿using Archipelago.MultiClient.Net.Helpers;
-using Last.Interpreter;
-using Last.Systems.Indicator;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using System;
-using Last.Message;
-using static UnityEngine.GridBrushBase;
 using Il2CppSystem;
 using Last.Data.Master;
-using Last.UI.KeyInput;
+using Last.Interpreter;
 using Last.Management;
+using Last.Message;
+using Last.Systems.Indicator;
+using Last.UI.KeyInput;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Unity.Jobs;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using static UnityEngine.GridBrushBase;
 
 namespace FF1PRAP
 {	public enum ProcessStates
@@ -32,12 +33,14 @@ namespace FF1PRAP
 		private bool newGameProcessed = false;
 		private bool nowLoading = false;
 		public List<string> AssetsToPatch = new();
+		public List<int> JobQueue = new();
 		public MonitorTool() { }
 
 		public void Update()
 		{
 			ProcessGameState();
 			ProcessPatches();
+			ProcessJobQueue();
 
 			if (SessionManager.GameMode == GameModes.Vanilla)
 			{
@@ -202,6 +205,26 @@ namespace FF1PRAP
 
 			GameState = nowLoading ? GameStates.None : currentState;
 		}
+
+		private void ProcessJobQueue()
+		{
+			if (GameState == GameStates.InGame && JobQueue.Any())
+			{
+				if (GameData.StateTracker != null)
+				{
+					var subState = GameData.StateTracker.CurrentSubState;
+					if(subState != GameSubStates.InGame_Battle_Start && subState != GameSubStates.InGame_Battle_InProgress)
+					{
+						foreach (var job in JobQueue)
+						{
+							Randomizer.AddJobs(job);
+						}
+						JobQueue.Clear();
+
+					}
+				}
+			}
+		}
 	}
 
 	public class Monitor : MonoBehaviour
@@ -251,6 +274,10 @@ namespace FF1PRAP
 		public void AddPatchesToProcess(string address)
 		{
 			tool.AssetsToPatch.Add(address);
+		}
+		public void QueueJob(int jobId)
+		{ 
+			tool.JobQueue.Add(jobId);
 		}
 	}
 

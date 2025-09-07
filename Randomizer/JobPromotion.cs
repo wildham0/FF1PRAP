@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.Jobs;
 using UnityEngine.Bindings;
 
 namespace FF1PRAP
@@ -41,6 +42,43 @@ namespace FF1PRAP
 			}
 		}
 		public static void ProcessJobItem(int itemid)
+		{
+			if (itemid < (int)Items.JobAll || itemid > (int)Items.JobBlackWizard)
+			{
+				return;
+			}
+
+			InternalLogger.LogInfo($"Acquired Job Items for {(Items)itemid}");
+			List<int> jobToAdd = new();
+
+			if (itemid == (int)Items.JobAll)
+			{
+				jobToAdd = new() { 7, 8, 9, 10, 11, 12 };
+			}
+			else
+			{
+				jobToAdd = new() { itemid - 494 };
+			}
+
+			foreach (var job in jobToAdd)
+			{
+				Monitor.instance.QueueJob(job);
+			}
+			
+		}
+		public static void AddJobs(int job)
+		{
+			for (int i = 0; i < GameData.UserData.OwnedCharacterList.Count; i++)
+			{
+				GameData.UserData.OwnedCharacterList[i].OwnedJobDataList.Add(new OwnedJobData() { Id = job, Level = 1, CurrentProficiency = 0 });
+
+				if (GameData.UserData.OwnedCharacterList[i].JobId == job - 6)
+				{
+					GameData.UserData.OwnedCharacterList[i].JobId = job;
+				}
+			}
+		}
+		public static void ProcessJobItem_old(int itemid)
 		{
 			if (itemid < (int)Items.JobAll || itemid > (int)Items.JobBlackWizard)
 			{
