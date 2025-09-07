@@ -93,7 +93,7 @@ namespace FF1PRAP
 		{
 			if (Randomizer.EntititesToUpdate.TryGetValue(GameData.CurrentMap, out var entitiesSet))
 			{
-				InternalLogger.LogInfo($"Updating entities on {GameData.CurrentMap}");
+				InternalLogger.LogTesting($"Updating entities on {GameData.CurrentMap}");
 
 				foreach (var entity in entitiesSet)
 				{
@@ -122,18 +122,18 @@ namespace FF1PRAP
 
 						if (met)
 						{
-							InternalLogger.LogInfo($"Updating entity {entity.EntityId}: Show.");
+							InternalLogger.LogTesting($"Updating entity {entity.EntityId}: Show.");
 							GameData.FieldController.GetFieldEntity(entity.EntityId).Show();
 						}
 						else
 						{
-							InternalLogger.LogInfo($"Updating entity {entity.EntityId}: Hide.");
+							InternalLogger.LogTesting($"Updating entity {entity.EntityId}: Hide.");
 							GameData.FieldController.GetFieldEntity(entity.EntityId).Hide();
 						}
 					}
 					else
 					{
-						InternalLogger.LogInfo($"Entity {entity.EntityId} was null.");
+						InternalLogger.LogTesting($"Entity {entity.EntityId} was null.");
 					}
 				}
 			}

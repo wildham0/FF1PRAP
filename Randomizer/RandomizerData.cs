@@ -68,7 +68,7 @@ namespace FF1PRAP
 			}
 			catch (Exception e)
 			{
-				InternalLogger.LogInfo(e.Message);
+				InternalLogger.LogError(e.Message);
 			}
 		}
 

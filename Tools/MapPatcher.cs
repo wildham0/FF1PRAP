@@ -162,7 +162,7 @@ namespace FF1PRAP
 
 			operationsGroups = operationsGroups.OrderBy(o => o.Key).ToDictionary(o => o.Key, o => o.Value);
 
-			InternalLogger.LogInfo($"MapPatcher: OpGroup to Apply: {operationsGroups.Count}.");
+			InternalLogger.LogTesting($"MapPatcher: OpGroup to Apply: {operationsGroups.Count}.");
 
 			int mapx = patchAsset.Width;
 

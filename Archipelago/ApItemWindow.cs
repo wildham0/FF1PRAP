@@ -149,7 +149,7 @@ namespace FF1PRAP
 		{
 			var parsedText = Last.Systems.Message.MessageParser.Parse(text);
 
-			InternalLogger.LogInfo($"Opening Ap Item Window for: {text}");
+			InternalLogger.LogTesting($"Opening Ap Item Window for: {text}");
 			
 			MessageWindowManager.instance.SetContent(parsedText);
 			MessageWindowManager.instance.SetAnchor(Last.Management.WindowType.Battle, Last.Management.WindowAnchor.Under);

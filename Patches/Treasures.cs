@@ -49,7 +49,7 @@ namespace FF1PRAP
 			}
 			else
 			{
-				InternalLogger.LogInfo($"Treasure Error: Treasure {prop.FlagId} wasn't assigned an item. Using default value.");
+				InternalLogger.LogWarning($"Treasure Error: Treasure {prop.FlagId} wasn't assigned an item. Using default value.");
 			}
 		}
 	}

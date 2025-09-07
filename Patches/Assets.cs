@@ -28,7 +28,7 @@ namespace FF1PRAP
 				var assetname = addressName.Split('/').Last();
 
 				GameData.ResourceManager.completeAssetDic[addressName] = textasset;
-				InternalLogger.LogInfo($"Asset loading task added for {assetname} > {assetfilename}");
+				InternalLogger.LogTesting($"Asset loading task added for {assetname} > {assetfilename}");
 				__result = true;
 			}
 			else if (Monitor.instance != null && Randomizer.MapAssetsToPatch.ContainsKey(addressName))

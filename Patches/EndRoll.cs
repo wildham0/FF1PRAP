@@ -31,7 +31,7 @@ namespace FF1PRAP
 				}
 				else
 				{
-					InternalLogger.LogInfo($"End Roll: No {assetName} found.");
+					InternalLogger.LogTesting($"End Roll: No {assetName} found.");
 				}
 
 				assetName = "01_FF1_sqex_dev";
@@ -49,7 +49,7 @@ namespace FF1PRAP
 				}
 				else
 				{
-					InternalLogger.LogInfo($"End Roll: No {assetName} found.");
+					InternalLogger.LogTesting($"End Roll: No {assetName} found.");
 				}
 			}
 

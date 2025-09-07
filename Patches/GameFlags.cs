@@ -13,7 +13,7 @@ namespace FF1PRAP
 		{
 			if (SessionManager.GameMode == GameModes.Archipelago)
 			{
-				InternalLogger.LogInfo($"Setting flag: {c} - {index}");
+				InternalLogger.LogTesting($"Setting flag: {c} - {index}");
 				if (c == "TreasureFlag1" && value == 1)
 				{
 					Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[index]);

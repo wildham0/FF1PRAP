@@ -85,8 +85,8 @@ namespace FF1PRAP {
 				try {
 					session = ArchipelagoSessionFactory.CreateSession(SessionManager.Data.Host, int.Parse(SessionManager.Data.Port));
 				} catch (Exception e) {
-					InternalLogger.LogInfo("Failed to create archipelago session!");
-					InternalLogger.LogInfo(e.GetBaseException().Message);
+					InternalLogger.LogError("Failed to create archipelago session!");
+					InternalLogger.LogError(e.GetBaseException().Message);
 				}
 			}
 
@@ -121,7 +121,7 @@ namespace FF1PRAP {
 				{
 					if (slotData.ContainsKey(option.Key))
 					{
-						//InternalLogger.LogInfo($"{option.Key}: {slotData[option.Key].ToString()}");
+						InternalLogger.LogTesting($"{option.Key}: {slotData[option.Key].ToString()}");
 						if (slotData[option.Key].GetType() == typeof(bool))
 						{
 							SessionManager.Options[option.Key] = (bool)slotData[option.Key] ? Options.Enable : Options.Disable;
@@ -133,7 +133,7 @@ namespace FF1PRAP {
 					}
 					else
 					{
-						//InternalLogger.LogInfo($"{option.Key} not found.");
+						InternalLogger.LogWarning($"{option.Key} not found. Using default.");
 						SessionManager.Options[option.Key] = option.Value.Default;
 					}
 				}
@@ -145,30 +145,30 @@ namespace FF1PRAP {
 				Randomizer.ItemsToIgnore = ((JArray)slotData["items_to_ignore"]).ToObject<List<int>>();
 				Randomizer.NewTeleporters = ((JObject)slotData["result_entrances"]).ToObject<Dictionary<string, string>>();
 
-				/*
+				
 				foreach (var tele in Randomizer.NewTeleporters)
 				{
-					InternalLogger.LogInfo($"Ap Entrance: {tele.Key} > {tele.Value}");
-				}*/
+					InternalLogger.LogTesting($"Ap Entrance: {tele.Key} > {tele.Value}");
+				}
 
 				ScoutLocations();
 				SetupDataStorage();
 
 			} else {
 				LoginFailure loginFailure = (LoginFailure)LoginResult;
-				InternalLogger.LogInfo("Error connecting to Archipelago:");
+				InternalLogger.LogWarning("Error connecting to Archipelago:");
 				string TopLine = $"\"Failed to connect to Archipelago!\"";
 				string BottomLine = $"\"Check your settings and/or log output.\"";
 				foreach (string Error in loginFailure.Errors)
 				{
 
-					InternalLogger.LogInfo($"{Error}");
+					InternalLogger.LogWarning($"{Error}");
 					BottomLine = $"\"{Error}\"";
 				}
 			   // Notifications.Show(TopLine, BottomLine);
 				foreach (ConnectionRefusedError Error in loginFailure.ErrorCodes)
 				{
-					InternalLogger.LogInfo(Error.ToString());
+					InternalLogger.LogWarning(Error.ToString());
 				}
 				TryDisconnect();
 				return BottomLine;
@@ -185,7 +185,7 @@ namespace FF1PRAP {
 			foreach (var entry in Randomizer.FlagToLocationName)
 			{
 				var apid = Archipelago.instance.integration.session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", entry.Value);
-				//InternalLogger.LogInfo($"Ap Location: {apid} - {entry.Value} - {entry.Key}");
+				InternalLogger.LogTesting($"Ap Location: {apid} - {entry.Value} - {entry.Key}");
 
 				locdata.Add(apid, new ApLocationData() { Flag = entry.Key, Id = apid, Name = entry.Value });
 			}
@@ -249,7 +249,7 @@ namespace FF1PRAP {
 				//ItemLookup.ItemList.Clear();
 
 			} catch (Exception e) {
-				InternalLogger.LogInfo("Encountered an error disconnecting from Archipelago! " + e);
+				InternalLogger.LogWarning("Encountered an error disconnecting from Archipelago! " + e);
 			}
 		}
 
@@ -263,7 +263,7 @@ namespace FF1PRAP {
 			while (connected) {
 				while (session.Items.AllItemsReceived.Count > ItemIndex) {
 					ItemInfo ItemInfo = session.Items.AllItemsReceived[ItemIndex];
-					InternalLogger.LogInfo("Placing item " + ItemInfo.ItemDisplayName + " with index " + ItemIndex + " in queue.");
+					InternalLogger.LogTesting("Placing item " + ItemInfo.ItemDisplayName + " with index " + ItemIndex + " in queue.");
 					incomingItems.Enqueue((ItemInfo, ItemIndex));
 					ItemIndex++;
 					SessionManager.Data.ItemIndex = ItemIndex;
@@ -327,7 +327,7 @@ namespace FF1PRAP {
 						break;
 
 					case Patches.ItemResults.Busy:
-						InternalLogger.LogDebug("Player is busy, will retry processing item: " + itemDisplayName);
+						InternalLogger.LogInfo("Player is busy, will retry processing item: " + itemDisplayName);
 						break;
 
 					case Patches.ItemResults.Invalid:

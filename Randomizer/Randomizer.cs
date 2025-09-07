@@ -101,11 +101,7 @@ namespace FF1PRAP
 			randoData.XpBoost = SetVictoryBoost(SessionManager.Options["xp_boost"]);
 			randoData.GilBoost = SetVictoryBoost(SessionManager.Options["gil_boost"]);
 			randoData.BoostMenu = SessionManager.Options["boost_menu"] == Options.Enable;
-			// randoData.OrdealsMaze = ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng);
-			/*randoData.Teleporters = ProcessEntrances()
-				.Concat(ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng))
-				.ToDictionary(x => x.Key, x => x.Value);*/
-			randoData.Entrances = ProcessEntrances2().Concat(ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng))
+			randoData.Entrances = ProcessEntrances().Concat(ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng))
 				.ToDictionary(x => x.Key, x => x.Value);
 			randoData.JobPromotion = (JobPromotionModes)SessionManager.Options["job_promotion"];
 			randoData.EarlyProgression = (EarlyProgressionModes)SessionManager.Options["early_progression"];

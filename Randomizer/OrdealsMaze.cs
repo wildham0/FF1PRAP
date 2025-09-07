@@ -77,7 +77,7 @@ namespace FF1PRAP
 		{
 			if (!enable) return new Dictionary<string, string>();
 
-			InternalLogger.LogInfo($"Shuffling Citadel of Trials' Maze");
+			InternalLogger.LogTesting($"Shuffling Citadel of Trials' Maze");
 
 			List<int> placedRoomIds = new();
 			List<TrialsPillars> placedPillars = new();

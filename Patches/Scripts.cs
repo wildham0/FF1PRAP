@@ -20,7 +20,7 @@ namespace FF1PRAP
 	{
 		public static void GetScript_Postfix(string scriptName, ref TextAsset __result, ref MapAssetData __instance)
 		{
-			InternalLogger.LogInfo($"Running {scriptName} on {GameData.CurrentMap}");
+			InternalLogger.LogTesting($"Running {scriptName} on {GameData.CurrentMap}");
 
 			if (Randomizer.ScriptToReplace.TryGetValue(scriptName, out var script))
 			{

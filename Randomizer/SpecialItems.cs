@@ -72,7 +72,7 @@ namespace FF1PRAP
 					{
 						GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.LuteAccessCompleted, 1);
 					}
-					InternalLogger.LogInfo($"Tablature Count: {result.Count}");
+					InternalLogger.LogTesting($"Tablature Count: {result.Count}");
 				}
 			}
 		}

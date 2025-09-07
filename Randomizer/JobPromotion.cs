@@ -33,7 +33,7 @@ namespace FF1PRAP
 
 			foreach (var job in promoJobs)
 			{
-				InternalLogger.LogInfo($"Adding Job Items for {jobNames[job]}");
+				InternalLogger.LogTesting($"Adding Job Items for {jobNames[job]}");
 
 				GameData.MessageManager.AddMessage($"MSG_JOBITEM_NAME_{(int)job}", $"<IC_IOBJ>{jobNames[job]} Job");
 				GameData.MessageManager.AddMessage($"MSG_JOBITEM_INF_{(int)job}", $"The {jobNames[job]} Job.");
@@ -48,7 +48,7 @@ namespace FF1PRAP
 				return;
 			}
 
-			InternalLogger.LogInfo($"Acquired Job Items for {(Items)itemid}");
+			InternalLogger.LogTesting($"Acquired Job Items for {(Items)itemid}");
 			List<int> jobToAdd = new();
 
 			if (itemid == (int)Items.JobAll)
@@ -85,7 +85,7 @@ namespace FF1PRAP
 				return;
 			}
 
-			InternalLogger.LogInfo($"Acquired Job Items for {(Items)itemid}");
+			InternalLogger.LogTesting($"Acquired Job Items for {(Items)itemid}");
 			List<int> jobToAdd = new();
 
 			if (itemid == (int)Items.JobAll)

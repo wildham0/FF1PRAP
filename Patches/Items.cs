@@ -40,7 +40,7 @@ namespace FF1PRAP
 			{
 				GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, flag, 1);
 
-				InternalLogger.LogInfo($"Flag {flag} set by {(Items)targetData.Id}");
+				InternalLogger.LogTesting($"Flag {flag} set by {(Items)targetData.Id}");
 
 				UpdateEntities();
 			}

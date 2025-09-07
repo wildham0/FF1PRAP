@@ -116,10 +116,9 @@ namespace FF1PRAP
 
 			foreach (var item in items)
 			{
-				InternalLogger.LogInfo($"Items: {(Items)item.Id}");
+				InternalLogger.LogTesting($"Items: {(Items)item.Id}");
 			
 			}
-			
 			
 			var adamantitecraft = SessionManager.Options["adamantite_craft"];
 			bool marshpath = SessionManager.Options["early_progression"] == Options.MarshPath;
@@ -204,7 +203,7 @@ namespace FF1PRAP
 
 			foreach (var location in priorizedLocations)
 			{
-				InternalLogger.LogInfo($"Priority Location: {location}");
+				InternalLogger.LogTesting($"Priority Location: {location}");
 			}
 
 
@@ -235,7 +234,7 @@ namespace FF1PRAP
 			foreach (var location in allLocations)
 			{
 				List<List<AccessRequirements>> adjustedReqs = new();
-				InternalLogger.LogInfo($"SanityCheck - Region: {location.Flag} - {location.Region}");
+				InternalLogger.LogTesting($"SanityCheck - Region: {location.Flag} - {location.Region}");
 				var regionAccess = regionRules.Find(r => r.Region == location.Region).Access;
 				var locationAccess = location.Access;
 
@@ -260,14 +259,14 @@ namespace FF1PRAP
 
 				updatedLocations.Add(new LocationData() { Flag = location.Flag, Type = location.Type, Access = adjustedReqs, Trigger = location.Trigger });
 
-				InternalLogger.LogInfo($"SanityCheck - Location: {location.Flag}");
+				InternalLogger.LogTesting($"SanityCheck - Location: {location.Flag}");
 				foreach (var reqs in adjustedReqs)
 				{
-					InternalLogger.LogInfo($"SanityCheck - Reqs: {String.Join(", ", reqs)}");
+					InternalLogger.LogTesting($"SanityCheck - Reqs: {String.Join(", ", reqs)}");
 				}
 			}
 
-			InternalLogger.LogInfo($"SanityCheck - AllItems: {items.Count}, KeyItems: {keyItems.Count}, StandardItems: {standardItems.Count}, Initial Locations: {allLocations.Count(l => l.Type != LocationType.Event)}, Adjusted Locations: {updatedLocations.Count(l => l.Type != LocationType.Event)}");
+			InternalLogger.LogTesting($"SanityCheck - AllItems: {items.Count}, KeyItems: {keyItems.Count}, StandardItems: {standardItems.Count}, Initial Locations: {allLocations.Count(l => l.Type != LocationType.Event)}, Adjusted Locations: {updatedLocations.Count(l => l.Type != LocationType.Event)}");
 
 			bool goodPlacement = false;
 			List<LocationData> remainingLocations = new();
@@ -301,7 +300,7 @@ namespace FF1PRAP
 				int looseItemsCount = Math.Max(0, itemsToPlace.Count - priorityLocations.Count);
 
 
-				InternalLogger.LogInfo($"ItemCount - Priority: {priorityItemsCount} - Loose: {looseItemsCount} - Total: {itemsToPlace.Count}");
+				InternalLogger.LogTesting($"ItemCount - Priority: {priorityItemsCount} - Loose: {looseItemsCount} - Total: {itemsToPlace.Count}");
 				bool softlock = false;
 
 				placedItems = new();
@@ -357,14 +356,14 @@ namespace FF1PRAP
 					if ((priorityAccessLocations.Any() && looseAccessLocations.Any() && diceRoll <= priorityItemsCount) ||
 							(priorityAccessLocations.Any() && !looseAccessLocations.Any()))
 					{
-						InternalLogger.LogInfo($"Sanity Checker - Placing at priority Locations: PriorityLoc: {priorityAccessLocations.Count}  - LooseLocations: {looseAccessLocations.Count}- Priority Item Count: {priorityItemsCount} - Losse Item Count {looseItemsCount} - Dice Roll {diceRoll}");
+						InternalLogger.LogTesting($"Sanity Checker - Placing at priority Locations: PriorityLoc: {priorityAccessLocations.Count}  - LooseLocations: {looseAccessLocations.Count}- Priority Item Count: {priorityItemsCount} - Losse Item Count {looseItemsCount} - Dice Roll {diceRoll}");
 						
 						validLocations = priorityAccessLocations;
 						priorityItemsCount--;
 					}
 					else if (looseItemsCount > 0)
 					{
-						InternalLogger.LogInfo($"Sanity Checker - Placing at loose Locations: PriorityLoc: {priorityAccessLocations.Count}  - LooseLocations: {looseAccessLocations.Count}- Priority Item Count: {priorityItemsCount} -  Losse Item Count {looseItemsCount} - Dice Roll {diceRoll}");
+						InternalLogger.LogTesting($"Sanity Checker - Placing at loose Locations: PriorityLoc: {priorityAccessLocations.Count}  - LooseLocations: {looseAccessLocations.Count}- Priority Item Count: {priorityItemsCount} -  Losse Item Count {looseItemsCount} - Dice Roll {diceRoll}");
 
 						validLocations = looseAccessLocations;
 						looseItemsCount--;
@@ -388,7 +387,7 @@ namespace FF1PRAP
 						progCounter = progPlaced + 1;
 					}
 
-					InternalLogger.LogInfo($"Sanity Checker - Placing Item: {itemToPlace}");
+					InternalLogger.LogTesting($"Sanity Checker - Placing Item: {itemToPlace}");
 
 					progItemsToPlace.Remove(itemToPlace);
 					itemsToPlace.Remove(itemToPlace);
@@ -396,15 +395,15 @@ namespace FF1PRAP
 					if (!validLocations.Any())
 					{
 						softlock = true;
-						InternalLogger.LogInfo($"SanityCheck - Softlocked.");
+						InternalLogger.LogTesting($"SanityCheck - Softlocked.");
 						foreach (var item in itemsToPlace)
 						{
-							InternalLogger.LogInfo($"SanityCheck - Items Left: {item}");
+							InternalLogger.LogTesting($"SanityCheck - Items Left: {item}");
 						}
 
 						foreach (var loc in unaccessibleLocations)
 						{
-							InternalLogger.LogInfo($"SanityCheck - Unaccessible Locations: {loc.Flag}");
+							InternalLogger.LogTesting($"SanityCheck - Unaccessible Locations: {loc.Flag}");
 						}
 						break;
 					}
@@ -412,7 +411,7 @@ namespace FF1PRAP
 					var location = rng.PickFrom(validLocations);
 					
 					var removal = accessibleLocations.Remove(location);
-					InternalLogger.LogInfo($"SanityCheck - Location {location.Flag} remove? {removal}");
+					InternalLogger.LogTesting($"SanityCheck - Location {location.Flag} remove? {removal}");
 
 					placedItems.Add(location.Flag, new ItemData() { Id = (int)itemToPlace, Qty = 1 });
 
@@ -424,7 +423,7 @@ namespace FF1PRAP
 
 				foreach (var location in unaccessibleLocations)
 				{
-					InternalLogger.LogInfo($"SanityCheck - Unreached Location: {location.Flag}");
+					InternalLogger.LogTesting($"SanityCheck - Unreached Location: {location.Flag}");
 				}
 
 				if (softlock)
@@ -443,7 +442,7 @@ namespace FF1PRAP
 			// keylocationweight
 			// favoredopeners
 
-			InternalLogger.LogInfo($"SanityCheck - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
+			InternalLogger.LogTesting($"SanityCheck - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
 
 
 			// Place Tablatures
@@ -455,7 +454,7 @@ namespace FF1PRAP
 
 				for (int i = 0; i < 40; i++)
 				{
-					InternalLogger.LogInfo($"SanityCheck - Tab Location: {validTabLocations.Count}, Location Left: {remainingLocations.Count}");
+					InternalLogger.LogTesting($"SanityCheck - Tab Location: {validTabLocations.Count}, Location Left: {remainingLocations.Count}");
 					var location = rng.TakeFrom(validTabLocations);
 					remainingLocations = remainingLocations.Where(l => l.Flag != location.Flag).ToList();
 					placedItems.Add(location.Flag, new ItemData() { Id = (int)Items.LuteTablature, Qty = 1 });
@@ -467,7 +466,7 @@ namespace FF1PRAP
 					.Where((s, i) => i >= 40)
 					.ToList();
 
-				InternalLogger.LogInfo($"SanityCheck - Post Tablature - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
+				InternalLogger.LogTesting($"SanityCheck - Post Tablature - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
 			}
 
 			standardItems.Shuffle(rng);
@@ -484,12 +483,13 @@ namespace FF1PRAP
 			var remainingItems = remainingLocations.Select((l, i) => (l.Flag, standardItems[i])).ToDictionary(y => y.Flag, y => y.Item2);
 			placedItems.AddRange(remainingItems);
 
-			InternalLogger.LogInfo($"-- SanityCheck - Full Spoiler --");
+			InternalLogger.LogTesting($"-- SanityCheck - Full Spoiler --");
 			foreach (var item in placedItems)
 			{
-				InternalLogger.LogInfo($"Location Flag: {item.Key} - {(Items)item.Value.Id}");
+				InternalLogger.LogTesting($"Location Flag: {item.Key} - {(Items)item.Value.Id}");
 			}
 
+			InternalLogger.LogInfo("Items Shuffle successful.");
 			return placedItems;
 		}
 		private static void ProcessRequirements(List<AccessRequirements> newaccess, List<AccessRequirements> currentaccess, List<LocationData> unaccessibleLocations, List<LocationData> accessiblesLocations)
@@ -499,7 +499,7 @@ namespace FF1PRAP
 			while (accessToProcess.Any())
 			{
 				currentaccess.Add(accessToProcess.First());
-				InternalLogger.LogInfo($"SanityCheck - Access To Process: {accessToProcess.First()}");
+				InternalLogger.LogTesting($"SanityCheck - Access To Process: {accessToProcess.First()}");
 				accessToProcess.RemoveAt(0);
 				List<LocationData> locationToRemove = new();
 
@@ -512,7 +512,7 @@ namespace FF1PRAP
 						if (!acccereqs.Except(currentaccess).Any())
 						{
 							accessible = true;
-							InternalLogger.LogInfo($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
+							InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
 							break;
 						}
 					}
@@ -534,8 +534,8 @@ namespace FF1PRAP
 				unaccessibleLocations.RemoveAll(l => locationToRemove.Contains(l));
 
 				//unaccessibleLocations = unaccessibleLocations.Except(locationToRemove).ToList();
-				InternalLogger.LogInfo($"SanityCheck - Unaccessible Locations Count: {unaccessibleLocations.Count}");
-				InternalLogger.LogInfo($"SanityCheck - Accessible Locations Count: {accessiblesLocations.Count}");
+				InternalLogger.LogTesting($"SanityCheck - Unaccessible Locations Count: {unaccessibleLocations.Count}");
+				InternalLogger.LogTesting($"SanityCheck - Accessible Locations Count: {accessiblesLocations.Count}");
 			}
 		}
 

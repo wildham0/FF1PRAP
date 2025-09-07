@@ -22,17 +22,17 @@ namespace FF1PRAP
 	{
 		public static void LoadSaveDataFromBoot_Postfix(SaveSlotManager __instance, int slotId)
 		{
-			InternalLogger.LogInfo($"Loading at Slot: {slotId}");
+			InternalLogger.LogTesting($"Loading at Slot: {slotId}");
 			LoadGame(slotId);
 		}
 		public static void LoadSaveDataFromMenu_Postfix(SaveSlotManager __instance, SaveSlotData saveData)
 		{
-			InternalLogger.LogInfo($"Loading at Slot: {saveData.id}");
+			InternalLogger.LogTesting($"Loading at Slot: {saveData.id}");
 			LoadGame(saveData.id);
 		}
 		public static void GetSavePath_Post(SaveSlotManager __instance)
 		{
-			InternalLogger.LogInfo("Saving at Slot: " + __instance.CurrentSlotId);
+			InternalLogger.LogTesting("Saving at Slot: " + __instance.CurrentSlotId);
 			SaveGame(__instance.CurrentSlotId);
 		}
 		public static void LoadGame(int slotid)

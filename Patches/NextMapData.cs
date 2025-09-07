@@ -22,18 +22,18 @@ namespace FF1PRAP
 		}
 		public static void TelepoCache_Get()
 		{
-			InternalLogger.LogInfo($"Telepo Cache Get.");
+			InternalLogger.LogTesting($"Telepo Cache Get.");
 			Randomizer.Teleporting = true;
 		}
 		public static void TelepoCache_Pop(TelepoCacheItem __result)
 		{
-			InternalLogger.LogInfo($"Telepo Cache Pop: Popping ({__result.MapId}, {__result.PointInObjectId})");
+			InternalLogger.LogTesting($"Telepo Cache Pop: Popping ({__result.MapId}, {__result.PointInObjectId})");
 			Randomizer.Teleporting = true;
 		}
 
 		public static void OnCacheTelePoint_Pre(ref PropertyGotoMap propertyGotoMap)
 		{
-			InternalLogger.LogInfo($"OnCacheTelePoint: {GameData.CurrentMap};{propertyGotoMap.EntityId};{propertyGotoMap.MapId};{propertyGotoMap.PointId};{propertyGotoMap.AssetGroupName};{propertyGotoMap.AssetName}");
+			InternalLogger.LogTesting($"OnCacheTelePoint: {GameData.CurrentMap};{propertyGotoMap.EntityId};{propertyGotoMap.MapId};{propertyGotoMap.PointId};{propertyGotoMap.AssetGroupName};{propertyGotoMap.AssetName}");
 
 			bool wasOverworld = (propertyGotoMap.MapId == 1);
 
@@ -43,7 +43,7 @@ namespace FF1PRAP
 				{
 					var newpoint = Randomizer.NameToTeleporters[entrance];
 
-					InternalLogger.LogInfo($"OnCacheTelePoint: Found {currentteleporter.Name}, replacing by {newpoint.Name}");
+					InternalLogger.LogTesting($"OnCacheTelePoint: Found {currentteleporter.Name}, replacing by {newpoint.Name}");
 					//InternalLogger.LogInfo($"NextMapProperty: Found {(property.MapId, property.PointId)}, replacing by {(newpoint.MapId, newpoint.PointId)}");
 
 					propertyGotoMap.MapId = newpoint.MapId;
@@ -82,7 +82,7 @@ namespace FF1PRAP
 				property.MapId = 1;
 			}
 
-			InternalLogger.LogInfo($"NextMapProperty: {GameData.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
+			InternalLogger.LogTesting($"NextMapProperty: {GameData.CurrentMap};{property.EntityId};{property.MapId};{property.PointId};{property.AssetGroupName};{property.AssetName}");
 
 			if (Randomizer.PointToTeleporters.TryGetValue((property.MapId, property.PointId), out var currentteleporter))
 			{
@@ -90,8 +90,7 @@ namespace FF1PRAP
 				{
 					var newpoint = Randomizer.NameToTeleporters[entrance];
 					
-					InternalLogger.LogInfo($"NextMapProperty: Found {currentteleporter.Name}, replacing by {newpoint.Name}");
-					//InternalLogger.LogInfo($"NextMapProperty: Found {(property.MapId, property.PointId)}, replacing by {(newpoint.MapId, newpoint.PointId)}");
+					InternalLogger.LogTesting($"NextMapProperty: Found {currentteleporter.Name}, replacing by {newpoint.Name}");
 
 					property.MapId = newpoint.MapId;
 					property.PointId = newpoint.PointId;
@@ -137,11 +136,11 @@ namespace FF1PRAP
 		}
 		private static void NextMapInt_Pre(ref int mapId, ref int point)
 		{
-			InternalLogger.LogInfo($"NextMapInt: {mapId} - {point}");
+			InternalLogger.LogTesting($"NextMapInt: {mapId} - {point}");
 
 			if (Randomizer.Teleporting)
 			{
-				InternalLogger.LogInfo($"Player is teleporting, cancelling.");
+				InternalLogger.LogTesting($"Player is teleporting, cancelling.");
 				Randomizer.Teleporting = false;
 			}
 			else if (Randomizer.PointToTeleporters.TryGetValue((mapId, point), out var currentteleporter))
@@ -150,8 +149,7 @@ namespace FF1PRAP
 				{
 					var newpoint = Randomizer.NameToTeleporters[entrance];
 
-					InternalLogger.LogInfo($"NextMapProperty: Found {currentteleporter.Name}, replacing by {newpoint.Name}");
-					//InternalLogger.LogInfo($"NextMapProperty: Found {(mapId, point)}, replacing by {(newpoint.MapId, newpoint.PointId)}");
+					InternalLogger.LogTesting($"NextMapProperty: Found {currentteleporter.Name}, replacing by {newpoint.Name}");
 
 					mapId = newpoint.MapId;
 					point = newpoint.PointId;

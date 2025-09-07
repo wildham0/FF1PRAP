@@ -12,7 +12,7 @@ namespace FF1PRAP {
 
         public void Start() {
             integration = new ArchipelagoIntegration();
-			InternalLogger.LogInfo("Ap Instance Started here");
+			InternalLogger.LogInfo("Ap Instance Started.");
         }
 
         public void Update() {
@@ -108,7 +108,7 @@ namespace FF1PRAP {
 		{
 			integration.ClearQueue();
 			integration.ItemIndex = SessionManager.Data.ItemIndex;
-			InternalLogger.LogInfo($"Set item index at: {integration.ItemIndex}");
+			InternalLogger.LogTesting($"Set item index at: {integration.ItemIndex}");
 			integration.locationsToSend = SessionManager.LoadLocationsToSend();
 			/*
 			integration.ItemIndex = index;

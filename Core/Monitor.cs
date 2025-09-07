@@ -116,7 +116,7 @@ namespace FF1PRAP
 				{
 					if (!Randomizer.Load(SessionManager.FolderPath, SessionManager.Data.Seed + "_" + SessionManager.Data.Hashstring))
 					{
-						InternalLogger.LogInfo($"File not found, gameplay might be unstable. Generate a game first in the Solo Randomizer Settings Menu.");
+						InternalLogger.LogWarning($"File not found, gameplay might be unstable. Generate a game first in the Solo Randomizer Settings Menu.");
 					}
 					
 					//FF1PR.PlacedItems = Randomizer.Data.PlacedItems;
@@ -164,7 +164,7 @@ namespace FF1PRAP
 					var assetnameparts = patchdata.Split('/');
 					var assetname = assetnameparts.Last();
 					var filename = assetnameparts[assetnameparts.Count() - 2] + "/" + assetnameparts[assetnameparts.Count() - 1];
-					InternalLogger.LogInfo($"MapPatcher: Patching {filename}.");
+					InternalLogger.LogTesting($"MapPatcher: Patching {filename}.");
 
 
 					if (Randomizer.MapAssetsToPatch.TryGetValue(patchdata, out var mappatches))
@@ -258,7 +258,7 @@ namespace FF1PRAP
 		public void SetMainMenuState(Last.Defaine.MenuCommandId state)
 		{
 			tool.MainMenuState = state;
-			InternalLogger.LogInfo($"MainMenu: {state}");
+			InternalLogger.LogTesting($"MainMenu: {state}");
 		}
 		/*
 		public void CheckForMap(string address)

@@ -114,7 +114,7 @@ namespace FF1PRAP
 			catch (Exception e)
 			{
 				fileexist = false;
-				InternalLogger.LogInfo($"Unsucessful attempt at loading data at Slot {slot}: " + e);
+				InternalLogger.LogWarning($"Unsucessful attempt at loading data at Slot {slot}: " + e);
 				return false;
 			}
 			
@@ -144,7 +144,7 @@ namespace FF1PRAP
 			}
 			catch (Exception e)
 			{
-				InternalLogger.LogInfo(e.Message);
+				InternalLogger.LogError(e.Message);
 			}
 		}
 		public static void LoadSaveSlotInfoData()
