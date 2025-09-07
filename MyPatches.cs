@@ -858,6 +858,16 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"GotoMap Procedure: {loadData.MapId} - {loadData.Point}");
 		}
+
+		public static void InitializeOwnedTransportation_Pre()
+		{
+			InternalLogger.LogInfo($"Owned Transport Initialized.");
+		}
+
+		public static void AddOwnedTransportationList_Pre()
+		{
+			InternalLogger.LogInfo($"Owned Transport List Added.");
+		}
 		public static void ActionGotoMap(ref PropertyGotoMap propertyGotoMap)
 		{
 			InternalLogger.LogInfo($"On Cache: {propertyGotoMap.MapId} - {propertyGotoMap.PointId} - {propertyGotoMap.Gimmick}");

@@ -219,8 +219,8 @@ namespace FF1PRAP
 						{
 							Randomizer.AddJobs(job);
 						}
-						JobQueue.Clear();
 
+						JobQueue.Clear();
 					}
 				}
 			}

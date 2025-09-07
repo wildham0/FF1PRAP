@@ -32,7 +32,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.4.0";
+	public const string VERSION = "0.5.0";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -130,7 +130,18 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Peek"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Peek")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Pop"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Pop")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "GetCacheItem"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Get")));
+		// For monitoring and debugging
+		/*
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoPointData)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Point")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "CreateCacheItem"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Int")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoCacheItem)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Item")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "RemoveAll"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Remove")));*/
 
+
+		/*
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "InitializeOwnedTransportation"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "InitializeOwnedTransportation_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "AddOwnedTransportationList"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "AddOwnedTransportationList_Pre")));
+		*/
 
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(int), typeof(Vector3), typeof(int), typeof(int), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "NextMapVector_Pre")));
 
@@ -146,10 +157,7 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "OnCacheTelepoPoint"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "ActionGotoMap")));
 
 		*/
-		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoPointData)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Point")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "CreateCacheItem"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Int")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoCacheItem)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Item")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "RemoveAll"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Remove")));
+
 
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.MapAssetData), "GetTileMapData"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetTileMapData_Post")));
 

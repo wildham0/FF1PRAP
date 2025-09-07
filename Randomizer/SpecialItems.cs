@@ -21,6 +21,12 @@ namespace FF1PRAP
 			if (itemid == (int)Items.Ship)
 			{
 				var ship = GameData.UserData.OwnedTransportationList.GetTransport(517);
+
+				if (ship == null)
+				{
+					return;
+				}
+
 				// Coneria dock is 145, 162
 				// Pravoka dock is 203, 146
 
@@ -40,6 +46,11 @@ namespace FF1PRAP
 			else if (itemid == (int)Items.Canoe)
 			{
 				var canoe = GameData.UserData.OwnedTransportationList.GetTransport(516);
+
+				if (canoe == null)
+				{
+					return;
+				}
 
 				canoe.Position = new UnityEngine.Vector3(1000, 1000, 0);
 				canoe.MapId = 1;

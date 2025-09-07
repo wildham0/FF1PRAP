@@ -145,20 +145,12 @@ namespace FF1PRAP {
 				Randomizer.ItemsToIgnore = ((JArray)slotData["items_to_ignore"]).ToObject<List<int>>();
 				Randomizer.NewTeleporters = ((JObject)slotData["result_entrances"]).ToObject<Dictionary<string, string>>();
 
+				/*
 				foreach (var tele in Randomizer.NewTeleporters)
 				{
 					InternalLogger.LogInfo($"Ap Entrance: {tele.Key} > {tele.Value}");
-				}
-
-				//Archipelago.instance.integration.session.Locations.S
-				/*
-				if (Locations.LocationIdToArchipelagoId.Count == 0) {
-					foreach (string Key in Locations.LocationDescriptionToId.Keys) {
-						Locations.LocationIdToArchipelagoId.Add(Locations.LocationDescriptionToId[Key], Archipelago.instance.integration.session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", Key));
-						Archipelago.instance.integration.session.Locations.
-
-					}
 				}*/
+
 				ScoutLocations();
 				SetupDataStorage();
 
@@ -193,7 +185,7 @@ namespace FF1PRAP {
 			foreach (var entry in Randomizer.FlagToLocationName)
 			{
 				var apid = Archipelago.instance.integration.session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", entry.Value);
-				InternalLogger.LogInfo($"Ap Location: {apid} - {entry.Value} - {entry.Key}");
+				//InternalLogger.LogInfo($"Ap Location: {apid} - {entry.Value} - {entry.Key}");
 
 				locdata.Add(apid, new ApLocationData() { Flag = entry.Key, Id = apid, Name = entry.Value });
 			}
