@@ -41,6 +41,7 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20090/Map_20090/ev_e_0034", "ev_melmond" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30101/Map_30101_3/ev_e_0027", "ev_cubewarp" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30121/Map_30121_3/ev_e_0039", "ev_lute_floor" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_30061/Map_30061_1/entity_default", "ev_cavern_of_ice_1f" },
 		};
 	}
 }

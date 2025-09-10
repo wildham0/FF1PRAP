@@ -14,10 +14,11 @@ namespace FF1PRAP
 		// Various TelepoCache function to monitor how we're moving around
 		public static void TelepoCache_Peek(TelepoCache __instance, TelepoCacheItem __result)
 		{
+			/*
 			if (GameData.TelepoCache == null)
 			{
 				GameData.TelepoCache = __instance;
-			}
+			}*/
 			//InternalLogger.LogInfo($"Telepo Cache Peeking ({__result.MapId}, {__result.PointInObjectId})");
 		}
 		public static void TelepoCache_Get()
@@ -58,12 +59,12 @@ namespace FF1PRAP
 					// A bit hacky, but this ensure we don't desync the tele cache when the old entrance was aiming at the Overworld.
 					if (wasOverworld && propertyGotoMap.MapId != 1)
 					{
-						var teledata = GameData.TelepoCache.Peek();
+						var teledata = GameData.FieldController.telepoCache.Peek();
 						if (teledata != null)
 						{
 							if (teledata.MapId == propertyGotoMap.MapId && teledata.PointInObjectId == propertyGotoMap.PointId)
 							{
-								GameData.TelepoCache.Pop();
+								GameData.FieldController.telepoCache.Pop();
 							}
 						}
 					}
@@ -163,7 +164,7 @@ namespace FF1PRAP
 			// Allow Teleporter to destroy cache when reaching the Overworld
 			if (mapId == 1)
 			{
-				GameData.TelepoCache.RemoveAll();
+				GameData.FieldController.telepoCache.RemoveAll();
 			}
 
 			/*

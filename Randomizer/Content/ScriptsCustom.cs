@@ -320,6 +320,13 @@ namespace FF1PRAP
 			"SetEntities ev_e_0026",
 			"Exit"
 		};
+		public static List<string> IceWarp = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"CastTelepo",
+			"Exit"
+		};
 		public static List<string> Caravan = new()
 		{
 			"MainSub:",

@@ -84,6 +84,7 @@ namespace FF1PRAP
 			{ "ChangeScript", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ChangeScript\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_0\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
 			{ "ChangeMap", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"ChangeMap\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"ARG_2\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
 			{ "AddTelepoCache", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"AddTelepoCache\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,ARG_3,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
+			{ "CastTelepo", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"CastTelepo\",\"operands\": {  \"iValues\": [0,0,0,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },
 
 			// Puppet ops
 			{ "SetPuppet", "{\"label\": \"ARG_LABEL\",\"mnemonic\": \"SetPuppet\",\"operands\": {  \"iValues\": [ARG_0,ARG_1,ARG_2,0,0,0,0,0], \"rValues\": [0,0,0,0,0,0,0,0], \"sValues\": [\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"type\": ARG_TYPE,\"comment\": \"\"}," },

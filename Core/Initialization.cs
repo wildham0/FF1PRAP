@@ -77,7 +77,8 @@ namespace FF1PRAP
 			GameData.MasterManager.GetList<Script>().Add(1003, new Script() { Id = 1003, ScriptName = "sc_subeng" });			// sub engineer
 			GameData.MasterManager.GetList<Script>().Add(1004, new Script() { Id = 1004, ScriptName = "sc_bahamut" });          // bahamut
 			GameData.MasterManager.GetList<Script>().Add(1005, new Script() { Id = 1005, ScriptName = "sc_garlandpostbattle" });   // 
-			GameData.MasterManager.GetList<Script>().Add(1006, new Script() { Id = 1006, ScriptName = "sc_princessnowarp" });	// 
+			GameData.MasterManager.GetList<Script>().Add(1006, new Script() { Id = 1006, ScriptName = "sc_princessnowarp" });   // 
+			GameData.MasterManager.GetList<Script>().Add(1007, new Script() { Id = 1007, ScriptName = "sc_icecavernwap" });   // 
 
 			// Trials Maze scripts
 			GameData.MasterManager.GetList<Script>().Add(1010, new Script() { Id = 1010, ScriptName = "sc_ordeals_1010" });
