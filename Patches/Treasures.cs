@@ -9,7 +9,7 @@ namespace FF1PRAP
 {
 	partial class Patches
 	{
-		public static void Treasure_Prefix(ref FieldTresureBox tresureBoxEntity)
+		public static void Treasure_Prefix(ref FieldTresureBox tresureBoxEntity, bool after, bool message)
 		{
 			var prop = tresureBoxEntity.tresureBoxProperty;
 			if (SessionManager.GameMode == GameModes.Archipelago)
@@ -26,7 +26,11 @@ namespace FF1PRAP
 				if(Randomizer.ApLocations.TryGetValue(prop.FlagId, out var location))
 				{
 					GameData.MessageManager.GetMessageDictionary()["MSG_OTHER_11"] = $"You obtained {location.Content}.";
-					Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[prop.FlagId]);
+
+					if ((prop.ScriptId > 0 && after) || prop.ScriptId == 0)
+					{
+						Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[prop.FlagId]);
+					}
 				}
 				else
 				{
@@ -46,6 +50,7 @@ namespace FF1PRAP
 				{
 					prop.MessageKey = "MSG_OTHER_11";
 				}
+				InternalLogger.LogTesting($"Treasure: Treasure {prop.FlagId} opened. {prop.ActionName} - {prop.ScriptId} - {after} - {message}");
 			}
 			else
 			{

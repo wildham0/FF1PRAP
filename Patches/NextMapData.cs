@@ -30,7 +30,11 @@ namespace FF1PRAP
 			InternalLogger.LogTesting($"Telepo Cache Pop: Popping ({__result.MapId}, {__result.PointInObjectId})");
 			Randomizer.Teleporting = true;
 		}
-
+		public static void OnCacheTelePoint_Post(ref PropertyGotoMap propertyGotoMap)
+		{
+			InternalLogger.LogTesting($"OnCacheTelePoint: Don't Teleport");
+			Randomizer.Teleporting = false;
+		}
 		public static void OnCacheTelePoint_Pre(ref PropertyGotoMap propertyGotoMap)
 		{
 			InternalLogger.LogTesting($"OnCacheTelePoint: {GameData.CurrentMap};{propertyGotoMap.EntityId};{propertyGotoMap.MapId};{propertyGotoMap.PointId};{propertyGotoMap.AssetGroupName};{propertyGotoMap.AssetName}");

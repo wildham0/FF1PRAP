@@ -32,7 +32,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.5.0";
+	public const string VERSION = "0.5.1";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -123,7 +123,7 @@ public class FF1PR : BasePlugin
 
 		// Loading Map coordinates, we'll need at least the first for EF shuffle
 		//harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(PropertyGotoMap), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "NextMapProperty_Pre")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "OnCacheTelepoPoint"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "OnCacheTelePoint_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "OnCacheTelepoPoint"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "OnCacheTelePoint_Pre")), new HarmonyMethod(AccessTools.Method(typeof(Patches), "OnCacheTelePoint_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.LoadData), "NextMapData", [typeof(int), typeof(int), typeof(ViewType)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "NextMapInt_Pre")));
 
 		// TelepoCache endpoints
@@ -135,8 +135,19 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoPointData)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Point")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "CreateCacheItem"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Int")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoCacheItem)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Item")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "RemoveAll"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Remove")));*/
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "RemoveAll"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Remove")));
+		*/
+		/*
+		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigActualDetailsControllerBase), "InitializeCommandList"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "InitializeCommandList_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.ConfigActualDetailsControllerBase), "AddSelectedCommandMessage"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "AddSelectedCommandMessage_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.UI.KeyInput.MainMenuController), "CreateConfig"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CreateConfig_Post")));
+		*/
 
+		
+		/*
+		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.DataStorage), "Set", [typeof(DataStorage.Category), typeof(int), typeof(int)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetCat")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.DataStorage), "Set", [typeof(string), typeof(int), typeof(int)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetString")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.DataStorage), "GetFlag"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetFlag")));*/
 
 		/*
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "InitializeOwnedTransportation"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "InitializeOwnedTransportation_Pre")));
@@ -225,7 +236,7 @@ public class InternalLogger
 	}
 
 	// set this to true to trigger logging for all log testing messages
-	public static bool Testing = false;
+	public static bool Testing = true;
 	public static void LogTesting(string message)
 	{
 		if (Testing)

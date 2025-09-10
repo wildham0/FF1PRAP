@@ -88,6 +88,7 @@ namespace FF1PRAP
 		LeifenishLearned,
 		MirageAccess,
 		BlackOrbDestroyed,
+		ChaosDefeated,
 
 		None,
 	}

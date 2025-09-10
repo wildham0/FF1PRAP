@@ -728,6 +728,46 @@ namespace FF1PRAP
 				}
 			}
 		}
+
+		private static void InitializeCommandList_Post(Last.UI.KeyInput.ConfigActualDetailsControllerBase __instance)
+		{
+			ConfigCommandController boostcommand = null;
+			foreach (var command in __instance.commandList)
+			{
+				if (command.NameText.text == "Boost")
+				{
+					boostcommand = command;
+				}
+				
+				InternalLogger.LogInfo($"Commands: {command.NameText.text}");
+			
+			}
+			foreach (var command in __instance.SelectedContentNameList)
+			{
+				InternalLogger.LogInfo($"ContentName: {command.Value}");
+			}
+
+
+			if (boostcommand != null)
+			{ 
+			
+			}
+			__instance.commandList.Remove(boostcommand);
+		}
+
+		private static void CreateConfig_Post(MainMenuController __instance, ConfigController __result)
+		{
+			foreach (var menu in __instance.subMenuList)
+			{
+				InternalLogger.LogInfo($"SubMenu: {menu.Key} - {menu.Value.CallerCommandId}");
+			}
+		}
+
+		private static void AddSelectedCommandMessage_Post(ConfigCommandType type, string message, bool isRemove = false)
+		{
+			InternalLogger.LogInfo($"AddCommand:{type} - {message} - {isRemove}");
+		
+		}
 		private static void BuyItemInt_Post(int productId, int count, bool __result)
 		{
 			if (productId == Randomizer.Data.PlacedItems[(int)TreasureFlags.Caravan].Id && __result)
@@ -867,6 +907,19 @@ namespace FF1PRAP
 		public static void AddOwnedTransportationList_Pre()
 		{
 			InternalLogger.LogInfo($"Owned Transport List Added.");
+		}
+
+		public static void GetCat(DataStorage.Category c, int index)
+		{
+			InternalLogger.LogInfo($"Data Get: {c} - {index}");
+		}
+		public static void GetString(string c, int index)
+		{
+			InternalLogger.LogInfo($"Data Get: {c} - {index}");
+		}
+		public static void GetFlag(DataStorage.Flags f, int index, int segment)
+		{
+			InternalLogger.LogInfo($"Data Get: {f} - {index} - {segment}");
 		}
 		public static void ActionGotoMap(ref PropertyGotoMap propertyGotoMap)
 		{

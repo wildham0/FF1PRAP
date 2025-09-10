@@ -97,6 +97,7 @@ namespace FF1PRAP
 			{ "sc_subeng", ScriptBuilder.FromScript(Scripts.SubEngineer, "sc_subeng") }, // SubEngineer
 			//{ "sc_e_0031", new ScriptBuilder("sc_empty") }, // SubStuff
 			//{ "sc_e_0031_1", new ScriptBuilder("sc_empty") }, // SubStuff
+			{ "sc_e_0032_1", ScriptBuilder.FromJson("sc_onrac_sub_back") }, // SubStuff
 			{ "sc_e_0033", ScriptBuilder.FromScript(Scripts.MermaidsChest, "sc_mermaidschest") }, // Slab Chest
 			//{ "sc_e_0036", new ScriptBuilder("sc_empty") }, // Kraken
 			//{ "sc_e_0036_2", new ScriptBuilder("sc_empty") }, // Kraken Post-fight
@@ -113,6 +114,22 @@ namespace FF1PRAP
 			{ "sc_e_0044", ScriptBuilder.FromJson("sc_chaos_fight") }, // Chaos
 			{ "sc_chaosdefeated", ScriptBuilder.FromScript(Scripts.ChaosDefeated, "sc_chaosdefeated") }, // Chaos Post fight
 			//{ "sc_e_0044_1", new ScriptBuilder("sc_empty") }, // Chaos Post fight
+
+			// Inn Scripts
+			{ "sc_sty_20021_1", ScriptBuilder.FromJson("sc_inn_cornelia") },
+			{ "sc_sty_20041_1", ScriptBuilder.FromJson("sc_inn_pravoka") },
+			{ "sc_sty_20061_7", ScriptBuilder.FromJson("sc_inn_elfheim") },
+			{ "sc_sty_20091_2", ScriptBuilder.FromJson("sc_inn_melmond") },
+			{ "sc_sty_20111_2", ScriptBuilder.FromJson("sc_inn_crescent") },
+			{ "sc_sty_20131_3", ScriptBuilder.FromJson("sc_inn_onrac") },
+			{ "sc_sty_20151_2", ScriptBuilder.FromJson("sc_inn_gaia") },
+
+			// Fiend Warp Script
+			{ "sc_war_30031_1", ScriptBuilder.FromJson("sc_warp_earth") },
+			{ "sc_war_30051_1", ScriptBuilder.FromJson("sc_warp_gulg") },
+			{ "sc_war_30081_1", ScriptBuilder.FromJson("sc_warp_sea") },
+			{ "sc_war_30111_10", ScriptBuilder.FromJson("sc_warp_flying") },
+
 		};
 	}
 }

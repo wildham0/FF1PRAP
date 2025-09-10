@@ -93,6 +93,11 @@ namespace FF1PRAP
 			}
 
 			// Create randomized data
+			/*if (!archipelago)
+			{ 
+				randoData.Entrances = Logic.shuffle_entrance(true, ShuffleEntrancesMode.DungeonInternal,ShuffleTownsMode.NoShuffle, )
+			}*/
+
 			if(!archipelago) randoData.PlacedItems = ItemPlacement(rng);
 			randoData.GearShops = ShuffleGearShop(SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng);
 			randoData.ShuffledSpells = ShuffleSpells(SessionManager.Options["shuffle_spells"] == Options.Enable, rng);

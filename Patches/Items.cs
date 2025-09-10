@@ -30,7 +30,6 @@ namespace FF1PRAP
 		}
 		public static void Items_Postfix(Content targetData, int count)
 		{
-
 			if (Randomizer.ItemsToIgnore.Contains(targetData.Id))
 			{
 				return;
@@ -54,9 +53,12 @@ namespace FF1PRAP
 		{
 			if (SessionManager.GameMode == GameModes.Randomizer)
 			{
+				//InternalLogger.LogInfo($"Buy Item: {__result}");
+
 				// 141 is the caravan shop product id
 				if (Randomizer.KeyShopItems.TryGetValue(data.ProductId, out var itemflag) && __result)
 				{
+					//InternalLogger.LogInfo($"Buy Item: {__result} - {data.ProductId} - {itemflag}");
 					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, itemflag, 1);
 				}
 			}

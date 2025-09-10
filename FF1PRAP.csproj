@@ -53,6 +53,17 @@
     <EmbeddedResource Include="Scripts\sc_elflandcastle.json" />
     <EmbeddedResource Include="Scripts\sc_coneriacastle.json" />
     <EmbeddedResource Include="Scripts\sc_garland_02_no_warp.json" />
+    <EmbeddedResource Include="Scripts\sc_warp_gulg.json" />
+    <EmbeddedResource Include="Scripts\sc_warp_flying.json" />
+    <EmbeddedResource Include="Scripts\sc_warp_sea.json" />
+    <EmbeddedResource Include="Scripts\sc_warp_earth.json" />
+    <EmbeddedResource Include="Scripts\sc_inn_gaia.json" />
+    <EmbeddedResource Include="Scripts\sc_inn_onrac.json" />
+    <EmbeddedResource Include="Scripts\sc_inn_melmond.json" />
+    <EmbeddedResource Include="Scripts\sc_inn_elfheim.json" />
+    <EmbeddedResource Include="Scripts\sc_inn_crescent.json" />
+    <EmbeddedResource Include="Scripts\sc_inn_pravoka.json" />
+    <EmbeddedResource Include="Scripts\sc_onrac_sub_back.json" />
     <EmbeddedResource Include="Scripts\sc_onrac.json" />
     <EmbeddedResource Include="Scripts\sc_ordeals_last_warp.json" />
     <EmbeddedResource Include="Scripts\sc_ordeals_1014.json" />
@@ -64,6 +75,7 @@
     <EmbeddedResource Include="Scripts\sc_marsh_bottom.json" />
     <EmbeddedResource Include="Scripts\sc_earth_b3.json" />
     <EmbeddedResource Include="Scripts\sc_ordeals_1010.json" />
+    <EmbeddedResource Include="Scripts\sc_inn_cornelia.json" />
     <EmbeddedResource Include="Scripts\sc_titan.json" />
     <EmbeddedResource Include="Scripts\sc_smitt.json" />
     <EmbeddedResource Include="Scripts\sc_sky_chest.json" />
