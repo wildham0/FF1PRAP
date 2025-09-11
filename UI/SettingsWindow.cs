@@ -873,14 +873,17 @@ namespace FF1PRAP
 			CreateDropdown(Options.Dict["job_promotion"].Display, Options.Dict["job_promotion"]);
 			apHeight += 20f * guiScale;
 
-			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "End Goal");
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "End Goal & Misc");
 			CreateDropdown(Options.Dict["lute_tablatures"].Display, Options.Dict["lute_tablatures"]);
 			CreateDropdown(Options.Dict["crystals_required"].Display, Options.Dict["crystals_required"]);
-			apHeight += 20f * guiScale;
-
-			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Shops & Maps");
 			CreateDropdown(Options.Dict["shuffle_gear_shops"].Display, Options.Dict["shuffle_gear_shops"]);
 			CreateDropdown(Options.Dict["shuffle_spells"].Display, Options.Dict["shuffle_spells"]);
+			apHeight += 20f * guiScale;
+
+			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Maps");
+			CreateDropdown(Options.Dict["shuffle_overworld"].Display, Options.Dict["shuffle_overworld"]);
+			CreateDropdown(Options.Dict["shuffle_entrances"].Display, Options.Dict["shuffle_entrances"]);
+			CreateDropdown(Options.Dict["shuffle_towns"].Display, Options.Dict["shuffle_towns"]);
 			CreateDropdown(Options.Dict["shuffle_trials_maze"].Display, Options.Dict["shuffle_trials_maze"]);
 			CreateDropdown(Options.Dict["early_progression"].Display, Options.Dict["early_progression"]);
 			CreateDropdown(Options.Dict["northern_docks"].Display, Options.Dict["northern_docks"]);

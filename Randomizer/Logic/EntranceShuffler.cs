@@ -43,6 +43,7 @@ namespace FF1PRAP
 		}
 
 	}
+
 	partial class Logic
 	{
 		public static Dictionary<string, string> result_entrances = new();
@@ -68,12 +69,13 @@ namespace FF1PRAP
 
 			if (!target_entrance.deadend)
 			{ 
-				connect_pool.origin_entrances.AddRange(global_entrances.Where(e => e.region == target_entrance.region));
+				connect_pool.origin_entrances.AddRange(global_entrances.Where(e => e.region == target_entrance.target_region));
 			}
 		}
 
 		private static void place_entrance_rng(List<EntranceShufflingData> pools, EntranceData entrance, MT19337 rng, bool disable_fill = false)
 		{
+			InternalLogger.LogTesting($"Placing: {entrance.name}");
 			var place_pool = rng.PickFrom(pools);
 			place_pool.entrances.Add(entrance);
 			if (all_entrances.Contains(entrance))
@@ -86,11 +88,14 @@ namespace FF1PRAP
 				place_pool.allow_fill = false;
 			}
 
+			InternalLogger.LogTesting($"{entrance.name} placed at {place_pool.name}");
+
 			connect_entrance(place_pool, entrance, rng);
 		}
 
 		private static void place_entrance(EntranceShufflingData single_pool, EntranceData entrance, MT19337 rng, bool disable_fill = false)
 		{
+			InternalLogger.LogTesting($"Placing: {entrance.name}");
 			var place_pool = single_pool;
 			place_pool.entrances.Add(entrance);
 			if (all_entrances.Contains(entrance))
@@ -103,6 +108,7 @@ namespace FF1PRAP
 				place_pool.allow_fill = false;
 			}
 
+			InternalLogger.LogTesting($"{entrance.name} placed at {place_pool.name}");
 			connect_entrance(place_pool, entrance, rng);
 		}
 
@@ -119,12 +125,15 @@ namespace FF1PRAP
 			}
 
 		}
-		public static void shuffle_entrance(bool shuffle_overworld, ShuffleEntrancesMode shuffle_entrances, ShuffleTownsMode shuffle_towns, EarlyProgressionModes early_progression, MT19337 rng)
+		public static void ShuffleEntrances(bool shuffle_overworld, ShuffleEntrancesMode shuffle_entrances, ShuffleTownsMode shuffle_towns, EarlyProgressionModes early_progression, MT19337 rng)
 		{
 			bool ow_is_shuffled = shuffle_overworld || (shuffle_entrances == ShuffleEntrancesMode.All);
 			new_entrances = new();
 			all_entrances = new();
 			result_entrances = new();
+			region_dict = new();
+
+			init_regions();
 
 			// 1. Process Town options
 			var town_option = shuffle_towns;
@@ -172,7 +181,7 @@ namespace FF1PRAP
 			}
 			else if (shuffle_entrances == ShuffleEntrancesMode.All)
 			{
-				all_entrances = global_entrances.Where(e => e.type == (int)EntGroup.InnerDungeon).ToList();
+				all_entrances = all_entrances.Concat(global_entrances.Where(e => e.type == (int)EntGroup.InnerDungeon)).ToList();
 			}
 
 			var shallow_entrances = global_entrances.Where(e => e.name == EntranceNames.overworld_chaos_shrine).ToList();
@@ -314,6 +323,7 @@ namespace FF1PRAP
 				while (chaos_entrances_prog.Any())
 				{
 					var chaos_entrance = rng.TakeFrom(chaos_entrances_prog);
+
 					place_entrance(ow_pools["Chaos Shrine"], chaos_entrance, rng);
 				}
 
@@ -326,7 +336,7 @@ namespace FF1PRAP
 
 			// 6. Place everything else
 			var prog_mixed_entrances = all_entrances.Where(e => !e.deadend).ToList();
-			var deadend_mixed_entrances = all_entrances.Where(e => !e.deadend).ToList();
+			var deadend_mixed_entrances = all_entrances.Where(e => e.deadend).ToList();
 
 			// Process internal dungeon pool
 			Dictionary<string, EntranceShufflingData> dungeon_pools = new();
@@ -432,7 +442,7 @@ namespace FF1PRAP
 			foreach (var p in ow_pools.Values)
 			{
 				foreach (var deadend in p.stored_deadends)
-				{ 
+				{
 					place_entrance(p, deadend, rng);
 				}
 			}

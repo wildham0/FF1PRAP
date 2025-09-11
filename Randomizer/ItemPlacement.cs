@@ -104,7 +104,7 @@ namespace FF1PRAP
 		};
 		private static List<Items> KeyItems = new() { Items.Lute, Items.Ship, Items.Crown, Items.CrystalEye, Items.JoltTonic, Items.MysticKey, Items.NitroPowder, Items.StarRuby, Items.EarthRod, Items.Canoe, Items.RatsTail, Items.Levistone, Items.Oxyale, Items.RosettaStone, Items.Chime, Items.WarpCube, Items.Adamantite, Items.BottledFaerie, Items.JobAll };
 		private static List<Items> progItems = new() { Items.Ship, Items.NitroPowder, Items.Canoe, Items.Levistone };
-		public static Dictionary<int, ItemData> ItemPlacement(MT19337 rng)
+		public static Dictionary<int, ItemData> ItemPlacement(List<Location> initialLocations, MT19337 rng)
 		{
 
 			List<ItemData> items = FixedLocations.Where(l => l.Type != LocationType.Event).Select(l => new ItemData() { Id = l.Content, Qty = l.Qty }).ToList();
@@ -209,73 +209,21 @@ namespace FF1PRAP
 
 
 			// build logic
-			List<LocationData> allLocations = new(FixedLocations);
-			List<LocationData> updatedLocations = new();
-			
-			
-			List<RegionData> regionRules = new(FixedRegions);
+			List<Location> allLocations = new(initialLocations);
 
-			if (marshpath)
-			{
-				regionRules = regionRules
-					.Where(r => !FixedRegionsWest.Select(w => w.Region).ToList().Contains(r.Region))
-					.Concat(FixedRegionsWest)
-					.ToList();
-			}
-
-			if (northerndocks)
-			{
-				regionRules = regionRules
-					.Where(r => !FixedRegionsNorthernDocks.Select(w => w.Region).ToList().Contains(r.Region))
-					.Concat(FixedRegionsNorthernDocks)
-					.ToList();
-			}
-
-			foreach (var location in allLocations)
-			{
-				List<List<AccessRequirements>> adjustedReqs = new();
-				InternalLogger.LogTesting($"SanityCheck - Region: {location.Flag} - {location.Region}");
-				var regionAccess = regionRules.Find(r => r.Region == location.Region).Access;
-				var locationAccess = location.Access;
-
-				if (regionAccess.Count == 0)
-				{
-					regionAccess.Add(new List<AccessRequirements>());
-				}
-
-				if (locationAccess.Count == 0)
-				{
-					locationAccess.Add(new List<AccessRequirements>());
-				}
-
-
-				foreach (var raccess in regionAccess)
-				{
-					foreach (var laccess in locationAccess)
-					{
-						adjustedReqs.Add(raccess.Concat(laccess).ToList());
-					}
-				}
-
-				updatedLocations.Add(new LocationData() { Flag = location.Flag, Type = location.Type, Access = adjustedReqs, Trigger = location.Trigger });
-
-				InternalLogger.LogTesting($"SanityCheck - Location: {location.Flag}");
-				foreach (var reqs in adjustedReqs)
-				{
-					InternalLogger.LogTesting($"SanityCheck - Reqs: {String.Join(", ", reqs)}");
-				}
-			}
-
-			InternalLogger.LogTesting($"SanityCheck - AllItems: {items.Count}, KeyItems: {keyItems.Count}, StandardItems: {standardItems.Count}, Initial Locations: {allLocations.Count(l => l.Type != LocationType.Event)}, Adjusted Locations: {updatedLocations.Count(l => l.Type != LocationType.Event)}");
+			InternalLogger.LogTesting($"SanityCheck - AllItems: {items.Count}, KeyItems: {keyItems.Count}, StandardItems: {standardItems.Count}, Initial Locations: {allLocations.Count(l => l.Type != LocationType.Event)}");
 
 			bool goodPlacement = false;
-			List<LocationData> remainingLocations = new();
+			List<Location> remainingLocations = new();
 			Dictionary<int, ItemData> placedItems = new();
 
-			while (!goodPlacement)
+			int placementAttemptCount = 0;
+
+			while (!goodPlacement && (placementAttemptCount < 10))
 			{
 				int progPlaced = 0;
 				int progCounter = 1;
+				placementAttemptCount++;
 
 				List<int> priorityLocations = new(priorizedLocations
 					.Where(l => !plandoItems
@@ -306,9 +254,9 @@ namespace FF1PRAP
 				placedItems = new();
 				List<AccessRequirements> access = new();
 
-				List<LocationData> unaccessibleLocations = new(updatedLocations);
-				List<LocationData> accessibleLocations = new();
-				List<LocationData> placedLocations = new();
+				List<Location> unaccessibleLocations = new(allLocations);
+				List<Location> accessibleLocations = new();
+				List<Location> placedLocations = new();
 
 
 				List<AccessRequirements> plandoAccess = new() { AccessRequirements.None };
@@ -351,7 +299,7 @@ namespace FF1PRAP
 					int diceRoll = rng.Between(1, itemsToPlace.Count);
 					var priorityAccessLocations = accessibleLocations.Where(l => priorityLocations.Contains(l.Flag)).ToList();
 					var looseAccessLocations = accessibleLocations.Where(l => !priorityLocations.Contains(l.Flag) && !excludedLocations.Contains(l.Flag)).ToList();
-					List<LocationData> validLocations = new();
+					List<Location> validLocations = new();
 
 					if ((priorityAccessLocations.Any() && looseAccessLocations.Any() && diceRoll <= priorityItemsCount) ||
 							(priorityAccessLocations.Any() && !looseAccessLocations.Any()))
@@ -438,6 +386,10 @@ namespace FF1PRAP
 				}
 			}
 
+			if (!goodPlacement)
+			{
+				return null;
+			}
 
 			// keylocationweight
 			// favoredopeners
@@ -492,7 +444,7 @@ namespace FF1PRAP
 			InternalLogger.LogInfo("Items Shuffle successful.");
 			return placedItems;
 		}
-		private static void ProcessRequirements(List<AccessRequirements> newaccess, List<AccessRequirements> currentaccess, List<LocationData> unaccessibleLocations, List<LocationData> accessiblesLocations)
+		private static void ProcessRequirements(List<AccessRequirements> newaccess, List<AccessRequirements> currentaccess, List<Location> unaccessibleLocations, List<Location> accessiblesLocations)
 		{
 
 			List<AccessRequirements> accessToProcess = new(newaccess);
@@ -501,27 +453,36 @@ namespace FF1PRAP
 				currentaccess.Add(accessToProcess.First());
 				InternalLogger.LogTesting($"SanityCheck - Access To Process: {accessToProcess.First()}");
 				accessToProcess.RemoveAt(0);
-				List<LocationData> locationToRemove = new();
+				List<Location> locationToRemove = new();
 
 				foreach (var location in unaccessibleLocations)
 				{
 					bool accessible = false;
 
-					foreach (var acccereqs in location.Access)
+					if (location.FullAccess.Count == 0)
 					{
-						if (!acccereqs.Except(currentaccess).Any())
+						accessible = true;
+						InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
+					}
+					else
+					{
+						foreach (var acccereqs in location.FullAccess)
 						{
-							accessible = true;
-							InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
-							break;
+							if (!acccereqs.Except(currentaccess).Any())
+							{
+								accessible = true;
+								InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
+								break;
+							}
 						}
 					}
+
 
 					if (accessible)
 					{
 						if (location.Type == LocationType.Event)
 						{
-							accessToProcess.AddRange(location.Trigger);
+							accessToProcess.Add(location.Trigger);
 						}
 						else
 						{

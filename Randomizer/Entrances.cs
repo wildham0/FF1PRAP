@@ -28,12 +28,12 @@ namespace FF1PRAP
 			ShuffleDeep
 		}
 
-		public static Dictionary<string, string> ProcessEntrances()
+		public static Dictionary<string, string> ProcessEntrances(Dictionary<string, string> newTeleporters)
 		{
 			Dictionary<string, string> processedTeleporters = new();
 			Teleporter tele;
 
-			foreach (var teleporter in NewTeleporters)
+			foreach (var teleporter in newTeleporters)
 			{
 				InternalLogger.LogTesting($"Processing entrance: {teleporter.Key} > {teleporter.Value}");
 				

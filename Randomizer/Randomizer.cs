@@ -93,12 +93,34 @@ namespace FF1PRAP
 			}
 
 			// Create randomized data
-			/*if (!archipelago)
-			{ 
-				randoData.Entrances = Logic.shuffle_entrance(true, ShuffleEntrancesMode.DungeonInternal,ShuffleTownsMode.NoShuffle, )
-			}*/
+			if (!archipelago)
+			{
+				bool validplacement = false;
 
-			if(!archipelago) randoData.PlacedItems = ItemPlacement(rng);
+				while (!validplacement)
+				{
+					LogicData logicdata = Logic.BuildLogic(SessionManager.Options["shuffle_overworld"] == Options.Enable,
+						(ShuffleEntrancesMode)SessionManager.Options["shuffle_entrances"],
+						(ShuffleTownsMode)SessionManager.Options["shuffle_towns"],
+						(EarlyProgressionModes)SessionManager.Options["early_progression"],
+						SessionManager.Options["northern_docks"] == Options.Enable,
+						rng);
+
+					var placement = ItemPlacement(logicdata.Locations, rng);
+
+					if (placement != null)
+					{
+						randoData.PlacedItems = placement;
+						randoData.Entrances = Randomizer.ProcessEntrances(logicdata.Entrances);
+						validplacement = true;
+					}
+				}
+			}
+			else
+			{
+				randoData.Entrances = Randomizer.ProcessEntrances(Randomizer.NewTeleporters);
+			}
+
 			randoData.GearShops = ShuffleGearShop(SessionManager.Options["shuffle_gear_shops"] == Options.Enable, rng);
 			randoData.ShuffledSpells = ShuffleSpells(SessionManager.Options["shuffle_spells"] == Options.Enable, rng);
 			randoData.DungeonEncounterRate = SetEncounterRate(SessionManager.Options["dungeon_encounter_rate"]);
@@ -106,7 +128,7 @@ namespace FF1PRAP
 			randoData.XpBoost = SetVictoryBoost(SessionManager.Options["xp_boost"]);
 			randoData.GilBoost = SetVictoryBoost(SessionManager.Options["gil_boost"]);
 			randoData.BoostMenu = SessionManager.Options["boost_menu"] == Options.Enable;
-			randoData.Entrances = ProcessEntrances().Concat(ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng))
+			randoData.Entrances = randoData.Entrances.Concat(ShuffleOrdealsMaze(SessionManager.Options["shuffle_trials_maze"] == Options.Enable, rng))
 				.ToDictionary(x => x.Key, x => x.Value);
 			randoData.JobPromotion = (JobPromotionModes)SessionManager.Options["job_promotion"];
 			randoData.EarlyProgression = (EarlyProgressionModes)SessionManager.Options["early_progression"];
