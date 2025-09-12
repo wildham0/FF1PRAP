@@ -35,6 +35,7 @@ namespace FF1PRAP
 		public int RequiredTablatures { get; set; }
 		public int RequiredCrystals { get; set; }
 		public bool EntrancesShuffled { get; set;}
+		public string SmittThingy { get; set; }
 		public RandomizerData()
 		{
 			GearShops = new();

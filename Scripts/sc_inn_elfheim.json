@@ -1197,9 +1197,9 @@
       "operands": {
         "iValues": [
           1,
-          7,
-          22,
-          2,
+          0,
+          0,
+          0,
           0,
           0,
           0,
@@ -1231,11 +1231,11 @@
     },
     {
       "label": "",
-      "mnemonic": "ChangeMap",
+      "mnemonic": "CastTelepo",
       "operands": {
         "iValues": [
-          22,
-          2,
+          1,
+          0,
           0,
           0,
           0,

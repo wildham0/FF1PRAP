@@ -1231,11 +1231,11 @@
     },
     {
       "label": "",
-      "mnemonic": "ChangeMap",
+      "mnemonic": "CastTelepo",
       "operands": {
         "iValues": [
-          60,
-          4,
+          1,
+          0,
           0,
           0,
           0,

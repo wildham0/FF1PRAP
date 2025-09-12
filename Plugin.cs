@@ -32,7 +32,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.5.2";
+	public const string VERSION = "0.5.3";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 

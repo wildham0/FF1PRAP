@@ -86,7 +86,7 @@
     <EmbeddedResource Include="Scripts\sc_fairy.json" />
     <EmbeddedResource Include="Scripts\sc_nerrick_02.json" />
     <EmbeddedResource Include="Scripts\sc_nerrick_01.json" />
-    <EmbeddedResource Include="Scripts\sc_elfprince.json" />
+    <EmbeddedResource Include="Scripts\sc_elfdoctor.json" />
     <EmbeddedResource Include="Scripts\sc_astos_02.json" />
     <EmbeddedResource Include="Scripts\sc_astos_01.json" />
     <EmbeddedResource Include="Scripts\sc_bikke_02.json" />

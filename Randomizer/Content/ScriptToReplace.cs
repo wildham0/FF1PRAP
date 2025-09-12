@@ -45,7 +45,8 @@ namespace FF1PRAP
 			{ "sc_map_20031_1", ScriptBuilder.FromScript(Scripts.MatoyasCave, "sc_matoyascave") }, // Matoya
 			{ "sc_e_0012", ScriptBuilder.FromScript(Scripts.Matoya, "sc_matoya_01") }, // Matoya
 			{ "sc_map_20071_1", ScriptBuilder.FromJson("sc_elflandcastle") }, // Elfland Castle
-			{ "sc_e_0013", ScriptBuilder.FromJson("sc_elfprince") }, // Elf Doctor
+			{ "sc_e_0013", ScriptBuilder.FromJson("sc_elfdoctor") }, // Elf Doctor
+			{ "sc_npc_20070_6", ScriptBuilder.FromScript(Scripts.ElfPrince, "sc_elfprince") }, // Elf Prince
 			//{ "sc_map_20011_1", new ScriptBuilder("sc_empty") }, // Coneria Castle
 			{ "sc_e_0014", ScriptBuilder.FromScript(Scripts.ConeriaChest, "sc_coneriachest_01") }, // Nitro Treasure
 			//{ "sc_map_30011_1", new ScriptBuilder("sc_empty") }, // ToF Map

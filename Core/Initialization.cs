@@ -60,13 +60,18 @@ namespace FF1PRAP
 			GameData.MessageManager.GetMessageDictionary()["MSG_AWAKEELF_01"] = "This jolt tonic... may be just what we need to break the curse and awaken the prince!";
 			GameData.MessageManager.GetMessageDictionary()["MSG_AWAKEELF_03"] = "Am I still...dreaming? You...you're the legendary warriors! I shall heed the legend as it was told to me and my forefathers.";
 			GameData.MessageManager.GetMessageDictionary()["MSG_CANAL_01"] = "Nitro powder! The explosive force in this powder will hae ma canal open in no time flat! Noo we can blast this rock tae smithereens!";
-
 			GameData.MessageManager.GetMessageDictionary()["MSG_SAG_CAV_02"] = "I shall help only the true LIGHT WARRIORS. Prove yourself by defeating the Vampire.";
 			GameData.MessageManager.GetMessageDictionary()["MSG_GET_STICK_01"] = "So you are the ones who defeated the vampire, eh? He was but a servant... The beast corrupting the Earth Crystal lurks much deeper.";
 			GameData.MessageManager.GetMessageDictionary()["MSG_GET_CANOE_01"] = "Well done, Warriors of Light. You have defeated the Fiend of Earth and restored the Crystal's light. Take this, and go face the Fiend in Mount Gulg!";
 			GameData.MessageManager.GetMessageDictionary()["MSG_TRIAL_CAS_03"] = "Only those of royalty, bearing a crown, are worthy of undergoing the trials. Go away, peasant!";
 			GameData.MessageManager.GetMessageDictionary()["MSG_LUTESLAB"] = "There is a stone plate on the floor... You sense something... Evil?";
-
+			GameData.MessageManager.GetMessageDictionary()["MSG_GET_EXCALIBAR_02"] = "Hoots! I'll use this tae make ye the finest craft ye'll ever see!";
+			GameData.MessageManager.GetMessageDictionary()["MSG_GET_EXCALIBAR_03"] = $"Done! In all ma years I've never crafted a finer object!";
+			GameData.MessageManager.GetMessageDictionary()["MSG_OXYALE_01"] = "You're the ones who rescued me from that bottle!\nI'll get you somethiing from the bottom of the spring to thank you, okay?";
+			GameData.MessageManager.GetMessageDictionary()["MSG_OXYALE_02"] = "I hope it will bring you luck as long as you have it!";
+			GameData.MessageManager.GetMessageDictionary()["MSG_GAI_CTY_13"] = "If you wanna party with me\nBaby, there's a price to pay\nI'm a fairy in a bottle\nYou gotta release me right away<P>... How long have you been there?\nOh no, this is embarrassing...";
+			GameData.MessageManager.GetMessageDictionary()["MSG_GET_WARPCUBE_01"] = "...I have BEEN waiting...\n...take this... ...TIAmat...flying fortress... ...please...";
+			GameData.MessageManager.GetMessageDictionary()["MSG_GET_CHIME_01"] = "Before you leave, legendary warriors, take this with you.\nIt will help you in your fight to restore the Crystals.";
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_01"] = $"This heirloom has been entrusted to the princesses of Cornelia for many generations. I want you to have it. It may aid you on your journey.";
 
 			//InternalLogger.LogInfo(GameData.MessageManager.GetMessageDictionary()["STUFF_SQDEV_01_07"]);
@@ -113,6 +118,7 @@ namespace FF1PRAP
 			Randomizer.ApplyLute();
 			Randomizer.ApplyCrystals();
 
+			GameData.MessageManager.GetMessageDictionary()["MSG_GET_EXCALIBAR_03"] = $"Done! In all ma years I've never crafted a finer {(randoData.SmittThingy == "" ? "object" : randoData.SmittThingy)}!";
 			CreateCaravanItem();
 		}
 		public static void CreateCaravanItem()
@@ -208,7 +214,10 @@ namespace FF1PRAP
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.PhoenixDown, 99);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.RatsTail, 1);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
-			GameData.OwnedItemsClient.AddOwnedItem((int)Items.StarRuby, 1);
+			GameData.OwnedItemsClient.AddOwnedItem((int)Items.RosettaStone, 1);
+			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.JoltTonic, 1);
+			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Oxyale, 1);
+			GameData.OwnedItemsClient.AddOwnedItem((int)Items.BottledFaerie, 1);
 			GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Canal, 1); // Force visit King in Coneria
 		}
 	}

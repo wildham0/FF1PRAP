@@ -80,7 +80,7 @@ namespace FF1PRAP
 					new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.JoltTonic, FlagCategory = DataStorage.Category.kScenarioFlag1 },
 					new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 },} },
 				new EntityData() { EntityId = 115, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
-				new EntityData() { EntityId = 235, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+				new EntityData() { EntityId = 133, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
 				new EntityData() { EntityId = 114, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)TreasureFlags.ElfPrince, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
 				new EntityData() { EntityId = 140, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
 				new EntityData() { EntityId = 258, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.MysticKey, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },

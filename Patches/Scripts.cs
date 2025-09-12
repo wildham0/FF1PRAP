@@ -62,12 +62,6 @@ namespace FF1PRAP
 				TextAsset scriptAsset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, script);
 				__result = scriptAsset;
 			}
-
-			/*
-			if (scriptName == "sc_dtp_47" || scriptName == "sc_tp_42")
-			{
-				Randomizer.Teleporting = true;
-			}*/
 		}
 
 		public static string GetPlacedItemName(int flag)

@@ -167,24 +167,21 @@ namespace FF1PRAP
 				GameData.FieldController.telepoCache.RemoveAll();
 			}
 
-			/*
-			if (Randomizer.Data.Teleporters.TryGetValue((mapId, point), out var newteleporter))
+			// Special check to pop the telepo stack when using the sub back
+			if (mapId == 52 & point == 101)
 			{
-				InternalLogger.LogInfo($"NextMapProperty: Found {(mapId, point)}, replacing by {(newteleporter.MapId, newteleporter.PointId)}");
-
-				mapId = newteleporter.MapId;
-				point = newteleporter.PointId;
-			}*/
-
-			// Shuffled Citadel of Trials' Maze
-			/*
-			if (mapId == 94 && Randomizer.Data.OrdealsMaze.Any())
-			{
-				if (Randomizer.Data.OrdealsMaze.TryGetValue(point, out var newpoint))
+				//GameData.FieldController.telepoCache.Pop();
+				InternalLogger.LogTesting($"Coming back from sub.");
+				var teledata = GameData.FieldController.telepoCache.Peek();
+				if (teledata != null)
 				{
-					point = newpoint;
+					InternalLogger.LogTesting($"Was on stack {teledata.MapId} - {teledata.PointInObjectId}.");
+					if (teledata.MapId == mapId && teledata.PointInObjectId == point)
+					{
+						GameData.FieldController.telepoCache.Pop();
+					}
 				}
-			}*/
+			}
 		}
 	}
 }

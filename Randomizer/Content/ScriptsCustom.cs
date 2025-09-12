@@ -114,6 +114,7 @@ namespace FF1PRAP
 			"SysCall MapEntryRoofControl",
 			$"Branch ScenarioFlag1 {(int)ScenarioFlags.PrincessSaved} [PrincessSaved]",
 			"SetEntities ev_e_0014",
+			"Call [Puppet_Princess]",
 			"Exit",
 			"PrincessSaved:",
 			"Nop",
@@ -129,6 +130,15 @@ namespace FF1PRAP
 			"Nop",
 			"SetEntities ev_e_0039",
 			"Exit",
+			"Sub Puppet_Princess:",
+			"Nop",
+			"SetPuppet 0 33 [PrincessAnim]",
+			"ExecPuppet",
+			"Return",
+			"PrincessAnim:",
+			"Nop",
+			"PlayAnim 0 -1 Down",
+			"Exit"
 		};
 		public static List<string> Princess = new()
 		{
@@ -220,6 +230,27 @@ namespace FF1PRAP
 			"Sub Main:",
 			"Nop",
 			"SetEntities ev_e_0014",
+			"Exit"
+		};
+		public static List<string> ElfPrince = new()
+		{
+			"Sub Main:",
+			"Nop",
+			$"Branch TreasureFlag1 {(int)TreasureFlags.ElfPrince} [TreasureGiven]",
+			"Msg MSG_ELF_CAS_13",
+			"Exit",
+			"TreasureGiven:",
+			"Nop",
+			"Call [Puppet_ElfPrince]",
+			"Msg MSG_ELF_CAS_14",
+			"Exit",
+			"Puppet_ElfPrince:",
+			"Nop",
+			"SetPuppet 0 117 12",
+			"ExecPuppet",
+			"Return",
+			"Nop",
+			"Orient -1001",
 			"Exit"
 		};
 		public static List<string> Melmond = new()
@@ -324,7 +355,7 @@ namespace FF1PRAP
 		{
 			"Sub Main:",
 			"Nop",
-			"CastTelepo",
+			"CastTelepo 0",
 			"Exit"
 		};
 		public static List<string> Caravan = new()

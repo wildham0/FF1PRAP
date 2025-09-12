@@ -1,4 +1,5 @@
-﻿using RomUtilities;
+﻿using Microsoft.VisualBasic;
+using RomUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,6 +143,8 @@ namespace FF1PRAP
 				RandomizeMonsterParties(SessionManager.Options["monster_parties"] != Options.Disable, (MonsterPartyRangeModes)SessionManager.Options["monster_parties"], (MonsterPartyCapModes)SessionManager.Options["monsters_cap"], rng)
 				.Concat(AddBossMinions(SessionManager.Options["boss_minions"] != Options.Disable, (MinionsRangeModes)SessionManager.Options["boss_minions"], rng))
 				.ToDictionary(x => x.Key, x => x.Value);
+
+			randoData.SmittThingy = rng.PickFrom(new List<string>() { "thingy", "thingamajigger", "gizmo", "whatchamacallit", "gewgaw", "doohickey", "thingumabob", "widget", "whatsit", "hootenanny", "MacGuffin", "doodad" });
 
 			Data = randoData;
 			

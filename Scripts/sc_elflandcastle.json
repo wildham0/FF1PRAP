@@ -195,10 +195,100 @@
     },
     {
       "label": "",
+      "mnemonic": "Branch",
+      "operands": {
+        "iValues": [
+          248,
+          1,
+          13,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+         "TreasureFlag1",
+         "＝",
+         "imm",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Branch",
+      "operands": {
+        "iValues": [
+          12,
+          1,
+          10,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rValues": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "sValues": [
+         "ScenarioFlag1",
+         "＝",
+         "imm",
+          "",
+          "",
+          "",
+          "",
+          ""
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "ev_e_0013",
       "mnemonic": "Nop",
       "operands": {
         "iValues": [
-          17,
+        ],
+        "rValues": [
+        ],
+        "sValues": [
+        ]
+      },
+      "type": 1,
+      "comment": ""
+    },
+    {
+      "label": "",
+      "mnemonic": "Call",
+      "operands": {
+        "iValues": [
+          24,
           0,
           0,
           0,
@@ -270,62 +360,10 @@
       "comment": ""
     },
     {
-      "label": "ev_e_0013",
+      "label": "",
       "mnemonic": "Nop",
       "operands": {
         "iValues": [
-        ],
-        "rValues": [
-        ],
-        "sValues": [
-        ]
-      },
-      "type": 1,
-      "comment": ""
-    },
-    {
-      "label": "",
-      "mnemonic": "Branch",
-      "operands": {
-        "iValues": [
-          49,
-          1,
-          14,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "rValues": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "sValues": [
-          "ScenarioFlag1",
-          "＝",
-          "imm",
-          "",
-          "",
-          "",
-          "",
-          ""
-        ]
-      },
-      "type": 1,
-      "comment": ""
-    },
-    {
-      "label": "",
-      "mnemonic": "SetEntities",
-      "operands": {
-        "iValues": [
           0,
           0,
           0,
@@ -346,47 +384,9 @@
           0
         ],
         "sValues": [
-          "ev_e_0014",
           "",
           "",
           "",
-          "",
-          "",
-          "",
-          ""
-        ]
-      },
-      "type": 1,
-      "comment": ""
-    },
-    {
-      "label": "",
-      "mnemonic": "Branch",
-      "operands": {
-        "iValues": [
-          13,
-          1,
-          12,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "rValues": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "sValues": [
-          "ScenarioFlag1",
-          "＝",
-          "imm",
           "",
           "",
           "",
@@ -437,7 +437,7 @@
     },
     {
       "label": "End",
-      "mnemonic": "Nop",
+      "mnemonic": "Exit",
       "operands": {
         "iValues": [
         ],
@@ -451,7 +451,7 @@
     },
     {
       "label": "",
-      "mnemonic": "Exit",
+      "mnemonic": "Nop",
       "operands": {
         "iValues": [
           0,
@@ -489,7 +489,7 @@
     },
     {
       "label": "ev_e_0014",
-      "mnemonic": "Nop",
+      "mnemonic": "Exit",
       "operands": {
         "iValues": [
         ],
