@@ -62,7 +62,12 @@ namespace FF1PRAP
 			"<color=\"#43deff\">MAIN DEVELOPER</color>\n" +
 			"wildham\n\n\n" +
 			"<color=\"#43deff\">PLAYTESTERS</color>\n" +
-			"Prime\n\n\n" +
+			"Prime\n" +
+			"Abyss\n" +
+			"Bartz24\n" +
+			"Wyatt\n" +
+			"Kuchiri\n" +
+			"\n\n" +
 			"<color=\"#43deff\">SPECIAL THANKS</color>\n" +
 			"silentdestroyer\n" +
 			"Scipio\n" +

@@ -1,9 +1,9 @@
-﻿# FF1 Pixel Remaster Archipelago Client
+﻿# FF1 Pixel Remaster Archipelago Mod
 
-This is a mod to add Archipelago support to Final Fantasy 1 Pixel Remaster (FF1PR).
+This is a mod to add Archipelago support to Final Fantasy 1 Pixel Remaster (FF1 Pixel Remaster).
 
 ## Installation
-- Must use a compatible PC version of FF1PR on the latest update.
+- Must use a compatible PC version of FF1 Pixel Remaster on the latest update.
 
 - Download the appropriate IL2CPP release of [BepInEx 6](https://github.com/BepInEx/BepInEx/releases/download/v6.0.0-pre.2/BepInEx-Unity.IL2CPP-win-x64-6.0.0-pre.2.zip).
 
@@ -33,8 +33,14 @@ This is a mod to add Archipelago support to Final Fantasy 1 Pixel Remaster (FF1P
 
 
 ## Helpful Tips
-- The King isn't a Location.
-- Nerrick always builds the Canal.
+- The King is not a location.
+- The Bridge and the Canal are not Items. The Bridge will be built or not depending on your options, and Nerrick always build the Canal.
+- The Giant is moved by a few tiles so that his Chests cannot be accessed without the Star Ruby.
+- The Caravan check is always at the Caravan.
+- When shuffling Entrances, the Caravan is an entrance that can be shuffled, don't forget about it.
 
+ 
 ## Credits
-- silent-destroyer, for the Tunic Randomizer which was used extensively as a basis for this mod.
+- silent-destroyer and Scipio, for the Tunic Randomizer which was used extensively as a basis for this mod.
+- Silvris, for Pixel Remasters modding support
+- Playtesters: Prime, Abyss, Bartz24, Wyatt, Kuchiri
