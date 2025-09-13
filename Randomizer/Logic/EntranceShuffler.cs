@@ -153,7 +153,8 @@ namespace FF1PRAP
 			var ow_pools = ow_entrances.ToDictionary(e => e.name, e => new EntranceShufflingData(e.name, new() { e }));
 
 			ow_pools["Sunken Shrine"] = new EntranceShufflingData("Sunken Shrine", global_entrances.Where(e => e.region == RegionNames.sunken_shrine_3f_split).ToList(), false, shuffle_entrances > ShuffleEntrancesMode.NoShuffle);
-			ow_pools["Chaos Shrine"] = new EntranceShufflingData("Chaos Shrine", global_entrances.Where(e => e.region == RegionNames.chaos_shrine_1f_entrance).ToList(), false, false);
+			ow_pools["Chaos Shrine Right"] = new EntranceShufflingData("Chaos Shrine Right", global_entrances.Where(e => e.name == EntranceNames.chaos_shrine_1f_entrance_right_stairs).ToList(), false, false);
+			ow_pools["Chaos Shrine Left"] = new EntranceShufflingData("Chaos Shrine Left", global_entrances.Where(e => e.name == EntranceNames.chaos_shrine_1f_entrance_left_stairs).ToList(), false, false);
 
 			// 3. Set Entrances to be shuffle
 			if (ow_is_shuffled)
@@ -317,20 +318,53 @@ namespace FF1PRAP
 			if (shuffle_entrances > ShuffleEntrancesMode.NoShuffle)
 			{
 				var chaos_entrances = global_entrances.Where(e => e.group == "Chaos Shrine").ToList();
-				var chaos_entrances_prog = chaos_entrances.Where(e => !e.deadend).ToList();
-				var chaos_entrances_dead = chaos_entrances.Where(e => e.deadend).ToList();
+				var lute_entrance = chaos_entrances.Find(e => e.name == EntranceNames.chaos_shrine_2f_corridor_right_stairs);
+				var final_entrance = chaos_entrances.Find(e => e.name == EntranceNames.chaos_shrine_b4_right_stairs);
+				var b1_deadend_entrance = chaos_entrances.Find(e => e.name == EntranceNames.chaos_shrine_1f_entrance_left_stairs);
+
+				chaos_entrances.Remove(lute_entrance);
+				chaos_entrances.Remove(final_entrance);
+				chaos_entrances.Remove(b1_deadend_entrance);
+
+				List<List<EntranceData>> chaos_entrances_groups = new() { new() { lute_entrance, final_entrance }, new() { b1_deadend_entrance } };
+
+				while (chaos_entrances.Any())
+				{
+					var picked_group = rng.PickFrom(chaos_entrances_groups);
+					var picked_entrances = rng.TakeFrom(chaos_entrances);
+					picked_group.Add(picked_entrances);
+				}
+
+				var chaos_entrances_group = rng.TakeFrom(chaos_entrances_groups);
+				var chaos_entrances_prog = chaos_entrances_group.Where(e => !e.deadend).ToList();
+				var chaos_entrances_dead = chaos_entrances_group.Where(e => e.deadend).ToList();
 
 				while (chaos_entrances_prog.Any())
 				{
 					var chaos_entrance = rng.TakeFrom(chaos_entrances_prog);
-
-					place_entrance(ow_pools["Chaos Shrine"], chaos_entrance, rng);
+					place_entrance(ow_pools["Chaos Shrine Right"], chaos_entrance, rng);
 				}
 
 				while (chaos_entrances_dead.Any())
 				{
 					var chaos_entrance = rng.TakeFrom(chaos_entrances_dead);
-					place_entrance(ow_pools["Chaos Shrine"], chaos_entrance, rng);
+					place_entrance(ow_pools["Chaos Shrine Right"], chaos_entrance, rng);
+				}
+
+				chaos_entrances_group = rng.TakeFrom(chaos_entrances_groups);
+				chaos_entrances_prog = chaos_entrances_group.Where(e => !e.deadend).ToList();
+				chaos_entrances_dead = chaos_entrances_group.Where(e => e.deadend).ToList();
+
+				while (chaos_entrances_prog.Any())
+				{
+					var chaos_entrance = rng.TakeFrom(chaos_entrances_prog);
+					place_entrance(ow_pools["Chaos Shrine Left"], chaos_entrance, rng);
+				}
+
+				while (chaos_entrances_dead.Any())
+				{
+					var chaos_entrance = rng.TakeFrom(chaos_entrances_dead);
+					place_entrance(ow_pools["Chaos Shrine Left"], chaos_entrance, rng);
 				}
 			}
 

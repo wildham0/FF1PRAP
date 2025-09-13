@@ -97,7 +97,7 @@ namespace FF1PRAP
 			{ Items.WarpCube, AccessRequirements.WarpCube },
 			{ Items.Oxyale, AccessRequirements.Oxyale },
 			{ Items.RosettaStone, AccessRequirements.RosettaStone },
-			{ Items.Chime, AccessRequirements.Bell },
+			{ Items.Chime, AccessRequirements.Chime },
 			{ Items.Adamantite, AccessRequirements.Adamantite },
 			{ Items.BottledFaerie, AccessRequirements.BottledFaerie },
 			{ Items.Ship, AccessRequirements.Ship },
@@ -108,55 +108,50 @@ namespace FF1PRAP
 		public static Dictionary<int, ItemData> ItemPlacement(List<Location> initialLocations, MT19337 rng)
 		{
 
-			//List<ItemData> items = FixedLocations.Where(l => l.Type != LocationType.Event).Select(l => new ItemData() { Id = l.Content, Qty = l.Qty }).ToList();
 			List<ItemData> items = new();
 			foreach (var item in ItemNameToData.Values)
 			{
 				items.AddRange(Enumerable.Repeat<ItemData>(new ItemData(item.Id, item.Qty), item.Number));
 			}
-			//ItemNameToData.Select(i => new ItemData() { Id = i.Value.Id, Qty = i.Value.Qty }).ToList();
 
 			// Initial Item Lists
 			var standardItems = items.Where(i => !KeyItems.Contains((Items)i.Id)).ToList();
 			var keyItems = items.Where(i => KeyItems.Contains((Items)i.Id)).ToList();
 			List<ItemData> startingItems = new();
+			List<(Items item, int location)> plandoItems = new();
 
 			foreach (var item in items)
 			{
 				InternalLogger.LogTesting($"Items: {(Items)item.Id}");
-			
 			}
 			
+			// Process flags
 			var adamantitecraft = SessionManager.Options["adamantite_craft"];
 			bool marshpath = SessionManager.Options["early_progression"] == Options.MarshPath;
 			bool northerndocks = SessionManager.Options["northern_docks"] == Options.Enable;
 			bool bahamutpromo = SessionManager.Options["job_promotion"] == Options.Disable;
 			bool tablatures = SessionManager.Options["lute_tablatures"] > 0;
 
-			List<Items> extraItems = new();
-			List<(Items item, int location)> plandoItems = new();
-
+			// Adamantite Craft
 			Items adamantItem = Items.Excalibur;
 			if (adamantitecraft == -1)
 			{
 				adamantItem = rng.PickFrom(goodItems);
-				//extraItems.Add(rng.PickFrom(goodItems));
 			}
 			else if (adamantitecraft == -2)
 			{
 				adamantItem = (Items)rng.PickFrom(standardItems.Where(i => i.Id != 1).Distinct().ToList()).Id;
-				//extraItems.Add(rng.PickFrom(goodItems));
 			}
 			else
 			{
 				adamantItem = (Items)adamantitecraft;
-				//extraItems.Add((Items)adamantitecraft);
 			}
 
 			var adamantData = standardItems.Find(i => i.Id == (int)adamantItem);
 			standardItems.Remove(adamantData);
 			keyItems.Add(adamantData);
 
+			// Lute Tablatures
 			if (tablatures)
 			{ 
 				var luteData = keyItems.Find(i => i.Id == (int)Items.Lute);
@@ -165,17 +160,10 @@ namespace FF1PRAP
 				standardItems.Add(rng.PickFrom(standardItems));
 			}
 
-			/*
-			foreach (var extraItem in extraItems)
-			{
-				var item = standardItems.Find(i => i.Id == (int)extraItem);
-				standardItems.Remove(item);
-			}*/
-
-			//
-			
+			// Early Progression
 			if (!marshpath) plandoItems.Add((Items.Ship, (int)TreasureFlags.Bikke));
 
+			// Job Items
 			switch (SessionManager.Options["job_promotion"])
 			{
 				case 0:
@@ -191,7 +179,7 @@ namespace FF1PRAP
 					break;
 			}
 
-			// priority locations
+			// Priority Locations
 			List<(int setting, List<int> locations)> prioritySetitngs = new()
 			{
 				(SessionManager.Options["npcs_priority"], PriorityNPCs),
@@ -213,9 +201,7 @@ namespace FF1PRAP
 				InternalLogger.LogTesting($"Priority Location: {location}");
 			}
 
-
-
-			// build logic
+			// Prepare placement
 			List<Location> allLocations = new(initialLocations);
 
 			InternalLogger.LogTesting($"SanityCheck - AllItems: {items.Count}, KeyItems: {keyItems.Count}, StandardItems: {standardItems.Count}, Initial Locations: {allLocations.Count(l => l.Type != LocationType.Event)}");
@@ -226,10 +212,9 @@ namespace FF1PRAP
 
 			int placementAttemptCount = 0;
 
+			// Placing Attempts
 			while (!goodPlacement && (placementAttemptCount < 10))
 			{
-				int progPlaced = 0;
-				int progCounter = 1;
 				placementAttemptCount++;
 				List<string> placedRegions = new();
 
@@ -240,8 +225,6 @@ namespace FF1PRAP
 						.Contains(l))
 					.ToList());
 				List<int> excludeLocations = new(excludedLocations);
-				//if (PrioritizeNPCs) priorityLocations.AddRange(npcLocations);
-				//if (PrioritizeChests) priorityLocations.AddRange(chestLocations);
 
 				List<Items> itemsToPlace = new(keyItems
 					.Where(k => !plandoItems
@@ -250,11 +233,9 @@ namespace FF1PRAP
 						.Contains((Items)k.Id))
 					.Select(k => (Items)k.Id)
 					.ToList());
-				List<Items> progItemsToPlace = new(progItems);
 
 				int priorityItemsCount = Math.Min(priorityLocations.Count, itemsToPlace.Count);
 				int looseItemsCount = Math.Max(0, itemsToPlace.Count - priorityLocations.Count);
-
 
 				InternalLogger.LogTesting($"ItemCount - Priority: {priorityItemsCount} - Loose: {looseItemsCount} - Total: {itemsToPlace.Count}");
 				bool softlock = false;
@@ -266,7 +247,7 @@ namespace FF1PRAP
 				List<Location> accessibleLocations = new();
 				List<Location> placedLocations = new();
 
-
+				// Process Plando Items
 				List<AccessRequirements> plandoAccess = new() { AccessRequirements.None };
 
 				foreach (var startingItem in startingItems)
@@ -283,7 +264,6 @@ namespace FF1PRAP
 					var removal = unaccessibleLocations.Remove(location);
 					
 					placedItems.Add(location.Flag, new ItemData() { Id = (int)plandoItem.item, Qty = 1 });
-					progItemsToPlace.Remove(plandoItem.item);
 					itemsToPlace.Remove(plandoItem.item);
 
 					if (ItemIdToAccess.TryGetValue(plandoItem.item, out var newaccess))
@@ -292,16 +272,12 @@ namespace FF1PRAP
 					}
 				}
 
-				ProcessRequirements(plandoAccess, access, unaccessibleLocations, accessibleLocations);
+				var locationResults = ProcessRequirements(plandoAccess, access, unaccessibleLocations, accessibleLocations);
+				accessibleLocations = locationResults.accessible;
+				unaccessibleLocations = locationResults.unaccessible;
+				access = locationResults.access;
 
-				itemsToPlace.Shuffle(rng);
-				progItemsToPlace.Shuffle(rng);
-				if (progItemsToPlace.Remove(Items.Levistone))
-				{
-					progItemsToPlace.Add(Items.Levistone);
-				}
-
-
+				// Place Items
 				while (itemsToPlace.Any())
 				{
 
@@ -353,25 +329,8 @@ namespace FF1PRAP
 					}
 
 					// Select item to Place
-					Items itemToPlace;
+					Items itemToPlace = PickWeightedItem(itemsToPlace, access, unaccessibleLocations, accessibleLocations, priorityLocations, excludedLocations, priorityItemsCount, looseItemsCount, rng);
 
-					if ((progCounter <= 0 && progItemsToPlace.Any()) || (validLocations.Count == 1 && progItemsToPlace.Any()))
-					{
-						itemToPlace = progItemsToPlace.First();
-					}
-					else
-					{
-						itemToPlace = itemsToPlace.First();
-						progCounter--;
-					}
-
-					if (progItemsToPlace.Contains(itemToPlace))
-					{
-						progPlaced++;
-						progCounter = progPlaced + 1;
-					}
-
-					progItemsToPlace.Remove(itemToPlace);
 					itemsToPlace.Remove(itemToPlace);
 
 					// Pick Location
@@ -388,7 +347,10 @@ namespace FF1PRAP
 
 					if (ItemIdToAccess.TryGetValue(itemToPlace, out var newaccess))
 					{
-						ProcessRequirements(new() { newaccess }, access, unaccessibleLocations, accessibleLocations);
+						locationResults = ProcessRequirements(new() { newaccess }, access, unaccessibleLocations, accessibleLocations);
+						accessibleLocations = locationResults.accessible;
+						unaccessibleLocations = locationResults.unaccessible;
+						access = locationResults.access;
 					}
 				}
 
@@ -406,21 +368,17 @@ namespace FF1PRAP
 				else
 				{
 					goodPlacement = true;
-					//PlacedItems = placedItems;
 					remainingLocations = accessibleLocations;
 				}
 			}
 
+			// We failed to find a valid layout after several attempts, reshuffle the entrances
 			if (!goodPlacement)
 			{
 				return null;
 			}
 
-			// keylocationweight
-			// favoredopeners
-
 			InternalLogger.LogTesting($"SanityCheck - Item Left: {standardItems.Count}, Location Left: {remainingLocations.Count}");
-
 
 			// Place Tablatures
 			if (tablatures)
@@ -469,18 +427,20 @@ namespace FF1PRAP
 			InternalLogger.LogInfo("Items Shuffle successful.");
 			return placedItems;
 		}
-		private static void ProcessRequirements(List<AccessRequirements> newaccess, List<AccessRequirements> currentaccess, List<Location> unaccessibleLocations, List<Location> accessiblesLocations)
+		private static (List<Location> accessible, List<Location> unaccessible, List<AccessRequirements> access) ProcessRequirements(List<AccessRequirements> newaccess, List<AccessRequirements> currentaccess, List<Location> unaccessibleLocations, List<Location> accessiblesLocations)
 		{
-
 			List<AccessRequirements> accessToProcess = new(newaccess);
+			List<AccessRequirements> workingAccess = new(currentaccess);
+			List<Location> workingAccessibleLocations = new(accessiblesLocations);
+			List<Location> workingUnaccessibleLocations = new(unaccessibleLocations);
 			while (accessToProcess.Any())
 			{
-				currentaccess.Add(accessToProcess.First());
+				workingAccess.Add(accessToProcess.First());
 				InternalLogger.LogTesting($"SanityCheck - Access To Process: {accessToProcess.First()}");
 				accessToProcess.RemoveAt(0);
 				List<Location> locationToRemove = new();
 
-				foreach (var location in unaccessibleLocations)
+				foreach (var location in workingUnaccessibleLocations)
 				{
 					bool accessible = false;
 
@@ -493,7 +453,7 @@ namespace FF1PRAP
 					{
 						foreach (var acccereqs in location.FullAccess)
 						{
-							if (!acccereqs.Except(currentaccess).Any())
+							if (!acccereqs.Except(workingAccess).Any())
 							{
 								accessible = true;
 								InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
@@ -510,21 +470,22 @@ namespace FF1PRAP
 						}
 						else
 						{
-							accessiblesLocations.Add(location);
+							workingAccessibleLocations.Add(location);
 						}
 						locationToRemove.Add(location);
 					}
 				}
 
-				unaccessibleLocations.RemoveAll(l => locationToRemove.Contains(l));
+				workingUnaccessibleLocations.RemoveAll(l => locationToRemove.Contains(l));
 
-				//unaccessibleLocations = unaccessibleLocations.Except(locationToRemove).ToList();
-				InternalLogger.LogTesting($"SanityCheck - Unaccessible Locations Count: {unaccessibleLocations.Count}");
-				InternalLogger.LogTesting($"SanityCheck - Accessible Locations Count: {accessiblesLocations.Count}");
+				InternalLogger.LogTesting($"SanityCheck - Unaccessible Locations Count: {workingUnaccessibleLocations.Count}");
+				InternalLogger.LogTesting($"SanityCheck - Accessible Locations Count: {workingAccessibleLocations.Count}");
 			}
+
+			return (workingAccessibleLocations, workingUnaccessibleLocations, workingAccess);
 		}
 
-		/*private static void ProcessRequirements2(List<Items> itemstoplace, List<AccessRequirements> currentaccess, List<Location> unaccessibleLocations, List<Location> accessibleLocations, List<int> priorityLocations, List<int> excludedLocations)
+		private static Items PickWeightedItem(List<Items> itemstoplace, List<AccessRequirements> currentaccess, List<Location> unaccessibleLocations, List<Location> accessibleLocations, List<int> priorityLocations, List<int> excludedLocations, int priorityitems, int looseitems, MT19337 rng)
 		{
 			var priorityAccessLocations = accessibleLocations.Where(l => priorityLocations.Contains(l.Flag)).ToList();
 			var looseAccessLocations = accessibleLocations.Where(l => !priorityLocations.Contains(l.Flag) && !excludedLocations.Contains(l.Flag)).ToList();
@@ -538,73 +499,56 @@ namespace FF1PRAP
 			{
 				if (ItemIdToAccess.TryGetValue(item, out var newaccess))
 				{
-					//ProcessRequirements(new() { newaccess }, access, unaccessibleLocations, accessibleLocations);
+
+					var result = ProcessRequirements(new() { newaccess }, currentaccess, unaccessibleLocations, accessibleLocations);
+					weightedItems.Add((result.accessible.Where(l => priorityLocations.Contains(l.Flag)).Count() - initialPriorityCount - 1,
+									   result.accessible.Where(l => !priorityLocations.Contains(l.Flag) && !excludedLocations.Contains(l.Flag)).Count() - initialLooseCount - 1,
+									   item));
 				}
 				else
 				{
-					weightedItems.Add((initialPriorityCount - 1, initialLooseCount - 1, item));
+					weightedItems.Add((- 1, - 1, item));
 				}
-
-
-
 			}
 
+			Items itemtoplace;
 
-			if (ItemIdToAccess.TryGetValue(itemToPlace, out var newaccess))
+			if (priorityitems > 0)
 			{
-				ProcessRequirements(new() { newaccess }, access, unaccessibleLocations, accessibleLocations);
-			}
-			List<AccessRequirements> accessToProcess = new(newaccess);
-			while (accessToProcess.Any())
-			{
-				currentaccess.Add(accessToProcess.First());
-				InternalLogger.LogTesting($"SanityCheck - Access To Process: {accessToProcess.First()}");
-				accessToProcess.RemoveAt(0);
-				List<Location> locationToRemove = new();
-
-				foreach (var location in unaccessibleLocations)
+				if (initialPriorityCount > 1)
 				{
-					bool accessible = false;
-
-					if (location.FullAccess.Count == 0)
-					{
-						accessible = true;
-						InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
-					}
-					else
-					{
-						foreach (var acccereqs in location.FullAccess)
-						{
-							if (!acccereqs.Except(currentaccess).Any())
-							{
-								accessible = true;
-								InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
-								break;
-							}
-						}
-					}
-
-					if (accessible)
-					{
-						if (location.Type == LocationType.Event)
-						{
-							accessToProcess.Add(location.Trigger);
-						}
-						else
-						{
-							accessiblesLocations.Add(location);
-						}
-						locationToRemove.Add(location);
-					}
+					itemtoplace = rng.PickFrom(weightedItems).item;
 				}
+				else
+				{
+					var openingItems = weightedItems.Where(i => i.priority >= 0).ToList();
+					if (!openingItems.Any())
+					{
+						openingItems = weightedItems;
+					}
 
-				unaccessibleLocations.RemoveAll(l => locationToRemove.Contains(l));
-
-				//unaccessibleLocations = unaccessibleLocations.Except(locationToRemove).ToList();
-				InternalLogger.LogTesting($"SanityCheck - Unaccessible Locations Count: {unaccessibleLocations.Count}");
-				InternalLogger.LogTesting($"SanityCheck - Accessible Locations Count: {accessiblesLocations.Count}");
+					itemtoplace = rng.PickFrom(openingItems).item;
+				}
 			}
-		}*/
+			else
+			{
+				if (initialLooseCount > 30)
+				{
+					itemtoplace = rng.PickFrom(weightedItems).item;
+				}
+				else
+				{
+					var openingItems = weightedItems.Where(i => i.priority >= 0).ToList();
+					if (!openingItems.Any())
+					{
+						openingItems = weightedItems;
+					}
+					itemtoplace = rng.PickFrom(openingItems).item;
+				}
+			}
+
+			return itemtoplace;
+		}
 
 		public static List<ItemData> RemoveItems(List<ItemData> items, int qty)
 		{

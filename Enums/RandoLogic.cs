@@ -67,7 +67,7 @@ namespace FF1PRAP
 		BottledFaerie,
 		Oxyale,
 		RosettaStone,
-		Bell,
+		Chime,
 		WarpCube,
 		Adamantite,
 

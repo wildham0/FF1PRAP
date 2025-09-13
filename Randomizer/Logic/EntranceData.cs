@@ -89,7 +89,7 @@ namespace FF1PRAP
 		public static Dictionary<string, List<List<AccessRequirements>>> entrances_rules = new()
 		{
 			{ EntranceNames.overworld_waterfall, new() { new() { AccessRequirements.Canoe } } },
-			{ EntranceNames.overworld_mirage_tower, new() { new() { AccessRequirements.Bell } } },
+			{ EntranceNames.overworld_mirage_tower, new() { new() { AccessRequirements.Chime } } },
 			{ EntranceNames.onrac_submarine_dock, new() { new() { AccessRequirements.Submarine } } },
 			{ EntranceNames.cavern_of_earth_b3_center_stairs, new() { new() { AccessRequirements.EarthRod } } },
 			{ EntranceNames.citadel_of_trials_1f_throne, new() { new() { AccessRequirements.Crown } } },
