@@ -124,33 +124,6 @@ namespace FF1PRAP
 				}
 			}
 		}
-		/*
-		private void ProcessMapData()
-		{
-			foreach (var mapdata in MapDataUpdate)
-			{
-				if (mapdata.Value)
-				{
-					if (GameData.ResourceManager.completeAssetDic.ContainsKey(mapdata.Key))
-					{
-
-						var assettext = GameData.ResourceManager.completeAssetDic[mapdata.Key].Cast<TextAsset>().text;
-						var assetnameparts = mapdata.Key.Split('/');
-						var assetname = assetnameparts.Last();
-						var filename = assetnameparts[assetnameparts.Count() - 2] + "/" + assetnameparts[assetnameparts.Count() - 1];
-						InternalLogger.LogInfo($"MapPatcher: Patching {filename}.");
-
-						assettext = MapPatcher.Patch(assettext, MapDataPatches[mapdata.Key]);
-
-						//var assetfile = MapPatcher.Patch(, 0, MapPatches.Westward, 256, 256);
-						var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);
-						
-						GameData.ResourceManager.completeAssetDic[mapdata.Key] = textasset;
-						MapDataUpdate[mapdata.Key] = false;
-					}
-				}
-			}
-		}*/
 		private void ProcessPatches()
 		{
 			List<string> patchToRemove = new();
@@ -260,17 +233,6 @@ namespace FF1PRAP
 			tool.MainMenuState = state;
 			InternalLogger.LogTesting($"MainMenu: {state}");
 		}
-		/*
-		public void CheckForMap(string address)
-		{
-			if (tool.MapDataUpdate.TryGetValue(address, out bool result))
-			{
-				if (!result)
-				{
-					tool.MapDataUpdate[address] = true;
-				}
-			}
-		}*/
 		public void AddPatchesToProcess(string address)
 		{
 			tool.AssetsToPatch.Add(address);

@@ -331,5 +331,7 @@ namespace FF1PRAP
 			new Location("Chaos Shrine - Black Orb", RegionNames.chaos_shrine, LocationType.Event, 0, new() { AccessRequirements.EarthCrystal, AccessRequirements.FireCrystal, AccessRequirements.WaterCrystal, AccessRequirements.AirCrystal, AccessRequirements.Lute }, AccessRequirements.BlackOrbDestroyed),
 			new Location("Chaos Shrine - Chaos", RegionNames.chaos_shrine_b5, LocationType.Event, 0, new(), AccessRequirements.ChaosDefeated),
 		};
+
+		public static Dictionary<int, string> FlagToLocationName = FixedLocations.Where(l => l.Type != LocationType.Event).ToDictionary(l => l.Flag, l => l.Name);
 	}
 }

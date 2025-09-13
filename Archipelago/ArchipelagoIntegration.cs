@@ -182,7 +182,7 @@ namespace FF1PRAP {
 
 			Dictionary<long, ApLocationData> locdata = new();
 
-			foreach (var entry in Randomizer.FlagToLocationName)
+			foreach (var entry in Logic.FlagToLocationName)
 			{
 				var apid = Archipelago.instance.integration.session.Locations.GetLocationIdFromName("FF1 Pixel Remaster", entry.Value);
 				InternalLogger.LogTesting($"Ap Location: {apid} - {entry.Value} - {entry.Key}");

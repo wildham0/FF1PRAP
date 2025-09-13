@@ -74,8 +74,7 @@ namespace FF1PRAP
 			GameData.MessageManager.GetMessageDictionary()["MSG_GET_CHIME_01"] = "Before you leave, legendary warriors, take this with you.\nIt will help you in your fight to restore the Crystals.";
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_01"] = $"This heirloom has been entrusted to the princesses of Cornelia for many generations. I want you to have it. It may aid you on your journey.";
 
-			//InternalLogger.LogInfo(GameData.MessageManager.GetMessageDictionary()["STUFF_SQDEV_01_07"]);
-
+			// Additional Scripts
 			GameData.MasterManager.GetList<Script>().Add(1000, new Script() { Id = 1000, ScriptName = "sc_ordealsman" });		// ordeal man script
 			GameData.MasterManager.GetList<Script>().Add(1001, new Script() { Id = 1001, ScriptName = "sc_luteslab" });		// lute slab script
 			GameData.MasterManager.GetList<Script>().Add(1002, new Script() { Id = 1002, ScriptName = "sc_chaosdefeated" });	// chaos defeated script
@@ -94,15 +93,6 @@ namespace FF1PRAP
 
 			// give buy price to ribbon
 			var ribbon = GameData.MasterManager.GetData<Armor>(54).Buy = 65535;
-
-			// formations
-			/*
-			var garlandform = GameData.MasterManager.GetData<MonsterParty>(350);
-
-			garlandform.Monster1 = 111;
-			garlandform.Monster1XPosition = 25;
-			garlandform.Monster1YPosition = -20;
-			garlandform.Monster2 = 1;*/
 		}
 		public static void ApplyRandomizedFeatures(RandomizerData randoData)
 		{
@@ -119,6 +109,7 @@ namespace FF1PRAP
 			Randomizer.ApplyCrystals();
 
 			GameData.MessageManager.GetMessageDictionary()["MSG_GET_EXCALIBAR_03"] = $"Done! In all ma years I've never crafted a finer {(randoData.SmittThingy == "" ? "object" : randoData.SmittThingy)}!";
+
 			CreateCaravanItem();
 		}
 		public static void CreateCaravanItem()

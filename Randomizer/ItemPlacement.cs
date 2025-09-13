@@ -1,4 +1,5 @@
-﻿using MonoMod.Utils;
+﻿using Iced.Intel;
+using MonoMod.Utils;
 using RomUtilities;
 using System;
 using System.Collections.Generic;
@@ -107,8 +108,14 @@ namespace FF1PRAP
 		public static Dictionary<int, ItemData> ItemPlacement(List<Location> initialLocations, MT19337 rng)
 		{
 
-			List<ItemData> items = FixedLocations.Where(l => l.Type != LocationType.Event).Select(l => new ItemData() { Id = l.Content, Qty = l.Qty }).ToList();
-			
+			//List<ItemData> items = FixedLocations.Where(l => l.Type != LocationType.Event).Select(l => new ItemData() { Id = l.Content, Qty = l.Qty }).ToList();
+			List<ItemData> items = new();
+			foreach (var item in ItemNameToData.Values)
+			{
+				items.AddRange(Enumerable.Repeat<ItemData>(new ItemData(item.Id, item.Qty), item.Number));
+			}
+			//ItemNameToData.Select(i => new ItemData() { Id = i.Value.Id, Qty = i.Value.Qty }).ToList();
+
 			// Initial Item Lists
 			var standardItems = items.Where(i => !KeyItems.Contains((Items)i.Id)).ToList();
 			var keyItems = items.Where(i => KeyItems.Contains((Items)i.Id)).ToList();
@@ -224,6 +231,7 @@ namespace FF1PRAP
 				int progPlaced = 0;
 				int progCounter = 1;
 				placementAttemptCount++;
+				List<string> placedRegions = new();
 
 				List<int> priorityLocations = new(priorizedLocations
 					.Where(l => !plandoItems
@@ -296,6 +304,8 @@ namespace FF1PRAP
 
 				while (itemsToPlace.Any())
 				{
+
+					// Select between Priority locations or Loose locations
 					int diceRoll = rng.Between(1, itemsToPlace.Count);
 					var priorityAccessLocations = accessibleLocations.Where(l => priorityLocations.Contains(l.Flag)).ToList();
 					var looseAccessLocations = accessibleLocations.Where(l => !priorityLocations.Contains(l.Flag) && !excludedLocations.Contains(l.Flag)).ToList();
@@ -317,6 +327,32 @@ namespace FF1PRAP
 						looseItemsCount--;
 					}
 
+					// Spread placement a bit if possible
+					var spreadLocations = validLocations.Where(l => !placedRegions.Contains(l.Region)).ToList();
+
+					if (spreadLocations.Any())
+					{
+						validLocations = spreadLocations;
+					}
+
+					// Check if we're softlocked, there's no accessible locations left
+					if (!validLocations.Any())
+					{
+						softlock = true;
+						InternalLogger.LogTesting($"SanityCheck - Softlocked.");
+						foreach (var item in itemsToPlace)
+						{
+							InternalLogger.LogTesting($"SanityCheck - Items Left: {item}");
+						}
+
+						foreach (var loc in unaccessibleLocations)
+						{
+							InternalLogger.LogTesting($"SanityCheck - Unaccessible Locations: {loc.Flag}");
+						}
+						break;
+					}
+
+					// Select item to Place
 					Items itemToPlace;
 
 					if ((progCounter <= 0 && progItemsToPlace.Any()) || (validLocations.Count == 1 && progItemsToPlace.Any()))
@@ -335,31 +371,18 @@ namespace FF1PRAP
 						progCounter = progPlaced + 1;
 					}
 
-					InternalLogger.LogTesting($"Sanity Checker - Placing Item: {itemToPlace}");
-
 					progItemsToPlace.Remove(itemToPlace);
 					itemsToPlace.Remove(itemToPlace);
 
-					if (!validLocations.Any())
-					{
-						softlock = true;
-						InternalLogger.LogTesting($"SanityCheck - Softlocked.");
-						foreach (var item in itemsToPlace)
-						{
-							InternalLogger.LogTesting($"SanityCheck - Items Left: {item}");
-						}
-
-						foreach (var loc in unaccessibleLocations)
-						{
-							InternalLogger.LogTesting($"SanityCheck - Unaccessible Locations: {loc.Flag}");
-						}
-						break;
-					}
-
+					// Pick Location
 					var location = rng.PickFrom(validLocations);
-					
+
+					placedRegions.Add(location.Region);
+
 					var removal = accessibleLocations.Remove(location);
-					InternalLogger.LogTesting($"SanityCheck - Location {location.Flag} remove? {removal}");
+					
+					InternalLogger.LogTesting($"Sanity Checker - Placing Item {itemToPlace} at {location.Name} ({location.Flag}) in {location.Region}");
+					//InternalLogger.LogTesting($"SanityCheck - Location {location.Flag} remove? {removal}");
 
 					placedItems.Add(location.Flag, new ItemData() { Id = (int)itemToPlace, Qty = 1 });
 
@@ -369,10 +392,12 @@ namespace FF1PRAP
 					}
 				}
 
+				string unreachedlocations = "";
 				foreach (var location in unaccessibleLocations)
 				{
-					InternalLogger.LogTesting($"SanityCheck - Unreached Location: {location.Flag}");
+					unreachedlocations += $"{location.Flag}, ";
 				}
+				InternalLogger.LogTesting($"SanityCheck - Unreached Location: {unreachedlocations}");
 
 				if (softlock)
 				{
@@ -477,7 +502,6 @@ namespace FF1PRAP
 						}
 					}
 
-
 					if (accessible)
 					{
 						if (location.Type == LocationType.Event)
@@ -499,6 +523,88 @@ namespace FF1PRAP
 				InternalLogger.LogTesting($"SanityCheck - Accessible Locations Count: {accessiblesLocations.Count}");
 			}
 		}
+
+		/*private static void ProcessRequirements2(List<Items> itemstoplace, List<AccessRequirements> currentaccess, List<Location> unaccessibleLocations, List<Location> accessibleLocations, List<int> priorityLocations, List<int> excludedLocations)
+		{
+			var priorityAccessLocations = accessibleLocations.Where(l => priorityLocations.Contains(l.Flag)).ToList();
+			var looseAccessLocations = accessibleLocations.Where(l => !priorityLocations.Contains(l.Flag) && !excludedLocations.Contains(l.Flag)).ToList();
+
+			int initialPriorityCount = priorityAccessLocations.Count;
+			int initialLooseCount = looseAccessLocations.Count;
+
+			List<(int priority, int loose, Items item)> weightedItems = new();
+
+			foreach (var item in itemstoplace)
+			{
+				if (ItemIdToAccess.TryGetValue(item, out var newaccess))
+				{
+					//ProcessRequirements(new() { newaccess }, access, unaccessibleLocations, accessibleLocations);
+				}
+				else
+				{
+					weightedItems.Add((initialPriorityCount - 1, initialLooseCount - 1, item));
+				}
+
+
+
+			}
+
+
+			if (ItemIdToAccess.TryGetValue(itemToPlace, out var newaccess))
+			{
+				ProcessRequirements(new() { newaccess }, access, unaccessibleLocations, accessibleLocations);
+			}
+			List<AccessRequirements> accessToProcess = new(newaccess);
+			while (accessToProcess.Any())
+			{
+				currentaccess.Add(accessToProcess.First());
+				InternalLogger.LogTesting($"SanityCheck - Access To Process: {accessToProcess.First()}");
+				accessToProcess.RemoveAt(0);
+				List<Location> locationToRemove = new();
+
+				foreach (var location in unaccessibleLocations)
+				{
+					bool accessible = false;
+
+					if (location.FullAccess.Count == 0)
+					{
+						accessible = true;
+						InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
+					}
+					else
+					{
+						foreach (var acccereqs in location.FullAccess)
+						{
+							if (!acccereqs.Except(currentaccess).Any())
+							{
+								accessible = true;
+								InternalLogger.LogTesting($"SanityCheck - Location Became Accessible: {location.Flag} - {location.Name}");
+								break;
+							}
+						}
+					}
+
+					if (accessible)
+					{
+						if (location.Type == LocationType.Event)
+						{
+							accessToProcess.Add(location.Trigger);
+						}
+						else
+						{
+							accessiblesLocations.Add(location);
+						}
+						locationToRemove.Add(location);
+					}
+				}
+
+				unaccessibleLocations.RemoveAll(l => locationToRemove.Contains(l));
+
+				//unaccessibleLocations = unaccessibleLocations.Except(locationToRemove).ToList();
+				InternalLogger.LogTesting($"SanityCheck - Unaccessible Locations Count: {unaccessibleLocations.Count}");
+				InternalLogger.LogTesting($"SanityCheck - Accessible Locations Count: {accessiblesLocations.Count}");
+			}
+		}*/
 
 		public static List<ItemData> RemoveItems(List<ItemData> items, int qty)
 		{

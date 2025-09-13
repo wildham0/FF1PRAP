@@ -29,7 +29,7 @@ namespace FF1PRAP
 
 					if ((prop.ScriptId > 0 && after) || prop.ScriptId == 0)
 					{
-						Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[prop.FlagId]);
+						Archipelago.instance.ActivateCheck(Logic.FlagToLocationName[prop.FlagId]);
 					}
 				}
 				else

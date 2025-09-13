@@ -29,8 +29,6 @@ namespace FF1PRAP
 			{ (int)TreasureFlags.Fairy, "MSG_OXYALE_03" }, // Levistone
 			{ (int)TreasureFlags.Lefeinman, "MSG_GET_CHIME_02" }, // Levistone
 			{ (int)TreasureFlags.Bahamut, "MSG_CLASS_CHG_04" }, // Bahamut
-
-			//{ "sc_e_0035", (int)TreasureFlags.Caravan }, // Caravan
 		};
 	}
 }

@@ -12,11 +12,13 @@ namespace FF1PRAP
 	{
 		public int Id { get; set; }
 		public int Qty { get; set; }
+		public int Number { get; set; }
 		public ItemData() { }
-		public ItemData(int id, int qty)
+		public ItemData(int id, int qty, int number = 1)
 		{
 			Id = id;
 			Qty = qty;
+			Number = number;
 		}
 	}
 

@@ -67,7 +67,7 @@ namespace FF1PRAP
 				if (Randomizer.KeyShopItems.TryGetValue(data.ProductId, out var itemflag) && __result)
 				{
 					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, itemflag, 1);
-					Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[itemflag]);
+					Archipelago.instance.ActivateCheck(Logic.FlagToLocationName[itemflag]);
 				}
 			}
 		}

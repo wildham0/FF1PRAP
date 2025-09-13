@@ -72,15 +72,9 @@ namespace FF1PRAP
 			}
 		}
 
-
+		// Unused
 		private static void NextMapProperty_Pre(LoadData __instance, ref PropertyGotoMap property)
 		{
-
-			//InternalLogger.LogInfo($"NextMap Prop: {property.MapId}")
-
-			// alright, so Map-EntityId is the identifier, then update MapId, PointId, AssetGroup and AssetName
-			// i guess we'll have to mine manually
-			// so
 
 			if (property.MapId == 255)
 			{
@@ -103,41 +97,6 @@ namespace FF1PRAP
 					property.AssetName = newpoint.MapName;
 				}
 			}
-			/*
-			if (Randomizer.Data.Teleporters.TryGetValue((property.MapId, property.PointId), out var newteleporter))
-			{
-				InternalLogger.LogInfo($"NextMapProperty: Found {(property.MapId, property.PointId)}, replacing by {(newteleporter.MapId, newteleporter.PointId)}");
-
-				property.MapId = newteleporter.MapId;
-				property.PointId = newteleporter.PointId;
-				property.AssetGroupName = newteleporter.MapGroup;
-				property.AssetName = newteleporter.MapName;
-			}*/
-
-
-			/*
-			if (property.MapId == 4 && property.PointId == 1)
-			{
-				property.MapId = 32;
-				property.PointId = 1;
-				property.AssetName = "Map_20071_1";
-				//property.AssetGroupName = "map_20071";
-			
-			}*/
-
-
-			/*
-			if (property.EntityId == 52)
-			{
-				property.MapId = 7;
-				property.AssetName = "Map_20021_3";
-				//FF1PR.storedGotoMap = property;
-			}/*
-			else if (property.EntityId == 55)
-			{
-				property = FF1PR.storedGotoMap;
-			}*/
-
 		}
 		private static void NextMapInt_Pre(ref int mapId, ref int point)
 		{
@@ -170,7 +129,6 @@ namespace FF1PRAP
 			// Special check to pop the telepo stack when using the sub back
 			if (mapId == 52 & point == 101)
 			{
-				//GameData.FieldController.telepoCache.Pop();
 				InternalLogger.LogTesting($"Coming back from sub.");
 				var teledata = GameData.FieldController.telepoCache.Peek();
 				if (teledata != null)

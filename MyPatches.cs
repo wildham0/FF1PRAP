@@ -724,7 +724,7 @@ namespace FF1PRAP
 				if (data.ProductId == 141 && __result)
 				{
 					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, (int)TreasureFlags.Caravan, 1);
-					Archipelago.instance.ActivateCheck(Randomizer.FlagToLocationName[(int)TreasureFlags.Caravan]);
+					Archipelago.instance.ActivateCheck(Logic.FlagToLocationName[(int)TreasureFlags.Caravan]);
 				}
 			}
 		}

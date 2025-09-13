@@ -206,7 +206,7 @@
       "mnemonic": "Call",
       "operands": {
         "iValues": [
-          Puppet_ElfPrince,
+          0,
           0,
           0,
           0,
