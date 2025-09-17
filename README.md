@@ -32,6 +32,13 @@ This is a mod to add Archipelago support to Final Fantasy 1 Pixel Remaster (FF1 
 - All that's left is to press Connect, and if it says `Connected`, simply start a New Game and have fun!
 
 
+## Main Features
+- Items Shuffle
+- Entrances Shuffle
+- Monster Parties Randomization
+- McGuffin Hunt Feature
+
+
 ## Helpful Tips
 - The King is not a location.
 - The Bridge and the Canal are not Items. The Bridge will be built or not depending on your options, and Nerrick always build the Canal.
@@ -39,7 +46,7 @@ This is a mod to add Archipelago support to Final Fantasy 1 Pixel Remaster (FF1 
 - The Caravan check is always at the Caravan.
 - When shuffling Entrances, the Caravan is an entrance that can be shuffled, don't forget about it.
 
- 
+
 ## Credits
 - silent-destroyer and Scipio, for the Tunic Randomizer which was used extensively as a basis for this mod.
 - Silvris, for Pixel Remasters modding support
