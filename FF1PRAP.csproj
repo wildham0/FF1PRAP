@@ -29,6 +29,7 @@
 
 	<ItemGroup>
     <EmbeddedResource Include="Entities\ev_bahamut.json" />
+    <EmbeddedResource Include="Entities\ev_onrac.json" />
     <EmbeddedResource Include="Entities\ev_ordealsmaze.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_from_teleport.json" />
     <EmbeddedResource Include="Entities\ev_overworld_entity.json" />

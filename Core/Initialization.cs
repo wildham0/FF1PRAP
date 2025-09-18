@@ -207,7 +207,7 @@ namespace FF1PRAP
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.RosettaStone, 1);
 			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.JoltTonic, 1);
-			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Oxyale, 1);
+			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.Oxyale, 1);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.BottledFaerie, 1);
 			GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Canal, 1); // Force visit King in Coneria
 		}
