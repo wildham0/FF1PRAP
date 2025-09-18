@@ -76,7 +76,6 @@ namespace FF1PRAP
 		public static bool Load(string folderPath, string filedata)
 		{
 			string filepath = folderPath + "ff1pr_" + filedata + ".dat";
-			bool fileexist = true;
 
 			var serializeOptions = new JsonSerializerOptions();
 			serializeOptions.Converters.Add(new JsonConverters.ProductConverter());
@@ -89,23 +88,18 @@ namespace FF1PRAP
 					{
 						string configdata = reader.ReadToEnd();
 
-						//var options = new JsonSerializerOptions();
-						//options.Converters.Add(new ValueToStringConverter());
-
 						Data = JsonSerializer.Deserialize<RandomizerData>(configdata, serializeOptions);
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				InternalLogger.LogError(e.Message);
-				fileexist = false;
+				InternalLogger.LogTesting(e.Message);
 				return false;
 			}
 
 			InternalLogger.LogInfo($"Previously randomized data {filedata} loaded successfully.");
-			//SetGlobal("mode", GetValue<string>("mode"));
-			return fileexist;
+			return true;
 		}
 	}
 }
