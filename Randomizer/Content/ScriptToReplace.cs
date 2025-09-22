@@ -19,6 +19,7 @@ namespace FF1PRAP
 			{ "sc_map_10010", ScriptBuilder.FromScript(Scripts.Overworld, "sc_overworld_01") }, // Overworld
 			// { "sc_map_20020", new ScriptBuilder("sc_empty") }, // Coneria Town
 			 { "sc_map_20011_1", ScriptBuilder.FromScript(Scripts.ConeriaCastle, "sc_map_20011_1") }, // Coneria Castle
+			 { "sc_map_20011_2", ScriptBuilder.FromScript(Scripts.ConeriaCastle2F, "sc_map_20011_2") }, // Coneria Castle 2F
 			// { "sc_e_0002_2", new ScriptBuilder("sc_empty") }, // Go see the king
 			// { "sc_e_0002_1", new ScriptBuilder("sc_empty") }, // Talk King
 			{ "sc_map_30011_1", ScriptBuilder.FromScript(Scripts.TempleOfFiends, "sc_templeoffiends") }, // ToF Map
@@ -89,7 +90,7 @@ namespace FF1PRAP
 			//{ "sc_e_0023", new ScriptBuilder("sc_empty") }, // Kary
 			//{ "sc_e_0023_2", new ScriptBuilder("sc_empty") }, // Kary Post fight
 			{ "sc_e_0027", ScriptBuilder.FromScript(Scripts.Caravan, "sc_caravan") }, // Caravan
-			//{ "sc_map_20150", new ScriptBuilder("sc_empty") }, // Gaia
+			//{ "sc_map_20150", ScriptBuilder.FromScript(Scripts.Gaia, "sc_gaia") }, // Gaia
 			//{ "sc_e_0028", new ScriptBuilder("sc_empty") }, // Fairy release
 			{ "sc_e_0029", ScriptBuilder.FromJson("sc_fairy") }, // Fairy
 			{ "sc_map_30091_1", ScriptBuilder.FromScript(Scripts.Waterfall, "sc_waterfall") }, // Waterfall

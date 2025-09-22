@@ -252,10 +252,10 @@
     },
     {
       "label": "",
-      "mnemonic": "Nop",
+      "mnemonic": "SetFlag",
       "operands": {
         "iValues": [
-          0,
+          3,
           0,
           0,
           0,
@@ -275,7 +275,7 @@
           0
         ],
         "sValues": [
-          "",
+          "ScenarioFlag1",
           "",
           "",
           "",

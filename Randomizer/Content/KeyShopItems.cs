@@ -13,9 +13,9 @@ namespace FF1PRAP
 {
 	partial class Randomizer
     {
-		public static Dictionary<int, int> KeyShopItems = new()
+		public static Dictionary<int, (int treasure, int scenario)> KeyShopItems = new()
 		{
-			{ 141, (int)TreasureFlags.Caravan }
+			{ 141, ((int)TreasureFlags.Caravan, (int)ScenarioFlags.CaravanItemBought) }
 		};
 	}
 }

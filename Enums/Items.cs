@@ -168,5 +168,6 @@ namespace FF1PRAP
 
 		Airship,
 		LuteTablature,
+		//BottledFaerie
 	}
 }

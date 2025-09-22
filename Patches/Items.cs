@@ -53,21 +53,27 @@ namespace FF1PRAP
 		{
 			if (SessionManager.GameMode == GameModes.Randomizer)
 			{
-				//InternalLogger.LogInfo($"Buy Item: {__result}");
-
+				
 				// 141 is the caravan shop product id
 				if (Randomizer.KeyShopItems.TryGetValue(data.ProductId, out var itemflag) && __result)
 				{
 					//InternalLogger.LogInfo($"Buy Item: {__result} - {data.ProductId} - {itemflag}");
-					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, itemflag, 1);
+					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, itemflag.treasure, 1);
+					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kScenarioFlag1, itemflag.scenario, 1);
+					UpdateEntities();
 				}
 			}
 			else if (SessionManager.GameMode == GameModes.Archipelago)
 			{
+				//InternalLogger.LogInfo($"Buy Item: {data.ProductId}, {__result}");
+
 				if (Randomizer.KeyShopItems.TryGetValue(data.ProductId, out var itemflag) && __result)
 				{
-					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, itemflag, 1);
-					Archipelago.instance.ActivateCheck(Logic.FlagToLocationName[itemflag]);
+					//InternalLogger.LogInfo($"Item Found: {data.ProductId}, {__result}");
+					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, itemflag.treasure, 1);
+					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kScenarioFlag1, itemflag.scenario, 1);
+					Archipelago.instance.ActivateCheck(Logic.FlagToLocationName[itemflag.treasure]);
+					UpdateEntities();
 				}
 			}
 		}

@@ -36,6 +36,7 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30031/Map_30031_3/ev_e_0016", "ev_earth_b3" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/ev_e_0018", "ev_titan" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30071/Map_30071_1/ev_e_0046", "ev_ordeals" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20141/Map_20141_1/entity_default", "ev_caravan" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20130/Map_20130/ev_e_0030", "ev_onrac" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30071/Map_30071_2/entity_default", "ev_ordealsmaze" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_20121/Map_20121_3/entity_default", "ev_bahamut" },
@@ -43,6 +44,7 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30101/Map_30101_3/ev_e_0027", "ev_cubewarp" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30121/Map_30121_3/ev_e_0039", "ev_lute_floor" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30061/Map_30061_1/entity_default", "ev_cavern_of_ice_1f" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_30061/Map_30061_4/sc_telepor_cache", "sc_ice_teleporter_cache" },
 		};
 	}
 }

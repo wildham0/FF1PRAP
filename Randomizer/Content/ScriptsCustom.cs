@@ -84,6 +84,24 @@ namespace FF1PRAP
 			"SetEntities ev_e_0014",
 			"Exit"
 		};
+		public static List<string> ConeriaCastle2F = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"SysCall MapEntryRoofControl",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.PrincessSaved} [PrincessSaved]",
+			"SetEntities ev_e_0003",
+			"Exit",
+			"PrincessSaved:",
+			"Nop",
+			$"Branch TreasureFlag1 {(int)TreasureFlags.Princess} [PrincessItemGiven]",
+			"SetEntities ev_e_0004",
+			"Exit",
+			"PrincessItemGiven:",
+			"Nop",
+			"SetEntities ev_e_0005",
+			"Exit"
+		};
 		public static List<string> Garland = new()
 		{
 			"Sub Main:",
@@ -466,6 +484,26 @@ namespace FF1PRAP
 			"TreasureBox 42 1 0",
 			"Exit"
 		};
+		/*
+		public static List<string> Gaia = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"SetFlag ScenarioFlag4 146",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.BottledFaerie} [BottledFaerie]",
+			"Nop",
+			"Exit",
+			"BottledFaerie:",
+			"Nop",
+			$"Branch ScenarioFlag1 {(int)ScenarioFlags.FaerieReleased} [FaerieReleased]",
+			"SetEntities ev_e_0028",
+			"Exit",
+			"FaerieReleased:",
+			"Nop",
+			"SetEntities ev_e_0029",
+			"Exit"
+
+		};*/
 		public static List<string> Lefein = new()
 		{
 			"Sub Main:",

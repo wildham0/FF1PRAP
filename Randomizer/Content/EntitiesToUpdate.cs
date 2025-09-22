@@ -120,6 +120,13 @@ namespace FF1PRAP
 				new EntityData() { EntityId = 14, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)ScenarioFlags.WarpCube, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
 				new EntityData() { EntityId = 21, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)ScenarioFlags.WarpCube, FlagCategory = DataStorage.Category.kScenarioFlag1 } } },
 			} },
+			// Caravan
+			{ "Map_20141_1", new() {
+				new EntityData() { EntityId = 2, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.Caravan, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+				new EntityData() { EntityId = 8, Conditions = new() { new Condition() { Value = EntityCondition.Off, Flag = (int)TreasureFlags.Caravan, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+				new EntityData() { EntityId = 12, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)TreasureFlags.Caravan, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+				new EntityData() { EntityId = 18, Conditions = new() { new Condition() { Value = EntityCondition.On, Flag = (int)TreasureFlags.Caravan, FlagCategory = DataStorage.Category.kTreasureFlag1 } } },
+			} },
 			// Overworld
 			{ "Map_10010", new() {
 				new EntityData() { EntityId = 82, Conditions = new() {

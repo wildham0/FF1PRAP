@@ -101,17 +101,21 @@ namespace FF1PRAP
 			{
 				var spelldata = whiteSpells.Find(s => s.Id == contentToSpellId[product.ContentId]);
 				var targetspell = rng.TakeFrom(whiteSpellIds);
-
 				shuffledSpells.Add(new ShuffledSpell() { ProductId = product.Id, ContentId = spellToContentId[targetspell], TargetId = targetspell, Cost = spelldata.Buy, Level = spelldata.AbilityLv, Permission = spelldata.UseJobGroupId });
+			
+				/*var targetspell = 47;
+				shuffledSpells.Add(new ShuffledSpell() { ProductId = product.Id, ContentId = spellToContentId[targetspell], TargetId = targetspell, Cost = 1, Level = 1, Permission = 42 });*/
 			}
+
 
 			List<int> blackSpellIds = blackSpells.Select(s => s.Id).ToList();
 			foreach (var product in blackProducts)
 			{
 				var spelldata = blackSpells.Find(s => s.Id == contentToSpellId[product.ContentId]);
 				var targetspell = rng.TakeFrom(blackSpellIds);
-
 				shuffledSpells.Add(new ShuffledSpell() { ProductId = product.Id, ContentId = spellToContentId[targetspell], TargetId = targetspell, Cost = spelldata.Buy, Level = spelldata.AbilityLv, Permission = spelldata.UseJobGroupId });
+				/*var targetspell = 42;
+				shuffledSpells.Add(new ShuffledSpell() { ProductId = product.Id, ContentId = spellToContentId[targetspell], TargetId = targetspell, Cost = 1, Level = 1, Permission = 42 });*/
 			}
 
 			return shuffledSpells;

@@ -29,6 +29,7 @@
 
 	<ItemGroup>
     <EmbeddedResource Include="Entities\ev_bahamut.json" />
+    <EmbeddedResource Include="Entities\ev_caravan.json" />
     <EmbeddedResource Include="Entities\ev_onrac.json" />
     <EmbeddedResource Include="Entities\ev_ordealsmaze.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_from_teleport.json" />
@@ -57,6 +58,7 @@
     <EmbeddedResource Include="Scripts\sc_garland_02_no_warp.json" />
     <EmbeddedResource Include="Scripts\sc_warp_gulg.json" />
     <EmbeddedResource Include="Scripts\sc_warp_flying.json" />
+    <EmbeddedResource Include="Scripts\sc_ice_teleporter_cache.json" />
     <EmbeddedResource Include="Scripts\sc_warp_sea.json" />
     <EmbeddedResource Include="Scripts\sc_warp_earth.json" />
     <EmbeddedResource Include="Scripts\sc_inn_gaia.json" />

@@ -37,6 +37,7 @@ namespace FF1PRAP
 		Airship,
 		WarpCube,
 		BottledFaerie,
+		//CaravanItemBought,
 		FaerieReleased,
 		Oxyale,
 		SubActivated = 30,
@@ -59,7 +60,7 @@ namespace FF1PRAP
 		Adamant,
 		XcalForged,
 		MysticKeyBugFix, // I'm not sure how it works, but it's probably to make sure you exit with the mystic key
-		// Additional flags
+						 // Additional flags
 		CaravanItemBought, // hopefully it's not use by anything else
 		WestwardProgressionMode,
 		BahamutGivesItem,
