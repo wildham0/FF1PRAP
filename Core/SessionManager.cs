@@ -82,7 +82,12 @@ namespace FF1PRAP
 				Info.Slot = 0;
 				Info.WorldSeed = "";
 				Info.Seed = "";
+				Info.Player = "";
+				Info.Port = "";
+				Info.Host = "archipelago.gg";
+				Info.Password = "";
 				Info.RememberPassword = false;
+				WriteSessionInfo();
 			}
 			else
 			{

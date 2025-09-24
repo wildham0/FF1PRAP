@@ -30,6 +30,12 @@
 	<ItemGroup>
     <EmbeddedResource Include="Entities\ev_bahamut.json" />
     <EmbeddedResource Include="Entities\ev_caravan.json" />
+    <EmbeddedResource Include="Entities\ev_crescent_weapon_shop.json" />
+    <EmbeddedResource Include="Entities\ev_gaia_gear_shop.json" />
+    <EmbeddedResource Include="Entities\ev_gaia_magic_shop8.json" />
+    <EmbeddedResource Include="Entities\ev_lufenia_magic_shop.json" />
+    <EmbeddedResource Include="Entities\ev_elfheim_item_shop.json" />
+    <EmbeddedResource Include="Entities\ev_elfheim_weapon_shop.json" />
     <EmbeddedResource Include="Entities\ev_onrac.json" />
     <EmbeddedResource Include="Entities\ev_ordealsmaze.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_from_teleport.json" />
@@ -47,6 +53,7 @@
     <EmbeddedResource Include="Entities\ev_nwcastle.json" />
     <EmbeddedResource Include="Entities\ev_coneriacastle_1.json" />
     <EmbeddedResource Include="Entities\ev_cavern_of_ice_1f.json" />
+    <EmbeddedResource Include="Entities\ev_elfheim_white_magic_shop3.json" />
     <EmbeddedResource Include="Entities\ev_titan.json" />
     <EmbeddedResource Include="Entities\ev_templeoffiends_beyond.json" />
     <EmbeddedResource Include="Entities\ev_templeoffiends_blackorb.json" />
@@ -56,6 +63,7 @@
     <EmbeddedResource Include="Scripts\sc_elflandcastle.json" />
     <EmbeddedResource Include="Scripts\sc_coneriacastle.json" />
     <EmbeddedResource Include="Scripts\sc_garland_02_no_warp.json" />
+    <EmbeddedResource Include="Scripts\sc_raise_airship.json" />
     <EmbeddedResource Include="Scripts\sc_warp_gulg.json" />
     <EmbeddedResource Include="Scripts\sc_warp_flying.json" />
     <EmbeddedResource Include="Scripts\sc_ice_teleporter_cache.json" />

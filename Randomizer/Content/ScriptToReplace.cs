@@ -77,6 +77,7 @@ namespace FF1PRAP
 			//{ "sc_e_0024", new ScriptBuilder("sc_empty") }, // Floater
 			{ "sc_e_0024_2", ScriptBuilder.FromJson("sc_eye_chest") }, // Floater Post Fight
 			//{ "sc_e_0025", new ScriptBuilder("sc_empty") }, // Airship Rise
+			{ "sc_e_0025_1", ScriptBuilder.FromJson("sc_raise_airship") }, // Airship Rise
 			{ "sc_ordealsman", ScriptBuilder.FromScript(Scripts.OrdealsMan, "sc_ordealsman") }, // Ordeals dude / sc_e_0046
 			// Add pillars script so they can be individually shuffled
 			{ "sc_ordeals_1010", ScriptBuilder.FromJson("sc_ordeals_1010") },

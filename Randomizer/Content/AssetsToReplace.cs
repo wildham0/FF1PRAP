@@ -45,6 +45,15 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30121/Map_30121_3/ev_e_0039", "ev_lute_floor" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30061/Map_30061_1/entity_default", "ev_cavern_of_ice_1f" },
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30061/Map_30061_4/sc_telepor_cache", "sc_ice_teleporter_cache" },
+			// Fix bugged town's teleporter
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20061/Map_20061_3/entity_default", "ev_elfheim_weapon_shop" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20061/Map_20061_4/entity_default", "ev_elfheim_item_shop" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20061/Map_20061_5/entity_default", "ev_elfheim_white_magic_shop3" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20111/Map_20111_5/entity_default", "ev_crescent_weapon_shop" },
+			// Add warp protection to combo shops
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20161/Map_20161_1/entity_default", "ev_lufenia_magic_shop" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20151/Map_20151_6/entity_default", "ev_gaia_magic_shop8" },
+			{ "Assets/GameAssets/Serial/Res/Map/Map_20151/Map_20151_1/entity_default", "ev_gaia_gear_shop" },
 		};
 	}
 }

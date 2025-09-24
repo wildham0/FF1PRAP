@@ -21,6 +21,16 @@ namespace FF1PRAP
 			}*/
 			//InternalLogger.LogInfo($"Telepo Cache Peeking ({__result.MapId}, {__result.PointInObjectId})");
 		}
+		public static void TelepoCache_Peek_Pre(TelepoCache __instance)
+		{
+			/*
+			if (GameData.TelepoCache == null)
+			{
+				GameData.TelepoCache = __instance;
+			}*/
+			InternalLogger.LogInfo($"Telepo Cache Try Peeking?");
+		}
+
 		public static void TelepoCache_Get()
 		{
 			InternalLogger.LogTesting($"Telepo Cache Get.");
@@ -41,7 +51,7 @@ namespace FF1PRAP
 			InternalLogger.LogTesting($"OnCacheTelePoint: {GameData.CurrentMap};{propertyGotoMap.EntityId};{propertyGotoMap.MapId};{propertyGotoMap.PointId};{propertyGotoMap.AssetGroupName};{propertyGotoMap.AssetName}");
 
 			bool wasOverworld = (propertyGotoMap.MapId == 1);
-
+			
 			if (Randomizer.PointToTeleporters.TryGetValue((propertyGotoMap.MapId, propertyGotoMap.PointId), out var currentteleporter))
 			{
 				if (Randomizer.Data.Entrances.TryGetValue(currentteleporter.Name, out var entrance))

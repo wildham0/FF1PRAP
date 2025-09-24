@@ -23,8 +23,11 @@ namespace FF1PRAP
 				prop.ContentNum = 0;
 				prop.MessageKey = "MSG_OTHER_11";
 
-				if(Randomizer.ApLocations.TryGetValue(prop.FlagId, out var location))
+				//InternalLogger.LogTesting($"Treasure: Treasure {prop.FlagId} opened. {prop.ActionName} - {prop.ScriptId} - {after} - {message}");
+
+				if (Randomizer.ApLocations.TryGetValue(prop.FlagId, out var location))
 				{
+					//InternalLogger.LogTesting($"Treasure: AP List > Treasure {prop.FlagId} opened. {prop.ActionName} - {prop.ScriptId} - {after} - {message}");
 					GameData.MessageManager.GetMessageDictionary()["MSG_OTHER_11"] = $"You obtained {location.Content}.";
 
 					if ((prop.ScriptId > 0 && after) || prop.ScriptId == 0)

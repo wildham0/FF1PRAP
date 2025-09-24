@@ -73,6 +73,10 @@ namespace FF1PRAP
 			GameData.MessageManager.GetMessageDictionary()["MSG_GET_WARPCUBE_01"] = "...I have BEEN waiting...\n...take this... ...TIAmat...flying fortress... ...please...";
 			GameData.MessageManager.GetMessageDictionary()["MSG_GET_CHIME_01"] = "Before you leave, legendary warriors, take this with you.\nIt will help you in your fight to restore the Crystals.";
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_SARALUTE_01"] = $"This heirloom has been entrusted to the princesses of Cornelia for many generations. I want you to have it. It may aid you on your journey.";
+			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_LUFENIA_SHOPPER"] = $"... All the labels are in Lufenian...";
+			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_MAGIC_SHOPPER"] = $"Back in my day spells had cool names like NUKE, ZAP!, FADE and XXXX!";
+			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_GEAR_SHOPPER1"] = $"Sasuke's Blade? It's so short, of course it's a knife!";
+			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_GEAR_SHOPPER2"] = $"Who cares about the length? It's a katana, Sasuke's Blade is obviously a sword!";
 
 			// Additional Scripts
 			GameData.MasterManager.GetList<Script>().Add(1000, new Script() { Id = 1000, ScriptName = "sc_ordealsman" });		// ordeal man script
@@ -208,7 +212,7 @@ namespace FF1PRAP
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.RosettaStone, 1);
 			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.JoltTonic, 1);
 			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.Oxyale, 1);
-			GameData.OwnedItemsClient.AddOwnedItem((int)Items.BottledFaerie, 1);
+			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Levistone, 1);
 			GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Canal, 1); // Force visit King in Coneria
 		}
 	}
