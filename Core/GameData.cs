@@ -32,6 +32,7 @@ namespace FF1PRAP
 		public static ResourceManager ResourceManager;
 		public static TelepoCache TelepoCache;
 		public static IMapAccessor MapAccessor;
+		public static Integrator Integrator;
 
 		// Loading/Saving Menu Stuff
 		public static Last.UI.KeyInput.TitleWindowController TitleWindowController;

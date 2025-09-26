@@ -88,5 +88,11 @@ namespace FF1PRAP
 				GameData.MapAccessor = accessor;
 			}
 		}
+		// Script Integrator
+		private static void Integrator_Post(ref Integrator __instance)
+		{
+			InternalLogger.LogTesting($"Integrator Initialized.");
+			GameData.Integrator = __instance;
+		}
 	}
 }

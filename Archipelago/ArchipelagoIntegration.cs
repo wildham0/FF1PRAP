@@ -35,6 +35,7 @@ namespace FF1PRAP {
 		public bool sentRelease = false;
 		public bool sentCollect = false;
 		public int ItemIndex = 0;
+		public bool previousConnectionStatus = false;
 		public List<string> locationsToSend = new List<string>();
 		public float locationsToSendTimer = 0.0f;
 		public float locationsToSendDelay = 5.0f;
@@ -42,10 +43,23 @@ namespace FF1PRAP {
 
 		public void Update()
 		{
-			if (SessionManager.GameMode != GameModes.Archipelago || !connected)
+			if (SessionManager.GameMode != GameModes.Archipelago)
 			{
+				previousConnectionStatus = connected;
 				return;
 			}
+			else if (!connected)
+			{
+				if (previousConnectionStatus)
+				{
+					Last.Interpreter.Instructions.Message.PlayMessageCommon("MSG_AP_DISCONNECT", new Last.Interpreter.Instructions.Message.MessageWindowParams(0, 0), false);
+					InternalLogger.LogWarning("Archipelago: Lost connection to Archipelago! Unable to send or receive items. Re-connect and try again.");
+				}
+				previousConnectionStatus = connected;
+				return;
+			}
+
+			previousConnectionStatus = connected;
 
 			if (checkItemsReceived != null)
 			{
@@ -231,6 +245,7 @@ namespace FF1PRAP {
 			try {
 				if (connected) {
 					InternalLogger.LogInfo("Disconnected from Archipelago");
+					previousConnectionStatus = false;
 				}
 				if (session != null) {
 					session.Socket.DisconnectAsync();

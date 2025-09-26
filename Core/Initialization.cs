@@ -77,6 +77,7 @@ namespace FF1PRAP
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_MAGIC_SHOPPER"] = $"Back in my day spells had cool names like NUKE, ZAP!, FADE and XXXX!";
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_GEAR_SHOPPER1"] = $"Sasuke's Blade? It's so short, of course it's a knife!";
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_GEAR_SHOPPER2"] = $"Who cares about the length? It's a katana, Sasuke's Blade is obviously a sword!";
+			GameData.MessageManager.GetMessageDictionary()["MSG_AP_DISCONNECT"] = $"Lost connection to Archipelago! Unable to send or receive items. Re-connect and try again.";
 
 			// Additional Scripts
 			GameData.MasterManager.GetList<Script>().Add(1000, new Script() { Id = 1000, ScriptName = "sc_ordealsman" });		// ordeal man script

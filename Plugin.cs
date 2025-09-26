@@ -32,7 +32,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.5.7";
+	public const string VERSION = "0.5.8";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -143,6 +143,7 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TransportationController), "SetData", [typeof(IMapAccessor), typeof(Il2CppSystem.Collections.Generic.List<OwnedTransportationData>), typeof(bool), typeof(bool)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetDataList_Pre")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "TransportationEnabled"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TransportationEnabled_Pre")));*/
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldPlayerController), "SetMapHandle"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "SetMapHandle_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Integrator), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "Integrator_Post")));
 
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
