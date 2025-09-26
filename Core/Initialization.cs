@@ -153,7 +153,7 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"Initialize New Game.");
 			
-			DevHacks();
+			//DevHacks();
 
 			// Set Flags
 			GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
