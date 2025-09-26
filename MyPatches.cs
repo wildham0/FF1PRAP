@@ -3,6 +3,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Il2CppInterop.Runtime.Runtime;
+//using Il2CppSystem;
 using Il2CppSystem.Threading.Tasks;
 using JetBrains.Annotations;
 using Last.Data;
@@ -36,8 +37,7 @@ using System.Xml.Linq;
 using UnityEngine;
 using static Last.Interpreter.Instructions.External;
 using static Last.Map.LoadData;
-using static Serial.FF1.Map.TransportationEvent;
-using static UnityEngine.InputSystem.Users.InputUser;
+//using static Serial.FF1.Map.TransportationEvent;
 
 namespace FF1PRAP
 {//[HarmonyPatch("GetExp")]
@@ -988,6 +988,38 @@ namespace FF1PRAP
 				mapId = 94;
 				point = 2;
 			}*/
+		}
+		private static void SetMapHandle_Pre(ref IMapAccessor accessor)
+		{
+			if (GameData.MapAccessor == null)
+			{
+				InternalLogger.LogTesting($"Getting MapAccessor");
+				GameData.MapAccessor = accessor;
+			}
+		}
+		private static void SetDataList_Pre(IMapAccessor mapAccessor, List<OwnedTransportationData> ownedDataList, bool onlyEnable, bool isInit)
+		{
+			InternalLogger.LogTesting($"SetDataList: {onlyEnable} - {isInit}");
+		}
+		private static void SetDataData_Pre(IMapAccessor mapAccessor, OwnedTransportationData ownedData, bool onlyEnable, bool isInit)
+		{
+			InternalLogger.LogTesting($"SetDataData: {ownedData.Id}; {ownedData.flagNumber} - {onlyEnable} - {isInit}");
+		}
+		private static void CheckOkList_Post(int transportationId, int attribute, bool __result, TransportationController __instance)
+		{
+			InternalLogger.LogTesting($"Checking Transport: {transportationId}, {attribute} > {__result}");
+
+			foreach (var data in __instance.infoData.modelList)
+			{
+				InternalLogger.LogTesting($"ModelList: {data.key} - {data.value.id};{data.value.groupId};{data.value.type}");
+
+			}
+		}
+
+		private static void TransportationEnabled_Pre(int transportationId, bool enable, int stayMapId, bool isScript)
+		{
+			InternalLogger.LogTesting($"Transport Enabled: {transportationId}, {enable}, {stayMapId}, {isScript}");
+
 		}
 		private static void NextMapVector_Pre(int mapId, Vector3 cellPos, int transportationId, int direction)
 		{

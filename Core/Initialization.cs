@@ -152,7 +152,7 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"Initialize New Game.");
 			
-			//DevHacks();
+			DevHacks();
 
 			// Set Flags
 			GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, 1, 1); // Force visit King in Coneria
@@ -208,7 +208,7 @@ namespace FF1PRAP
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Elixir, 99);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.PhoenixDown, 99);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.RatsTail, 1);
-			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
+			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.Canoe, 1);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.RosettaStone, 1);
 			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.JoltTonic, 1);
 			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.Oxyale, 1);

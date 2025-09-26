@@ -138,6 +138,12 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "RemoveAll"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Remove")));
 		*/
 
+		/*harmony.Patch(AccessTools.Method(typeof(Last.Map.TransportationController), "CheckOkList"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "CheckOkList_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TransportationController), "SetData", [typeof(IMapAccessor), typeof(OwnedTransportationData), typeof(bool), typeof(bool)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetDataData_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.TransportationController), "SetData", [typeof(IMapAccessor), typeof(Il2CppSystem.Collections.Generic.List<OwnedTransportationData>), typeof(bool), typeof(bool)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetDataList_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldController), "TransportationEnabled"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TransportationEnabled_Pre")));*/
+		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldPlayerController), "SetMapHandle"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "SetMapHandle_Pre")));
+
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
 	{

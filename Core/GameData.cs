@@ -31,6 +31,7 @@ namespace FF1PRAP
 		public static OwnedItemClient OwnedItemsClient;
 		public static ResourceManager ResourceManager;
 		public static TelepoCache TelepoCache;
+		public static IMapAccessor MapAccessor;
 
 		// Loading/Saving Menu Stuff
 		public static Last.UI.KeyInput.TitleWindowController TitleWindowController;

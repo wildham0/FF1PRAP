@@ -78,5 +78,15 @@ namespace FF1PRAP
 			InternalLogger.LogInfo($"TitleWindowController initialized.");
 			GameData.TitleWindowController = __instance;
 		}
+		
+		// MapAccessor
+		private static void SetMapHandle_Pre(ref Last.Map.IMapAccessor accessor)
+		{
+			if (GameData.MapAccessor == null)
+			{
+				InternalLogger.LogInfo($"MapAccessor initialized.");
+				GameData.MapAccessor = accessor;
+			}
+		}
 	}
 }

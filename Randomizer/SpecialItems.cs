@@ -42,11 +42,13 @@ namespace FF1PRAP
 				ship.MapId = 1;
 				ship.Direction = 2;
 				ship.SetDataStorageFlag(true);
+
+				GameData.FieldController.transportation.SetData(GameData.MapAccessor, GameData.UserData.OwnedTransportationList, true, false);
 			}
 			else if (itemid == (int)Items.Canoe)
 			{
 				var canoe = GameData.UserData.OwnedTransportationList.GetTransport(516);
-
+				
 				if (canoe == null)
 				{
 					return;
@@ -56,6 +58,8 @@ namespace FF1PRAP
 				canoe.MapId = 1;
 				canoe.Direction = 2;
 				canoe.SetDataStorageFlag(true);
+
+				GameData.FieldController.transportation.SetData(GameData.MapAccessor, GameData.UserData.OwnedTransportationList, true, false);
 			}
 			else if (itemid == (int)Items.Lute)
 			{
