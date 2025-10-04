@@ -137,7 +137,7 @@ namespace FF1PRAP
 			}
 
 			// Special check to pop the telepo stack when using the sub back
-			if (mapId == 52 & point == 101)
+			if (mapId == 52 && point == 101)
 			{
 				InternalLogger.LogTesting($"Coming back from sub.");
 				var teledata = GameData.FieldController.telepoCache.Peek();
@@ -147,6 +147,25 @@ namespace FF1PRAP
 					if (teledata.MapId == mapId && teledata.PointInObjectId == point)
 					{
 						GameData.FieldController.telepoCache.Pop();
+					}
+				}
+			}
+
+			// special check to reset ordeals when we get out
+			if (mapId == 93 && point == 2)
+			{
+				bool reached1f = false;
+				InternalLogger.LogTesting($"Going back to Trials 1F.");
+				while (!reached1f)
+				{
+					var teledata = GameData.FieldController.telepoCache.Peek();
+					if (teledata.MapId == 94 || teledata.MapId == 95 || teledata.MapId == 93)
+					{
+						GameData.FieldController.telepoCache.Pop();
+					}
+					else
+					{
+						reached1f = true;
 					}
 				}
 			}
