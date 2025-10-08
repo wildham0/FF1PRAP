@@ -58,9 +58,13 @@ namespace FF1PRAP
 
 	public static class CreditAsset
 	{
-		public static string CreditNames = "<color=\"#ffffcc\"><b>FF1\\nPIXEL REMASTER\\nArchipelago</b></color>\n\n\n\n" +
+		public static string CreditNames = "<color=\"#ffffcc\"><b>FF1\\nPIXEL REMASTER\\nARCHIPELAGO</b></color>\n\n\n\n" +
 			"<color=\"#43deff\">MAIN DEVELOPER</color>\n" +
-			"wildham\n\n\n" +
+			"wildham\n" +
+			"\n\n" +
+			"<color=\"#43deff\">CONTRIBUTORS</color>\n" +
+			"Alchav\n" +
+			"\n\n" +
 			"<color=\"#43deff\">PLAYTESTERS</color>\n" +
 			"Prime\n" +
 			"Abyss\n" +

@@ -50,4 +50,5 @@ This is a mod to add Archipelago support to Final Fantasy 1 Pixel Remaster (FF1 
 ## Credits
 - silent-destroyer and Scipio, for the Tunic Randomizer which was used extensively as a basis for this mod.
 - Silvris, for Pixel Remasters modding support
+- Alchav, for his contribution
 - Playtesters: Prime, Abyss, Bartz24, Wyatt, Kuchiri
