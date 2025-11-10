@@ -106,6 +106,7 @@ namespace FF1PRAP
 			// Apply randomized data
 			Randomizer.LoadShuffledShops(randoData.GearShops);
 			Randomizer.LoadShuffledSpells(randoData.ShuffledSpells);
+			//randoData.MonsterParties = Randomizer.DebugBosses();
 			Randomizer.LoadMonsterParties(randoData.MonsterParties);
 
 			Randomizer.ApplyBoost();
@@ -202,10 +203,13 @@ namespace FF1PRAP
 				}
 			}
 
+			Randomizer.Data.Entrances[EntranceNames.chaos_shrine_black_orb_warp] = EntranceNames.chaos_shrine_b5_top_stairs;
+
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Masamune, 4);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.IceArmor, 4);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Ribbon, 4);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.IceShield, 4);
+			GameData.OwnedItemsClient.AddOwnedItem((int)Items.MagesStaff, 99);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Elixir, 99);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.PhoenixDown, 99);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.RatsTail, 1);
@@ -214,6 +218,7 @@ namespace FF1PRAP
 			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.JoltTonic, 1);
 			//GameData.OwnedItemsClient.AddOwnedItem((int)Items.Oxyale, 1);
 			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Levistone, 1);
+			GameData.OwnedItemsClient.AddOwnedItem((int)Items.Lute, 1);
 			GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Canal, 1); // Force visit King in Coneria
 		}
 	}

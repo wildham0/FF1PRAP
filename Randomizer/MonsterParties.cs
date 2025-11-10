@@ -617,6 +617,29 @@ namespace FF1PRAP
 			return newMonsterParties;
 		}
 
+		public static Dictionary<int, Dictionary<int, MonsterIds>> DebugBosses()
+		{
+
+			var bosses = new Dictionary<int, Dictionary<int, MonsterIds>>();
+			foreach (var boss in BossMinionConfigs)
+			{
+
+				bosses.Add(boss.Key, new Dictionary<int, MonsterIds>() {
+					{ 0, MonsterIds.Goblin },
+					{ 1, MonsterIds.Goblin },
+					{ 2, MonsterIds.Goblin },
+					{ 3, MonsterIds.Goblin },
+					{ 4, MonsterIds.Goblin },
+					{ 5, MonsterIds.Goblin },
+					{ 6, MonsterIds.Goblin },
+					{ 7, MonsterIds.Goblin },
+					{ 8, MonsterIds.Goblin },
+				});
+			}
+
+			return bosses;
+		}
+
 		public static void LoadMonsterParties(Dictionary<int, Dictionary<int, MonsterIds>> newMonsterParties)
 		{
 			foreach (var party in newMonsterParties)

@@ -67,6 +67,7 @@
     <EmbeddedResource Include="Scripts\sc_warp_gulg.json" />
     <EmbeddedResource Include="Scripts\sc_warp_flying.json" />
     <EmbeddedResource Include="Scripts\sc_ice_teleporter_cache.json" />
+    <EmbeddedResource Include="Scripts\sc_end_roll_story.json" />
     <EmbeddedResource Include="Scripts\sc_warp_sea.json" />
     <EmbeddedResource Include="Scripts\sc_warp_earth.json" />
     <EmbeddedResource Include="Scripts\sc_inn_gaia.json" />

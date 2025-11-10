@@ -118,8 +118,8 @@ namespace FF1PRAP
 			new EntranceData(EntranceNames.overworld_western_keep, RegionNames.innersea_region, EntranceNames.western_keep_entrance, RegionNames.western_keep, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_western_keep, true),
 			new EntranceData(EntranceNames.overworld_marsh_cave, RegionNames.innersea_region, EntranceNames.marsh_cave_b1_entrance, RegionNames.marsh_cave_b1, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_marsh_cave),
 			new EntranceData(EntranceNames.overworld_cavern_of_earth, RegionNames.melmond_region, EntranceNames.cavern_of_earth_b1_center_stairs, RegionNames.cavern_of_earth_b1, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_cavern_of_earth),
-			new EntranceData(EntranceNames.overworld_giants_cavern_west, RegionNames.melmond_region, EntranceNames.giants_cavern_west_entrance, RegionNames.giants_cavern, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_giants_cavern_west, true),
-			new EntranceData(EntranceNames.overworld_giants_cavern_east, RegionNames.sage_region, EntranceNames.giants_cavern_east_entrance, RegionNames.giants_cavern, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_giants_cavern_east, true),
+			new EntranceData(EntranceNames.overworld_giants_cavern_east, RegionNames.melmond_region, EntranceNames.giants_cavern_east_entrance, RegionNames.giants_cavern, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_giants_cavern_east, true),
+			new EntranceData(EntranceNames.overworld_giants_cavern_west, RegionNames.sage_region, EntranceNames.giants_cavern_west_entrance, RegionNames.giants_cavern, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_giants_cavern_west, true),
 			new EntranceData(EntranceNames.overworld_sages_cave, RegionNames.sage_region, EntranceNames.sages_cave_entrance, RegionNames.sages_cave, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_sages_cave, true),
 			new EntranceData(EntranceNames.overworld_mount_gulg, RegionNames.gulg_region, EntranceNames.mount_gulg_b1_right_stairs, RegionNames.mount_gulg_b1, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_mount_gulg),
 			new EntranceData(EntranceNames.overworld_cavern_of_ice, RegionNames.ice_region, EntranceNames.cavern_of_ice_b1_entrance_top_stairs, RegionNames.cavern_of_ice_b1_entrance, (int)EntGroup.OverworldDungeon, EntranceNames.overworld_cavern_of_ice),
@@ -185,8 +185,9 @@ namespace FF1PRAP
 			new EntranceData(EntranceNames.chaos_shrine_b3_bottom_stairs, RegionNames.chaos_shrine_b3, EntranceNames.chaos_shrine_b4_left_stairs, RegionNames.chaos_shrine_b4, (int)EntGroup.ChaosShrine, "Chaos Shrine"),
 			new EntranceData(EntranceNames.chaos_shrine_b4_right_stairs, RegionNames.chaos_shrine_b4, EntranceNames.chaos_shrine_b5_top_stairs, RegionNames.chaos_shrine_b5, (int)EntGroup.ChaosShrine, "Chaos Shrine", true),
 
+			/*
 			new EntranceData(EntranceNames.giants_cavern_east_entrance, RegionNames.giants_cavern, EntranceNames.overworld_giants_cavern_east, RegionNames.onrac_region, (int)EntGroup.Titan, "Titan", true, true),
-			new EntranceData(EntranceNames.giants_cavern_west_entrance, RegionNames.giants_cavern, EntranceNames.overworld_giants_cavern_west, RegionNames.sage_region, (int)EntGroup.Titan, "Titan", true, true),
+			new EntranceData(EntranceNames.giants_cavern_west_entrance, RegionNames.giants_cavern, EntranceNames.overworld_giants_cavern_west, RegionNames.sage_region, (int)EntGroup.Titan, "Titan", true, true),*/
 		};
 
 		public static List<string> innersea_entrances = new()
@@ -268,7 +269,7 @@ namespace FF1PRAP
 		public static Dictionary<string, List<string>> titan_regions = new()
 		{
 			{ RegionNames.innersea_region, new() { EntranceNames.overworld_cornelia, EntranceNames.overworld_chaos_shrine, EntranceNames.overworld_matoyas_cave, EntranceNames.overworld_pravoka, EntranceNames.overworld_mount_duergar, EntranceNames.overworld_western_keep, EntranceNames.overworld_marsh_cave, EntranceNames.overworld_elfheim, EntranceNames.overworld_elven_castle, EntranceNames.overworld_crescent_lake, EntranceNames.overworld_mount_gulg, EntranceNames.overworld_cavern_of_ice }},
-			{ RegionNames.pravoka_region, new() { EntranceNames.overworld_melmond, EntranceNames.overworld_cavern_of_earth, EntranceNames.overworld_giants_cavern_east }},
+			{ RegionNames.melmond_region, new() { EntranceNames.overworld_melmond, EntranceNames.overworld_cavern_of_earth, EntranceNames.overworld_giants_cavern_east }},
 			{ RegionNames.sage_region, new() { EntranceNames.overworld_sages_cave, EntranceNames.overworld_giants_cavern_west }},
 			{ RegionNames.onrac_region, new() { EntranceNames.overworld_onrac, EntranceNames.overworld_caravan, EntranceNames.overworld_waterfall }},
 			{ RegionNames.bahamuts_island, new() { EntranceNames.overworld_dragon_caves_bahamut, EntranceNames.overworld_dragon_caves_top }}

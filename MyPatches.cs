@@ -989,6 +989,39 @@ namespace FF1PRAP
 				point = 2;
 			}*/
 		}
+		private static void GetCompleteFlag_Post(ref bool __result)
+		{
+			InternalLogger.LogTesting($"Checking Complete Flag: {__result} - {GameData.CurrentMap}");
+			//__result = false;
+		}
+		private static void SetTransportationData_Pre(OwnedTransportationData data)
+		{
+			InternalLogger.LogTesting($"Seting Transport data: {data.flagNumber} - {data.MapId} - {data.Position}");
+		}
+		private static void SetMapPointIn_Pre(ref int pointIn)
+		{
+			InternalLogger.LogTesting($"Initial Point In: {pointIn}");
+
+			if (Randomizer.Data.Entrances != null &&
+				Randomizer.Data.Entrances.TryGetValue(EntranceNames.chaos_shrine_entrance, out var entrance) &&
+				GameData.CurrentMap == "Map_40004"
+				)
+			{
+				var newpoint = Randomizer.NameToTeleporters[entrance];
+				if (pointIn >= 0)
+				{
+					pointIn = newpoint.PointId;
+					InternalLogger.LogTesting($"New Point In: {pointIn}");
+				}
+			}
+		}
+
+		private static void GetTargetSaveSlotDataPost(int id, ref SaveSlotData __result)
+		{
+			InternalLogger.LogTesting($"Gettomg save at slot: {id} - {__result.mapData}");
+		}
+		
+
 		private static void SetMapHandle_Pre(ref IMapAccessor accessor)
 		{
 			if (GameData.MapAccessor == null)

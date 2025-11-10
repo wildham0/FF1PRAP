@@ -116,6 +116,7 @@ namespace FF1PRAP
 			{ "sc_luteslab", ScriptBuilder.FromScript(Scripts.LuteSlab, "sc_luteslab") }, // Lute Slab
 			{ "sc_e_0044", ScriptBuilder.FromJson("sc_chaos_fight") }, // Chaos
 			{ "sc_chaosdefeated", ScriptBuilder.FromScript(Scripts.ChaosDefeated, "sc_chaosdefeated") }, // Chaos Post fight
+			//{ "sc_e_0044_2", ScriptBuilder.FromJson("sc_end_roll_story") }, // Chaos Post fight
 			//{ "sc_e_0044_1", new ScriptBuilder("sc_empty") }, // Chaos Post fight
 
 			// Inn Scripts

@@ -32,7 +32,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.5.11";
+	public const string VERSION = "0.5.12";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -98,8 +98,8 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "LoadSlot"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "LoadSaveDataFromBoot_Postfix")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "GotoLoadSaveData"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "LoadSaveDataFromMenu_Postfix")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "SaveSlot"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetSavePath_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "Save", [typeof(int), typeof(SaveSlotData)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetSavePath_Post")));
-		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "Save", [typeof(int), typeof(Action<bool>), typeof(bool)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetSavePath_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "Save", [typeof(int), typeof(SaveSlotData)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetSavePathSlot_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "Save", [typeof(int), typeof(Action<bool>), typeof(bool)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetSavePathAction_Post")));
 
 		// New game
 		harmony.Patch(AccessTools.Method(typeof(Serial.FF1.UI.KeyInput.NewGameWindowController), "UpdateStartWait"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "NewGame_Postfix")));
@@ -145,6 +145,13 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.FieldPlayerController), "SetMapHandle"), new HarmonyMethod(AccessTools.Method(typeof(Patches), "SetMapHandle_Pre")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Interpreter.Integrator), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "Integrator_Post")));
 
+		//
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "GetCompleteFlag"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetCompleteFlag_Post")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "SetTransportationData"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetTransportationData_Pre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Map.SaveMapManager), "SetMapPointIn"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetMapPointIn_Pre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "SaveSlot"), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SaveSlotPre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "Save", [typeof(int), typeof(SaveSlotData)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SaveSlotDataPre")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "GetTargetSaveSlotData"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "GetTargetSaveSlotDataPost")));
 	}
 	private static void RegisterTypeAndCreateObject(System.Type type, string name)
 	{
