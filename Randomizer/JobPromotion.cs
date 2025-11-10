@@ -24,7 +24,7 @@ namespace FF1PRAP
 		{
 			// Job Items
 			GameData.MessageManager.AddMessage($"MSG_JOBITEM_NAME_{(int)Items.JobAll}", "<IC_IOBJ>All Promotion Jobs");
-			GameData.MessageManager.AddMessage($"MSG_JOBITEM_INF_{(int)Items.JobAll}", "All the Promotion Jobs you need. No, Mimic isn't a realy job, stop asking.");
+			GameData.MessageManager.AddMessage($"MSG_JOBITEM_INF_{(int)Items.JobAll}", "All the Promotion Jobs you need. No, Mimic isn't a real job, stop asking.");
 			GameData.MasterManager.GetList<Item>().Add((int)Items.JobAll, new Item($"{(int)Items.JobAll},{(int)Items.JobAll},2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"));
 			GameData.MasterManager.GetList<Content>().Add((int)Items.JobAll, new Content($"{(int)Items.JobAll},MSG_JOBITEM_NAME_{(int)Items.JobAll},None,MSG_JOBITEM_INF_{(int)Items.JobAll},0,1,{(int)Items.JobAll}"));
 
