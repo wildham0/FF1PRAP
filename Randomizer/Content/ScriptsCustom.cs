@@ -535,6 +535,12 @@ namespace FF1PRAP
 			"SetEntities ev_e_0052",
 			"Exit"
 		};
+		public static List<string> SkyWindow = new()
+		{
+			"Sub Main:",
+			"Msg MSG_LOOK_WINDOW_01",
+			"Exit"
+		};
 		public static List<string> LuteSlab = new()
 		{
 			"Sub Main:",

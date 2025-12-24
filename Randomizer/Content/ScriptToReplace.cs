@@ -110,6 +110,7 @@ namespace FF1PRAP
 			{ "sc_map_30101_3", ScriptBuilder.FromJson("sc_cubewarp") }, // Cube Warp
 			{ "sc_map_30111_2", ScriptBuilder.FromScript(Scripts.Sky2F, "sc_sky2fmap") }, // Sky 2F
 			{ "sc_e_0051", ScriptBuilder.FromJson("sc_sky_chest") }, // SkyChest
+			{ "sc_e_0050", ScriptBuilder.FromScript(Scripts.SkyWindow, "sc_sky_window") }, // Sky Window, remove animation to avoid EF softlock
 			//{ "sc_e_0037", new ScriptBuilder("sc_empty") }, // Tiamat
 			//{ "sc_e_0037_2", new ScriptBuilder("sc_empty") }, // Tiamat Post-fight
 			//{ "sc_e_0038", new ScriptBuilder("sc_empty") }, // Black Orb
