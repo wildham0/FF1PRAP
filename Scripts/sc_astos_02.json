@@ -546,7 +546,7 @@
     },
     {
       "label": "",
-      "mnemonic": "SetFlag",
+      "mnemonic": "Nop",
       "operands": {
         "iValues": [
           11,

@@ -20,10 +20,12 @@ namespace FF1PRAP
 
 			if (itemid == (int)Items.Ship)
 			{
+				InternalLogger.LogTesting($"Ship: Processing.");
 				var ship = GameData.UserData.OwnedTransportationList.GetTransport(517);
 
 				if (ship == null)
 				{
+					InternalLogger.LogTesting($"Ship: No Ship Data.");
 					return;
 				}
 
@@ -38,6 +40,7 @@ namespace FF1PRAP
 					shipSpawn = (145, 162);
 				}
 
+				InternalLogger.LogTesting($"Ship: Placing Ship.");
 				ship.Position = new UnityEngine.Vector3(shipSpawn.x, shipSpawn.y, 149);
 				ship.MapId = 1;
 				ship.Direction = 2;
@@ -47,13 +50,16 @@ namespace FF1PRAP
 			}
 			else if (itemid == (int)Items.Canoe)
 			{
+				InternalLogger.LogTesting($"Canoe: Processing.");
 				var canoe = GameData.UserData.OwnedTransportationList.GetTransport(516);
 				
 				if (canoe == null)
 				{
+					InternalLogger.LogTesting($"Canoe: No Canoe Data.");
 					return;
 				}
 
+				InternalLogger.LogTesting($"Canoe: Placing Canoe.");
 				canoe.Position = new UnityEngine.Vector3(1000, 1000, 0);
 				canoe.MapId = 1;
 				canoe.Direction = 2;
@@ -63,8 +69,10 @@ namespace FF1PRAP
 			}
 			else if (itemid == (int)Items.Lute)
 			{
+				InternalLogger.LogTesting($"Lute: Processing.");
 				if (Randomizer.Data.RequiredTablatures == 0)
 				{
+					InternalLogger.LogTesting($"Lute: Access Granted.");
 					GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.LuteAccessCompleted, 1);
 				}
 			}
@@ -74,6 +82,7 @@ namespace FF1PRAP
 				{
 					if (result.Count >= Randomizer.Data.RequiredTablatures)
 					{
+						InternalLogger.LogTesting($"Lute Tablature: Access Granted.");
 						GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.LuteAccessCompleted, 1);
 					}
 					InternalLogger.LogTesting($"Tablature Count: {result.Count}");
