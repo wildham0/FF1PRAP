@@ -32,7 +32,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.5.13";
+	public const string VERSION = "0.5.14";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -130,6 +130,18 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Peek"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Peek")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Pop"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Pop")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "GetCacheItem"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "TelepoCache_Get")));
+
+		// Transport Patch
+		harmony.Patch(AccessTools.Method(typeof(Last.Data.User.OwnedTransportationData), "SetData"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "SetTransportationData_Post")));
+
+		/*
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "AddOwnedTransportationList"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "AddOwnedTransportationList_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "SetTransportationData"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetTransportationData_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "InitializeOwnedTransportation"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "InitializeOwnedTransportation_Post")));
+		*/
+
+		//harmony.Patch(AccessTools.Method(typeof(Last.Data.User.OwnedTransportationData), "FromJson"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "OwnedTransportData_FromJson")));
+		//harmony.Patch(AccessTools.Method(typeof(Last.Data.User.OwnedTransportationData), "SetData"), null, new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "SetTransportationData_Pre")));
 		// For monitoring and debugging
 		/*
 		harmony.Patch(AccessTools.Method(typeof(Last.Map.TelepoCache), "Add", [typeof(TelepoPointData)]), new HarmonyMethod(AccessTools.Method(typeof(MyPatches), "TelepoCache_Add_Point")));

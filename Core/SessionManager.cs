@@ -51,6 +51,14 @@ namespace FF1PRAP
 			LocationsToSend = new();
 			Hash = new byte[4];
 			Options = new();
+			ItemIndex = 0;
+			LocationCount = 0;
+		}
+		public void Reset()
+		{
+			ItemIndex = 0;
+			LocationCount = 0;
+			LocationsToSend = new();
 		}
 	}
 	public static class SessionManager

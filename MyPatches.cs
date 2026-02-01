@@ -908,6 +908,21 @@ namespace FF1PRAP
 		{
 			InternalLogger.LogInfo($"Owned Transport List Added.");
 		}
+		public static void SetTransportationData_Post()
+		{
+			InternalLogger.LogInfo($"Set Transport Data.");
+		}
+		public static void InitializeOwnedTransportation_Post()
+		{
+			InternalLogger.LogInfo($"Initialize Transport Data.");
+		}
+
+		public static void OwnedTransportData_FromJson(OwnedTransportationData __instance)
+		{
+			InternalLogger.LogInfo($"Creating transport data from Json: {__instance.flagNumber}");
+		}
+
+
 
 		public static void GetCat(DataStorage.Category c, int index)
 		{
@@ -994,10 +1009,8 @@ namespace FF1PRAP
 			InternalLogger.LogTesting($"Checking Complete Flag: {__result} - {GameData.CurrentMap}");
 			//__result = false;
 		}
-		private static void SetTransportationData_Pre(OwnedTransportationData data)
-		{
-			InternalLogger.LogTesting($"Seting Transport data: {data.flagNumber} - {data.MapId} - {data.Position}");
-		}
+
+
 		private static void SetMapPointIn_Pre(ref int pointIn)
 		{
 			InternalLogger.LogTesting($"Initial Point In: {pointIn}");

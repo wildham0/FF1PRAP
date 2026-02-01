@@ -260,6 +260,7 @@ namespace FF1PRAP {
 				locationsToSend = new List<string>();
 				slotData = null;
 				ItemIndex = 0;
+				SessionManager.Data.ItemIndex = 0;
 				//Locations.CheckedLocations.Clear();
 				//ItemLookup.ItemList.Clear();
 
@@ -281,7 +282,7 @@ namespace FF1PRAP {
 					InternalLogger.LogTesting("Placing item " + ItemInfo.ItemDisplayName + " with index " + ItemIndex + " in queue.");
 					incomingItems.Enqueue((ItemInfo, ItemIndex));
 					ItemIndex++;
-					SessionManager.Data.ItemIndex = ItemIndex;
+					//SessionManager.Data.ItemIndex = ItemIndex;
 				}
 				yield return true;
 			}
@@ -319,6 +320,7 @@ namespace FF1PRAP {
 						InternalLogger.LogInfo("Received " + itemDisplayName + " from " + itemInfo.Player.Name + " at " + itemInfo.LocationDisplayName);
 
 						incomingItems.TryDequeue(out _);
+						SessionManager.Data.ItemIndex = pendingItem.index + 1;
 						//SaveFile.SetInt($"randomizer processed item index {pendingItem.index}", 1);
 
 						// Wait for all interactions to finish
@@ -348,6 +350,7 @@ namespace FF1PRAP {
 					case Patches.ItemResults.Invalid:
 						InternalLogger.LogWarning("Failed to process item " + itemDisplayName);
 						incomingItems.TryDequeue(out _);
+						SessionManager.Data.ItemIndex = pendingItem.index + 1;
 						//SaveFile.SetInt($"randomizer processed item index {pendingItem.index}", 1);
 						break;
 				}

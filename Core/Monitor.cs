@@ -85,6 +85,7 @@ namespace FF1PRAP
 					else if (SessionManager.GameMode == GameModes.Archipelago)
 					{
 						Randomizer.Data = new();
+						SessionManager.Data.Reset();
 						InternalLogger.LogInfo($"Loading saved randomization data.");
 						if (!Randomizer.Load(SessionManager.FolderPath, "ap_" + SessionManager.Data.Player + "_" + SessionManager.Data.WorldSeed))
 						{
@@ -102,13 +103,13 @@ namespace FF1PRAP
 
 				if (SessionManager.GameMode == GameModes.Archipelago)
 				{
-					Archipelago.instance.RestoreState();
 					InternalLogger.LogInfo($"Loading saved randomization data.");
 					if (!Randomizer.Load(SessionManager.FolderPath, "ap_" + SessionManager.Data.Player + "_" + SessionManager.Data.WorldSeed))
 					{
 						InternalLogger.LogInfo($"File not found, generating randomization data.");
 						Randomizer.Randomize();
 					}
+					Archipelago.instance.RestoreState();
 
 					Initialization.ApplyRandomizedFeatures(Randomizer.Data);
 				}

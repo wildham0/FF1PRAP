@@ -107,5 +107,50 @@ namespace FF1PRAP
 				return ItemResults.Busy;
 			}
 		}
+		private static void SetTransportationData_Post(OwnedTransportationData __instance)
+		{
+			InternalLogger.LogTesting($"Setting Transport data: {__instance.flagNumber} - {__instance.MapId} - {__instance.Position}");
+			if (__instance.flagNumber == 517)
+			{
+				if (__instance.MapId != 1)
+				{
+					InternalLogger.LogTesting($"No ship set.");
+					if (GameData.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Ship) == 1)
+					{
+						InternalLogger.LogTesting($"Ship: Placing Ship from transport data.");
+						// Coneria dock is 145, 162
+						// Pravoka dock is 203, 146
+						(int x, int y) shipSpawn = (203, 146);
+
+						// Check if we spawn at Coneria
+						if (GameData.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.WestwardProgressionMode) == 1 || (SessionManager.Options.TryGetValue("spawn_ship", out var spawnship) && spawnship == Options.Enable))
+						{
+							shipSpawn = (145, 162);
+						}
+
+						InternalLogger.LogTesting($"Ship: Placing Ship.");
+						__instance.Position = new UnityEngine.Vector3(shipSpawn.x, shipSpawn.y, 149);
+						__instance.MapId = 1;
+						__instance.Direction = 2;
+						__instance.SetDataStorageFlag(true);
+					}
+				}
+			}
+			else if (__instance.flagNumber == 516)
+			{
+				if (__instance.MapId != 1)
+				{
+					InternalLogger.LogTesting($"No Canoe set.");
+					if (GameData.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Ship) == 1)
+					{
+						InternalLogger.LogTesting($"Canoe: Placing Canoe from transport data.");
+						__instance.Position = new UnityEngine.Vector3(1000, 1000, 0);
+						__instance.MapId = 1;
+						__instance.Direction = 2;
+						__instance.SetDataStorageFlag(true);
+					}
+				}
+			}
+		}
 	}
 }

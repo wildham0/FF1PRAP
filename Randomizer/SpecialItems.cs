@@ -31,7 +31,6 @@ namespace FF1PRAP
 
 				// Coneria dock is 145, 162
 				// Pravoka dock is 203, 146
-
 				(int x, int y) shipSpawn = (203, 146);
 
 				// Check if we spawn at Coneria
