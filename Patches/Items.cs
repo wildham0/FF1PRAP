@@ -141,7 +141,7 @@ namespace FF1PRAP
 				if (__instance.MapId != 1)
 				{
 					InternalLogger.LogTesting($"No Canoe set.");
-					if (GameData.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Ship) == 1)
+					if (GameData.DataStorage.Get(DataStorage.Category.kScenarioFlag1, (int)ScenarioFlags.Canoe) == 1)
 					{
 						InternalLogger.LogTesting($"Canoe: Placing Canoe from transport data.");
 						__instance.Position = new UnityEngine.Vector3(1000, 1000, 0);
