@@ -699,9 +699,10 @@ namespace FF1PRAP
 			if (Randomizer.Data.NerfChaos)
 			{
 				var chaos = GameData.MasterManager.GetData<Monster>(128);
-				chaos.Hp /= 2;
-				chaos.Intelligence = (int)(chaos.Intelligence * 0.75);
-				chaos.Attack = (int)(chaos.Attack * 0.75);
+				chaos.Hp = 10000; // half hp
+				chaos.Intelligence = 30; // 40 * 0.75
+				chaos.Attack = 128; // 170 * 0.75
+				//InternalLogger.LogInfo($"Chaos HP: {chaos.Hp}");
 			}
 		}
 	}
