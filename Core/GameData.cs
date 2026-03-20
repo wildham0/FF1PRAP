@@ -39,7 +39,10 @@ namespace FF1PRAP
 
 		public static SaveInfoState SaveInfoState = new();
 
-		public static string CurrentMap => GameData.MapManager != null ? (GameData.MapManager.CurrentMapModel != null ? GameData.MapManager.CurrentMapModel.AssetData.MapName : "None") : "None";
+		public static string CurrentMap => GameData.MapManager != null ?
+			(GameData.MapManager.CurrentMapModel != null ?
+			(GameData.MapManager.CurrentMapModel.AssetData != null ?
+			GameData.MapManager.CurrentMapModel.AssetData.MapName : "None") : "None") : "None";
 		public static GameStates GameState => Monitor.instance != null ? (GameStates)Monitor.instance.GetGameState() : GameStates.Title;
 
 		//public static int CurrentSlot;

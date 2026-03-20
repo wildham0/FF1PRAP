@@ -285,7 +285,7 @@ namespace FF1PRAP
 			new Location("Flying Fortress 1F - East Room 3", RegionNames.flying_fortress_1f, LocationType.Treasure, 174, new()),
 			new Location("Flying Fortress 1F - East Room 4", RegionNames.flying_fortress_1f, LocationType.Treasure, 176, new()),
 			new Location("Flying Fortress 1F - East Room 5", RegionNames.flying_fortress_1f, LocationType.Treasure, 177, new()),
-			new Location("Flying Fortress 2F - Cheap Room 1", RegionNames.flying_fortress_2f, LocationType.Treasure, 188, new()),
+			new Location("Flying Fortress 2F - Cheap Room 1", RegionNames.flying_fortress_2f, LocationType.Treasure, 183, new()),
 			new Location("Flying Fortress 2F - Cheap Room 2", RegionNames.flying_fortress_2f, LocationType.Treasure, 185, new()),
 			new Location("Flying Fortress 2F - Vault 1", RegionNames.flying_fortress_2f, LocationType.Treasure, 179, new()),
 			new Location("Flying Fortress 2F - Vault 2", RegionNames.flying_fortress_2f, LocationType.Treasure, 181, new()),
