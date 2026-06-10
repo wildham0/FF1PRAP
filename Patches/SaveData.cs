@@ -3,10 +3,15 @@ using Last.Data.User;
 using Last.Entity.Field;
 using Last.Interpreter;
 using Last.Management;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -115,7 +120,7 @@ namespace FF1PRAP
 		public static void SaveSlotPre(ref SaveSlotManager __instance)
 		{
 			InternalLogger.LogTesting("Saving at Slot: " + __instance.CurrentSlotId + " - " + GameData.CurrentMap);
-			SaveGame(__instance.CurrentSlotId);
+			//SaveGame(__instance.CurrentSlotId);
 
 			var currentslot = __instance.GetLatestSaveSlotData(true, true);
 			//InternalLogger.LogTesting("Slot data location: " + currentslot.mapData + "; " + currentslot.CurrentArea + "; " + currentslot.userData);
@@ -129,7 +134,6 @@ namespace FF1PRAP
 		public static void LoadGame(int slotid)
 		{
 			SessionManager.CurrentSlot = slotid;
-			SessionManager.LoadSessionInfo(slotid);
 			Monitor.instance.SetProcess((int)ProcessStates.LoadGame);
 		}
 
@@ -142,7 +146,21 @@ namespace FF1PRAP
 			}
 
 			SessionManager.WriteSessionInfo();
-			SessionManager.LoadSaveSlotInfoData();
+			SessionManager.UpdateSlotInfo();
+		}
+		// Read save data and get Session Info from it, then create info string for the save menu.
+		public static void CreateSlotListData(SaveSlotData __instance)
+		{
+			string json = __instance.userData;
+
+			if (json.Contains("session_info"))
+			{
+				JsonNode originalJson = JsonNode.Parse(json);
+				JsonObject sessionData = originalJson.AsObject()["session_info"].AsObject();
+
+				SessionManager.SetSlotInfo(sessionData.ToJsonString(), __instance.id);
+				InternalLogger.LogTesting($"SaveData Slot Info found for: {__instance.id}");
+			}
 		}
 		public static void NewGame_Postfix()
 		{
@@ -176,6 +194,44 @@ namespace FF1PRAP
 		{
 			//InternalLogger.LogInfo($"SaveSloData: {index} - {data.id}");
 			GameData.SaveInfoState.CurrentSlot = data.id;
+		}
+		// Inject Session Info into save file json
+		public static void UserDataManager_ToJSON_Post(bool isClear, ref string __result)
+		{
+			if (SessionManager.GameMode != GameModes.Vanilla)
+			{
+				JsonNode originalJson = JsonNode.Parse(__result);
+
+				var options = new JsonSerializerOptions
+				{
+					WriteIndented = false,
+					Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+				};
+
+				originalJson.AsObject().Add("session_info", SessionManager.GetSessionInfo());
+
+				__result = originalJson.ToJsonString(options);
+			}
+		}
+		// Extract Session Info from save file json
+		public static void UserDataManager_FromJsonAsync_Pre(ref string json, bool isClear, bool isExtraLibrary)
+		{
+			if (json.Contains("session_info"))
+			{
+				JsonNode originalJson = JsonNode.Parse(json);
+				JsonObject sessionData = originalJson.AsObject()["session_info"].AsObject();
+				originalJson.AsObject().Remove("session_info");
+
+				var options = new JsonSerializerOptions
+				{
+					WriteIndented = false,
+					Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+				};
+
+				json = originalJson.ToJsonString(options);
+
+				SessionManager.SetSessionInfo(sessionData.ToJsonString());
+			}
 		}
 	}
 }

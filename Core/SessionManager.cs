@@ -17,6 +17,7 @@ using RomUtilities;
 using static UnityEngine.ParticleSystem.PlaybackState;
 using System.Security.Cryptography;
 using Last.Data.Master;
+using System.Text.Json.Nodes;
 
 namespace FF1PRAP
 {
@@ -104,8 +105,6 @@ namespace FF1PRAP
 				if (Info.Host is null) Info.Host = "archipelago.gg";
 				if (Info.Password is null) Info.Password = "";
 			}
-
-			LoadSaveSlotInfoData();
 		}
 
 		public static bool LoadSessionInfo(int slot)
@@ -138,6 +137,59 @@ namespace FF1PRAP
 
 			return fileexist;
 		}
+		public static JsonNode GetSessionInfo()
+		{
+			Info.StoredPassword = Info.RememberPassword ? Info.Password : "";
+			
+			return JsonNode.Parse(JsonSerializer.Serialize<SessionInfo>(Info).ToString());
+		}
+		public static void SetSessionInfo(string sessiondata)
+		{
+			Info = JsonSerializer.Deserialize<SessionInfo>(sessiondata);
+			Info.StoredPassword = Info.RememberPassword ? Info.Password : "";
+		}
+		public static void SetSlotInfo(string slotdata, int currentslot)
+		{
+			var slotInfo = JsonSerializer.Deserialize<SessionInfo>(slotdata);
+
+			string content = "";
+			GameModes mode = slotInfo.Mode;
+			switch (mode)
+			{
+				case GameModes.Archipelago:
+					content = $"Archipelago ({slotInfo.Player})";
+					break;
+				case GameModes.Randomizer:
+					content = $"Solo Randomizer ({slotInfo.Hashstring})";
+					break;
+				default:
+					break;
+			}
+
+			SlotInfo[currentslot] = content;
+		}
+		public static void UpdateSlotInfo()
+		{
+			var slotInfo = Info;
+
+			string content = "";
+			GameModes mode = slotInfo.Mode;
+			switch (mode)
+			{
+				case GameModes.Archipelago:
+					content = $"Archipelago ({slotInfo.Player})";
+					break;
+				case GameModes.Randomizer:
+					content = $"Solo Randomizer ({slotInfo.Hashstring})";
+					break;
+				default:
+					break;
+			}
+
+			SlotInfo[slotInfo.Slot] = content;
+
+			InternalLogger.LogInfo($"Successfully loaded Session Info");
+		}
 		public static void WriteSessionInfo()
 		{
 			string filepath = FolderPath + "ff1pr_rando_data_" + CurrentSlot + ".dat";
@@ -158,54 +210,6 @@ namespace FF1PRAP
 			catch (Exception e)
 			{
 				InternalLogger.LogError(e.Message);
-			}
-		}
-		public static void LoadSaveSlotInfoData()
-		{
-
-			for (int i = 1; i <= 22; i++)
-			{
-				string filepath = FolderPath + "ff1pr_rando_data_" + i + ".dat";
-				bool fileexist = true;
-				SessionInfo slotdata = new();
-				try
-				{
-					using (Stream configfile = new FileStream(filepath, FileMode.Open))
-					{
-						using (StreamReader reader = new StreamReader(configfile))
-						{
-							string configdata = reader.ReadToEnd();
-
-							//var options = new JsonSerializerOptions();
-							//options.Converters.Add(new ValueToStringConverter());
-
-							slotdata = JsonSerializer.Deserialize<SessionInfo>(configdata);
-						}
-					}
-				}
-				catch
-				{
-					fileexist = false;
-				}
-
-				string content = "";
-				if (fileexist)
-				{
-					GameModes mode = slotdata.Mode;
-					switch (mode)
-					{
-						case GameModes.Archipelago:
-							content = $"Archipelago ({slotdata.Player})";
-							break;
-						case GameModes.Randomizer:
-							content = $"Solo Randomizer ({slotdata.Hashstring})";
-							break;
-						default:
-							break;
-					}
-				}
-
-				SlotInfo[i] = content;
 			}
 		}
 		public static string GetSlotInfo(int slot)

@@ -20,7 +20,7 @@ using Last.Systems.Indicator;
 using Last.Systems.Message;
 using Last.UI;
 using Last.UI.KeyInput;
-using Prime31;
+//using Prime31;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -32,6 +32,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
@@ -350,6 +351,8 @@ namespace FF1PRAP
 			// Load randomization data here
 			//			GameStateTracker.Fi
 		}
+
+
 
 		public static void SearchHack(ref Dictionary<string, Il2CppSystem.Object> list)
 		{

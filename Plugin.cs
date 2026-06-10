@@ -32,7 +32,7 @@ namespace FF1PRAP;
 public class PluginInfo
 {
 	public const string NAME = "FF1 Pixel Remaster AP";
-	public const string VERSION = "0.5.17";
+	public const string VERSION = "0.6.00";
 	public const string GUID = "wildham.ff1pr.randomizer";
 }
 
@@ -100,6 +100,9 @@ public class FF1PR : BasePlugin
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "SaveSlot"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetSavePath_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "Save", [typeof(int), typeof(SaveSlotData)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetSavePathSlot_Post")));
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotManager), "Save", [typeof(int), typeof(Action<bool>), typeof(bool)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetSavePathAction_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "FromJsonAsync", [typeof(string), typeof(bool), typeof(bool)]), new HarmonyMethod(AccessTools.Method(typeof(Patches), "UserDataManager_FromJsonAsync_Pre")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.UserDataManager), "ToJSON", [typeof(bool)]), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "UserDataManager_ToJSON_Post")));
+		harmony.Patch(AccessTools.Method(typeof(Last.Management.SaveSlotData), "CreateSlotListData"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "CreateSlotListData")));
 
 		// New game
 		harmony.Patch(AccessTools.Method(typeof(Serial.FF1.UI.KeyInput.NewGameWindowController), "UpdateStartWait"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "NewGame_Postfix")));
