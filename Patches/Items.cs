@@ -72,6 +72,7 @@ namespace FF1PRAP
 					//InternalLogger.LogInfo($"Item Found: {data.ProductId}, {__result}");
 					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kTreasureFlag1, itemflag.treasure, 1);
 					GameData.DataStorage.Set(Last.Interpreter.DataStorage.Category.kScenarioFlag1, itemflag.scenario, 1);
+					SessionManager.Data.LocationsChecked.Add(Logic.FlagToLocationName[itemflag.treasure]);
 					Archipelago.instance.ActivateCheck(Logic.FlagToLocationName[itemflag.treasure]);
 					UpdateEntities();
 				}

@@ -302,6 +302,19 @@ namespace FF1PRAP {
 				var itemName = itemInfo.ItemDisplayName;
 				var itemDisplayName = itemName + " (" + itemInfo.ItemId + ") at index " + pendingItem.index;
 
+
+				SessionManager.Data.ItemsQueue.Add((itemName, SessionManager.Data.Player != itemInfo.Player.Name));
+				InternalLogger.LogInfo("Received " + itemDisplayName + " from " + itemInfo.Player.Name + " at " + itemInfo.LocationDisplayName);
+				incomingItems.TryDequeue(out _);
+				SessionManager.Data.ItemIndex = pendingItem.index + 1;
+				/*
+				DateTime postInteractionStart = DateTime.Now;
+				while (DateTime.Now < postInteractionStart + TimeSpan.FromSeconds(incomingItems.Count > 10 ? 1f : 2f))
+				{
+					yield return true;
+				}*/
+				
+
 				/*
 				if (SaveFile.GetInt($"randomizer processed item index {pendingItem.index}") == 1) {
 					incomingItems.TryDequeue(out _);
@@ -310,17 +323,18 @@ namespace FF1PRAP {
 				}*/
 
 				// Delay until a few seconds after connecting/screen transition
-			   /* while (SaveFile.GetFloat("playtime") < SceneLoaderPatches.TimeOfLastSceneTransition + 3.0f) {
-					yield return true;
-				}*/
+				/* while (SaveFile.GetFloat("playtime") < SceneLoaderPatches.TimeOfLastSceneTransition + 3.0f) {
+					 yield return true;
+				 }*/
 
+				/*
 				var handleResult = Patches.GiveItem(itemName, SessionManager.Data.Player != itemInfo.Player.Name);
 				switch (handleResult) {
 					case Patches.ItemResults.Success:
 						InternalLogger.LogInfo("Received " + itemDisplayName + " from " + itemInfo.Player.Name + " at " + itemInfo.LocationDisplayName);
 
 						incomingItems.TryDequeue(out _);
-						SessionManager.Data.ItemIndex = pendingItem.index + 1;
+						SessionManager.Data.ItemIndex = pendingItem.index + 1;*/
 						//SaveFile.SetInt($"randomizer processed item index {pendingItem.index}", 1);
 
 						// Wait for all interactions to finish
@@ -336,6 +350,7 @@ namespace FF1PRAP {
 						}
 						*/
 						// Pause before processing next item
+						/*
 						DateTime postInteractionStart = DateTime.Now;
 						while (DateTime.Now < postInteractionStart + TimeSpan.FromSeconds(incomingItems.Count > 10 ? 1f : 2f))
 						{
@@ -354,7 +369,7 @@ namespace FF1PRAP {
 						//SaveFile.SetInt($"randomizer processed item index {pendingItem.index}", 1);
 						break;
 				}
-
+						*/
 				yield return true;
 			}
 		}

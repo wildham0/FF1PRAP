@@ -42,15 +42,10 @@ namespace FF1PRAP {
         public void CompleteLocationCheck(string LocationName) {
             integration.CompleteLocationCheck(LocationName);
         }
-
-		/*
-        public void UpdateDataStorage(string Key, object Value) {
-			 if (SaveFlags.IsArchipelago()) {
-				 integration.UpdateDataStorage(Key, Value);
-			 }
+        public void UpdateDataStorage(string Key, object Value)
+		{
 			integration.UpdateDataStorage(Key, Value);
 		}
-		*/
         public void Release() {
             integration.Release();
         }
@@ -109,14 +104,10 @@ namespace FF1PRAP {
 			integration.ClearQueue();
 			integration.ItemIndex = SessionManager.Data.ItemIndex;
 			InternalLogger.LogTesting($"Set item index at: {integration.ItemIndex}");
-			integration.locationsToSend = SessionManager.LoadLocationsToSend();
+			integration.locationsToSend = SessionManager.Data.LocationsChecked.ToList();
 			/*
 			integration.ItemIndex = index;
 			integration.locationsToSend = locationsToSend;*/
-		}
-		public void GetLocationsToSend()
-		{
-			SessionManager.SaveLocationsToSend(integration.locationsToSend);
 		}
         public bool IsConnected() {
             return integration != null ? integration.connected : false;

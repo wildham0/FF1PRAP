@@ -42,24 +42,30 @@ namespace FF1PRAP
 		public string StoredPassword { get; set; }
 		public bool RememberPassword { get; set; }
 		public string WorldSeed { get; set; }
-		public int LocationCount { get; set; }
-		public List<string> LocationsToSend { get; set; }
+		//public int LocationCount { get; set; }
+		//public List<string> LocationsToSend { get; set; }
+		public List<string> LocationsChecked { get; set; }
+		public List<(string, bool)> ItemsQueue { get; set; }
 		public int ItemIndex { get; set; }
 		public int Slot { get; set; }
 		public Dictionary<string, int> Options { get; set; }
 		public SessionInfo()
 		{
-			LocationsToSend = new();
+			//LocationsToSend = new();
+			LocationsChecked = new();
+			ItemsQueue = new();
 			Hash = new byte[4];
 			Options = new();
 			ItemIndex = 0;
-			LocationCount = 0;
+			//LocationCount = 0;
 		}
 		public void Reset()
 		{
 			ItemIndex = 0;
-			LocationCount = 0;
-			LocationsToSend = new();
+			//LocationCount = 0;
+			LocationsChecked = new();
+			ItemsQueue = new();
+			//LocationsToSend = new();
 		}
 	}
 	public static class SessionManager
@@ -282,15 +288,6 @@ namespace FF1PRAP
 			}
 
 			return encodedString;
-		}
-		public static void SaveLocationsToSend(List<string> locationsToSend)
-		{
-			Info.LocationsToSend = new(locationsToSend);
-			Info.LocationCount = Info.LocationsToSend.Count;
-		}
-		public static List<string> LoadLocationsToSend()
-		{
-			return Info.LocationsToSend;
 		}
 	}
 }

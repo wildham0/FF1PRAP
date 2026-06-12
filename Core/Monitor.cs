@@ -1,4 +1,5 @@
 ﻿using Archipelago.MultiClient.Net.Helpers;
+using Archipelago.MultiClient.Net.Models;
 using Il2CppSystem;
 using Last.Data.Master;
 using Last.Interpreter;
@@ -13,6 +14,7 @@ using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.GridBrushBase;
+using static UnityEngine.InputSystem.Users.InputUser;
 
 namespace FF1PRAP
 {	public enum ProcessStates
@@ -20,6 +22,7 @@ namespace FF1PRAP
 		Reset,
 		InitGame,
 		LoadGame,
+		PostLoadGame,
 		NewGame,
 		ResetAndInitGame,
 		None
@@ -40,13 +43,14 @@ namespace FF1PRAP
 		{
 			ProcessGameState();
 			ProcessPatches();
+			ProcessItemQueue();
 			ProcessJobQueue();
 
 			if (SessionManager.GameMode == GameModes.Vanilla)
 			{
 				return;
 			}
-			
+
 			//InternalLogger.LogInfo($"Process State: {ProcessState}; Loading: {LoadingState}; Game: {GameState}: StateTracker: {(GameData.StateTracker != null ? GameData.StateTracker.CurrentState + " + " + GameData.StateTracker.CurrentSubState : "null")}");
 
 			if (ProcessState == ProcessStates.Reset)
@@ -73,7 +77,7 @@ namespace FF1PRAP
 			}
 			else if (ProcessState == ProcessStates.NewGame)
 			{
-				ProcessState = ProcessStates.None;
+				ProcessState = ProcessStates.PostLoadGame;
 
 				if (!newGameProcessed)
 				{
@@ -99,7 +103,8 @@ namespace FF1PRAP
 			}
 			else if (ProcessState == ProcessStates.LoadGame)
 			{
-				ProcessState = ProcessStates.None;
+				ProcessState = ProcessStates.PostLoadGame;
+				InternalLogger.LogInfo($"Process Load Game - Game State:{GameState}");
 
 				if (SessionManager.GameMode == GameModes.Archipelago)
 				{
@@ -109,7 +114,7 @@ namespace FF1PRAP
 						InternalLogger.LogInfo($"File not found, generating randomization data.");
 						Randomizer.Randomize();
 					}
-					Archipelago.instance.RestoreState();
+					//Archipelago.instance.RestoreState();
 
 					Initialization.ApplyRandomizedFeatures(Randomizer.Data);
 				}
@@ -119,10 +124,28 @@ namespace FF1PRAP
 					{
 						InternalLogger.LogWarning($"File not found, gameplay might be unstable. Generate a game first in the Solo Randomizer Settings Menu.");
 					}
-					
+
 					//FF1PR.PlacedItems = Randomizer.Data.PlacedItems;
 					Initialization.ApplyRandomizedFeatures(Randomizer.Data);
 				}
+			}
+			else if (ProcessState == ProcessStates.PostLoadGame && GameState == GameStates.InGame)
+			{
+				if (SessionManager.GameMode == GameModes.Archipelago)
+				{
+					InternalLogger.LogInfo($"Post Load Processs for AP.");
+					Archipelago.instance.RestoreState();
+
+					foreach (var check in SessionManager.Data.LocationsChecked)
+					{
+						InternalLogger.LogInfo($"Sending check: {check}");
+						Archipelago.instance.ActivateCheck(check);
+					}
+					// check received items?
+					ProcessFlags();
+				}
+
+				ProcessState = ProcessStates.None;
 			}
 		}
 		private void ProcessPatches()
@@ -180,6 +203,26 @@ namespace FF1PRAP
 			GameState = nowLoading ? GameStates.None : currentState;
 		}
 
+		private void ProcessItemQueue()
+		{
+			if (GameState == GameStates.InGame && SessionManager.Data.ItemsQueue.Any())
+			{
+				(string name, bool message) item = SessionManager.Data.ItemsQueue.First();
+				var handleResult = Patches.GiveItem(item.name, item.message);
+
+				switch (handleResult)
+				{
+					case Patches.ItemResults.Success:
+						SessionManager.Data.ItemsQueue.RemoveAt(0);
+						break;
+					case Patches.ItemResults.Busy:
+						break;
+					case Patches.ItemResults.Invalid:
+						SessionManager.Data.ItemsQueue.RemoveAt(0);
+						break;
+				}
+			}
+		}
 		private void ProcessJobQueue()
 		{
 			if (GameState == GameStates.InGame && JobQueue.Any())
@@ -197,6 +240,27 @@ namespace FF1PRAP
 						JobQueue.Clear();
 					}
 				}
+			}
+		}
+		private void ProcessFlags()
+		{
+			var itemList = GameData.UserData.GetImportantOwnedItemsClone();
+
+			foreach (var item in itemList)
+			{
+				if (item.Content != null)
+				{
+					InternalLogger.LogInfo($"Flag Process: {item.Content.Id} - {item.Content.MesIdName} - {item.ContentId} - {item.NaturalName}");
+				}
+
+				if (Randomizer.ItemIdToFlag.TryGetValue(item.Id, out var flag))
+				{
+					GameData.DataStorage.Set(DataStorage.Category.kScenarioFlag1, flag, 1);
+
+					InternalLogger.LogTesting($"Flag {flag} set by {(Items)item.Id}");
+				}
+
+				Randomizer.ProcessSpecialItems(item.Id);
 			}
 		}
 	}

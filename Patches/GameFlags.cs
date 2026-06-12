@@ -16,6 +16,7 @@ namespace FF1PRAP
 				InternalLogger.LogTesting($"Setting flag: {c} - {index}");
 				if (c == "TreasureFlag1" && value == 1)
 				{
+					SessionManager.Data.LocationsChecked.Add(Logic.FlagToLocationName[index]);
 					Archipelago.instance.ActivateCheck(Logic.FlagToLocationName[index]);
 				}
 			}

@@ -140,10 +140,6 @@ namespace FF1PRAP
 		public static void SaveGame(int slotid)
 		{
 			SessionManager.CurrentSlot = slotid;
-			if (SessionManager.GameMode == GameModes.Archipelago)
-			{
-				Archipelago.instance.GetLocationsToSend();
-			}
 
 			SessionManager.WriteSessionInfo();
 			SessionManager.UpdateSlotInfo();
@@ -211,6 +207,7 @@ namespace FF1PRAP
 				originalJson.AsObject().Add("session_info", SessionManager.GetSessionInfo());
 
 				__result = originalJson.ToJsonString(options);
+				InternalLogger.LogInfo($"Session Info: {SessionManager.GetSessionInfo()}");
 			}
 		}
 		// Extract Session Info from save file json
