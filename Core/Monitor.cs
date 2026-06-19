@@ -17,6 +17,7 @@ using UnityEngine.SceneManagement;
 using static Il2CppSystem.Uri;
 using static UnityEngine.GridBrushBase;
 using static UnityEngine.InputSystem.Users.InputUser;
+using static Last.Management.SubSceneManagerMainGame;
 
 namespace FF1PRAP
 {	public enum ProcessStates
@@ -33,7 +34,7 @@ namespace FF1PRAP
 	{
 		public GameStates GameState = GameStates.Title;
 		public ProcessStates ProcessState = ProcessStates.InitGame;
-		public SubSceneManagerMainGame.State MainState = SubSceneManagerMainGame.State.Init;
+		public State MainState = State.Init;
 		public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
 		public Last.Defaine.MenuCommandId MainMenuState = Last.Defaine.MenuCommandId.Non;
 		private bool newGameProcessed = false;
@@ -134,7 +135,7 @@ namespace FF1PRAP
 					Initialization.ApplyRandomizedFeatures(Randomizer.Data);
 				}
 			}
-			else if (ProcessState == ProcessStates.PostLoadGame && GameState == GameStates.InGame)
+			else if (ProcessState == ProcessStates.PostLoadGame && MainState == SubSceneManagerMainGame.State.Player)
 			{
 				if (SessionManager.GameMode == GameModes.Archipelago)
 				{
@@ -153,12 +154,12 @@ namespace FF1PRAP
 				ProcessState = ProcessStates.None;
 			}
 
-			if (ShipWarp && MainState == SubSceneManagerMainGame.State.Player)
+			if (ShipWarp && MainState == State.Player)
 			{
 				var shipscript = new Last.Interpreter.ScriptSandbox("sc_ship_warp");
 				ShipWarp = false;
 			}
-			else if (CanoeWarp && MainState == SubSceneManagerMainGame.State.Player)
+			else if (CanoeWarp && MainState == State.Player)
 			{
 				var canoescript = new Last.Interpreter.ScriptSandbox("sc_canoe_warp");
 				CanoeWarp = false;
@@ -280,6 +281,8 @@ namespace FF1PRAP
 
 				Randomizer.ProcessSpecialItems(item.Id);
 			}
+
+			Patches.UpdateEntities();
 		}
 		private void ProcessApDataStorage()
 		{
@@ -323,7 +326,7 @@ namespace FF1PRAP
 			tool.MainMenuState = state;
 			InternalLogger.LogTesting($"MainMenu: {state}");
 		}
-		public void SetMainState(SubSceneManagerMainGame.State state)
+		public void SetMainState(State state)
 		{
 			tool.MainState = state;
 		}

@@ -66,7 +66,6 @@ namespace FF1PRAP
 			}
 
 			file = originalJson.ToJsonString(options);
-			InternalLogger.LogInfo($"Entity file?? : {file}");
 
 			return file;
 		}

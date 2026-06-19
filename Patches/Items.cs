@@ -117,7 +117,7 @@ namespace FF1PRAP
 		}
 		private static void SetTransportationData_Post(OwnedTransportationData __instance)
 		{
-			InternalLogger.LogTesting($"Setting Transport data: {__instance.flagNumber} - {__instance.MapId} - {__instance.Position}");
+			//InternalLogger.LogTesting($"Setting Transport data: {__instance.flagNumber} - {__instance.MapId} - {__instance.Position}");
 			if (__instance.flagNumber == 517)
 			{
 				if (__instance.MapId != 1)

@@ -207,7 +207,7 @@ namespace FF1PRAP
 				originalJson.AsObject().Add("session_info", SessionManager.GetSessionInfo());
 
 				__result = originalJson.ToJsonString(options);
-				InternalLogger.LogInfo($"Session Info: {SessionManager.GetSessionInfo()}");
+				//InternalLogger.LogInfo($"Session Info: {SessionManager.GetSessionInfo()}");
 			}
 		}
 		// Extract Session Info from save file json

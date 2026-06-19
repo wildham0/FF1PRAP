@@ -64,6 +64,7 @@ namespace FF1PRAP
 			"\n\n" +
 			"<color=\"#43deff\">CONTRIBUTORS</color>\n" +
 			"Alchav\n" +
+			"Sorlok\n" +
 			"\n\n" +
 			"<color=\"#43deff\">PLAYTESTERS</color>\n" +
 			"Prime\n" +

@@ -172,7 +172,10 @@ namespace FF1PRAP
 					break;
 			}
 
-			SlotInfo[currentslot] = content;
+			lock (SlotInfo)
+			{
+				SlotInfo[currentslot] = content;
+			}
 		}
 		public static void UpdateSlotInfo()
 		{
