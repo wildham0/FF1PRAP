@@ -9,6 +9,55 @@
         {
           "gid": 997,
           "height": 16,
+          "id": 505,
+          "name": "PointIn to Player",
+          "properties": [
+            {
+              "name": "direction",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "entity_id",
+              "type": "int",
+              "value": 505
+            },
+            {
+              "name": "link_object_id",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "object_id",
+              "type": "int",
+              "value": 505
+            },
+            {
+              "name": "object_type",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "title_id",
+              "type": "string",
+              "value": ""
+            },
+            {
+              "name": "title_type",
+              "type": "int",
+              "value": 0
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 16,
+          "x": 2320,
+          "y": 1556
+        },
+        {
+          "gid": 997,
+          "height": 16,
           "id": 500,
           "name": "PointIn to South Side of Canal",
           "properties": [

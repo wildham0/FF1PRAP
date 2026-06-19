@@ -135,6 +135,10 @@ namespace FF1PRAP
 			{ "sc_war_30081_1", ScriptBuilder.FromJson("sc_warp_sea") },
 			{ "sc_war_30111_10", ScriptBuilder.FromJson("sc_warp_flying") },
 
+			// Reset overworld for AP when receiving ship or canoe
+			{ "sc_ship_warp", ScriptBuilder.FromScript(Scripts.ShipWarp, "sc_ship_warp") },
+			{ "sc_canoe_warp", ScriptBuilder.FromScript(Scripts.CanoeWarp, "sc_canoe_warp") },
+
 			// Ice Backdoor Warp
 			{ "sc_icecavernwap", ScriptBuilder.FromScript(Scripts.IceWarp, "sc_icecavernwap")}
 

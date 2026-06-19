@@ -561,5 +561,23 @@ namespace FF1PRAP
 			"ChangeScript sc_e_0044_1",
 			"Exit",
 		};
+		public static List<string> ShipWarp = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"Wait 0.35",
+			"MsgFunfare MSG_AP_GET_SHIP",
+			"ChangeMap 1 505 sc_overworld_01",
+			"Exit",
+		};
+		public static List<string> CanoeWarp = new()
+		{
+			"Sub Main:",
+			"Nop",
+			"Wait 0.35",
+			"MsgFunfare MSG_AP_GET_CANOE",
+			"ChangeMap 1 505 sc_overworld_01",
+			"Exit",
+		};
 	};
 }

@@ -77,6 +77,8 @@ namespace FF1PRAP
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_MAGIC_SHOPPER"] = $"Back in my day spells had cool names like NUKE, ZAP!, FADE and XXXX!";
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_GEAR_SHOPPER1"] = $"Sasuke's Blade? It's so short, of course it's a knife!";
 			GameData.MessageManager.GetMessageDictionary()["MSG_NPC_GAIA_GEAR_SHOPPER2"] = $"Who cares about the length? It's a katana, Sasuke's Blade is obviously a sword!";
+			GameData.MessageManager.GetMessageDictionary()["MSG_AP_GET_SHIP"] = $"You received the Ship!";
+			GameData.MessageManager.GetMessageDictionary()["MSG_AP_GET_CANOE"] = $"You received the Canoe!";
 			GameData.MessageManager.GetMessageDictionary()["MSG_AP_DISCONNECT"] = $"Lost connection to Archipelago! Unable to send or receive items. Save your game, quit and reconnect.";
 
 			// Additional Scripts
@@ -95,6 +97,9 @@ namespace FF1PRAP
 			GameData.MasterManager.GetList<Script>().Add(1012, new Script() { Id = 1012, ScriptName = "sc_ordeals_1012" });
 			GameData.MasterManager.GetList<Script>().Add(1013, new Script() { Id = 1013, ScriptName = "sc_ordeals_1013" });
 			GameData.MasterManager.GetList<Script>().Add(1014, new Script() { Id = 1014, ScriptName = "sc_ordeals_1014" });
+
+			GameData.MasterManager.GetList<Script>().Add(1015, new Script() { Id = 1015, ScriptName = "sc_ship_warp" });
+			GameData.MasterManager.GetList<Script>().Add(1016, new Script() { Id = 1016, ScriptName = "sc_canoe_warp" });
 
 			// give buy price to ribbon
 			var ribbon = GameData.MasterManager.GetData<Armor>(54).Buy = 65535;

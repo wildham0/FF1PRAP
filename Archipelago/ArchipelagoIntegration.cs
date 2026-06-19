@@ -1,21 +1,22 @@
 ﻿using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
+using Archipelago.MultiClient.Net.Converters;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Models;
+//using static TunicRandomizer.SaveFlags;
+//using static TunicRandomizer.ERData;
+using Archipelago.MultiClient.Net.Packets;
+using FF1PRAP;
+using Last.Interpreter;
+using Last.Management;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//using static TunicRandomizer.SaveFlags;
-//using static TunicRandomizer.ERData;
-using Archipelago.MultiClient.Net.Packets;
-using Newtonsoft.Json.Linq;
-using Archipelago.MultiClient.Net.Converters;
-using FF1PRAP;
-using Last.Interpreter;
-using Last.Management;
+using static Last.Camera.FrontRenderTarget.MainGameArea;
 
 namespace FF1PRAP {
 	public class ArchipelagoIntegration {
@@ -464,7 +465,19 @@ namespace FF1PRAP {
 			}
 		}
 
-		public void UpdateDataStorage(string Key, object Value, bool Log = true) {
+		public void UpdateDataStorage(string Key, bool value, bool Log = true)
+		{
+			session.DataStorage[Scope.Slot, Key] = value;
+
+			if (Log)
+			{
+				InternalLogger.LogInfo("Setting DataStorage value \"" + Key + "\" to " + value);
+			}
+		}
+		/*
+		public void UpdateDataStorage(string Key, Il2CppSystem.Object il2value, bool Log = true)
+		{
+			//object Value = (object)il2value;
 
 			if (Value is bool) {
 				session.DataStorage[Scope.Slot, Key] = (bool)Value;
@@ -479,7 +492,7 @@ namespace FF1PRAP {
 				InternalLogger.LogInfo("Setting DataStorage value \"" + Key + "\" to " + Value);
 			}
 		}
-
+		*/
 		public void UpdateDataStorageOnLoad() {
 
 		}

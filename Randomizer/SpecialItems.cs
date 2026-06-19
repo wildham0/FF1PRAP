@@ -1,4 +1,5 @@
-﻿using Il2CppSystem.Linq;
+﻿using BepInEx.Core.Logging.Interpolation;
+using Il2CppSystem.Linq;
 using Last.Data.Master;
 using Last.Interpreter;
 using RomUtilities;
@@ -46,6 +47,31 @@ namespace FF1PRAP
 				ship.SetDataStorageFlag(true);
 
 				GameData.FieldController.transportation.SetData(GameData.MapAccessor, GameData.UserData.OwnedTransportationList, true, false);
+
+				if (GameData.CurrentMap == "Map_10010")
+				{
+					InternalLogger.LogTesting($"Ship: On overworld.");
+
+					// get coordinante
+					if (GameData.FieldController != null)
+					{
+						int x = 2320;
+						int y = 1556;
+						var player = GameData.FieldController.GetPlayerEntity();
+						if (player != null)
+						{
+							var playerpos = player.GetEntityPosition();
+							x = (((int)playerpos.x + 2048) / 16) * 16;
+							y = Math.Abs((((int)playerpos.y - 2048 - 6) / 16) * 16);
+
+							// update patch 
+							Randomizer.EntityAssetsToPatch["Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/entity_default"] = new("PointIn to Player", [("x", x), ("y", y)]);
+
+							// run script
+							Monitor.instance.SetShipWarp();
+						}
+					}
+				}
 			}
 			else if (itemid == (int)Items.Canoe)
 			{
@@ -65,6 +91,31 @@ namespace FF1PRAP
 				canoe.SetDataStorageFlag(true);
 
 				GameData.FieldController.transportation.SetData(GameData.MapAccessor, GameData.UserData.OwnedTransportationList, true, false);
+
+				if (GameData.CurrentMap == "Map_10010")
+				{
+					InternalLogger.LogTesting($"Canoe: On overworld.");
+
+					// get coordinante
+					if (GameData.FieldController != null)
+					{
+						int x = 2320;
+						int y = 1556;
+						var player = GameData.FieldController.GetPlayerEntity();
+						if (player != null)
+						{
+							var playerpos = player.GetEntityPosition();
+							x = (((int)playerpos.x + 2048) / 16) * 16;
+							y = Math.Abs((((int)playerpos.y - 2048 - 6) / 16) * 16);
+
+							// update patch 
+							Randomizer.EntityAssetsToPatch["Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/entity_default"] = new("PointIn to Player", [("x", x), ("y", y)]);
+
+							// run script
+							Monitor.instance.SetCanoeWarp();
+						}
+					}
+				}
 			}
 			else if (itemid == (int)Items.Lute)
 			{

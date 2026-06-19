@@ -110,6 +110,7 @@ public class FF1PR : BasePlugin
 		
 		// Loading State
 		harmony.Patch(AccessTools.Method(typeof(Last.Systems.Indicator.SystemIndicator), "Activate"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetLoadingState_Post")));
+		harmony.Patch(AccessTools.Method(typeof(MainGame), "ChangeState"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "ChangeState_Post")));
 
 		// Resource Manager + Assets
 		harmony.Patch(AccessTools.Method(typeof(Last.Management.ResourceManager), "Initialize"), null, new HarmonyMethod(AccessTools.Method(typeof(Patches), "GetResourceManager_Post")));

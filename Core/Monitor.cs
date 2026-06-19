@@ -2,6 +2,7 @@
 using Archipelago.MultiClient.Net.Models;
 using Il2CppSystem;
 using Last.Data.Master;
+using Last.Entity.Field;
 using Last.Interpreter;
 using Last.Management;
 using Last.Message;
@@ -13,6 +14,7 @@ using System.Linq;
 using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Il2CppSystem.Uri;
 using static UnityEngine.GridBrushBase;
 using static UnityEngine.InputSystem.Users.InputUser;
 
@@ -31,12 +33,15 @@ namespace FF1PRAP
 	{
 		public GameStates GameState = GameStates.Title;
 		public ProcessStates ProcessState = ProcessStates.InitGame;
+		public SubSceneManagerMainGame.State MainState = SubSceneManagerMainGame.State.Init;
 		public SystemIndicator.Mode LoadingState = SystemIndicator.Mode.kNone;
 		public Last.Defaine.MenuCommandId MainMenuState = Last.Defaine.MenuCommandId.Non;
 		private bool newGameProcessed = false;
 		private bool nowLoading = false;
 		public List<string> AssetsToPatch = new();
 		public List<int> JobQueue = new();
+		public bool ShipWarp = false;
+		public bool CanoeWarp = false;
 		public MonitorTool() { }
 
 		public void Update()
@@ -141,11 +146,22 @@ namespace FF1PRAP
 						InternalLogger.LogInfo($"Sending check: {check}");
 						Archipelago.instance.ActivateCheck(check);
 					}
-					// check received items?
-					ProcessFlags();
+					ProcessApDataStorage();
 				}
 
+				ProcessFlags();
 				ProcessState = ProcessStates.None;
+			}
+
+			if (ShipWarp && MainState == SubSceneManagerMainGame.State.Player)
+			{
+				var shipscript = new Last.Interpreter.ScriptSandbox("sc_ship_warp");
+				ShipWarp = false;
+			}
+			else if (CanoeWarp && MainState == SubSceneManagerMainGame.State.Player)
+			{
+				var canoescript = new Last.Interpreter.ScriptSandbox("sc_canoe_warp");
+				CanoeWarp = false;
 			}
 		}
 		private void ProcessPatches()
@@ -156,17 +172,19 @@ namespace FF1PRAP
 			{
 				if (GameData.ResourceManager.completeAssetDic.ContainsKey(patchdata))
 				{
-
 					var assettext = GameData.ResourceManager.completeAssetDic[patchdata].Cast<TextAsset>().text;
 					var assetnameparts = patchdata.Split('/');
 					var assetname = assetnameparts.Last();
 					var filename = assetnameparts[assetnameparts.Count() - 2] + "/" + assetnameparts[assetnameparts.Count() - 1];
 					InternalLogger.LogTesting($"MapPatcher: Patching {filename}.");
 
-
 					if (Randomizer.MapAssetsToPatch.TryGetValue(patchdata, out var mappatches))
 					{
 						assettext = MapPatcher.Patch(assettext, mappatches);
+					}
+					else if (Randomizer.EntityAssetsToPatch.TryGetValue(patchdata, out var entitypatches))
+					{
+						assettext = EntityPatcher.Patch(assettext, entitypatches);
 					}
 
 					var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assettext);
@@ -263,6 +281,13 @@ namespace FF1PRAP
 				Randomizer.ProcessSpecialItems(item.Id);
 			}
 		}
+		private void ProcessApDataStorage()
+		{
+			foreach (var gameevent in Randomizer.DataStorageFlags)
+			{
+				Archipelago.instance.UpdateDataStorage(gameevent.Value, GameData.DataStorage.Get(gameevent.Key.type, gameevent.Key.flag) == 1);
+			}
+		}
 	}
 
 	public class Monitor : MonoBehaviour
@@ -298,6 +323,10 @@ namespace FF1PRAP
 			tool.MainMenuState = state;
 			InternalLogger.LogTesting($"MainMenu: {state}");
 		}
+		public void SetMainState(SubSceneManagerMainGame.State state)
+		{
+			tool.MainState = state;
+		}
 		public void AddPatchesToProcess(string address)
 		{
 			tool.AssetsToPatch.Add(address);
@@ -305,6 +334,15 @@ namespace FF1PRAP
 		public void QueueJob(int jobId)
 		{ 
 			tool.JobQueue.Add(jobId);
+		}
+
+		public void SetShipWarp()
+		{
+			tool.ShipWarp = true;
+		}
+		public void SetCanoeWarp()
+		{
+			tool.CanoeWarp = true;
 		}
 	}
 

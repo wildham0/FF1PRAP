@@ -378,12 +378,12 @@ namespace FF1PRAP
 
 			InternalLogger.LogInfo($"Core Exit: {c.coreID}: {__result}");
 		}
-
+		/*
 		public static void GetNextMnemonic(string __result)
 		{
 			InternalLogger.LogInfo($"Core GetNext: {__result}");
 		}
-
+		*/
 
 		public static void LoadEventEntity(bool __result, ref MapAssetData __instance)
 		{
@@ -808,6 +808,22 @@ namespace FF1PRAP
 
 			InternalLogger.LogInfo($"Command: {value.Method.Name}");
 		}
+		private static void IsAllDone_Post(bool __result)
+		{
+			InternalLogger.LogInfo($"All Completed: {__result}");
+		}
+		private static void ExitAll_Pre(Integrator __instance, string name)
+		{
+			InternalLogger.LogInfo($"Integrator Set Script: {name}");
+		}
+		private static void GetNextMnemonic(Core __instance, string __result)
+		{
+			InternalLogger.LogInfo($"Core: {__instance.IsMainCore()} - {__result}");
+		}
+		private static void SetControlPlayer_Post()
+		{
+			InternalLogger.LogInfo($"SetControlPlayer");
+		}
 
 		private static void CreateTelepoPointList_Post(Il2CppReferenceArray<TelepoPointData> telepoPoints)
 		{
@@ -820,6 +836,15 @@ namespace FF1PRAP
 
 			}
 		
+		}
+
+		private static void ChangeState_Post(SubSceneManagerMainGame.State state)
+		{
+			InternalLogger.LogInfo($"MainGame State: {state}");
+		}
+		private static void CheckInitCompleted_Post(bool __result)
+		{
+			InternalLogger.LogInfo($"MainGame Init Done: {__result}");
 		}
 
 		private static void NextMapProperty_Pre(LoadData __instance, ref PropertyGotoMap property)

@@ -2,6 +2,7 @@
 using Last.Data.Master;
 using Last.Entity.Field;
 using Last.Interpreter;
+using Last.Management;
 using Last.Message;
 using Last.Systems.EndRoll;
 using Last.Systems.Indicator;
@@ -22,6 +23,15 @@ namespace FF1PRAP
 			if (Monitor.instance != null)
 			{
 				Monitor.instance.SetLoadingState(mode);
+			}
+		}
+
+		private static void ChangeState_Post(SubSceneManagerMainGame.State state)
+		{
+			InternalLogger.LogInfo($"MainGame State: {state}");
+			if (Monitor.instance != null)
+			{
+				Monitor.instance.SetMainState(state);
 			}
 		}
 	}

@@ -24,14 +24,25 @@ namespace FF1PRAP
 			{
 				var extension = (assetfilename.Split(".").Count() > 1) ? assetfilename.Split(".")[1] : "json";
 				var assetfile = GetFile(assetfilename, extension);
+
+				if (Monitor.instance != null && Randomizer.EntityAssetsToPatch.TryGetValue(addressName, out var entitypatches))
+				{
+					assetfile = EntityPatcher.Patch(assetfile, entitypatches);
+				}
+
 				var textasset = new TextAsset(UnityEngine.TextAsset.CreateOptions.CreateNativeObject, assetfile);
 				var assetname = addressName.Split('/').Last();
 
 				GameData.ResourceManager.completeAssetDic[addressName] = textasset;
 				InternalLogger.LogTesting($"Asset loading task added for {assetname} > {assetfilename}");
+
 				__result = true;
 			}
 			else if (Monitor.instance != null && Randomizer.MapAssetsToPatch.ContainsKey(addressName))
+			{
+				Monitor.instance.AddPatchesToProcess(addressName);
+			}
+			else if (Monitor.instance != null && Randomizer.EntityAssetsToPatch.ContainsKey(addressName))
 			{
 				Monitor.instance.AddPatchesToProcess(addressName);
 			}

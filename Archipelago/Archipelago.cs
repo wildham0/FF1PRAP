@@ -42,7 +42,7 @@ namespace FF1PRAP {
         public void CompleteLocationCheck(string LocationName) {
             integration.CompleteLocationCheck(LocationName);
         }
-        public void UpdateDataStorage(string Key, object Value)
+        public void UpdateDataStorage(string Key, bool Value)
 		{
 			integration.UpdateDataStorage(Key, Value);
 		}

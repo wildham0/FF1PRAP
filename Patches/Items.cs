@@ -1,9 +1,11 @@
 ﻿using Il2CppSystem.Common;
+using Il2CppSystem.Linq;
 using Last.Data;
 using Last.Data.Master;
 using Last.Data.User;
 using Last.Entity.Field;
 using Last.Interpreter;
+using Last.Management;
 using Last.Message;
 using Last.Systems.EndRoll;
 using Last.Systems.Message;
@@ -14,9 +16,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Jobs;
 using UnityEngine;
+using static Last.Interpreter.Instructions.External;
 using static Serial.FF1.Management.StatusUpProvider;
-using Last.Management;
-using Il2CppSystem.Linq;
 
 namespace FF1PRAP
 {
@@ -28,6 +29,8 @@ namespace FF1PRAP
 			Busy,
 			Invalid
 		}
+		public static List<int> ApOverworldItems = new() { (int)Items.Ship, (int)Items.Canoe };
+
 		public static void Items_Postfix(Content targetData, int count)
 		{
 			if (Randomizer.ItemsToIgnore.Contains(targetData.Id))
@@ -97,8 +100,12 @@ namespace FF1PRAP
 
 				if (showMessage)
 				{
-					string itemMessage = $"You received {itemName}.";
-					ApItemWindow.instance.QueueMessage(itemMessage);
+					// Don't queue a message for items resetting overword.
+					if (!ApOverworldItems.Contains(itemdata.Id) || GameData.CurrentMap != "Map_10010")
+					{
+						string itemMessage = $"You received {itemName}.";
+						ApItemWindow.instance.QueueMessage(itemMessage);
+					}
 				}
 
 				return ItemResults.Success;

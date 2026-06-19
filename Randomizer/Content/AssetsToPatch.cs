@@ -26,5 +26,10 @@ namespace FF1PRAP
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/tilemap", new PatchAsset(34, new() { MapPatchesTitanTunnel.TilemapTiles } )},
 			{ "Assets/GameAssets/Serial/Res/Map/Map_30041/Map_30041_1/collision", new PatchAsset(34, new() { MapPatchesTitanTunnel.Collision } )},
 		};
+
+		public static Dictionary<string, EntityPatch> EntityAssetsToPatch = new()
+		{
+			{ "Assets/GameAssets/Serial/Res/Map/Map_10010/Map_10010/entity_default", new("PointIn to Player", [("x", 2320), ("y", 1556)])},
+		};
 	}
 }

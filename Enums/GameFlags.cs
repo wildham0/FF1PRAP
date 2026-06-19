@@ -68,7 +68,7 @@ namespace FF1PRAP
 		TablatureReceived,
 		LuteAccessCompleted,
 		BlackOrbReqCompleted,
-		PrincessNoWarp
+		PrincessNoWarp,
 
 
 
