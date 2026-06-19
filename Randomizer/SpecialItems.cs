@@ -30,6 +30,11 @@ namespace FF1PRAP
 					return;
 				}
 
+				if (ship.MapId == 1)
+				{
+					return;
+				}
+
 				// Coneria dock is 145, 162
 				// Pravoka dock is 203, 146
 				(int x, int y) shipSpawn = (203, 146);
@@ -81,6 +86,11 @@ namespace FF1PRAP
 				if (canoe == null)
 				{
 					InternalLogger.LogTesting($"Canoe: No Canoe Data.");
+					return;
+				}
+
+				if (canoe.MapId == 1)
+				{
 					return;
 				}
 

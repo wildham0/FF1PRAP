@@ -158,6 +158,8 @@ namespace FF1PRAP
 		//
 		ProtectRing = 202,
 
+		// 213+ > spells
+
 		JobAll = 500,
 		JobKnight,
 		JobNinja,

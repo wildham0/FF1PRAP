@@ -121,6 +121,12 @@ namespace FF1PRAP
 
 			GameData.MessageManager.GetMessageDictionary()["MSG_GET_EXCALIBAR_03"] = $"Done! In all ma years I've never crafted a finer {(randoData.SmittThingy == "" ? "object" : randoData.SmittThingy)}!";
 
+
+			GameData.MasterManager.GetData<Product>(1).ContentId = (int)Items.Potion;
+			GameData.MasterManager.GetData<Product>(2).ContentId = (int)Items.Ribbon;
+			GameData.MasterManager.GetData<Product>(3).ContentId = 213;
+			//caravanproduct.ContentId = (int)Items.CaravanItem;
+
 			CreateCaravanItem();
 		}
 		public static void CreateCaravanItem()
