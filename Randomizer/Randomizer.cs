@@ -143,7 +143,7 @@ namespace FF1PRAP
 			// This is ugly but it'll do for now
 			randoData.MonsterParties = 
 				RandomizeMonsterParties(SessionManager.Options["monster_parties"] != Options.Disable, (MonsterPartyRangeModes)SessionManager.Options["monster_parties"], (MonsterPartyCapModes)SessionManager.Options["monsters_cap"], rng)
-				.Concat(AddBossMinions(SessionManager.Options["boss_minions"] != Options.Disable, (MinionsRangeModes)SessionManager.Options["boss_minions"], rng))
+				.Concat(AddBossMinions(SessionManager.Options["boss_minions"] != Options.Disable, (MinionsRangeModes)SessionManager.Options["boss_minions"], (WarmechChance)SessionManager.Options["chaos_minion_warmech_chance"], (WarmechChance)SessionManager.Options["fiend_minion_warmech_chance"], rng))
 				.ToDictionary(x => x.Key, x => x.Value);
 
 			randoData.SmittThingy = rng.PickFrom(new List<string>() { "thingy", "thingamajigger", "gizmo", "whatchamacallit", "gewgaw", "doohickey", "thingumabob", "widget", "whatsit", "hootenanny", "MacGuffin", "doodad" });

@@ -162,6 +162,13 @@ namespace FF1PRAP
 		Strong,
 		WeakStrong
 	}
+	public enum WarmechChance
+	{
+		None,
+		Unleashed,
+		Risky,
+		Guaranteed
+	}
 	public enum MinionGroupSizes
 	{
 		Small,
@@ -467,7 +474,7 @@ namespace FF1PRAP
 			return newMonsterParties;
 		}
 
-		public static Dictionary<int, Dictionary<int, MonsterIds>> AddBossMinions(bool enable, MinionsRangeModes rangemode, MT19337 rng)
+		public static Dictionary<int, Dictionary<int, MonsterIds>> AddBossMinions(bool enable, MinionsRangeModes rangemode, WarmechChance chaoswarmech, WarmechChance fiendwarmech, MT19337 rng)
 		{
 			if (!enable)
 			{
@@ -475,6 +482,40 @@ namespace FF1PRAP
 			}
 
 			Dictionary<int, Dictionary<int, MonsterIds>> newMonsterParties = new();
+			
+			// Set Chaos and Fiend Warmech Chances
+			int chaoschance = 0;
+			switch (chaoswarmech)
+			{
+				case WarmechChance.None:
+					chaoschance = 0;
+					break;
+				case WarmechChance.Unleashed:
+					chaoschance = 20;
+					break;
+				case WarmechChance.Risky:
+					chaoschance = 50;
+					break;
+				case WarmechChance.Guaranteed:
+					chaoschance = 100;
+					break;
+			}
+			int fiendchance = 0;
+			switch (fiendwarmech)
+			{
+				case WarmechChance.None:
+					fiendchance = 0;
+					break;
+				case WarmechChance.Unleashed:
+					fiendchance = 5;
+					break;
+				case WarmechChance.Risky:
+					fiendchance = 20;
+					break;
+				case WarmechChance.Guaranteed:
+					fiendchance = 100;
+					break;
+			}			
 
 			// Do Bosses Minions first
 			foreach (var boss in BossMinionConfigs)
@@ -548,6 +589,31 @@ namespace FF1PRAP
 					var qty = rng.Between(4, 6);
 					if (boss.Key == 350) qty /= 2; // garland special condition
 					var monster = rng.PickFrom(PowerGroupToMonsters[power]);
+					bool mech = false;
+					
+					switch (boss.Key)
+					{
+						case 346: // chaos
+							if (rng.Between(0, 99) < chaoschance)
+								mech = true;
+							break;
+						case 338: // lich2
+						case 339: // marilith2
+						case 340: // kraken2
+						case 341: // tiamat2
+							if (rng.Between(0, 99) < fiendchance)
+								mech = true;
+							break;
+						case 342: // tiamat
+							// 80% chance if fiends2 are 100%, otherwise 1/5 of fiends2 chance
+							if (rng.Between(0, 499) < fiendchance ^ fiendchance == 100)
+								mech = true;
+							break;
+						default:
+							break;
+						
+					}
+					
 
 					Dictionary<int, MonsterIds> newmonsters = new();
 
@@ -555,6 +621,10 @@ namespace FF1PRAP
 					{
 						var position = rng.TakeFrom(positions);
 						newmonsters.Add(position, monster);
+					}
+					if (mech)
+					{
+						newmonsters[1] = MonsterIds.Warmech;
 					}
 					newMonsterParties.Add(boss.Key, newmonsters);
 				}
@@ -567,9 +637,32 @@ namespace FF1PRAP
 					var monster1 = rng.PickFrom(PowerGroupToMonsters[power]);
 					var monster2 = rng.PickFrom(PowerGroupToMonsters[power]);
 
-					if (boss.Key == 346)
+					if (boss.Key == 346) // chaos special condition
 					{
-						monster1 = rng.PickFrom(new List<MonsterIds> { MonsterIds.Lich, MonsterIds.Marilith, MonsterIds.Kraken, MonsterIds.Tiamat, MonsterIds.Warmech });
+						monster1 = rng.PickFrom(new List<MonsterIds> { MonsterIds.Lich, MonsterIds.Marilith, MonsterIds.Kraken, MonsterIds.Tiamat });
+					}
+					
+					switch (boss.Key)
+					{
+						case 346: // chaos
+							if (rng.Between(0, 99) < chaoschance)
+								monster1 = MonsterIds.Warmech;
+							break;
+						case 338: // lich2
+						case 339: // marilith2
+						case 340: // kraken2
+						case 341: // tiamat2
+							if (rng.Between(0, 99) < fiendchance)
+								monster1 = MonsterIds.Warmech;
+							break;
+						case 342: // tiamat
+							// 80% chance if fiends2 are 100%, otherwise 1/5 of fiends2 chance
+							if (rng.Between(0, 499) < fiendchance ^ fiendchance == 100)
+								monster1 = MonsterIds.Warmech;
+							break;
+						default:
+							break;
+						
 					}
 
 					Dictionary<int, MonsterIds> newmonsters = new();

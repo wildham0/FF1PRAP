@@ -894,6 +894,8 @@ namespace FF1PRAP
 			CreateDropdown(Options.Dict["boss_minions"].Display, Options.Dict["boss_minions"]);
 			CreateDropdown(Options.Dict["monster_parties"].Display, Options.Dict["monster_parties"]);
 			CreateDropdown(Options.Dict["monsters_cap"].Display, Options.Dict["monsters_cap"]);
+			CreateDropdown(Options.Dict["monsters_cap"].Display, Options.Dict["chaos_minion_warmech_chance"]);
+			CreateDropdown(Options.Dict["monsters_cap"].Display, Options.Dict["fiend_minion_warmech_chance"]);
 			apHeight += 20f * guiScale;
 
 			GUI.Label(ScaledRect(0, GetApHeight(40f), 300f, 30f), "Scaling");
