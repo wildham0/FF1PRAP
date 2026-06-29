@@ -567,7 +567,7 @@ namespace FF1PRAP
 			"Nop",
 			"Wait 0.35",
 			"MsgFunfare MSG_AP_GET_SHIP",
-			"ChangeMap 1 505 sc_overworld_01",
+			"ChangeMapNoScript 1 505",
 			"Exit",
 		};
 		public static List<string> CanoeWarp = new()
@@ -576,7 +576,7 @@ namespace FF1PRAP
 			"Nop",
 			"Wait 0.35",
 			"MsgFunfare MSG_AP_GET_CANOE",
-			"ChangeMap 1 505 sc_overworld_01",
+			"ChangeMapNoScript 1 505",
 			"Exit",
 		};
 	};
